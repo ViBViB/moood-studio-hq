@@ -1,0 +1,32 @@
+{
+    "redirects": [
+        {
+            "source": "/club-pilates-remix",
+            "destination": "/club-pilates-remix/",
+            "permanent": false
+        },
+        {
+            "source": "/anthros",
+            "destination": "/anthros/",
+            "permanent": false
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/club-pilates-remix/",
+            "destination": "https://club-pilates-remix.vercel.app/"
+        },
+        {
+            "source": "/club-pilates-remix/:path*",
+            "destination": "https://club-pilates-remix.vercel.app/:path*"
+        },
+        {
+            "source": "/anthros/",
+            "destination": "https://anthros-poc-v2.vercel.app/"
+        },
+        {
+            "source": "/anthros/:path*",
+            "destination": "https://anthros-poc-v2.vercel.app/:path*"
+        }
+    ]
+}
