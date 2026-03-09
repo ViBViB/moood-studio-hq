@@ -261,6 +261,7 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'MANUFACTURING THE SESSION...';
 
+    let result;
     try {
         const formData = new FormData(e.target);
         // Append slot data as JSON so the API can parse it easily
@@ -271,18 +272,16 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
             body: formData
         });
 
-        let result;
         const text = await response.text();
         try {
             result = JSON.parse(text);
-        } catch (e) {
-            result = { error: 'Server returned non-JSON response. Check Vercel logs or environment variables.' };
+        } catch (err) {
+            result = { error: 'Server returned non-JSON response.', details: text.substring(0, 200) };
         }
 
         if (response.ok) {
             submitBtn.innerHTML = 'TAKEOVER SUCCESSFUL';
             submitBtn.style.background = '#4CAF50';
-            submitBtn.style.color = '#fff';
 
             setTimeout(() => {
                 alert("The machine has accepted your invitation. Check your calendar and email for the session details.");
