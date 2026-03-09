@@ -9,26 +9,19 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 function formatPrivateKey(key) {
     if (!key) return null;
 
-    let cleaned = key.trim();
+    // 1. Remove any surrounding quotes and whitespace
+    let cleaned = key.trim().replace(/^["']|["']$/g, '');
 
-    // Handle JSON-style quoted strings
-    if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
-        try {
-            cleaned = JSON.parse(cleaned);
-        } catch (e) {
-            cleaned = cleaned.slice(1, -1);
-        }
+    // 2. Unescape literal \n into real newlines
+    cleaned = cleaned.replace(/\\n/g, '\n');
+
+    // 3. Ensure BEGIN/END markers are present
+    if (!cleaned.includes('-----BEGIN PRIVATE KEY-----')) {
+        // If it's a raw base64 block, wrap it
+        cleaned = `-----BEGIN PRIVATE KEY-----\n${cleaned}\n-----END PRIVATE KEY-----`;
     }
 
-    // Replace literal \n with real newlines and trim again
-    let formatted = cleaned.replace(/\\n/g, '\n').trim();
-
-    // Inject headers if missing
-    if (!formatted.includes('-----BEGIN PRIVATE KEY-----')) {
-        formatted = `-----BEGIN PRIVATE KEY-----\n${formatted}\n-----END PRIVATE KEY-----`;
-    }
-
-    return formatted;
+    return cleaned;
 }
 
 module.exports = async (req, res) => {
@@ -38,7 +31,8 @@ module.exports = async (req, res) => {
     }
 
     const SCOPES = ['https://www.googleapis.com/auth/calendar'];
-    const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
+    // Default to your email if the env var is missing
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || 'alberto.contreras@gmail.com';
 
     const formattedKey = formatPrivateKey(process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY);
 
