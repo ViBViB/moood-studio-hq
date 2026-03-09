@@ -156,28 +156,76 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
             throw new Error(`Google Calendar rejection: ${calErr.message}`);
         }
 
-        // 2. Send Email Notification
-        const emailContent = `
-            <h2>New Onboarding Session Initiated</h2>
-            <p><strong>Name:</strong> ${fullName}</p>
-            <p><strong>Email:</strong> ${customerEmail}</p>
-            <p><strong>Company:</strong> ${companyName}</p>
-            <p><strong>Scheduled:</strong> ${slot.time} on ${new Date(slot.date).toLocaleDateString()}</p>
-            ${files.length > 0 ? `<p><strong>PRD Filename:</strong> ${files[0].name}</p>` : '<p>No PRD uploaded.</p>'}
+        // 2. Prepare formatted date/time for emails
+        const formattedDate = new Date(slot.date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        const bookingTime = slot.time;
+
+        // 3. Send Email Notification to AGENCY (Alberto)
+        const agencyEmailContent = `
+            <div style="font-family: sans-serif; max-width: 600px; color: #111;">
+                <h2 style="border-bottom: 2px solid #000; padding-bottom: 10px;">New Onboarding Session</h2>
+                <p>A new takeover session has been initiated through the Identity Portal.</p>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Customer:</td><td>${fullName}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td>${customerEmail}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Company:</td><td>${companyName}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Date:</td><td>${formattedDate}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Time:</td><td>${bookingTime}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">PRD:</td><td>${files.length > 0 ? files[0].name : 'No file attached'}</td></tr>
+                </table>
+                <p style="margin-top: 20px; font-size: 12px; color: #666;">This event has been added to your Google Calendar.</p>
+            </div>
         `;
 
         await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
-            subject: `New Secession Initiated: ${companyName}`,
-            html: emailContent,
+            subject: `New Onboarding Service: ${companyName}`,
+            html: agencyEmailContent,
             attachments: files.map(file => ({
                 filename: file.name,
                 content: file.content.toString('base64')
             }))
         });
 
-        return res.status(200).json({ success: true, message: 'Takeover initiated' });
+        // 4. Send Email Confirmation to CUSTOMER
+        const customerEmailContent = `
+            <div style="font-family: sans-serif; max-width: 600px; color: #111; line-height: 1.6;">
+                <h1 style="font-size: 24px;">Onboarding Confirmed</h1>
+                <p>Hello ${fullName},</p>
+                <p>We've successfully received your request. Your <strong>Onboarding Session</strong> with Moood Studio is confirmed for:</p>
+                <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <p style="margin: 0;"><strong>Date:</strong> ${formattedDate}</p>
+                    <p style="margin: 0;"><strong>Time:</strong> ${bookingTime} (GMT)</p>
+                </div>
+                <p>Our team is reviewing your information. You will receive a calendar invitation shortly with the meeting link.</p>
+                <p>Get ready for the takeover.</p>
+                <br>
+                <p>Best regards,<br>The Moood Studio Team</p>
+            </div>
+        `;
+
+        await resend.emails.send({
+            from: 'Moood Studio <notifications@moood.studio>',
+            to: [customerEmail],
+            subject: `Your Booking is Confirmed: ${formattedDate}`,
+            html: customerEmailContent
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Takeover initiated',
+            booking: {
+                date: formattedDate,
+                time: bookingTime,
+                customer: fullName
+            }
+        });
 
     } catch (error) {
         console.error('Booking error:', error);

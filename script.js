@@ -129,22 +129,7 @@ duplicateImages();
 // Identity Portal Logic
 let currentWeekOffset = 0;
 let selectedSlot = null;
-function openPortal() {
-    const portal = document.getElementById('identityPortal');
-    if (portal) {
-        portal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scroll
-        renderCalendar();
-    }
-}
-
-function closePortal() {
-    const portal = document.getElementById('identityPortal');
-    if (portal) {
-        portal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scroll
-    }
-}
+// Initialized via ctaButtons below
 
 // Neural Scheduler Logic
 function renderCalendar() {
@@ -264,7 +249,6 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
     let result;
     try {
         const formData = new FormData(e.target);
-        // Append slot data as JSON so the API can parse it easily
         formData.append('selectedSlot', JSON.stringify(selectedSlot));
 
         const response = await fetch('/api/book', {
@@ -284,27 +268,56 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
             submitBtn.style.background = '#4CAF50';
 
             setTimeout(() => {
-                alert("The machine has accepted your invitation. Check your calendar and email for the session details.");
-                closePortal();
-                // Reset form and UI
+                // Show success section
+                document.getElementById('portalFormSection').style.display = 'none';
+                document.getElementById('portalSchedulerSection').style.display = 'none';
+                const successSection = document.getElementById('portalSuccessSection');
+                successSection.style.display = 'flex';
+
+                // Update detail text
+                if (result.booking) {
+                    document.getElementById('confirmedSession').innerText = `${result.booking.date} at ${result.booking.time}`;
+                }
+
+                // Reset but keep successful state visible
                 e.target.reset();
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
                 submitBtn.style = '';
                 document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
                 selectedSlot = null;
-            }, 1000);
+            }, 800);
         } else {
             throw new Error(result.error || 'Failed to initiate takeover');
         }
     } catch (error) {
         console.error("Booking failed:", error);
         const detailMsg = result && result.details ? `\n\nDetails: ${result.details}` : "";
-        alert("The machine encountered an error: " + error.message + detailMsg + "\n\nPlease ensure your environment variables are configured in Vercel.");
+        alert("The machine encountered an error: " + error.message + detailMsg);
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;
     }
 });
+
+// Portal controls
+function openPortal() {
+    const portal = document.getElementById('identityPortal');
+    portal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Ensure sections are reset to default view
+    document.getElementById('portalFormSection').style.display = 'block';
+    document.getElementById('portalSchedulerSection').style.display = 'block';
+    document.getElementById('portalSuccessSection').style.display = 'none';
+
+    renderCalendar();
+}
+
+function closePortal() {
+    const portal = document.getElementById('identityPortal');
+    portal.classList.remove('active');
+    document.body.style.overflow = '';
+}
 
 // Initial state
 handleScroll();
