@@ -182,16 +182,22 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
             </div>
         `;
 
-        await resend.emails.send({
-            from: 'Moood Studio <notifications@moood.studio>',
-            to: ['alberto.contreras@gmail.com'],
-            subject: `New Onboarding Service: ${companyName}`,
-            html: agencyEmailContent,
-            attachments: files.map(file => ({
-                filename: file.name,
-                content: file.content.toString('base64')
-            }))
-        });
+        try {
+            const agencyRes = await resend.emails.send({
+                from: 'Moood Studio <notifications@moood.studio>',
+                to: ['alberto.contreras@gmail.com'],
+                subject: `New Onboarding Service: ${companyName}`,
+                html: agencyEmailContent,
+                attachments: files.map(file => ({
+                    filename: file.name,
+                    content: file.content // Resend accepts Buffer
+                }))
+            });
+            console.log('Agency Email Result:', agencyRes);
+        } catch (emailErr) {
+            console.error('Agency Email Error:', emailErr);
+            // We don't throw here to ensure the customer email still tries to send
+        }
 
         // 4. Send Email Confirmation to CUSTOMER
         const customerEmailContent = `
@@ -210,12 +216,19 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
             </div>
         `;
 
-        await resend.emails.send({
-            from: 'Moood Studio <notifications@moood.studio>',
-            to: [customerEmail],
-            subject: `Your Booking is Confirmed: ${formattedDate}`,
-            html: customerEmailContent
-        });
+        try {
+            const customerRes = await resend.emails.send({
+                from: 'Moood Studio <notifications@moood.studio>',
+                to: [customerEmail],
+                subject: `Your Booking is Confirmed: ${formattedDate}`,
+                html: customerEmailContent
+            });
+            console.log('Customer Email Result:', customerRes);
+        } catch (emailErr) {
+            console.error('Customer Email Error:', emailErr);
+            // This is critical if we want to know why it failed
+            throw new Error(`Email rejection: ${emailErr.message}. Note: Verify your domain in Resend dashboard.`);
+        }
 
         return res.status(200).json({
             success: true,
