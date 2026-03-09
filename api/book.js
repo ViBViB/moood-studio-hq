@@ -21,6 +21,20 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
+    // Check for required ENV variables
+    const requiredEnv = [
+        'RESEND_API_KEY',
+        'GOOGLE_SERVICE_ACCOUNT_EMAIL',
+        'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY'
+    ];
+    const missing = requiredEnv.filter(name => !process.env[name]);
+    if (missing.length > 0) {
+        return res.status(500).json({
+            error: 'The machine is missing its core keys.',
+            details: `Missing environment variables in Vercel: ${missing.join(', ')}`
+        });
+    }
+
     try {
         const fields = {};
         const files = [];

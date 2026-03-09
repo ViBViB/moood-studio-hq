@@ -271,7 +271,13 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
             body: formData
         });
 
-        const result = await response.json();
+        let result;
+        const text = await response.text();
+        try {
+            result = JSON.parse(text);
+        } catch (e) {
+            result = { error: 'Server returned non-JSON response. Check Vercel logs or environment variables.' };
+        }
 
         if (response.ok) {
             submitBtn.innerHTML = 'TAKEOVER SUCCESSFUL';
