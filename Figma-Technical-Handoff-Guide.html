@@ -33,10 +33,12 @@
         <main class="content">
             <header id="intro" class="hero">
                 <h1>Figma Technical Handoff Guide & Best Practices</h1>
-                <h2>Moood Studio Agency - Automated Design-to-Code Pipeline</h2>
+                <h2>Moood Studio | Intelligent AI Agent Coordination & UI/UX Strategy</h2>
                 <p class="lead">This document outlines the strict technical requirements for Figma files handed off to
-                    Moood Studio Agency. Our agency utilizes an advanced AI-powered pipeline (Model Context Protocol)
-                    that automatically reads, interprets, and translates your Figma file into code tokens and structure.
+                    Moood Studio. Our agency utilizes a coordinated ecosystem of specialized AI agents that don't just
+                    "read" pixels—they think, define, and propose UI/UX solutions tailored to your unique brand DNA.
+                    This advanced pipeline ensures your creative intent is translated into high-performance code with
+                    architectural precision.
                 </p>
                 <div class="alert success">
                     <p>To ensure a <strong>zero-friction handoff</strong> and a pixel-perfect build without manual
@@ -179,7 +181,8 @@
                     <strong>function and role in the content hierarchy</strong> &mdash; not just its visual appearance.
                     A &ldquo;big bold headline&rdquo; and an &ldquo;H1&rdquo; are not the same thing. One describes how
                     it looks. The other describes what it <em>is</em> and where it belongs in the structure of a
-                    document.</p>
+                    document.
+                </p>
                 <p>Search engines, screen readers, and our AI coding agents all rely on this layer of meaning to
                     correctly interpret your design. When it&rsquo;s missing or inconsistent, the final code produces
                     pages that can rank poorly, fail accessibility audits, and require expensive post-production
@@ -189,7 +192,8 @@
                 <p>HTML defines six levels of headings: <code>H1</code> through <code>H6</code>. Each page should have
                     <strong>exactly one H1</strong> (the main topic of the page), followed by a logical hierarchy of H2s
                     (sections), H3s (sub-sections), and so on. Skipping levels or using heading levels purely for size
-                    creates an incoherent document structure.</p>
+                    creates an incoherent document structure.
+                </p>
                 <ul>
                     <li><strong>One H1 per page:</strong> It represents the primary topic. There must be only one.
                         Design accordingly &mdash; even if multiple large text elements exist on the page, only one can
@@ -236,7 +240,8 @@
                         <ul class="sublist">
                             <li class="bad">&cross; Bad: <code>Title Bold, Body Copy, Subtitle Medium</code></li>
                             <li class="good">&check; Good:
-                                <code>Heading/H1, Body/Standard, Heading/H3, UI/Tagline</code></li>
+                                <code>Heading/H1, Body/Standard, Heading/H3, UI/Tagline</code>
+                            </li>
                         </ul>
                     </li>
                     <li><strong>Frame names must describe purpose:</strong> Name frames by their semantic role, not
@@ -244,7 +249,8 @@
                         <ul class="sublist">
                             <li class="bad">&cross; Bad: <code>Frame 84, Group 12, Rectangle</code></li>
                             <li class="good">&check; Good:
-                                <code>section-hero, card-pricing, nav-primary, footer-links</code></li>
+                                <code>section-hero, card-pricing, nav-primary, footer-links</code>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -255,7 +261,8 @@
                 <ul>
                     <li><strong>Lists:</strong> If content is a collection of items (Features, Steps, Benefits), design
                         them as a list component &mdash; not as stacked text blocks. Our agents will output
-                        <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> accordingly.</li>
+                        <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> accordingly.
+                    </li>
                     <li><strong>Data Tables:</strong> Comparative or tabular data (pricing tiers, specification sheets,
                         ROM comparisons) must be structured as tables in Figma &mdash; with rows, columns, and clearly
                         named headers. A text-mimicking-a-table is not a table.</li>
@@ -295,7 +302,8 @@
                 <div class="alert success">
                     <p><strong>The Rule of Thumb:</strong> Before handoff, do a pass through your Figma file asking:
                         <em>&ldquo;What HTML element would this be?&rdquo;</em> for every element. If you can&rsquo;t
-                        answer it clearly, the design is not semantically complete.</p>
+                        answer it clearly, the design is not semantically complete.
+                    </p>
                 </div>
             </section>
 
@@ -304,10 +312,11 @@
                 <p>When you hand off a file meeting these criteria, our <strong>Brand Compliance Officer (AI
                         Agent)</strong> will:</p>
                 <ol>
-                    <li>Scan your file instantly via API.</li>
-                    <li>Read your Variable Modes and Text Styles.</li>
+                    <li>Scan your file instantly via API to map your brand DNA.</li>
+                    <li>Read your Variable Modes and Text Styles to define cognitive logic.</li>
+                    <li>Propose UI/UX optimizations based on architectural best practices.</li>
                     <li>Automatically write the master <code>brand-tokens.css</code> file tailored perfectly to your
-                        constraints, complete with fluid typography <code>clamp()</code> formulas.</li>
+                        constraints.</li>
                     <li>Extract and properly name every icon and image perfectly cropped.</li>
                     <li>Translate your Auto Layout structures into flawless semantic HTML/CSS without human error.</li>
                 </ol>
