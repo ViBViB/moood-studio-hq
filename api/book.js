@@ -113,9 +113,9 @@ module.exports = async (req, res) => {
             }
         }
 
-        const { fullName, email, companyName, slot } = fields;
+        const { fullName, email: customerEmail, companyName, slot } = fields;
 
-        if (!fullName || !email || !slot || !slot.date || !slot.time) {
+        if (!fullName || !customerEmail || !slot || !slot.date || !slot.time) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
@@ -137,12 +137,13 @@ module.exports = async (req, res) => {
             summary: `Moood Onboarding: ${companyName} (${fullName})`,
             description: `Session booked via Moood Studio.
 Customer: ${fullName}
-Email: ${email}
+Email: ${customerEmail}
 Company: ${companyName}
 PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
             start: { dateTime: startDateTime.toISOString() },
             end: { dateTime: endDateTime.toISOString() },
-            attendees: [{ email }],
+            // Note: Service accounts cannot invite attendees without Domain-Wide Delegation.
+            // We remove attendees to ensure the event is created.
         };
 
         try {
@@ -159,7 +160,7 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
         const emailContent = `
             <h2>New Onboarding Session Initiated</h2>
             <p><strong>Name:</strong> ${fullName}</p>
-            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Email:</strong> ${customerEmail}</p>
             <p><strong>Company:</strong> ${companyName}</p>
             <p><strong>Scheduled:</strong> ${slot.time} on ${new Date(slot.date).toLocaleDateString()}</p>
             ${files.length > 0 ? `<p><strong>PRD Filename:</strong> ${files[0].name}</p>` : '<p>No PRD uploaded.</p>'}
