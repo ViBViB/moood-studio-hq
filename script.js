@@ -247,20 +247,57 @@ ctaButtons.forEach(btn => {
     });
 });
 
-// Form Submission (Phase 3 will handle the actual API call)
-document.getElementById('onboardingForm').addEventListener('submit', (e) => {
+// Form Submission (Phase 3 Integration)
+document.getElementById('onboardingForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+
     if (!selectedSlot) {
         alert("Please select a session time.");
         return;
     }
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    data.slot = selectedSlot;
 
-    console.log("Form Data:", data);
-    alert("Initiating the takeover... (Phase 3 Integration coming up)");
-    // closePortal();
+    const submitBtn = e.target.querySelector('.portal-submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'MANUFACTURING THE SESSION...';
+
+    try {
+        const formData = new FormData(e.target);
+        // Append slot data as JSON so the API can parse it easily
+        formData.append('selectedSlot', JSON.stringify(selectedSlot));
+
+        const response = await fetch('/api/book', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            submitBtn.innerHTML = 'TAKEOVER SUCCESSFUL';
+            submitBtn.style.background = '#4CAF50';
+            submitBtn.style.color = '#fff';
+
+            setTimeout(() => {
+                alert("The machine has accepted your invitation. Check your calendar and email for the session details.");
+                closePortal();
+                // Reset form and UI
+                e.target.reset();
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.style = '';
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
+                selectedSlot = null;
+            }, 1000);
+        } else {
+            throw new Error(result.error || 'Failed to initiate takeover');
+        }
+    } catch (error) {
+        console.error("Booking failed:", error);
+        alert("The machine encountered an error: " + error.message + "\n\nPlease ensure your environment variables are configured in Vercel.");
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+    }
 });
 
 // Initial state

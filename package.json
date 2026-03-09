@@ -1,0 +1,26 @@
+{
+  "name": "moood-studio-router",
+  "version": "1.0.0",
+  "description": "",
+  "main": "how-it-works.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViBViB/moood-studio-router.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ViBViB/moood-studio-router/issues"
+  },
+  "homepage": "https://github.com/ViBViB/moood-studio-router#readme",
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "googleapis": "^171.4.0",
+    "resend": "^6.9.3"
+  }
+}
