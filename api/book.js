@@ -9,19 +9,18 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 function formatPrivateKey(key) {
     if (!key) return null;
 
-    // 1. Remove any surrounding quotes and whitespace
-    let cleaned = key.trim().replace(/^["']|["']$/g, '');
+    // 1. Convert to string and replace literal \n with real newlines
+    let k = String(key).replace(/\\n/g, '\n');
 
-    // 2. Unescape literal \n into real newlines
-    cleaned = cleaned.replace(/\\n/g, '\n');
+    // 2. Remove headers if they already exist to normalize the content
+    k = k.replace(/-----BEGIN PRIVATE KEY-----/g, '');
+    k = k.replace(/-----END PRIVATE KEY-----/g, '');
 
-    // 3. Ensure BEGIN/END markers are present
-    if (!cleaned.includes('-----BEGIN PRIVATE KEY-----')) {
-        // If it's a raw base64 block, wrap it
-        cleaned = `-----BEGIN PRIVATE KEY-----\n${cleaned}\n-----END PRIVATE KEY-----`;
-    }
+    // 3. Remove all whitespace at start/end and any surrounding quotes
+    k = k.trim().replace(/^["']|["']$/g, '');
 
-    return cleaned;
+    // 4. Re-construct the PEM format impeccably
+    return `-----BEGIN PRIVATE KEY-----\n${k}\n-----END PRIVATE KEY-----`;
 }
 
 module.exports = async (req, res) => {
@@ -34,14 +33,16 @@ module.exports = async (req, res) => {
     // Default to your email if the env var is missing
     const calendarId = process.env.GOOGLE_CALENDAR_ID || 'alberto.contreras@gmail.com';
 
+    const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL.trim().replace(/^["']|["']$/g, '');
     const formattedKey = formatPrivateKey(process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY);
 
     const auth = new google.auth.JWT(
-        process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        email,
         null,
         formattedKey,
         SCOPES
     );
+    await auth.authorize();
     const calendar = google.calendar({ version: 'v3', auth });
 
 
