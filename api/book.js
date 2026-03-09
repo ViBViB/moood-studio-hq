@@ -184,7 +184,7 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
 
         try {
             const { data, error: sendError } = await resend.emails.send({
-                from: 'Moood Studio <onboarding@resend.dev>',
+                from: 'Moood Studio <notifications@moood.studio>',
                 to: ['alberto.contreras@gmail.com'],
                 subject: `New Onboarding Service: ${companyName}`,
                 html: agencyEmailContent,
@@ -223,7 +223,7 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
 
         try {
             const { data, error: sendError } = await resend.emails.send({
-                from: 'Moood Studio <onboarding@resend.dev>',
+                from: 'Moood Studio <notifications@moood.studio>',
                 to: [customerEmail],
                 subject: `Your Booking is Confirmed: ${formattedDate}`,
                 html: customerEmailContent
