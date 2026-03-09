@@ -29,21 +29,27 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const SCOPES = ['https://www.googleapis.com/auth/calendar'];
-    // Default to your email if the env var is missing
-    const calendarId = process.env.GOOGLE_CALENDAR_ID || 'alberto.contreras@gmail.com';
+    let calendar;
+    try {
+        const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+        const email = (process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || '').trim().replace(/^["']|["']$/g, '');
+        const formattedKey = formatPrivateKey(process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY);
 
-    const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL.trim().replace(/^["']|["']$/g, '');
-    const formattedKey = formatPrivateKey(process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY);
-
-    const auth = new google.auth.JWT(
-        email,
-        null,
-        formattedKey,
-        SCOPES
-    );
-    await auth.authorize();
-    const calendar = google.calendar({ version: 'v3', auth });
+        const auth = new google.auth.JWT(
+            email,
+            null,
+            formattedKey,
+            SCOPES
+        );
+        await auth.authorize();
+        calendar = google.calendar({ version: 'v3', auth });
+    } catch (authErr) {
+        console.error('Google Auth Error:', authErr);
+        return res.status(500).json({
+            error: 'Failed to authenticate with Google.',
+            details: authErr.message
+        });
+    }
 
 
     // Check for required ENV variables
