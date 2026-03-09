@@ -126,12 +126,137 @@ function duplicateImages() {
 // Initialize
 duplicateImages();
 
+// Identity Portal Logic
+const portal = document.getElementById('identityPortal');
+let currentWeekOffset = 0;
+let selectedSlot = null;
+
+function openPortal() {
+    portal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scroll
+    renderCalendar();
+}
+
+function closePortal() {
+    portal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scroll
+}
+
+// Neural Scheduler Logic
+function renderCalendar() {
+    const calendarGrid = document.getElementById('calendarGrid');
+    const weekDisplay = document.getElementById('weekDisplay');
+    calendarGrid.innerHTML = '';
+
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    // Start from current day or Monday of current week
+    const dayDiff = today.getDay() === 0 ? -6 : 1 - today.getDay();
+    startOfWeek.setDate(today.getDate() + dayDiff + (currentWeekOffset * 7));
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 4); // Friday
+
+    weekDisplay.textContent = `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+
+    // Generate Mon-Fri
+    for (let i = 0; i < 5; i++) {
+        const currentDay = new Date(startOfWeek);
+        currentDay.setDate(startOfWeek.getDate() + i);
+
+        const dayColumn = document.createElement('div');
+        dayColumn.className = 'calendar-day-column';
+
+        const dayName = currentDay.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayDate = currentDay.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+        dayColumn.innerHTML = `
+            <div class="day-header">${dayName}, ${dayDate}</div>
+            <div class="time-slots">
+                ${generateTimeSlots(currentDay)}
+            </div>
+        `;
+        calendarGrid.appendChild(dayColumn);
+    }
+
+    // Attach slot listeners
+    document.querySelectorAll('.time-slot').forEach(slot => {
+        slot.addEventListener('click', (e) => {
+            if (e.target.classList.contains('disabled')) return;
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
+            e.target.classList.add('active');
+            selectedSlot = {
+                date: e.target.dataset.date,
+                time: e.target.dataset.time
+            };
+        });
+    });
+}
+
+function generateTimeSlots(date) {
+    const slots = [
+        "10:00 AM", "11:00 AM", "12:00 PM",
+        "02:00 PM", "03:00 PM", "04:00 PM"
+    ];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return slots.map(time => {
+        const isPast = date < today || (date.getTime() === today.getTime() && isTimeInPast(time));
+        return `<div class="time-slot ${isPast ? 'disabled' : ''}" 
+                     data-date="${date.toISOString()}" 
+                     data-time="${time}">${time}</div>`;
+    }).join('');
+}
+
+function isTimeInPast(timeStr) {
+    const now = new Date();
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') hours = '00';
+    if (modifier === 'PM') hours = parseInt(hours, 10) + 12;
+
+    const slotTime = new Date();
+    slotTime.setHours(hours, minutes, 0, 0);
+    return slotTime < now;
+}
+
+// Navigation
+document.getElementById('prevWeek').addEventListener('click', () => {
+    if (currentWeekOffset > 0) {
+        currentWeekOffset--;
+        renderCalendar();
+    }
+});
+
+document.getElementById('nextWeek').addEventListener('click', () => {
+    currentWeekOffset++;
+    renderCalendar();
+});
+
 // CTA Button click handler
 const ctaButtons = document.querySelectorAll('.cta-button');
 ctaButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        window.open('https://www.figma.com/community/plugin/1603792827026673789', '_blank');
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPortal();
     });
+});
+
+// Form Submission (Phase 3 will handle the actual API call)
+document.getElementById('onboardingForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!selectedSlot) {
+        alert("Please select a session time.");
+        return;
+    }
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    data.slot = selectedSlot;
+
+    console.log("Form Data:", data);
+    alert("Initiating the takeover... (Phase 3 Integration coming up)");
+    // closePortal();
 });
 
 // Initial state
