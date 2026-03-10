@@ -180,11 +180,18 @@ body {
 /* Logo in top right corner */
 .logo {
     position: fixed;
-    top: 32px;
-    right: 32px;
+    top: clamp(20px, 2.5vw, 32px);
+    right: clamp(20px, 2.5vw, 32px);
     z-index: 9999;
     /* Always visible above all content */
     color: #000;
+}
+
+.logo img,
+.portal-logo img {
+    height: clamp(32px, 3.5vw, 48px);
+    width: auto;
+    display: block;
 }
 
 .headline {
@@ -752,15 +759,7 @@ body {
         color: rgba(0, 0, 0, 0.7);
     }
 
-    .logo {
-        top: 20px;
-        right: 20px;
-    }
-
-    .logo svg {
-        width: 32px;
-        height: 25px;
-    }
+    /* SVG rule removed as logos are now <img> tags managed by clamp */
 
     .problem-statement {
         padding: 80px 24px 60px;
