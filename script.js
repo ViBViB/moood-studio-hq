@@ -244,7 +244,7 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
     const submitBtn = document.querySelector('.portal-submit-btn');
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = 'SYNCHRONIZING IDENTITY...';
+    submitBtn.innerHTML = 'BOOKING...';
 
     let result;
     try {
@@ -264,7 +264,7 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
         }
 
         if (response.ok) {
-            submitBtn.innerHTML = 'TAKEOVER CONFIRMED';
+            submitBtn.innerHTML = 'BOOKING CONFIRMED';
             submitBtn.style.background = '#4CAF50';
 
             setTimeout(() => {
