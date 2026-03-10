@@ -166,11 +166,15 @@ body {
 /* Cinematic Transitions - Controlled EXCLUSIVELY by active classes */
 .content-wrapper.portal-transitioning {
     transition: width 0.8s cubic-bezier(0.85, 0, 0.15, 1), background-color 0.8s cubic-bezier(0.85, 0, 0.15, 1) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .content-wrapper.portal-expanded {
     width: 100% !important;
     background-color: #0d0d0d !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 /* Logo in top right corner */
