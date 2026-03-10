@@ -391,6 +391,14 @@ function openPortal() {
     document.getElementById('portalSchedulerSection').style.display = 'block';
     document.getElementById('portalSuccessSection').style.display = 'none';
 
+    // Reset file label
+    const label = document.getElementById('prdUploadLabel');
+    if (label) {
+        label.textContent = 'Drag & drop your PRD or Project Brief';
+        label.style.color = '';
+        document.querySelector('.file-upload-wrapper').style.borderColor = '';
+    }
+
     renderCalendar();
 }
 
@@ -399,6 +407,21 @@ function closePortal() {
     portal.classList.remove('active');
     document.body.style.overflow = '';
 }
+
+// File Upload handling
+document.getElementById('prdUpload').addEventListener('change', (e) => {
+    const label = document.getElementById('prdUploadLabel');
+    if (e.target.files.length > 0) {
+        const fileName = e.target.files[0].name;
+        label.textContent = `SELECTED: ${fileName}`;
+        label.style.color = '#fff';
+        document.querySelector('.file-upload-wrapper').style.borderColor = '#fff';
+    } else {
+        label.textContent = 'Drag & drop your PRD or Project Brief';
+        label.style.color = '';
+        document.querySelector('.file-upload-wrapper').style.borderColor = '';
+    }
+});
 
 // Initial state
 handleScroll();

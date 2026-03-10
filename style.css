@@ -991,6 +991,9 @@ body {
 .file-upload-label {
     font-size: 16px;
     color: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    display: block;
 }
 
 /* Scheduler Styles */
