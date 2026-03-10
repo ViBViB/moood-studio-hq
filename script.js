@@ -332,6 +332,12 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
         const formData = new FormData(e.target);
         formData.append('selectedSlot', JSON.stringify(selectedSlot));
 
+        // Add all attached files tracked in our state
+        formData.delete('prdUpload'); // Remove the one from input field
+        attachedFiles.forEach(file => {
+            formData.append('prdUpload', file);
+        });
+
         const response = await fetch('/api/book', {
             method: 'POST',
             body: formData
@@ -362,6 +368,8 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
 
                 // Reset but keep successful state visible
                 e.target.reset();
+                attachedFiles = []; // Clear local list
+                renderFileList();
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
                 submitBtn.style = '';
@@ -391,13 +399,9 @@ function openPortal() {
     document.getElementById('portalSchedulerSection').style.display = 'block';
     document.getElementById('portalSuccessSection').style.display = 'none';
 
-    // Reset file label
-    const label = document.getElementById('prdUploadLabel');
-    if (label) {
-        label.textContent = 'Drag & drop your PRD or Project Brief';
-        label.style.color = '';
-        document.querySelector('.file-upload-wrapper').style.borderColor = '';
-    }
+    // Reset file label and list
+    attachedFiles = [];
+    renderFileList();
 
     renderCalendar();
 }
@@ -408,20 +412,72 @@ function closePortal() {
     document.body.style.overflow = '';
 }
 
-// File Upload handling
-document.getElementById('prdUpload').addEventListener('change', (e) => {
-    const label = document.getElementById('prdUploadLabel');
-    if (e.target.files.length > 0) {
-        const fileName = e.target.files[0].name;
-        label.textContent = `SELECTED: ${fileName}`;
-        label.style.color = '#fff';
-        document.querySelector('.file-upload-wrapper').style.borderColor = '#fff';
-    } else {
-        label.textContent = 'Drag & drop your PRD or Project Brief';
-        label.style.color = '';
-        document.querySelector('.file-upload-wrapper').style.borderColor = '';
-    }
+// File Upload handling (State-based Multiple Files)
+let attachedFiles = [];
+
+const fileInput = document.getElementById('prdUpload');
+const dropZone = document.getElementById('dropZone');
+const uploadMoreBtn = document.getElementById('uploadMoreBtn');
+const fileListContainer = document.getElementById('fileList');
+
+fileInput.addEventListener('change', (e) => {
+    const newFiles = Array.from(e.target.files);
+    attachedFiles = [...attachedFiles, ...newFiles];
+    renderFileList();
+    e.target.value = ''; // Reset input to allow re-upload if needed
 });
+
+// Trigger file input from "Upload more" button
+uploadMoreBtn.addEventListener('click', () => {
+    fileInput.click();
+});
+
+function renderFileList() {
+    fileListContainer.innerHTML = '';
+
+    if (attachedFiles.length === 0) {
+        dropZone.style.display = 'block';
+        uploadMoreBtn.style.display = 'none';
+        return;
+    }
+
+    dropZone.style.display = 'none';
+    uploadMoreBtn.style.display = 'block';
+
+    attachedFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+
+        const ext = file.name.split('.').pop().toUpperCase();
+        const iconType = (ext === 'PDF' || ext === 'DOC' || ext === 'DOCX' || ext === 'TXT') ? ext : 'DOC';
+
+        item.innerHTML = `
+            <div class="file-icon">${iconType}</div>
+            <div class="file-info">
+                <span class="file-name">${file.name}</span>
+            </div>
+            <button type="button" class="file-delete" onclick="removeAttachedFile(${index})">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        `;
+        fileListContainer.appendChild(item);
+    });
+}
+
+function removeAttachedFile(index) {
+    attachedFiles.splice(index, 1);
+    renderFileList();
+}
+
+// Attach removeAttachedFile to window for easier global access from inline onclick
+window.removeAttachedFile = removeAttachedFile;
+
+// Modify form submission to include all attached files
+document.getElementById('onboardingForm').removeEventListener('submit', null); // Generic safety
+// We keep the logic inside the existing listener but use the attachedFiles array
 
 // Initial state
 handleScroll();

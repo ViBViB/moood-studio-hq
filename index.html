@@ -245,11 +245,23 @@
                         <input type="text" id="companyName" name="companyName" placeholder="Visionary Inc." required>
                     </div>
                     <div class="form-group">
-                        <label for="prdUpload">Upload PRD (Optional)</label>
-                        <div class="file-upload-wrapper">
-                            <input type="file" id="prdUpload" name="prdUpload" accept=".pdf,.doc,.docx">
-                            <span class="file-upload-label" id="prdUploadLabel">Drag & drop your PRD or Project
-                                Brief</span>
+                        <label>Upload Strategy Documents (Optional)</label>
+                        <div id="fileUploadContainer" class="file-upload-container">
+                            <!-- Container for listed files -->
+                            <div id="fileList" class="file-list"></div>
+
+                            <!-- Initial/Empty state: Big dropzone -->
+                            <div class="file-upload-wrapper" id="dropZone">
+                                <input type="file" id="prdUpload" name="prdUpload" accept=".pdf,.doc,.docx,.txt"
+                                    multiple>
+                                <span class="file-upload-label" id="prdUploadLabel">Drag & drop your PRD or Project
+                                    Brief</span>
+                            </div>
+
+                            <!-- Trigger for adding more files when list is visible -->
+                            <button type="button" id="uploadMoreBtn" class="upload-more-btn" style="display: none;">
+                                + Upload another document
+                            </button>
                         </div>
                     </div>
                 </form>
