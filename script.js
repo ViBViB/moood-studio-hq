@@ -404,11 +404,13 @@ function openPortal() {
 
     // Phase 1: spatial hijack
     document.body.style.overflow = 'hidden';
+    wrapper.classList.add('portal-transition-mode');
     wrapper.classList.add('portal-expansion-active');
 
     // Phase 2: revealed content
     setTimeout(() => {
         portal.classList.add('active');
+        wrapper.classList.remove('portal-transition-mode');
 
         // Ensure sections are reset to default view
         document.getElementById('portalFormSection').style.display = 'block';
@@ -432,11 +434,15 @@ function closePortal() {
 
     // Phase 2: restore home architecture
     setTimeout(() => {
+        wrapper.classList.add('portal-transition-mode');
         wrapper.classList.remove('portal-expansion-active');
-        document.body.style.overflow = '';
 
-        // Re-calculate scroll positions immediately to avoid snap-jump
-        handleScroll();
+        setTimeout(() => {
+            wrapper.classList.remove('portal-transition-mode');
+            document.body.style.overflow = '';
+            // Re-calculate scroll positions immediately to avoid snap-jump
+            handleScroll();
+        }, 800);
     }, 400); // 400ms is standard for portal fade out
 }
 

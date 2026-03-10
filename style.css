@@ -139,13 +139,18 @@ body {
     height: 100vh;
     z-index: 2;
     background: #fff;
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    /* Ready for portal expansion */
+    transition: none;
+    /* SNAPPY SCROLL - Keep this for performance */
     will-change: width, opacity, background-color, transform;
     overflow: hidden;
 }
 
-/* Portal Expansion - Spatial Transition */
+/* Cinematic Transition Mode - Toggle fixed properties smoothly */
+.content-wrapper.portal-transition-mode {
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Expansion state properties */
 .content-wrapper.portal-expansion-active {
     width: 100% !important;
     right: 0 !important;
