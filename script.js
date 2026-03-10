@@ -397,53 +397,28 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
     }
 });
 
-// Portal controls (Spatial Transition Version)
+// Portal controls
 function openPortal() {
     const portal = document.getElementById('identityPortal');
-    const wrapper = document.getElementById('contentWrapper');
-
-    // Phase 1: spatial hijack
+    portal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    wrapper.classList.add('portal-transition-mode');
-    wrapper.classList.add('portal-expansion-active');
 
-    // Phase 2: revealed content
-    setTimeout(() => {
-        portal.classList.add('active');
-        wrapper.classList.remove('portal-transition-mode');
+    // Ensure sections are reset to default view
+    document.getElementById('portalFormSection').style.display = 'block';
+    document.getElementById('portalSchedulerSection').style.display = 'block';
+    document.getElementById('portalSuccessSection').style.display = 'none';
 
-        // Ensure sections are reset to default view
-        document.getElementById('portalFormSection').style.display = 'block';
-        document.getElementById('portalSchedulerSection').style.display = 'block';
-        document.getElementById('portalSuccessSection').style.display = 'none';
+    // Reset file label and list
+    attachedFiles = [];
+    renderFileList();
 
-        // Reset file label and list
-        attachedFiles = [];
-        renderFileList();
-
-        renderCalendar();
-    }, 800); // Wait for drawer expansion
+    renderCalendar();
 }
 
 function closePortal() {
     const portal = document.getElementById('identityPortal');
-    const wrapper = document.getElementById('contentWrapper');
-
-    // Phase 1: close content
     portal.classList.remove('active');
-
-    // Phase 2: restore home architecture
-    setTimeout(() => {
-        wrapper.classList.add('portal-transition-mode');
-        wrapper.classList.remove('portal-expansion-active');
-
-        setTimeout(() => {
-            wrapper.classList.remove('portal-transition-mode');
-            document.body.style.overflow = '';
-            // Re-calculate scroll positions immediately to avoid snap-jump
-            handleScroll();
-        }, 800);
-    }, 400); // 400ms is standard for portal fade out
+    document.body.style.overflow = '';
 }
 
 // File Upload handling (State-based Multiple Files)
