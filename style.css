@@ -943,7 +943,7 @@ body {
 }
 
 .portal-title {
-    font-size: 64px;
+    font-size: clamp(40px, 4vw, 64px);
     font-weight: 400;
     letter-spacing: -0.03em;
     margin-bottom: 60px;
@@ -964,7 +964,7 @@ body {
 }
 
 .form-group label {
-    font-size: 14px;
+    font-size: clamp(12px, 0.8vw, 14px);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: rgba(255, 255, 255, 0.5);
@@ -976,7 +976,7 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding: 16px 0;
     color: #fff;
-    font-size: 20px;
+    font-size: clamp(16px, 1.2vw, 20px);
     outline: none;
     transition: border-color 0.3s ease;
 }
@@ -1009,7 +1009,7 @@ body {
 }
 
 .file-upload-label {
-    font-size: 16px;
+    font-size: clamp(14px, 1vw, 16px);
     color: rgba(255, 255, 255, 0.4);
     transition: all 0.3s ease;
     pointer-events: none;
@@ -1065,7 +1065,7 @@ body {
 }
 
 .file-name {
-    font-size: 14px;
+    font-size: clamp(12px, 0.8vw, 14px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1097,7 +1097,7 @@ body {
     padding: 14px;
     border-radius: 8px;
     width: 100%;
-    font-size: 13px;
+    font-size: clamp(11px, 0.8vw, 13px);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
@@ -1138,7 +1138,7 @@ body {
 }
 
 .week-range {
-    font-size: 18px;
+    font-size: clamp(16px, 1.1vw, 18px);
     font-weight: 500;
 }
 
@@ -1208,7 +1208,7 @@ body {
 }
 
 .day-number {
-    font-size: 24px;
+    font-size: clamp(18px, 1.5vw, 24px);
     font-weight: 500;
 }
 
@@ -1243,7 +1243,7 @@ body {
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: clamp(12px, 0.8vw, 14px);
 }
 
 .time-slot:hover {
@@ -1282,7 +1282,7 @@ body {
     color: #000;
     border: none;
     padding: 24px 48px;
-    font-size: 14px;
+    font-size: clamp(12px, 0.8vw, 14px);
     font-weight: 600;
     letter-spacing: 0.2em;
     cursor: pointer;
@@ -1314,7 +1314,6 @@ body {
 
 @media (max-width: 768px) {
     .portal-title {
-        font-size: 40px;
         margin-bottom: 40px;
     }
 
@@ -1338,8 +1337,9 @@ body {
         padding: 15px 5px;
     }
 
-    .day-number {
-        font-size: 18px;
+    .day-card {
+        min-width: 80px;
+        padding: 15px 5px;
     }
 }
 
@@ -1388,7 +1388,7 @@ body {
 }
 
 .success-title {
-    font-size: 56px;
+    font-size: clamp(32px, 3.5vw, 56px);
     font-weight: 400;
     letter-spacing: -0.02em;
     margin-bottom: 24px;
@@ -1396,7 +1396,7 @@ body {
 }
 
 .success-message {
-    font-size: 20px;
+    font-size: clamp(16px, 1.2vw, 20px);
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.6);
     margin-bottom: 40px;
@@ -1413,7 +1413,7 @@ body {
 
 .booking-details-box p {
     margin: 12px 0;
-    font-size: 16px;
+    font-size: clamp(14px, 1vw, 16px);
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -1440,14 +1440,4 @@ body {
 .portal-close-btn:hover {
     background: rgba(255, 255, 255, 0.9);
     transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
-    .success-title {
-        font-size: 32px;
-    }
-
-    .success-message {
-        font-size: 16px;
-    }
 }
