@@ -131,7 +131,6 @@ body {
     }
 }
 
-/* Content Wrapper - Overlay on top of masonry */
 .content-wrapper {
     position: fixed;
     right: 0;
@@ -140,9 +139,29 @@ body {
     height: 100vh;
     z-index: 2;
     background: #fff;
-    transition: none;
-    will-change: width, opacity;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Ready for portal expansion */
+    will-change: width, opacity, background-color, transform;
     overflow: hidden;
+}
+
+/* Portal Expansion - Spatial Transition */
+.content-wrapper.portal-expansion-active {
+    width: 100% !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    background: #000 !important;
+    border-radius: 0 !important;
+    transform: rotate(0) !important;
+    z-index: 1000 !important;
+    clip-path: none !important;
+}
+
+/* Hide normal content during portal expansion */
+.content-wrapper.portal-expansion-active>*:not(#identityPortal) {
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 /* Content - Fixed to viewport, clipped by JavaScript */

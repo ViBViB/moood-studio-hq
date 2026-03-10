@@ -397,28 +397,47 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
     }
 });
 
-// Portal controls
+// Portal controls (Spatial Transition Version)
 function openPortal() {
     const portal = document.getElementById('identityPortal');
-    portal.classList.add('active');
+    const wrapper = document.getElementById('contentWrapper');
+
+    // Phase 1: spatial hijack
     document.body.style.overflow = 'hidden';
+    wrapper.classList.add('portal-expansion-active');
 
-    // Ensure sections are reset to default view
-    document.getElementById('portalFormSection').style.display = 'block';
-    document.getElementById('portalSchedulerSection').style.display = 'block';
-    document.getElementById('portalSuccessSection').style.display = 'none';
+    // Phase 2: revealed content
+    setTimeout(() => {
+        portal.classList.add('active');
 
-    // Reset file label and list
-    attachedFiles = [];
-    renderFileList();
+        // Ensure sections are reset to default view
+        document.getElementById('portalFormSection').style.display = 'block';
+        document.getElementById('portalSchedulerSection').style.display = 'block';
+        document.getElementById('portalSuccessSection').style.display = 'none';
 
-    renderCalendar();
+        // Reset file label and list
+        attachedFiles = [];
+        renderFileList();
+
+        renderCalendar();
+    }, 800); // Wait for drawer expansion
 }
 
 function closePortal() {
     const portal = document.getElementById('identityPortal');
+    const wrapper = document.getElementById('contentWrapper');
+
+    // Phase 1: close content
     portal.classList.remove('active');
-    document.body.style.overflow = '';
+
+    // Phase 2: restore home architecture
+    setTimeout(() => {
+        wrapper.classList.remove('portal-expansion-active');
+        document.body.style.overflow = '';
+
+        // Re-calculate scroll positions immediately to avoid snap-jump
+        handleScroll();
+    }, 400); // 400ms is standard for portal fade out
 }
 
 // File Upload handling (State-based Multiple Files)
