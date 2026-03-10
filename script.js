@@ -243,9 +243,9 @@ function isDayDisabled(date) {
     // If day is before today
     if (date < today) return true;
 
-    // If day is today and it's after 4:00 PM (16:00)
+    // If day is today and it's after 6:00 PM (18:00)
     if (date.getTime() === today.getTime()) {
-        if (now.getHours() >= 16) return true;
+        if (now.getHours() >= 18) return true;
     }
 
     return false;
@@ -254,7 +254,8 @@ function isDayDisabled(date) {
 function generateTimeSlotHTML(date) {
     const slots = [
         "10:00 AM", "11:00 AM", "12:00 PM",
-        "02:00 PM", "03:00 PM", "04:00 PM"
+        "02:00 PM", "03:00 PM", "04:00 PM",
+        "05:00 PM", "06:00 PM"
     ];
 
     return slots.map(time => {
