@@ -26,16 +26,19 @@ Identifying the goals of this visual shift.
 *   **If a redesign:** What is currently not working with your existing brand, and why are you choosing to change it now?
 *   **Competitive Advantage:** What makes your brand different or better than your direct competitors?
 
-## Section 4: Creative Scope & Deliverables (The "What")
-Defining the technical requirements for the logo, palette, and typography.
+## Section 4: Creative Scope & Logo Direction (The "What")
+Defining the technical requirements and aesthetic archetypes.
 
 *   **Primary Applications:** Where will the brand be used most? (e.g., Social Media, Website, Physical Packaging, Signage).
 *   **Color Preferences:** Are there any specific colors you love, or any "forbidden" colors we should avoid?
-*   **Typography Style:** Do you prefer Serif (traditional), Sans Serif (modern), Script (handwritten), or Display (bold/unique) fonts?
-*   **Visual Direction:** On a scale of 1 to 5, where does your brand sit?
-    *   Minimalist [ 1 — 2 — 3 — 4 — 5 ] Complex
-    *   Traditional [ 1 — 2 — 3 — 4 — 5 ] Modern
-    *   Playful [ 1 — 2 — 3 — 4 — 5 ] Serious
+*   **Visual Logo Archetype:** (Selection by visual grid)
+    *   Abstract
+    *   Pictorial
+    *   Combination
+    *   Mascot
+    *   Wordmark
+    *   Monogram
+    *   Emblem
 
 ## Section 5: Logistics & Expectations (The "When")
 Setting the stage for the partnership.
