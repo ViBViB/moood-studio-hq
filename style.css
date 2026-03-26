@@ -927,9 +927,7 @@ body {
 
 
 
-.white-logo {
-    filter: invert(1) brightness(100);
-}
+
 
 .portal-container {
     max-width: 1400px;
@@ -1009,7 +1007,7 @@ body {
 
 .file-upload-label {
     font-size: clamp(14px, 1vw, 16px);
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(0,0,0,0.4);
     transition: all 0.3s ease;
     pointer-events: none;
     display: block;

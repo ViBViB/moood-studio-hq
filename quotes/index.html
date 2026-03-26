@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branding Questionnaire | Moood.Studio</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Modern 2-Column Questionnaire Layout (Sync with Portal Aesthetic) */
+        :root {
+            --sidebar-width: 30%;
+            --accent-color: #000;
+            --gray-light: #f5f5f5;
+            --gray-mid: #e0e0e0;
+            --transition-speed: 0.8s;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: #fff;
+            padding-bottom: 0;
+            display: flex;
+            flex-direction: row;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* Progress Bar (Sidebar Injection) */
+        .progress-container-sidebar {
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #fff;
+            transition: width 0.4s ease;
+        }
+
+        /* Main Layout */
+        .q-layout {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* LEFT SIDEBAR (Dark Theme) */
+        .q-sidebar {
+            width: var(--sidebar-width);
+            background: #000;
+            color: #fff;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 100;
+        }
+
+        .q-sidebar .logo {
+            position: relative;
+            top: auto;
+            right: auto;
+            margin-bottom: 40px;
+        }
+
+        .q-sidebar .logo-img {
+            height: 48px;
+            width: auto;
+            filter: invert(1) brightness(100);
+            display: block;
+        }
+
+        .q-h1 {
+            font-size: clamp(32px, 3.5vw, 56px);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: #fff;
+            margin: 0;
+            text-transform: none;
+        }
+
+        .q-sidebar-main {
+            margin-top: 0;
+        }
+
+        .privacy-note {
+            font-size: 10px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* RIGHT CONTENT AREA (Light Theme) */
+        .q-main {
+            flex: 1;
+            background: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .q-slider-viewport {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .q-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 120px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), 
+                        visibility var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 48px;
+        }
+
+        .q-slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        .q-slide.exit {
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1;
+        }
+
+        /* Typography & Form Sync with Portal */
+        .q-section-title {
+            font-size: clamp(32px, 3vw, 48px);
+            font-weight: 400;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            color: #000;
+        }
+
+        .q-section-intro {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(0,0,0,0.5);
+            line-height: 1.6;
+            margin-bottom: 48px;
+            max-width: 600px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 48px;
+        }
+
+        .form-group label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(0,0,0,0.4);
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            padding: 16px 0;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-radius: 0;
+            font-size: clamp(16px, 1.1vw, 20px);
+            font-family: inherit;
+            background: transparent;
+            color: #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #000;
+            outline: none;
+        }
+
+        ::placeholder {
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            opacity: 1;
+        }
+
+        /* Custom Visual Sliders */
+        .visual-scale {
+            margin: 20px 0;
+        }
+
+        .visual-scale__labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(0,0,0,0.4);
+        }
+
+        .range-container {
+            position: relative;
+            width: 100%;
+            height: 1px;
+            background: #eee;
+        }
+
+        input[type="range"].custom-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            background: transparent;
+            position: absolute;
+            top: -12px;
+        }
+
+        input[type="range"].custom-slider::-webkit-slider-thumb {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            -webkit-appearance: none;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Navigation Bar (Portal Style) */
+        .q-nav {
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .btn-next {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 24px 48px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 280px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-prev {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+            padding: 24px 48px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 280px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-prev:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-prev:disabled { opacity: 0; pointer-events: none; }
+
+        .btn-next:hover {
+            padding-right: 56px;
+            background: #1a1a1a;
+        }
+
+        /* Logo Type Visual Selection */
+        .logo-type-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .logo-type-item {
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            background: #fff;
+        }
+
+        .logo-type-item input {
+            display: none;
+        }
+
+        .logo-type-item img {
+            width: 100%;
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            filter: grayscale(1);
+            opacity: 0.4;
+            transition: all 0.4s ease;
+        }
+
+        .logo-type-item span {
+            display: block;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            color: rgba(0,0,0,0.4);
+        }
+
+        .logo-type-item:hover {
+            border-color: rgba(0,0,0,0.1);
+            background: #fafafa;
+        }
+
+        .logo-type-item:hover img {
+            opacity: 0.7;
+            filter: grayscale(0.5);
+        }
+
+        /* Active State */
+        .logo-type-item input:checked + img {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .logo-type-item input:checked {
+            display: none; /* Just redundancy */
+        }
+
+        .logo-type-item:has(input:checked) {
+            border-color: #000;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .logo-type-item input:checked ~ span {
+            color: #000;
+        }
+
+        /* Success Page Special Styling */
+        .success-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(0,0,0,0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .q-sidebar { width: 40%; padding: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow-y: auto; }
+            .q-sidebar { width: 100%; height: auto; padding: 40px 24px; }
+            .q-main { height: auto; min-height: 100vh; }
+            .q-slider-viewport { overflow: visible; height: auto; max-width: none; }
+            .q-slide { position: relative; top: 0 !important; opacity: 1 !important; visibility: visible !important; height: auto; padding: 40px 24px; }
+            .q-nav { position: sticky; bottom: 0; padding: 24px; flex-direction: column-reverse; gap: 20px; }
+            .btn-next { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="q-layout">
+        
+        <!-- SIDEBAR (Fixed Left) -->
+        <aside class="q-sidebar">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/moood-logo.svg" alt="Moood.Studio" class="logo-img">
+                </a>
+            </div>
+            
+            <div class="q-sidebar-main">
+                <h1 class="q-h1">Branding<br>questionnaire</h1>
+                
+                <!-- Progress Bar (Under H1) -->
+                <div class="progress-container-sidebar">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="q-sidebar-footer">
+                <p class="privacy-note">
+                    PRIVACY NOTE: Your privacy is important to us. The information provided in this form will be used solely for the purpose of preparing your custom quote and will never be shared with third parties.
+                </p>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT (Slides Right) -->
+        <main class="q-main">
+            
+            <div class="q-slider-viewport" id="sliderViewport">
+                
+                <!-- SECTION 1: Contact Information -->
+                <div class="q-slide active" id="slide-1" data-index="1">
+                    <div class="q-content">
+                        <h2 class="q-section-title">01. Contact Information</h2>
+                        <p class="q-section-intro">Welcome! Please fill out the details below so we can get to know you and your project.</p>
+                        
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" name="companyName" placeholder="The name of your legal entity">
+                        </div>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="fullName" placeholder="How should we address you?">
+                        </div>
+                        <div class="form-group">
+                            <label>Role / Job Title</label>
+                            <input type="text" name="role" placeholder="e.g., Founder, Creative Director">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="Where should we send the quote?">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Business Profile -->
+                <div class="q-slide" id="slide-2" data-index="2">
+                    <div class="q-content">
+                        <h2 class="q-section-title">02. Business Profile</h2>
+                        <p class="q-section-intro">Help us understand the soul and operations of your business.</p>
+                        
+                        <div class="form-group">
+                            <label>Brand Name & Tagline</label>
+                            <input type="text" name="brandName" placeholder="Exact text for the logo">
+                        </div>
+                        <div class="form-group">
+                            <label>Business Description</label>
+                            <textarea name="businessDescription" placeholder="Describe your primary products or services" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Audience</label>
+                            <input type="text" name="targetAudience" placeholder="Age, interests, and location">
+                        </div>
+                        <div class="form-group">
+                            <label>Brand Values</label>
+                            <input type="text" name="brandValues" placeholder="List 3-5 keywords (e.g., Bold, Minimalist)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Identity Diagnosis -->
+                <div class="q-slide" id="slide-3" data-index="3">
+                    <div class="q-content">
+                        <h2 class="q-section-title">03. Identity Diagnosis</h2>
+                        <p class="q-section-intro">Identifying the goals and the "Why" behind this visual shift.</p>
+                        
+                        <div class="form-group">
+                            <label>Project Status</label>
+                            <select name="projectStatus">
+                                <option>New Brand Launch</option>
+                                <option>Redesign of an existing identity</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Problem Statement (If redesign)</label>
+                            <textarea name="problemStatement" placeholder="What is currently not working and why change now?" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Competitive Advantage</label>
+                            <textarea name="competitiveAdvantage" placeholder="What makes your brand better than direct competitors?" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: Creative Scope -->
+                <div class="q-slide" id="slide-4" data-index="4">
+                    <div class="q-content">
+                        <h2 class="q-section-title">04. Creative Scope</h2>
+                        <p class="q-section-intro">Defining the technical requirements and aesthetic direction.</p>
+                        
+                        <div class="form-group">
+                            <label>Primary Applications</label>
+                            <input type="text" name="primaryApplications" placeholder="e.g., Social Media, Packaging, Signage">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Color Preferences</label>
+                            <input type="text" name="colorPreferences" placeholder="Specify colors you love or avoid">
+                        </div>
+
+
+
+                        <div class="form-group" style="margin-top: 24px;">
+                            <label>Logo Type Preference</label>
+                            <div class="logo-type-grid">
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="abstract">
+                                    <img src="../assets/images/abstract.png" alt="Abstract">
+                                    <span>Abstract</span>
+                                </label>
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="pictorial">
+                                    <img src="../assets/images/pictorial.png" alt="Pictorial">
+                                    <span>Pictorial</span>
+                                </label>
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="combination">
+                                    <img src="../assets/images/combination.png" alt="Combination">
+                                    <span>Combination</span>
+                                </label>
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="mascot">
+                                    <img src="../assets/images/mascot.png" alt="Mascot">
+                                    <span>Mascot</span>
+                                </label>
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="wordmark">
+                                    <img src="../assets/images/wordmark.png" alt="Wordmark">
+                                    <span>Wordmark</span>
+                                </label>
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="monogram">
+                                    <img src="../assets/images/monogram.png" alt="Monogram">
+                                    <span>Monogram</span>
+                                </label>
+                                <label class="logo-type-item">
+                                    <input type="radio" name="logo_style" value="emblem">
+                                    <img src="../assets/images/emblem.png" alt="Emblem">
+                                    <span>Emblem</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: Logistics -->
+                <div class="q-slide" id="slide-5" data-index="5">
+                    <div class="q-content">
+                        <h2 class="q-section-title">05. Logistics & Expectations</h2>
+                        <p class="q-section-intro">Setting the stage for a high-performance partnership.</p>
+                        
+                        <div class="form-group">
+                            <label>Visual Inspiration (Links)</label>
+                            <input type="text" name="visualInspiration" placeholder="Pinterest, Behance, or Portfolio links">
+                        </div>
+                        <div class="form-group">
+                            <label>Estimated Launch Date</label>
+                            <input type="text" name="launchDate" placeholder="When do you need the final source files?">
+                        </div>
+                        <div class="form-group">
+                            <label>Investment Range</label>
+                            <select name="investmentRange">
+                                <option>$1k–$3k</option>
+                                <option>$3k–$5k</option>
+                                <option>$5k+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Comments</label>
+                            <textarea name="additionalComments" placeholder="Is there anything else we should know?" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 6: Thank You -->
+                <div class="q-slide" id="slide-6" data-index="6">
+                    <div class="q-content">
+                        <h2 class="q-section-title">Thank you for sharing your vision!</h2>
+                        <div class="success-text">
+                            <p>We’ve successfully received your project details. Our team will carefully review your responses to ensure we provide the most accurate and creative proposal possible.</p>
+                            <br>
+                            <p>You can expect to hear from us via email within <strong>24–48 hours</strong> to discuss the next steps.</p>
+                            <br>
+                            <p style="font-weight: 500;">We’re excited about the possibility of bringing your brand to life!</p>
+                        </div>
+
+                        <button class="btn-next" style="margin-top: 40px;" onclick="window.location.href='../index.html'">Return to Home</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation -->
+            <nav class="q-nav" id="qNav">
+                <button class="btn-prev" id="btnPrev" disabled onclick="prevSlide()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 12H6M6 12L11 17M6 12L11 7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <button class="btn-next" id="btnNext" onclick="nextSlide()">
+                    <span id="btnNextText">Next Step</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </nav>
+
+        </main>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+        const slides = document.querySelectorAll('.q-slide');
+        const progressBar = document.getElementById('progressBar');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const qNav = document.getElementById('qNav');
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'exit');
+                if (index + 1 === currentSlide) {
+                    slide.classList.add('active');
+                } else if (index + 1 < currentSlide) {
+                    slide.classList.add('exit');
+                }
+            });
+
+            // Update Progress
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            progressBar.style.width = progress + '%';
+
+            // Update Buttons
+            btnPrev.disabled = currentSlide === 1;
+            
+            if (currentSlide === totalSlides) {
+                qNav.style.display = 'none';
+            } else {
+                qNav.style.display = 'flex';
+                const nextLabel = currentSlide === totalSlides - 1 ? 'Submit Questionnaire' : 'Next Step';
+                document.getElementById('btnNextText').textContent = nextLabel;
+            }
+        }
+
+        async function submitForm() {
+            const formData = {};
+            const inputs = document.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    if (input.checked) {
+                        formData[input.name] = input.value;
+                    }
+                } else if (input.name) { // Only collect if has a name
+                    formData[input.name] = input.value;
+                }
+            });
+
+            // Visual feedback
+            const btnText = document.getElementById('btnNextText');
+            const originalText = btnText.textContent;
+            btnNext.disabled = true;
+            btnText.textContent = 'Processing...';
+
+            try {
+                const response = await fetch('/api/quote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    currentSlide++;
+                    updateSlider();
+                } else {
+                    throw new Error('Failed to send');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('The machine failed to process the request. Please try again.');
+                btnNext.disabled = false;
+                btnText.textContent = originalText;
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide === totalSlides - 1) {
+                submitForm();
+            } else if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlider();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlider();
+            }
+        }
+
+        // Initialize
+        updateSlider();
+    </script>
+</body>
+</html>
