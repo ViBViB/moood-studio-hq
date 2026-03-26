@@ -86,8 +86,8 @@ module.exports = async (req, res) => {
             doc.end();
         });
 
-        // 2. Send email via Resend
-        const { data: emailData, error } = await resend.emails.send({
+        // 2. Send email to AGENCY (Alberto)
+        await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
             subject: `Branding Quest: ${companyName} (${fullName})`,
@@ -108,10 +108,22 @@ module.exports = async (req, res) => {
             ],
         });
 
-        if (error) {
-            console.error('Email error:', error);
-            return res.status(500).json({ error: 'Failed to send email' });
-        }
+        // 3. Send Thank You email to CUSTOMER
+        await resend.emails.send({
+            from: 'Moood Studio <notifications@moood.studio>',
+            to: [email],
+            subject: `We've received your branding project details`,
+            html: `
+                <div style="font-family: sans-serif; color: #111; max-width: 600px; line-height: 1.6;">
+                    <h1 style="font-size: 24px; border-bottom: 2px solid #000; padding-bottom: 10px;">THANK YOU</h1>
+                    <p>Hello ${fullName},</p>
+                    <p>We’ve successfully received your project details for <strong>${companyName}</strong>. Our team will carefully review your responses to ensure we provide the most accurate and creative proposal possible.</p>
+                    <p>You can expect to hear from us via email within <strong>24–48 hours</strong> to discuss the next steps.</p>
+                    <br>
+                    <p>Best regards,<br><strong>The Moood Studio Team</strong></p>
+                </div>
+            `
+        });
 
         return res.status(200).json({ success: true, message: 'Quote request sent successfully' });
 
