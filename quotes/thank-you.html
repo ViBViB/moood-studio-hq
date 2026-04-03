@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Moood.Studio</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        body {
+            background: #fff;
+            color: #000;
+            font-family: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .thank-you-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .logo-thankyou {
+            height: 48px;
+            margin-bottom: 64px;
+        }
+
+        .headline {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .sub-headline {
+            font-size: 24px;
+            font-weight: 300;
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 48px;
+            line-height: 1.4;
+        }
+
+        .message-box {
+            text-align: left;
+            background: #f9f9f9;
+            padding: 48px;
+            border-radius: 4px;
+            margin-bottom: 48px;
+        }
+
+        .main-msg {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .next-steps-h {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            color: rgba(0,0,0,0.4);
+        }
+
+        .step-item {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .step-num {
+            font-size: 11px;
+            font-weight: 700;
+            color: #000;
+            min-width: 20px;
+        }
+
+        .step-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: rgba(0,0,0,0.8);
+        }
+
+        .closing {
+            font-size: 18px;
+            font-weight: 400;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .btn-back {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 16px 32px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-back:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            .headline { font-size: 32px; }
+            .sub-headline { font-size: 18px; }
+            .message-box { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <a href="../index.html">
+            <img src="../assets/images/moood-logo.svg" alt="Moood.Studio" class="logo-thankyou">
+        </a>
+        
+        <h1 class="headline">Thank you, Alex!</h1>
+        <p class="sub-headline">We are officially ready to build the future of Preoptima.</p>
+
+        <div class="message-box">
+            <p class="main-msg">
+                Your approval has been received. We’re thrilled to partner with Preoptima to transform your 25 years of research into a world-class climate tech identity.
+            </p>
+
+            <h3 class="next-steps-h">What happens next?</h3>
+
+            <div class="step-item">
+                <span class="step-num">01</span>
+                <p class="step-text"><strong>Project Activation:</strong> You will receive an automated email shortly with the initial invoice for the 50% activation deposit.</p>
+            </div>
+
+            <div class="step-item">
+                <span class="step-num">02</span>
+                <p class="step-text"><strong>Kickoff Session:</strong> Once the deposit is confirmed, I’ll reach out to schedule our official kickoff meeting to dive into the Discovery & Strategy phase.</p>
+            </div>
+
+            <div class="step-item">
+                <span class="step-num">03</span>
+                <p class="step-text"><strong>Documentation:</strong> A copy of the approved proposal and terms has been sent to your inbox for your records.</p>
+            </div>
+
+            <p class="closing">Let’s lead the Net Zero transition together.</p>
+        </div>
+
+        <a href="../index.html" class="btn-back">Back to Moood.Studio</a>
+    </div>
+</body>
+</html>
