@@ -440,7 +440,7 @@
 
             <header class="proposal-header">
                 <a href="preoptima-quote.pdf" download="Preoptima_Proposal_Moood.Studio.pdf" class="btn-proposal btn-download" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Download Proposal (PDF)</a>
-                <button class="btn-proposal btn-approve">Approve Proposal</button>
+                <button class="btn-proposal btn-approve" id="btnApprove" onclick="approveProposal()">Approve Proposal</button>
             </header>
 
             <div class="q-slider-viewport" id="sliderViewport">
@@ -659,6 +659,42 @@
         function nextSlide() { if (currentSlide < totalSlides) { currentSlide++; updateSlider(); } }
         function prevSlide() { if (currentSlide > 1) { currentSlide--; updateSlider(); } }
         function goToSlide(n) { currentSlide = n; updateSlider(); }
+
+        async function approveProposal() {
+            const btn = document.getElementById('btnApprove');
+            const originalText = btn.innerText;
+
+            if (!confirm("Are you sure you want to approve this proposal? This will notify the Moood.Studio team.")) return;
+
+            try {
+                btn.innerText = "Processing...";
+                btn.disabled = true;
+
+                const response = await fetch('/api/approve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clientName: 'Preoptima',
+                        projectName: 'Preoptima Brand Evolution',
+                        status: 'Approved'
+                    })
+                });
+
+                if (response.ok) {
+                    btn.innerText = "PROJECT APPROVED";
+                    btn.style.background = "#000";
+                    btn.style.color = "#fff";
+                    alert("Thank you! The proposal has been approved. Alberto will contact you shortly.");
+                } else {
+                    throw new Error('Notification failed');
+                }
+            } catch (err) {
+                console.error(err);
+                btn.innerText = originalText;
+                btn.disabled = false;
+                alert("Something went wrong. Please try again or contact Alberto directly.");
+            }
+        }
     </script>
 </body>
 
