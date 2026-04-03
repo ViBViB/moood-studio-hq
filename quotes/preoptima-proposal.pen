@@ -1,0 +1,87 @@
+# PREOPTIMA BRAND PROPOSAL: GOLDEN DECK (.pen)
+**Moood.Studio | Strategic Design Office**
+**Client: Preoptima**
+**Date: April 2, 2026**
+
+---
+
+## 1. DESIGN SYSTEM & TOKENS
+### A. Typography Hierarchy
+- **Headline (H2):** Helvetica Neue Light | 56px | 1.1 Line-height | Letter-spacing: -0.02em.
+- **Section Title (H3):** Helvetica Neue Light | 32px | 1.2 Line-height | Margin-bottom: 0.25em.
+- **Body Copy (Normal):** Helvetica Neue Light | 20px | 1.7 Line-height | Color: rgba(0,0,0,0.8) | Letter-spacing: 0.5px.
+- **Strategic Signature:** Helvetica Neue Regular | 12px | Color: rgba(0,0,0,0.8) | Letter-spacing: 0.1em.
+
+### B. Spacing & Pacing (Vertical Rhythm)
+- **Slide Padding:** 80px (all sides).
+- **Narrative Pause (Divider):** 1px height | Solid rgba(0,0,0,0.05) | Margin: 4em 0.
+- **Content Blocks:** Margin-bottom: 3em.
+
+### C. Color Palette (Solid Grey Hex Values Only)
+- **Primary:** #000000 (Titles, Buttons, Sidebar).
+- **Secondary:** #FFFFFF (Background).
+- **Tones:** #F9F9F9 (Cards, Background Accents).
+- **Text:** rgba(0,0,0,0.8) (Standard Body).
+- **Labels:** rgba(0,0,0,0.3) (Metadata).
+
+---
+
+## 2. DECK STRUCTURE (PAGES)
+
+### PAGE 01: THE VISION
+- **Label:** THE VISION
+- **Title:** Bridging Science and Design: New visual identity for Preoptima.
+- **Intro:** Evolving 25 years of world-class academic research into a fast-moving, innovative climate tech brand.
+- [DIVIDER]
+- **H3:** The Mission
+- **Copy:** Aligning your visual identity with your goal of making whole-life carbon reduction simple, actionable, and impactful.
+
+### PAGE 02: THE DIAGNOSIS
+- **Label:** THE DIAGNOSIS
+- **Title:** From Generic to Global.
+- [DIVIDER]
+- **H3:** The Current Challenge
+- **Copy:** You’ve identified that the current logo feels generic and the colors are restrictive.
+- **H3:** The Opportunity
+- **Copy:** To replace the "stock" feel with a bespoke identity that reflects your status as an innovative startup at the intersection of climate tech and digital planning.
+- [STRATEGIC RESILIENCE BOX: #F9F9F9 | Border-left: 2.5px solid #000 | Padding: 32px]
+
+### PAGE 03: THE ROADMAP
+- **Label:** THE ROADMAP
+- **Title:** Concrete Phases
+- [DIVIDER]
+- **CHOREOGRAPHY (GRID 2x2):**
+  - **01. Discovery:** Analysis of your mission to empower both sectors in achieving Net Zero goals.
+  - **02. Design:** Architectural Logo & Dual-Platform Logic (CONCEPT vs PACER).
+  - **03. Refinement:** Precision-tuning through collaborative feedback.
+  - **04. Launch:** Full digital toolkit delivery (LinkedIn & Events).
+
+### PAGE 04: THE BRAND TOOLKIT
+- **Label:** THE BRAND TOOLKIT
+- **Title:** Final Deliverables
+- [DIVIDER]
+- **A. Brand Styleguide:** Comprehensive consistency guide.
+- **B. Color Architecture:** Core Authority + Product (CONCEPT/PACER) + Data Tones.
+- **C. Typographic System:** High-impact Headlines + Precision Mono Metrics.
+- **D. Digital Assets:** Master Suite (.AI, .SVG, .PNG, .PDF) + LinkedIn Kit.
+
+### PAGE 05: COMMITMENT & NEXT STEPS
+- **Label:** LOGISTICS
+- **Title:** Proposal Logistics
+- **DASHBOARD (GRID 2x1):**
+  - **INVESTMENT:** $2,500 USD (Size: 48px/600).
+  - **TIMELINE:** 2-3 WEEKS (Size: 48px/600).
+- [DIVIDER]
+- **H3:** Payment Terms
+- **Copy:** 50% Activation / 50% Final Delivery.
+- [FINAL VISION: Centered | 28px]
+- **Copy:** Let’s build a brand that is as intuitive and impactful as the tools you create.
+- **SIGNATURE:** Moood.Studio, April 2, 2026
+
+---
+
+## 3. PDF EXPORT PROTOCOL
+1. **Layout:** US Letter (or A4) | Portrait.
+2. **Sidebars:** EXCLUDED (Omit Sidebar on print).
+3. **Margins:** Minimal (Handled by the 80px container padding).
+4. **Action Items:** Omit all UI Buttons (Approve/Download/Nav).

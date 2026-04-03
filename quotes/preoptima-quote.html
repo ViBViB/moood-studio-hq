@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preoptima Brand Proposal | Moood.Studio</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('../assets/fonts/HelveticaNowDisplay-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* Modern 2-Column Proposal Layout (Sync with Portal Aesthetic) */
+        :root {
+            --sidebar-width: 30%;
+            --accent-color: #000;
+            --gray-light: #f5f5f5;
+            --gray-mid: #e0e0e0;
+            --transition-speed: 0.8s;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: #fff;
+            padding-bottom: 0;
+            display: flex;
+            flex-direction: row;
+            font-family: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .q-layout {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* LEFT SIDEBAR */
+        .q-sidebar {
+            width: var(--sidebar-width);
+            background: #000;
+            color: #fff;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 100;
+        }
+
+        .q-sidebar .logo-img {
+            height: 48px;
+            width: auto;
+            filter: invert(1) brightness(100);
+            display: block;
+            margin-bottom: 40px;
+        }
+
+        .q-h1 {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .client-name {
+            font-size: clamp(28px, 3vw, 42px);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: #fff;
+            margin: 0 0 64px 0;
+        }
+
+        .proposal-index {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .index-item {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .index-item.active {
+            color: #fff;
+            padding-left: 8px;
+        }
+
+        .index-number {
+            font-size: 9px;
+            opacity: 0.4;
+            font-weight: 700;
+        }
+
+        /* RIGHT CONTENT AREA */
+        .q-main {
+            flex: 1;
+            background: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .proposal-header {
+            width: 100%;
+            height: 100px;
+            padding: 0 80px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 16px;
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .btn-proposal {
+            padding: 16px 32px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: #000;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-download {
+            background: #fff;
+            color: #000;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-proposal:hover {
+            transform: translateY(-1px);
+        }
+
+        .q-slider-viewport {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+        }
+
+        .q-slider-viewport::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .q-slider-viewport::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .q-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            padding: 80px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .q-slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Typography */
+        .slide-h2 {
+            font-size: clamp(32px, 4vw, 56px);
+            font-weight: 300;
+            line-height: 1.1;
+            color: #000;
+            margin: 0;
+            margin-bottom: .25em;
+        }
+
+        .slide-sub,
+        .intro {
+            font-size: 32px;
+            color: #000;
+            line-height: 1.2;
+            font-weight: 300;
+            margin-bottom: 32px;
+            letter-spacing: -0.02em;
+        }
+
+        .slide-body,
+        .normal {
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.8);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: .5px;
+        }
+
+        .slide-h3 {
+            font-size: 32px;
+            font-weight: 300;
+            line-height: 1.2;
+            color: #000;
+            margin-bottom: .25em;
+            margin-top: 0;
+        }
+
+        .slide-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.05);
+            width: 100%;
+            margin: 4em 0;
+        }
+
+        .slide-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(0, 0, 0, 0.3);
+            margin-bottom: 64px;
+        }
+
+        .content-block {
+            margin-bottom: 3em;
+        }
+
+        .grid-tech {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .tech-card {
+            padding: 32px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+        }
+
+        .tech-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        /* Table Style for Phase 4 */
+        .toolkit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+
+        .toolkit-table th {
+            text-align: left;
+            padding: 16px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+        }
+
+        .toolkit-table td {
+            padding: 24px 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        .level-tag {
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .q-nav {
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-nav {
+            background: #fff;
+            color: #000;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            padding: 24px 48px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            min-width: 240px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nav:hover {
+            border-color: #000;
+            background: #f9f9f9;
+        }
+
+        .btn-nav:disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            .q-sidebar {
+                width: 100%;
+                height: auto;
+                padding: 40px 24px;
+            }
+
+            .q-main {
+                min-height: 100vh;
+            }
+
+            .q-slider-viewport {
+                height: auto;
+            }
+
+            .q-slide {
+                position: relative;
+                opacity: 1;
+                visibility: visible;
+                height: auto;
+                padding: 40px 24px;
+            }
+
+            .q-nav {
+                padding: 24px;
+                flex-direction: column-reverse;
+                gap: 16px;
+            }
+
+            .btn-nav {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="q-layout">
+
+        <aside class="q-sidebar">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/images/moood-logo.svg" alt="Moood.Studio" class="logo-img">
+                </a>
+            </div>
+
+            <div class="q-sidebar-main">
+                <h1 class="q-h1">Branding Project Proposal</h1>
+                <h2 class="client-name">Preoptima Brand Evolution</h2>
+
+                <ul class="proposal-index">
+                    <li class="index-item active" onclick="goToSlide(1)"><span class="index-number">01</span> The Vision
+                    </li>
+                    <li class="index-item" onclick="goToSlide(2)"><span class="index-number">02</span> The Diagnosis
+                    </li>
+                    <li class="index-item" onclick="goToSlide(3)"><span class="index-number">03</span> The Roadmap</li>
+                    <li class="index-item" onclick="goToSlide(4)"><span class="index-number">04</span> The Brand Toolkit
+                        (Final Deliverables)
+                    </li>
+                    <li class="index-item" onclick="goToSlide(5)"><span class="index-number">05</span> Commercial Terms</li>
+                </ul>
+            </div>
+
+            <div class="q-sidebar-footer" style="margin-top: 40px;">
+                <p style="font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; opacity: 1;">
+                    MOOOD.STUDIO / STRATEGIC OFFICE
+                </p>
+            </div>
+        </aside>
+
+        <main class="q-main">
+
+            <header class="proposal-header">
+                <a href="preoptima-quote.pdf" download="Preoptima_Proposal_Moood.Studio.pdf" class="btn-proposal btn-download" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Download Proposal (PDF)</a>
+                <button class="btn-proposal btn-approve">Approve Proposal</button>
+            </header>
+
+            <div class="q-slider-viewport" id="sliderViewport">
+
+                <!-- PAGE 1: THE VISION -->
+                <div class="q-slide active" data-index="1">
+                    <div class="slide-content">
+                        <label class="slide-label">The Vision</label>
+                        <h2 class="slide-h2">Bridging Science and Design: <br> New visual identity for Preoptima.</h2>
+                        <div class="content-block">
+
+                            <p class="normal">Evolving 25 years of world-class academic research into a fast-moving,
+                                innovative climate tech brand.</p>
+                        </div>
+
+                        <div class="slide-divider"></div>
+
+                        <div class="content-block">
+                            <h2 class="slide-h3">The Mission</h2>
+                            <p class="normal">Aligning your visual identity with your goal of making whole-life carbon
+                                reduction simple, actionable, and impactful.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: THE DIAGNOSIS -->
+                <div class="q-slide" data-index="2">
+                    <div class="slide-content">
+                        <label class="slide-label">The Diagnosis</label>
+                        <h2 class="slide-h2">From Generic to Global.</h2>
+
+                        <div class="slide-divider"></div>
+
+                        <div class="slide-body">
+                            <h3 class="slide-h3" style="font-size: 32px; font-weight: 300;">The Current Challenge</h3>
+                            <p style="margin-bottom: 32px;">You’ve identified that the current logo feels generic and
+                                the colors are restrictive.</p>
+
+                            <h3 class="slide-h3">The Opportunity</h3>
+                            <p style="margin-bottom: 32px;">To replace the "stock" feel with a bespoke identity that
+                                reflects your status as an innovative startup at the intersection of climate tech and
+                                digital planning.</p>
+                            <div
+                                style="padding: 32px; background: #f9f9f9; border-left: 2.5px solid #000; margin-top: 48px;">
+                                <h3 class="slide-h3" style="margin-top: 0; color: #000;">Strategic Resilience</h3>
+                                <p>We recognize the internal discussions regarding the company name. This system is
+                                    built to be flexible, ensuring visual stability regardless of future naming
+                                    decisions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: THE ROADMAP -->
+                <div class="q-slide" data-index="3">
+                    <div class="slide-content">
+                        <label class="slide-label">The Roadmap</label>
+                        <h2 class="slide-h2">Concrete Phases</h2>
+
+                        <div class="slide-divider"></div>
+
+                        <div class="grid-tech">
+                            <div class="tech-card">
+                                <h3 class="slide-h3" style="margin-top: 0;">01. Discovery</h3>
+                                <p class="slide-body" style="font-size: 14px;">Analysis of your mission to empower both
+                                    sectors in achieving Net Zero goals.</p>
+                            </div>
+                            <div class="tech-card">
+                                <h3 class="slide-h3" style="margin-top: 0;">02. Design</h3>
+                                <p class="slide-body" style="font-size: 14px;"><strong>Architectural Logo:</strong>
+                                    Engineering a unique symbol. <br><strong>Dual-Platform Logic:</strong> CONCEPT vs
+                                    PACER visual language.</p>
+                            </div>
+                            <div class="tech-card">
+                                <h3 class="slide-h3" style="margin-top: 0;">03. Refinement</h3>
+                                <p class="slide-body" style="font-size: 14px;">Precision-tuning the selected direction
+                                    through collaborative feedback rounds.</p>
+                            </div>
+                            <div class="tech-card">
+                                <h3 class="slide-h3" style="margin-top: 0;">04. Launch</h3>
+                                <p class="slide-body" style="font-size: 14px;">Delivery of a full digital toolkit for
+                                    website, LinkedIn, and international events.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- PAGE 4: THE BRAND TOOLKIT -->
+                <div class="q-slide" data-index="4">
+                    <div class="slide-content">
+                        <label class="slide-label">The Brand Toolkit</label>
+                        <h2 class="slide-h2">Final Deliverables</h2>
+
+                        <div class="slide-divider"></div>
+
+                        <div class="content-block">
+                            <h3 class="slide-h3">A. The Brand Styleguide</h3>
+                            <p class="normal">A comprehensive guide establishing the rules of your new visual identity,
+                                ensuring consistency across all future touchpoints.</p>
+                        </div>
+
+                        <div class="content-block">
+                            <h3 class="slide-h3">B. Color Architecture</h3>
+                            <p class="normal">Strategic color palette featuring <strong>Core Brand Colors</strong> for
+                                authority,
+                                <strong>Product Colors</strong> (CONCEPT vs. PACER), and <strong>Data Tones</strong> for
+                                technical carbon
+                                assessments.
+                            </p>
+                        </div>
+
+                        <div class="content-block">
+                            <h3 class="slide-h3">C. Typographic System</h3>
+                            <p class="normal">Double-layer typographic logic: High-impact headlines for brand presence
+                                and precision-engineered mono types for carbon metrics and UI data.</p>
+                        </div>
+
+                        <div class="content-block">
+                            <h3 class="slide-h3">D. Digital Assets & Master Suite</h3>
+                            <p class="normal">Full collection of master logo files (.AI, .SVG, .PNG, .PDF) and a
+                                specialized social media kit for LinkedIn brand dominance.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- PAGE 5: COMMITMENT -->
+                <div class="q-slide" data-index="5">
+                    <div class="slide-content">
+                        <label class="slide-label">INVESTMENT</label>
+                        <h2 class="slide-h2">Commercial Terms</h2>
+
+                        <div class="grid-tech" style="margin-bottom: 64px; margin-top: 32px;">
+                            <div class="tech-card" style="background: #000; color: #fff; border: none; padding: 48px;">
+                                <h3 class="slide-h3"
+                                    style="color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 600; margin-top: 0; margin-bottom: 16px; letter-spacing: 0.1em;">
+                                    INVESTMENT</h3>
+                                <p style="font-size: 48px; font-weight: 400; margin-top: 8px; letter-spacing: -0.02em;">
+                                    $2,500 <span
+                                        style="font-size: 16px; opacity: 0.5; font-weight: 600; letter-spacing: 0.05em;">USD</span>
+                                </p>
+                            </div>
+                            <div class="tech-card" style="padding: 48px;">
+                                <h3 class="slide-h3"
+                                    style="color: rgba(0,0,0,0.4); font-size: 14px; font-weight: 600; margin-top: 0; margin-bottom: 16px; letter-spacing: 0.1em;">
+                                    TIMELINE
+                                </h3>
+                                <p style="font-size: 48px; font-weight: 400; margin-top: 8px; letter-spacing: -0.02em;">
+                                    2–3 <span
+                                        style="font-size: 16px; opacity: 0.5; font-weight: 600; letter-spacing: 0.05em;">WEEKS</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="slide-body" style="padding-bottom: 80px;">
+                            <h3 class="slide-h3">Payment Terms</h3>
+                            <p style="margin-bottom: 32px;">50% Activation / 50% Final Delivery.</p>
+
+                            <div class="slide-divider"></div>
+
+                            <p
+                                style="font-size: 28px; font-weight: 300; line-height: 1.4; color: #000; margin-top: 64px; text-align: center;">
+                                Let’s build a brand that is as intuitive and impactful as the tools you create.
+                            </p>
+                            <p
+                                style="font-size: 12px; color: rgba(0,0,0,0.8); letter-spacing: 0.1em; margin-top: 16px; text-align: center;">
+                                Moood.Studio, April 2, 2026
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <nav class="q-nav" id="qNav">
+                <button class="btn-nav" id="btnPrev" disabled onclick="prevSlide()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 12H6M6 12L11 17M6 12L11 7" stroke="black" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <button class="btn-nav" id="btnNext" onclick="nextSlide()">
+                    <span>Next Chapter</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="black" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </nav>
+
+        </main>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 5;
+        const slides = document.querySelectorAll('.q-slide');
+        const indexItems = document.querySelectorAll('.index-item');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index + 1 === currentSlide) slide.classList.add('active');
+            });
+
+            indexItems.forEach((item, index) => {
+                item.classList.remove('active');
+                if (index + 1 === currentSlide) item.classList.add('active');
+            });
+
+            btnPrev.disabled = currentSlide === 1;
+            btnNext.style.visibility = currentSlide === totalSlides ? 'hidden' : 'visible';
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides) { currentSlide++; updateSlider(); } }
+        function prevSlide() { if (currentSlide > 1) { currentSlide--; updateSlider(); } }
+        function goToSlide(n) { currentSlide = n; updateSlider(); }
+    </script>
+</body>
+
+</html>
