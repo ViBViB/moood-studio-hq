@@ -30,22 +30,29 @@
             color: #000;
             font-family: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 80px;
-            text-align: left;
+            padding: 40px;
+            text-align: center;
         }
 
         .thank-you-container {
             max-width: 600px;
             width: 100%;
+            margin-top: 80px; /* Space for fixed logo */
+        }
+
+        .logo-thankyou-wrapper {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 100;
         }
 
         .logo-thankyou {
             height: 48px;
-            margin-bottom: 64px;
         }
 
         .headline {
@@ -137,11 +144,13 @@
     </style>
 </head>
 <body>
-    <div class="thank-you-container">
+    <div class="logo-thankyou-wrapper">
         <a href="../index.html">
             <img src="../assets/images/moood-logo.svg" alt="Moood.Studio" class="logo-thankyou">
         </a>
-        
+    </div>
+
+    <div class="thank-you-container">
         <h1 class="headline">Thank you, Alex!</h1>
         <p class="sub-headline">We are officially ready to build the future of Preoptima.</p>
 
