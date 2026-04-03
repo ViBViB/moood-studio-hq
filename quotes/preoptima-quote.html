@@ -660,6 +660,16 @@
         function prevSlide() { if (currentSlide > 1) { currentSlide--; updateSlider(); } }
         function goToSlide(n) { currentSlide = n; updateSlider(); }
 
+        // Data Recovery: Extract client info from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const clientEmail = urlParams.get('client_email');
+        const clientNameInUrl = urlParams.get('client_name');
+
+        if (clientNameInUrl) {
+            // Option: Personlize UI with client name if present
+            console.log("Proposal personalized for:", clientNameInUrl);
+        }
+
         async function approveProposal() {
             const btn = document.getElementById('btnApprove');
             const originalText = btn.innerText;
@@ -674,7 +684,8 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        clientName: 'Preoptima',
+                        clientName: clientNameInUrl || 'Preoptima',
+                        clientEmail: clientEmail || 'Not Provided',
                         projectName: 'Preoptima Brand Evolution',
                         status: 'Approved'
                     })
