@@ -1730,7 +1730,7 @@ body {
 
     .c-carousel {
         height: 35vh; 
-        margin-top: 1vh; /* Further reduced */
+        margin-top: 5vh; /* Increased gap from P to Carousel */
         margin-bottom: auto;
     }
 
@@ -1746,7 +1746,14 @@ body {
 
     .c-hero--m-joshua .c-hero__title {
         font-size: clamp(2rem, 11vw, 3rem); /* Reduced to fit in one line */
-        margin-bottom: 0.2em;
+        margin-bottom: 0.25em;
+    }
+
+    .c-hero__desc {
+        max-width: 75%; /* Forces two lines and keeps it narrower than H1 */
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.4;
     }
 
     .c-drawer {
