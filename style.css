@@ -593,35 +593,34 @@ body {
     font-size: clamp(40px, 5vw, 72px);
     font-weight: 400;
     line-height: 1.1;
-    margin-bottom: 20px; /* Reduced to accommodate secondary link */
+    margin-bottom: 40px; /* Restored original spacing */
     letter-spacing: -0.01em;
     color: #000;
 }
 
 .cta-link-wrapper {
-    margin-bottom: 40px; /* Space between link and main button */
+    margin-top: 32px; /* Separation from the main button */
     display: flex;
     justify-content: center;
 }
 
 .cta-link {
     font-family: var(--font-h);
-    font-size: clamp(14px, 0.9vw, 16px);
-    font-weight: 500;
-    letter-spacing: 0.15em;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-black);
     text-decoration: none;
     opacity: 0.4;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
 }
 
 .cta-link:hover {
-    opacity: 1;
-    gap: 12px;
+    opacity: 0.8;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
 }
 
 /* CTA Button - White background */
