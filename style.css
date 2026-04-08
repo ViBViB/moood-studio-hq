@@ -1716,69 +1716,7 @@ body {
     .c-drawer { width: 50vw; } 
 }
 
-@media (max-width: 768px) {
-    .c-hero {
-        padding-top: 40px;
-    }
 
-    .c-carousel {
-        height: 35vh; 
-        margin-top: 5vh; /* Increased gap from P to Carousel */
-        margin-bottom: auto;
-    }
-
-    .c-carousel__track {
-        gap: 1.5rem; 
-        padding: 0 5vw;
-    }
-
-    .c-card-work {
-        flex: 0 0 65vw; 
-        padding: 1.5rem;
-    }
-
-    .c-hero--m-joshua .c-hero__title {
-        font-size: clamp(2rem, 11vw, 3rem); /* Reduced to fit in one line */
-        margin-bottom: 0.25em;
-    }
-
-    .c-hero__desc {
-        max-width: 75%; /* Forces two lines and keeps it narrower than H1 */
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.4;
-    }
-
-    .c-drawer {
-        width: 100vw !important; /* Full screen on mobile */
-    }
-
-    .c-drawer__visual {
-        padding: 16px 12px 12px 12px; /* Fixed anchor for title */
-    }
-
-    .c-drawer__close {
-        top: 16px; /* Match title top edge */
-        right: 12px;
-        padding: 0; /* Clear padding for direct positioning */
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-
-    .c-drawer__title {
-        font-size: 1.6rem;
-        margin: 0; /* Remove margin to align with padding edge */
-        line-height: 1.2;
-    }
-
-    .c-drawer__divider {
-        margin: 10px 0 10px 0;
-    }
-}
 
 
 
@@ -1856,4 +1794,68 @@ body {
     opacity: 0;
     filter: blur(10px);
     pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .c-hero {
+        padding-top: 40px;
+    }
+
+    .c-carousel {
+        height: 35vh; 
+        margin-top: 5vh; /* Increased gap from P to Carousel */
+        margin-bottom: auto;
+    }
+
+    .c-carousel__track {
+        gap: 1.5rem; 
+        padding: 0 5vw;
+    }
+
+    .c-card-work {
+        flex: 0 0 65vw; 
+        padding: 1.5rem;
+    }
+
+    .c-hero--m-joshua .c-hero__title {
+        font-size: clamp(2rem, 11vw, 3rem); /* Reduced to fit in one line */
+        margin-bottom: 0.25em;
+    }
+
+    .c-hero__desc {
+        max-width: 75%; /* Forces two lines and keeps it narrower than H1 */
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.4;
+    }
+
+    .c-drawer {
+        width: 100vw !important; /* Full screen on mobile */
+    }
+
+    .c-drawer__visual {
+        padding: 16px 12px 12px 12px; /* Fixed anchor for title */
+    }
+
+    .c-drawer__close {
+        top: 16px !important; /* Forced override of base style */
+        right: 12px !important;
+        padding: 0; 
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .c-drawer__title {
+        font-size: 1.6rem;
+        margin: 0; 
+        line-height: 1.2;
+    }
+
+    .c-drawer__divider {
+        margin: 10px 0 10px 0;
+    }
 }
