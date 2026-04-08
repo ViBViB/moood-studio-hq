@@ -1766,22 +1766,23 @@ body {
     }
 
     .c-drawer__visual {
-        padding: 12px; /* Brutally reduced for content focus */
+        padding: 15px 12px 12px 12px; /* Uniform low padding */
     }
 
     .c-drawer__close {
-        top: 15px;
-        right: 15px;
+        top: 12px;
+        right: 12px;
+        padding: 5px; /* Minimal padding to avoid push */
     }
 
     .c-drawer__title {
         font-size: 1.6rem;
-        margin-bottom: 10px;
-        margin-top: 40px; /* Space for the closer */
+        margin: 0; /* Remove margin to align with padding edge */
+        line-height: 1.2;
     }
 
     .c-drawer__divider {
-        margin: 5px 0 10px 0;
+        margin: 10px 0 10px 0;
     }
 }
 
