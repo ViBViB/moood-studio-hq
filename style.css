@@ -224,8 +224,11 @@ body {
 
 /* Logo positioning */
 .logo {
-    display: inline-block;
-    color: #000;
+    position: fixed;
+    top: 40px;
+    right: 50px;
+    z-index: 1000;
+    pointer-events: none; /* Let clicks pass through to whatever is behind (like close buttons) */
 }
 
 .logo img,
