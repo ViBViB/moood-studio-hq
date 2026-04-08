@@ -75,7 +75,8 @@ function initInfinite() {
             track.appendChild(clone);
         });
     }
-    const cardWidth = cards[0].offsetWidth + 48;
+    const gap = parseFloat(getComputedStyle(track).gap) || 0;
+    const cardWidth = cards[0].offsetWidth + gap;
     autoScroll = -cardWidth * cardCount;
     requestAnimationFrame(updateLoop);
 }

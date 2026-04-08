@@ -1720,8 +1720,39 @@ body {
 }
 
 @media (min-width: 1400px) {
-    .c-drawer { width: 50vw; } /* Premium desktop width */
+    .c-drawer { width: 50vw; } 
 }
+
+@media (max-width: 768px) {
+    .c-carousel {
+        height: 35vh; 
+    }
+
+    .c-carousel__track {
+        gap: 1.5rem; 
+        padding: 0 5vw;
+    }
+
+    .c-card-work {
+        flex: 0 0 65vw; 
+        padding: 1.5rem;
+    }
+
+    .c-drawer__visual {
+        padding: 30px 20px 20px 20px; 
+    }
+
+    .c-drawer__title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .c-drawer__divider {
+        margin: 5px 0 20px 0;
+    }
+}
+
+
 
 
 .c-drawer__close {
