@@ -1726,6 +1726,8 @@ body {
 @media (max-width: 768px) {
     .c-carousel {
         height: 35vh; 
+        margin-top: 2vh; /* Reduced gap from P to Carousel */
+        margin-bottom: auto;
     }
 
     .c-carousel__track {
@@ -1739,16 +1741,21 @@ body {
     }
 
     .c-drawer__visual {
-        padding: 30px 20px 20px 20px; 
+        padding: 20px; /* Reduced to 20px as requested */
+    }
+
+    .c-drawer__close {
+        top: 20px;
+        right: 20px;
     }
 
     .c-drawer__title {
         font-size: 1.8rem;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     .c-drawer__divider {
-        margin: 5px 0 20px 0;
+        margin: 5px 0 15px 0;
     }
 }
 
