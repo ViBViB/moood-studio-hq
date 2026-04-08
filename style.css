@@ -1,3 +1,20 @@
+:root {
+    /* Vault Core Tokens (Grayscale) */
+    --color-bg: #FFFFFF;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-gray-90: #E5E5E5;
+    --font-h: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
+    /* Display Scales */
+    --font-size-display: clamp(4rem, 10vw, 10rem);
+    --font-size-h1: clamp(2.5rem, 6vw, 5rem);
+    
+    /* Layout & Spacing */
+    --container-max: 2056px;
+    --space-section: clamp(4rem, 8vw, 8rem);
+}
+
 @font-face {
     font-family: 'Helvetica Now Display';
     src: url('assets/fonts/HelveticaNowDisplay-Light.otf') format('opentype');
@@ -1461,4 +1478,314 @@ body {
 .portal-close-btn:hover {
     background: rgba(255, 255, 255, 0.9);
     transform: scale(1.05);
+}
+
+/* ==========================================================================
+   🏛️ VAULT COMPONENT: c-hero (MASTER RECONSTRUCTION)
+   Variant: Joshua (Modified - Center Only)
+   ========================================================================== */
+
+.works-page {
+    overflow: hidden;
+    height: 100vh;
+}
+
+
+.c-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-bg);
+    color: var(--color-black);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 5vh; /* Space for dial */
+}
+
+.c-hero--viewport { height: 100vh; }
+
+.c-hero--m-joshua {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* REQUIRED for the auto-margin centering trick */
+    padding-top: 40px; /* Rigor: Fixed gap from top */
+}
+
+.c-hero__logo {
+    position: static; /* No longer absolute */
+    margin-bottom: 32px; /* Gap between logo and label */
+    z-index: 10;
+}
+
+.c-hero__logo img {
+    height: clamp(32px, 3.5vw, 42px);
+    width: auto;
+    display: block;
+}
+
+.c-hero__container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 5vw; /* Removed top padding to inherit from hero section */
+    display: flex;
+    justify-content: center;
+}
+
+.c-hero__visual {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.c-hero__visual .c-visual-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    object-fit: cover;
+}
+
+.c-hero__content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.c-hero__label {
+    display: inline-block;
+    font-family: var(--font-h);
+    font-size: clamp(11px, 0.8vw, 12px); /* Fluid typography */
+    font-weight: 500;
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 4em; /* Massively expanded as requested */
+    margin-right: -4em; /* Compensation to keep it centered despite trailing spacing */
+    margin-bottom: 24px; /* Gap between label and title */
+}
+
+.c-hero__title {
+    font-family: var(--font-h);
+    font-size: var(--font-size-h1);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--color-black);
+    margin: 0;
+}
+
+.c-hero--m-joshua .c-hero__title {
+    font-size: var(--font-size-display);
+    font-weight: 400;
+}
+
+/* ==========================================================================
+   🎡 COMPONENT: c-carousel (Infinite Sliding Engine)
+   ========================================================================== */
+
+.c-carousel {
+    position: relative;
+    width: 100vw;
+    height: 38vh;
+    z-index: 10;
+    perspective: 1000px; /* Reduced for more dramatic 3D depth */
+    overflow: visible;
+    margin: auto 0; /* Mathematically centers carousel in the available gap between H1 and Dial */
+    cursor: grab;
+}
+
+.c-carousel:active { cursor: grabbing; }
+
+.c-carousel__track {
+    display: flex;
+    gap: 3rem;
+    padding: 0 10vw;
+    height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.c-card-work {
+    flex: 0 0 22vw;
+    height: 100%;
+    background-color: var(--color-gray-96);
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem;
+    transform-style: preserve-3d;
+    /* No CSS transition for transform to allow direct JS physics control */
+    will-change: transform;
+    user-select: none;
+}
+
+.c-card-work:hover {
+    background-color: var(--color-gray-90);
+    border-color: rgba(0,0,0,0.1);
+}
+
+.c-card-work__visual {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-gray-90);
+    background-size: cover;
+    background-position: top center; /* Focus on the top part as requested */
+    z-index: 1;
+}
+
+.c-card-work__label {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-h);
+    font-size: clamp(10px, 0.75vw, 11px); /* Fluid typography */
+    letter-spacing: 0.1em;
+    text-transform: capitalize; /* Updated to Cap Sentence */
+    color: var(--color-black);
+    opacity: 0.6;
+}
+
+/* 📏 COMPONENT: c-dial (Full Screen Indicator - HARD FIXED) */
+.c-dial {
+    position: absolute;
+    bottom: 5vh;
+    left: 0;
+    width: 100vw !important; /* Force full width */
+    height: 80px;
+    z-index: 20;
+    overflow: hidden;
+    /* Tightened mask to ensure lines go edge-to-edge but fade out slightly at 1% */
+    mask-image: linear-gradient(to right, transparent, black 1%, black 99%, transparent);
+}
+
+.c-dial__track {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px; /* Slightly tighter gap */
+    height: 100%;
+    width: max-content;
+    padding: 0; /* Removed padding to occupy full width */
+    will-change: transform;
+}
+
+
+.c-dial__line {
+    width: 1px;
+    height: 12px;
+    background-color: #bbbbbb; /* Mid-gray for better baseline visibility */
+    transition: height 0.2s ease, background-color 0.2s ease;
+}
+
+.c-dial__line--active {
+    height: 32px;
+    background-color: var(--color-black);
+    width: 2px;
+}
+
+/* 🖼️ COMPONENT: c-drawer (Action Panel - RIGHT SIDE MOD) */
+.c-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 80vw; /* Default for smaller screens and tablets */
+    z-index: 100;
+    background-color: var(--color-white);
+    display: flex;
+    transform: translateX(100%);
+    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+    visibility: hidden;
+    border-left: 1px solid var(--color-gray-90);
+    box-shadow: -20px 0 50px rgba(0,0,0,0.05);
+}
+
+.c-drawer.active {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+@media (min-width: 1400px) {
+    .c-drawer { width: 50vw; } /* Premium desktop width */
+}
+
+
+.c-drawer__close {
+    position: absolute;
+    top: 40px;
+    right: 40px; /* Moved close button to top right to keep it over the info panel */
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 110;
+    color: var(--color-black);
+    padding: 1rem;
+    transition: transform 0.3s ease;
+}
+
+
+.c-drawer__close:hover { transform: rotate(90deg); }
+
+.c-drawer__container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.c-drawer__visual {
+    flex: 1;
+    height: 100%;
+    background-color: var(--color-gray-96);
+    overflow-y: auto; /* Allow scrolling for full image visibility */
+    display: flex;
+    flex-direction: column;
+    padding: 40px 40px 40px 40px; /* Aligned with .c-drawer__close top: 40px */
+}
+
+.c-drawer__visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-gray-90); /* Subtle border for image definition */
+}
+
+/* Redundant info column removed for single-column architecture */
+
+
+.c-drawer__title {
+    font-family: var(--font-h);
+    font-size: clamp(1.8rem, 3vw, 2.5rem); 
+    margin-bottom: 20px; /* Reduced for precise 40px total gap */
+    font-weight: 400;
+    text-transform: capitalize; 
+    color: var(--color-black);
+}
+
+.c-drawer__divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-black);
+    margin: 10px 0; /* Total gap: 20px (h2) + 10px + 10px = 40px Gap */
+    opacity: 0.15;
+}
+
+
+.c-drawer__desc { display: none; } /* Removed as per request */
+
+
+/* Utility: Content Fade */
+.content-to-fade {
+    transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+.content-to-fade.faded {
+    opacity: 0;
+    filter: blur(10px);
+    pointer-events: none;
 }
