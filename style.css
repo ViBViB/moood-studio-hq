@@ -1744,6 +1744,11 @@ body {
         padding: 1.5rem;
     }
 
+    .c-card-work__label {
+        display: none; /* Hidden on mobile as requested */
+    }
+
+
     .c-hero--m-joshua .c-hero__title {
         font-size: clamp(2rem, 11vw, 3rem); /* Reduced to fit in one line */
         margin-bottom: 0.25em;
