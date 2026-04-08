@@ -1577,12 +1577,21 @@ body {
     line-height: 0.85;
     letter-spacing: -0.02em;
     color: var(--color-black);
-    margin: 0;
+    margin: 0 0 0.3em 0; /* Updated gap */
+}
+
+.c-hero__desc {
+    font-family: var(--font-h);
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem); /* Increased and fluid */
+    color: var(--color-black);
+    opacity: 0.5;
+    font-weight: 300;
 }
 
 .c-hero--m-joshua .c-hero__title {
     font-size: var(--font-size-display);
     font-weight: 400;
+    margin-bottom: 0.3em;
 }
 
 /* ==========================================================================
