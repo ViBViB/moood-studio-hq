@@ -1650,14 +1650,7 @@ body {
 }
 
 .c-card-work__label {
-    position: relative;
-    z-index: 2;
-    font-family: var(--font-h);
-    font-size: clamp(10px, 0.75vw, 11px); /* Fluid typography */
-    letter-spacing: 0.1em;
-    text-transform: capitalize; /* Updated to Cap Sentence */
-    color: var(--color-black);
-    opacity: 0.6;
+    display: none; /* Globally hidden to maintain visual purity */
 }
 
 /* 📏 COMPONENT: c-dial (Full Screen Indicator - HARD FIXED) */
@@ -1743,11 +1736,6 @@ body {
         flex: 0 0 65vw; 
         padding: 1.5rem;
     }
-
-    .c-card-work__label {
-        display: none; /* Hidden on mobile as requested */
-    }
-
 
     .c-hero--m-joshua .c-hero__title {
         font-size: clamp(2rem, 11vw, 3rem); /* Reduced to fit in one line */
