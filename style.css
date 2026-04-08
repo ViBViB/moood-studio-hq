@@ -1724,9 +1724,13 @@ body {
 }
 
 @media (max-width: 768px) {
+    .c-hero {
+        padding-top: 40px;
+    }
+
     .c-carousel {
         height: 35vh; 
-        margin-top: 2vh; /* Reduced gap from P to Carousel */
+        margin-top: 1vh; /* Further reduced */
         margin-bottom: auto;
     }
 
@@ -1740,22 +1744,27 @@ body {
         padding: 1.5rem;
     }
 
+    .c-drawer {
+        width: 100vw !important; /* Full screen on mobile */
+    }
+
     .c-drawer__visual {
-        padding: 20px; /* Reduced to 20px as requested */
+        padding: 12px; /* Brutally reduced for content focus */
     }
 
     .c-drawer__close {
-        top: 20px;
-        right: 20px;
+        top: 15px;
+        right: 15px;
     }
 
     .c-drawer__title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         margin-bottom: 10px;
+        margin-top: 40px; /* Space for the closer */
     }
 
     .c-drawer__divider {
-        margin: 5px 0 15px 0;
+        margin: 5px 0 10px 0;
     }
 }
 
