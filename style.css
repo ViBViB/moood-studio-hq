@@ -1754,14 +1754,20 @@ body {
     }
 
     .c-drawer__visual {
-        padding: 15px 12px 12px 12px; /* Uniform low padding */
+        padding: 16px 12px 12px 12px; /* Fixed anchor for title */
     }
 
     .c-drawer__close {
-        top: 12px;
+        top: 16px; /* Match title top edge */
         right: 12px;
-        padding: 5px; /* Minimal padding to avoid push */
+        padding: 0; /* Clear padding for direct positioning */
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
+
 
     .c-drawer__title {
         font-size: 1.6rem;
