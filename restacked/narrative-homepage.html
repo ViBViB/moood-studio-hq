@@ -12,9 +12,10 @@
         .nv-section { position: relative; }
 
         .nv-feedback-toggle {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 6px;
+            width: fit-content;
             margin-top: 40px;
             padding: 8px 14px;
             font-size: 11px;
@@ -436,7 +437,7 @@ function renderHero(section, index) {
                 ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
                 <h1 class="nv-hero__h1">${c.h1}</h1>
                 ${c.description ? `<p class="nv-hero__description">${c.description}</p>` : ''}
-                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2rem;display:inline-block">${c.cta.label}</a>` : ''}
+                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2rem;display:inline-flex">${c.cta.label}</a>` : ''}
                 ${renderFeedbackBlock(section.id)}
             </div>
         </section>`;
