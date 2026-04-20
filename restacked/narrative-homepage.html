@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restacked.ai — Narrative Review — Moood.Studio</title>
+    <meta name="description" content="Restacked.ai homepage narrative review document by Moood.Studio">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── COMMENTING SYSTEM ── */
+        .nv-section { position: relative; }
+
+        .nv-feedback-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 40px;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #999;
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .nv-feedback-toggle:hover { border-color: #000; color: #000; }
+        .nv-feedback-toggle svg { width: 12px; height: 12px; }
+
+        .nv-feedback-panel {
+            display: none;
+            margin-top: 16px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .nv-feedback-panel.open { display: block; }
+
+        .nv-feedback-form {
+            padding: 20px 24px;
+            background: #f7f7f7;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .nv-feedback-form input,
+        .nv-feedback-form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #fff;
+            color: #1a1a1a;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.15s;
+            outline: none;
+        }
+        .nv-feedback-form input:focus,
+        .nv-feedback-form textarea:focus { border-color: #000; }
+        .nv-feedback-form textarea { min-height: 80px; }
+
+        .nv-feedback-form-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .nv-feedback-form-row input { flex: 1; }
+
+        .nv-feedback-submit {
+            height: 40px;
+            padding: 0 20px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+            flex-shrink: 0;
+        }
+        .nv-feedback-submit:hover { opacity: 0.75; }
+        .nv-feedback-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .nv-comments-list {
+            background: #fff;
+        }
+        .nv-comments-list:empty { display: none; }
+
+        .nv-comment {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+        .nv-comment:last-child { border-bottom: none; }
+
+        .nv-comment__avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #000;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.04em;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .nv-comment__body {}
+        .nv-comment__header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        .nv-comment__name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .nv-comment__time {
+            font-size: 11px;
+            color: #aaa;
+        }
+        .nv-comment__text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .nv-feedback-empty {
+            padding: 16px 24px;
+            font-size: 12px;
+            color: #bbb;
+            font-style: italic;
+        }
+
+        .nv-db-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 3px;
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            color: #999;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .nv-db-status.visible { opacity: 1; }
+        .nv-db-status.error { background: #fff0f0; border-color: #fcc; color: #c00; }
+    </style>
+</head>
+<body>
+
+<div class="nv-layout" id="app">
+    <div class="nv-loading">Loading narrative...</div>
+</div>
+<div class="nv-db-status" id="db-status"></div>
+
+<!-- Firebase SDK via CDN (compat mode — works in vanilla HTML) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  MOOOD.STUDIO — NARRATIVE VIEWER + COMMENTING
+//  Restacked.ai · Homepage · April 2026 · v1.0
+// ═══════════════════════════════════════════════════════
+
+// ── FIREBASE CONFIG ──────────────────────────────────
+const firebaseConfig = {
+    apiKey: "AIzaSyBs2PMfYylGJWJCrqt6puGMqqlzmeWA9-4",
+    authDomain: "moood-studio.firebaseapp.com",
+    projectId: "moood-studio",
+    storageBucket: "moood-studio.firebasestorage.app",
+    messagingSenderId: "58413737137",
+    appId: "1:58413737137:web:c680ac21d21bac17a4ee90"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Unique ID for this narrative document
+const NARRATIVE_ID = "restacked-homepage";
+
+// ── NARRATIVE DATA ────────────────────────────────────
+const NARRATIVE_DATA = {
+    "meta": {
+        "project": "Restacked.ai",
+        "client": "Restacked Team",
+        "page": "Homepage",
+        "date": "April 2026",
+        "version": "v1.0",
+        "status": "Pending Approval"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "label": "Hero",
+            "content": {
+                "eyebrow": null,
+                "h1": "Your AI tools know everything. Except your business.",
+                "description": "Restacked injects your real schema, auth, integrations, and business rules into every AI tool your team uses — before anyone writes a prompt. Configure once. Every tool starts connected."
+            }
+        },
+        {
+            "id": "sound-familiar",
+            "type": "section",
+            "label": "Sound Familiar?",
+            "content": {
+                "eyebrow": "The Pattern",
+                "h2": "Sound familiar?",
+                "p": "The vibe coder who shipped a beautiful demo — on a fake database. Three days later, production was a different product.\n\nThe non-dev who built something with Claude and broke staging. Because Claude didn't know your auth.\n\nV81 of the \"simple dashboard\" that still doesn't connect to real data. Because every new session forgets everything the last one learned.\n\nThe developer who spent Tuesday explaining your schema to an AI that will need the same explanation next Tuesday.\n\nIt's not the AI. The AI is fine. It's the gap between what your AI knows and what your business actually is.",
+                "cta": null
+            }
+        },
+        {
+            "id": "the-fix",
+            "type": "section",
+            "label": "The Fix",
+            "content": {
+                "eyebrow": "What Restacked Actually Does",
+                "h2": "The shared context layer your AI tools have been missing.",
+                "p": "Before anyone on your team writes a prompt, Restacked already told the AI what it needs to know.\n\nYour actual database schema. Your real authentication setup. The Stripe integration that's already live. The HubSpot segments your sales team runs on. Your brand rules. Your access controls — who sees what, and under what conditions.\n\nThat context lives in Restacked. Every AI tool that connects — Claude, Lovable, v0, Cursor, CrewAI — inherits it automatically. Configure your context once. Every session, every tool, every teammate — starts from truth.\n\nYour first connection takes under 20 minutes.",
+                "cta": { "label": "Start free", "url": "#" }
+            }
+        },
+        {
+            "id": "for-your-team",
+            "type": "feature-list",
+            "label": "For Your Team",
+            "content": {
+                "eyebrow": "Same context. Different role. Every tool.",
+                "h2": "Built for every person on your team.",
+                "items": [
+                    { "title": "For the developer who builds the infrastructure", "description": "Your context layer is the shared contract. Non-devs build against your real schema. Prototypes arrive pre-wired. The \"can you connect this?\" Slack thread stops here." },
+                    { "title": "For the CEO who approved the AI budget", "description": "Your business rules, segments, and access controls sit at the center of every AI tool your team touches. New employees start in context. Agents act on verified data." },
+                    { "title": "For the builder who ships without a CS degree", "description": "Start Lovable, v0, or Cursor already connected to your real database and auth. Skip the fake DB. Skip the dev handoff. The demo that becomes production actually becomes production." },
+                    { "title": "For ops, marketing, and sales who use AI every day", "description": "Connect Claude directly to your company's data, specs, and workflows. Run your own reports. Write a spec — Claude turns it into a working app. Pull your pipeline without asking anyone." }
+                ]
+            }
+        },
+        {
+            "id": "testimonials",
+            "type": "quote",
+            "label": "Social Proof",
+            "content": {
+                "quote": "The first time Lovable started a session already knowing our schema, I realized how much time I'd been spending re-explaining the same things. That's just gone now.",
+                "attribution": "Early user — [PLACEHOLDER: replace with real testimonial before publication]"
+            }
+        },
+        {
+            "id": "pricing",
+            "type": "feature-list",
+            "label": "Pricing",
+            "content": {
+                "eyebrow": "Start connected. Pay for what you use.",
+                "h2": "Simple, usage-based pricing.",
+                "items": [
+                    { "title": "On-Demand — From $0", "description": "Pay only for what your team actually uses. No seat fees. No per-tool licensing. Full context layer — schema, auth, integrations, access controls. Works with Claude, ChatGPT, Gemini, Lovable, v0, Replit, CrewAI, Cursor." },
+                    { "title": "Open Source — Free", "description": "Self-host Restacked. Pay only for your own infrastructure. Complete open-source codebase. Self-hosted — your infra, your rules. Community support + full documentation." }
+                ]
+            }
+        },
+        {
+            "id": "cta",
+            "type": "cta-block",
+            "label": "Final CTA",
+            "content": {
+                "eyebrow": "Get Started",
+                "h2": "One context layer. Every AI tool. Every team member.",
+                "description": "Your schema, your auth, your integrations, your business rules — injected before the first prompt. Start in minutes.",
+                "cta": { "label": "Book a demo", "url": "#" }
+            }
+        }
+    ]
+};
+
+// ── LOGO ────────────────────────────────────────────
+const MOOOD_LOGO = `<svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:50px;width:auto;display:block;margin:0 auto"><path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z" fill="black"/><path fill-rule="evenodd" clip-rule="evenodd" d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z" fill="black"/><path fill-rule="evenodd" clip-rule="evenodd" d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.294 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.453 465.294 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z" fill="black"/><path d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z" fill="black"/><path d="M644.935 728.254H624.734V708.254H644.935V728.254Z" fill="black"/><path d="M643.334 625.054L639.734 691.054H629.334L626.534 625.054V585.854H643.334V625.054Z" fill="black"/><path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z" fill="black"/></svg>`;
+
+// ── HELPERS ─────────────────────────────────────────
+function getInitials(name) {
+    return name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+}
+function timeAgo(ts) {
+    if (!ts) return '';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    const diff = Math.floor((Date.now() - d) / 1000);
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+function showStatus(msg, isError = false) {
+    const el = document.getElementById('db-status');
+    el.textContent = msg;
+    el.className = 'nv-db-status visible' + (isError ? ' error' : '');
+    setTimeout(() => el.className = 'nv-db-status', 2500);
+}
+
+// ── COMMENTING SYSTEM ────────────────────────────────
+function renderFeedbackBlock(sectionId) {
+    return `
+        <button class="nv-feedback-toggle" onclick="toggleFeedback('${sectionId}')">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1H2C1.45 1 1 1.45 1 2v9c0 .55.45 1 1 1h2v3l3-3h7c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+            Leave feedback
+        </button>
+        <div class="nv-feedback-panel" id="panel-${sectionId}">
+            <div class="nv-feedback-form">
+                <div class="nv-feedback-form-row">
+                    <input type="text" id="name-${sectionId}" placeholder="Your name" maxlength="60">
+                    <button class="nv-feedback-submit" onclick="submitComment('${sectionId}')">Send</button>
+                </div>
+                <textarea id="comment-${sectionId}" placeholder="Your feedback on this section..."></textarea>
+            </div>
+            <div class="nv-comments-list" id="comments-${sectionId}">
+                <p class="nv-feedback-empty">No feedback yet.</p>
+            </div>
+        </div>
+    `;
+}
+
+function toggleFeedback(sectionId) {
+    const panel = document.getElementById('panel-' + sectionId);
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+        loadComments(sectionId);
+        document.getElementById('name-' + sectionId).focus();
+    }
+}
+
+async function submitComment(sectionId) {
+    const nameEl = document.getElementById('name-' + sectionId);
+    const commentEl = document.getElementById('comment-' + sectionId);
+    const btn = document.querySelector(`#panel-${sectionId} .nv-feedback-submit`);
+    const name = nameEl.value.trim();
+    const comment = commentEl.value.trim();
+    if (!name || !comment) { showStatus('Please fill in both fields.', true); return; }
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    try {
+        await db.collection('narratives').doc(NARRATIVE_ID)
+            .collection('sections').doc(sectionId)
+            .collection('comments').add({
+                name, comment,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        commentEl.value = '';
+        btn.textContent = 'Send';
+        btn.disabled = false;
+        showStatus('Feedback sent ✓');
+        loadComments(sectionId);
+    } catch (e) {
+        btn.textContent = 'Send';
+        btn.disabled = false;
+        showStatus('Error — Firestore not set up yet.', true);
+    }
+}
+
+async function loadComments(sectionId) {
+    const container = document.getElementById('comments-' + sectionId);
+    try {
+        const snap = await db.collection('narratives').doc(NARRATIVE_ID)
+            .collection('sections').doc(sectionId)
+            .collection('comments')
+            .orderBy('timestamp', 'asc').get();
+        if (snap.empty) {
+            container.innerHTML = '<p class="nv-feedback-empty">No feedback yet. Be the first.</p>';
+            return;
+        }
+        container.innerHTML = snap.docs.map(doc => {
+            const d = doc.data();
+            return `
+                <div class="nv-comment">
+                    <div class="nv-comment__avatar">${getInitials(d.name)}</div>
+                    <div class="nv-comment__body">
+                        <div class="nv-comment__header">
+                            <span class="nv-comment__name">${d.name}</span>
+                            <span class="nv-comment__time">${timeAgo(d.timestamp)}</span>
+                        </div>
+                        <p class="nv-comment__text">${d.comment}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        container.innerHTML = '<p class="nv-feedback-empty">Firestore not configured yet.</p>';
+    }
+}
+
+// ── RENDERERS ─────────────────────────────────────────
+function renderSectionLabel(section, index) {
+    return `
+        <div class="nv-section-label">
+            <span class="nv-section-label__number">${String(index + 1).padStart(2, '0')}</span>
+            <div class="nv-section-label__divider"></div>
+            <span class="nv-section-label__name">${section.label || 'Section'}</span>
+        </div>
+    `;
+}
+
+function renderHero(section, index) {
+    const c = section.content;
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__inner">
+                ${renderSectionLabel(section, index)}
+                ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
+                <h1 class="nv-hero__h1">${c.h1}</h1>
+                ${c.description ? `<p class="nv-hero__description">${c.description}</p>` : ''}
+                ${renderFeedbackBlock(section.id)}
+            </div>
+        </section>`;
+}
+
+function renderSection(section, index) {
+    const c = section.content;
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__inner">
+                ${renderSectionLabel(section, index)}
+                ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
+                <h2 class="nv-section__h2">${c.h2}</h2>
+                ${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}
+                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-cta-link">${c.cta.label} →</a>` : ''}
+                ${renderFeedbackBlock(section.id)}
+            </div>
+        </section>`;
+}
+
+function renderFeatureList(section, index) {
+    const c = section.content;
+    const itemsHtml = (c.items || []).map(item => `
+        <div class="nv-feature-item">
+            <div class="nv-feature-item__title">${item.title}</div>
+            <div class="nv-feature-item__description">${item.description}</div>
+        </div>`).join('');
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__inner">
+                ${renderSectionLabel(section, index)}
+                ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
+                <h2 class="nv-section__h2">${c.h2}</h2>
+                <div class="nv-feature-grid">${itemsHtml}</div>
+                ${renderFeedbackBlock(section.id)}
+            </div>
+        </section>`;
+}
+
+function renderQuote(section, index) {
+    const c = section.content;
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__inner">
+                ${renderSectionLabel(section, index)}
+                <div class="nv-quote">
+                    <span class="nv-quote__mark">"</span>
+                    <p class="nv-quote__text">${c.quote}</p>
+                    ${c.attribution ? `<p class="nv-quote__attribution">— ${c.attribution}</p>` : ''}
+                </div>
+                ${renderFeedbackBlock(section.id)}
+            </div>
+        </section>`;
+}
+
+function renderCtaBlock(section, index) {
+    const c = section.content;
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__inner">
+                ${renderSectionLabel(section, index)}
+                <div class="nv-cta-block">
+                    ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
+                    <h2 class="nv-cta-block__h2">${c.h2}</h2>
+                    ${c.description ? `<p class="nv-cta-block__description">${c.description}</p>` : ''}
+                    ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary">${c.cta.label}</a>` : ''}
+                </div>
+                ${renderFeedbackBlock(section.id)}
+            </div>
+        </section>`;
+}
+
+const RENDERERS = { 'hero': renderHero, 'section': renderSection, 'feature-list': renderFeatureList, 'quote': renderQuote, 'cta-block': renderCtaBlock };
+
+function renderNav(data) {
+    const items = data.sections.map((s, i) => `
+        <a class="nv-nav-item" href="#section-${s.id}" id="nav-${s.id}">
+            <span class="nv-nav-item__number">${String(i + 1).padStart(2, '0')}</span>
+            <span class="nv-nav-item__label">${s.label || 'Section'}</span>
+        </a>`).join('');
+    return `
+        <aside class="nv-sidebar">
+            <div class="nv-sidebar__header">${MOOOD_LOGO}</div>
+            <div class="nv-sidebar__sections-label">Sections</div>
+            <nav class="nv-sidebar__nav">${items}</nav>
+            <div class="nv-sidebar__footer">
+                <span class="nv-status-badge pending">${data.meta.status || 'Pending Approval'}</span>
+            </div>
+        </aside>`;
+}
+
+function renderMain(data) {
+    const sectionsHtml = data.sections.map((section, i) => {
+        const renderer = RENDERERS[section.type];
+        return renderer ? renderer(section, i) : `<section class="nv-section" id="section-${section.id}"><p>Unknown type: ${section.type}</p></section>`;
+    }).join('');
+    return `
+        <div class="nv-main">
+            <div class="nv-topbar">
+                <div class="nv-topbar__info">
+                    <span class="nv-topbar__client">${data.meta.project}</span>
+                    <span class="nv-topbar__sep">·</span>
+                    <span class="nv-topbar__segment">Narrative</span>
+                    <span class="nv-topbar__sep">·</span>
+                    <span class="nv-topbar__segment">${data.meta.page || 'Homepage'}</span>
+                    <span class="nv-topbar__sep">·</span>
+                    <span class="nv-topbar__meta">${data.meta.date}</span>
+                    <span class="nv-topbar__sep">·</span>
+                    <span class="nv-topbar__meta">${data.meta.version}</span>
+                </div>
+                <div class="nv-topbar__actions">
+                    <button class="nv-btn nv-btn--ghost" onclick="window.print()">Print / PDF</button>
+                    <a href="mailto:?subject=Narrative+Review+%E2%80%94+${encodeURIComponent(data.meta.project)}&body=Please+review+the+narrative+at+this+link." class="nv-btn nv-btn--primary">Share via Email</a>
+                </div>
+            </div>
+            ${sectionsHtml}
+        </div>`;
+}
+
+function initScrollSpy(sections) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id.replace('section-', '');
+                document.querySelectorAll('.nv-nav-item').forEach(el => el.classList.remove('active'));
+                const nav = document.getElementById('nav-' + id);
+                if (nav) nav.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => {
+        const el = document.getElementById('section-' + s.id);
+        if (el) observer.observe(el);
+    });
+}
+
+// ── INIT ─────────────────────────────────────────────
+(function init() {
+    const data = NARRATIVE_DATA;
+    document.title = `${data.meta.project} — Narrative Review`;
+    document.getElementById('app').innerHTML = renderNav(data) + renderMain(data);
+    initScrollSpy(data.sections);
+})();
+</script>
+</body>
+</html>
