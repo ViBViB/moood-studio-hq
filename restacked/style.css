@@ -513,3 +513,16 @@ body {
     .nv-main { margin-left: 0 !important; }
     .nv-section { padding: 48px 40px; page-break-inside: avoid; }
 }
+
+/* ── TABLE TYPE ── */
+.nv-table-wrap { margin-top: 40px; overflow-x: auto; }
+.nv-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.nv-table thead { border-bottom: 2px solid #000; }
+.nv-table__th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #555; }
+.nv-table__th--highlight { color: #000; }
+.nv-table tbody tr { border-bottom: 1px solid #eee; }
+.nv-table tbody tr:last-child { border-bottom: none; }
+.nv-table__td { padding: 16px; color: #555; line-height: 1.5; }
+.nv-table__td:first-child { font-weight: 600; color: #1a1a1a; width: 30%; }
+.nv-table__td--highlight { color: #000; font-weight: 500; }
+.nv-cta-block__footnote { font-size: 13px; color: #999; margin-top: 20px; font-style: italic; }

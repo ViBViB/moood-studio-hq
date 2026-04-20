@@ -190,7 +190,7 @@
 <script>
 // ═══════════════════════════════════════════════════════
 //  MOOOD.STUDIO — NARRATIVE VIEWER + COMMENTING
-//  Restacked.ai · Homepage · April 2026 · v1.0
+//  Restacked.ai · Homepage · April 2026 · v2.0
 // ═══════════════════════════════════════════════════════
 
 // ── FIREBASE CONFIG ──────────────────────────────────
@@ -216,7 +216,7 @@ const NARRATIVE_DATA = {
         "client": "Restacked Team",
         "page": "Homepage",
         "date": "April 2026",
-        "version": "v1.0",
+        "version": "v2.0",
         "status": "Pending Approval"
     },
     "sections": [
@@ -226,78 +226,76 @@ const NARRATIVE_DATA = {
             "label": "Hero",
             "content": {
                 "eyebrow": null,
-                "h1": "Your AI tools know everything. Except your business.",
-                "description": "Restacked injects your real schema, auth, integrations, and business rules into every AI tool your team uses — before anyone writes a prompt. Configure once. Every tool starts connected."
+                "h1": "Your AI codes fast. Your stack knows nothing about it.",
+                "description": "Live context and code verification for every tool your team uses.<br>No new platform. No new runtime.",
+                "cta": { "label": "Book a 30-min demo", "url": "#" }
             }
         },
         {
-            "id": "sound-familiar",
+            "id": "the-gap",
             "type": "section",
-            "label": "Sound Familiar?",
+            "label": "The Gap",
             "content": {
-                "eyebrow": "The Pattern",
-                "h2": "Sound familiar?",
-                "p": "The vibe coder who shipped a beautiful demo — on a fake database. Three days later, production was a different product.\n\nThe non-dev who built something with Claude and broke staging. Because Claude didn't know your auth.\n\nV81 of the \"simple dashboard\" that still doesn't connect to real data. Because every new session forgets everything the last one learned.\n\nThe developer who spent Tuesday explaining your schema to an AI that will need the same explanation next Tuesday.\n\nIt's not the AI. The AI is fine. It's the gap between what your AI knows and what your business actually is.",
+                "eyebrow": null,
+                "h2": "The code shipped. The context didn't.",
+                "p": "It worked. Until it hit your production stack.<br><br>Auth tokens scoped to the wrong customers.<br>The API call went to live HubSpot — the sandbox never ran.<br>A workflow fired and sent emails to people who weren't ready.<br><br>Don't blame your AI. It knew nothing about your stack.",
                 "cta": null
             }
         },
         {
-            "id": "the-fix",
-            "type": "section",
-            "label": "The Fix",
-            "content": {
-                "eyebrow": "What Restacked Actually Does",
-                "h2": "The shared context layer your AI tools have been missing.",
-                "p": "Before anyone on your team writes a prompt, Restacked already told the AI what it needs to know.\n\nYour actual database schema. Your real authentication setup. The Stripe integration that's already live. The HubSpot segments your sales team runs on. Your brand rules. Your access controls — who sees what, and under what conditions.\n\nThat context lives in Restacked. Every AI tool that connects — Claude, Lovable, v0, Cursor, CrewAI — inherits it automatically. Configure your context once. Every session, every tool, every teammate — starts from truth.\n\nYour first connection takes under 20 minutes.",
-                "cta": { "label": "Start free", "url": "#" }
-            }
-        },
-        {
-            "id": "for-your-team",
-            "type": "feature-list",
-            "label": "For Your Team",
-            "content": {
-                "eyebrow": "Same context. Different role. Every tool.",
-                "h2": "Built for every person on your team.",
-                "items": [
-                    { "title": "For the developer who builds the infrastructure", "description": "Your context layer is the shared contract. Non-devs build against your real schema. Prototypes arrive pre-wired. The \"can you connect this?\" Slack thread stops here." },
-                    { "title": "For the CEO who approved the AI budget", "description": "Your business rules, segments, and access controls sit at the center of every AI tool your team touches. New employees start in context. Agents act on verified data." },
-                    { "title": "For the builder who ships without a CS degree", "description": "Start Lovable, v0, or Cursor already connected to your real database and auth. Skip the fake DB. Skip the dev handoff. The demo that becomes production actually becomes production." },
-                    { "title": "For ops, marketing, and sales who use AI every day", "description": "Connect Claude directly to your company's data, specs, and workflows. Run your own reports. Write a spec — Claude turns it into a working app. Pull your pipeline without asking anyone." }
-                ]
-            }
-        },
-        {
-            "id": "testimonials",
+            "id": "social-proof",
             "type": "quote",
             "label": "Social Proof",
             "content": {
-                "quote": "The first time Lovable started a session already knowing our schema, I realized how much time I'd been spending re-explaining the same things. That's just gone now.",
-                "attribution": "Early user — [PLACEHOLDER: replace with real testimonial before publication]"
+                "quote": "CLIENT — Insert one-line testimonial or team reference here. Minimum one trust anchor required before the mechanism section.",
+                "attribution": "Placeholder — to be replaced before publication"
             }
         },
         {
-            "id": "pricing",
+            "id": "mechanism",
             "type": "feature-list",
-            "label": "Pricing",
+            "label": "One Endpoint. Every Tool.",
             "content": {
-                "eyebrow": "Start connected. Pay for what you use.",
-                "h2": "Simple, usage-based pricing.",
+                "eyebrow": "Now it knows.",
+                "h2": "Your schemas, your business rules, which systems talk to each other — and how. Set it up once — your whole team ships with context.",
                 "items": [
-                    { "title": "On-Demand — From $0", "description": "Pay only for what your team actually uses. No seat fees. No per-tool licensing. Full context layer — schema, auth, integrations, access controls. Works with Claude, ChatGPT, Gemini, Lovable, v0, Replit, CrewAI, Cursor." },
-                    { "title": "Open Source — Free", "description": "Self-host Restacked. Pay only for your own infrastructure. Complete open-source codebase. Self-hosted — your infra, your rules. Community support + full documentation." }
+                    { "title": "Connect.", "description": "Your existing vendor MCPs or your sources directly — 40+ integrations, no migration, no new infrastructure." },
+                    { "title": "Configure.", "description": "Your naming conventions, your system relationships, your business rules — captured once, auto-maintained for your whole team." },
+                    { "title": "Deploy.", "description": "Cursor. Claude Code. Copilot. Any MCP-compatible tool — one endpoint, the same live stack context, every time." },
+                    { "title": "Ship.", "description": "Generated code validated against your actual stack before deploy. Not a generic stack. Yours." },
+                    { "title": "Remove.", "description": "Zero commitment, zero lock-in. Pull it out anytime — your stack keeps running exactly as you built it." }
+                ],
+                "cta": { "label": "Book a 30-min demo", "url": "#" }
+            }
+        },
+        {
+            "id": "the-difference",
+            "type": "table",
+            "label": "The Difference",
+            "content": {
+                "eyebrow": null,
+                "h2": "Not a platform. A context layer.",
+                "headers": ["", "Restacked", "Others (Retool, Superblocks...)"],
+                "rows": [
+                    ["Platform model", "Wire into the stack you run", "Build inside our runtime"],
+                    ["Lock-in", "Zero — remove anytime", "Implicit — apps live there"],
+                    ["Setup time", "An afternoon", "Weeks"],
+                    ["Target", "10\u201350 person teams", "Enterprise, mid-market"],
+                    ["Context coverage", "Cross-system, live", "Their environment only"],
+                    ["What it replaces", "The README + the gap at ship", "Dev queue (partially)"]
                 ]
             }
         },
         {
             "id": "cta",
             "type": "cta-block",
-            "label": "Final CTA",
+            "label": "Your Stack. Your Tools.",
             "content": {
-                "eyebrow": "Get Started",
-                "h2": "One context layer. Every AI tool. Every team member.",
-                "description": "Your schema, your auth, your integrations, your business rules — injected before the first prompt. Start in minutes.",
-                "cta": { "label": "Book a demo", "url": "#" }
+                "eyebrow": null,
+                "h2": "Your stack. Your tools. Restacked.",
+                "description": "Point Restacked at the stack you already run. The right team is up and running the same afternoon.",
+                "cta": { "label": "Book a 30-min demo", "url": "#" },
+                "footnote": "Remove it any time. Your apps keep running."
             }
         }
     ]
@@ -438,6 +436,7 @@ function renderHero(section, index) {
                 ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
                 <h1 class="nv-hero__h1">${c.h1}</h1>
                 ${c.description ? `<p class="nv-hero__description">${c.description}</p>` : ''}
+                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2rem;display:inline-block">${c.cta.label}</a>` : ''}
                 ${renderFeedbackBlock(section.id)}
             </div>
         </section>`;
@@ -472,6 +471,32 @@ function renderFeatureList(section, index) {
                 ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
                 <h2 class="nv-section__h2">${c.h2}</h2>
                 <div class="nv-feature-grid">${itemsHtml}</div>
+                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2.5rem;display:inline-block">${c.cta.label}</a>` : ''}
+                ${renderFeedbackBlock(section.id)}
+            </div>
+        </section>`;
+}
+
+function renderTable(section, index) {
+    const c = section.content;
+    const headersHtml = (c.headers || []).map((h, i) =>
+        `<th class="nv-table__th${i === 1 ? ' nv-table__th--highlight' : ''}">${h}</th>`
+    ).join('');
+    const rowsHtml = (c.rows || []).map(row =>
+        `<tr>${row.map((cell, i) => `<td class="nv-table__td${i === 1 ? ' nv-table__td--highlight' : ''}">${cell}</td>`).join('')}</tr>`
+    ).join('');
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__inner">
+                ${renderSectionLabel(section, index)}
+                ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
+                <h2 class="nv-section__h2">${c.h2}</h2>
+                <div class="nv-table-wrap">
+                    <table class="nv-table">
+                        <thead><tr>${headersHtml}</tr></thead>
+                        <tbody>${rowsHtml}</tbody>
+                    </table>
+                </div>
                 ${renderFeedbackBlock(section.id)}
             </div>
         </section>`;
@@ -504,13 +529,14 @@ function renderCtaBlock(section, index) {
                     <h2 class="nv-cta-block__h2">${c.h2}</h2>
                     ${c.description ? `<p class="nv-cta-block__description">${c.description}</p>` : ''}
                     ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary">${c.cta.label}</a>` : ''}
+                    ${c.footnote ? `<p class="nv-cta-block__footnote">${c.footnote}</p>` : ''}
                 </div>
                 ${renderFeedbackBlock(section.id)}
             </div>
         </section>`;
 }
 
-const RENDERERS = { 'hero': renderHero, 'section': renderSection, 'feature-list': renderFeatureList, 'quote': renderQuote, 'cta-block': renderCtaBlock };
+const RENDERERS = { 'hero': renderHero, 'section': renderSection, 'feature-list': renderFeatureList, 'quote': renderQuote, 'table': renderTable, 'cta-block': renderCtaBlock };
 
 function renderNav(data) {
     const items = data.sections.map((s, i) => `
