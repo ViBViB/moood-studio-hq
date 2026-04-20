@@ -1379,8 +1379,46 @@ body {
         item.addEventListener('click', () => goTo(parseInt(item.dataset.slide)));
     });
 
-    function approveProposal() {
-        window.location.href = 'thank-you.html';
+    // Data Recovery: Extract client info from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientEmail = urlParams.get('client_email');
+    const clientNameInUrl = urlParams.get('client_name');
+
+    async function approveProposal() {
+        const btn = document.getElementById('btnApprove');
+        const originalText = btn.innerText;
+
+        if (!confirm("Are you sure you want to approve this proposal? This will notify the Moood.Studio team.")) return;
+
+        try {
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
+            const response = await fetch('/api/approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clientName: clientNameInUrl || 'Preoptima',
+                    clientEmail: clientEmail || 'Not Provided',
+                    projectName: 'Preoptima Proposal',
+                    status: 'Approved'
+                })
+            });
+
+            if (response.ok) {
+                btn.innerText = "PROJECT APPROVED";
+                btn.style.background = "#000";
+                btn.style.color = "#fff";
+                window.location.href = 'thank-you.html';
+            } else {
+                throw new Error('Notification failed');
+            }
+        } catch (err) {
+            console.error(err);
+            btn.innerText = originalText;
+            btn.disabled = false;
+            alert("Something went wrong. Please try again or contact Alberto directly.");
+        }
     }
 </script>
 
