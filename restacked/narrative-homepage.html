@@ -472,7 +472,7 @@ function renderFeatureList(section, index) {
                 ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
                 <h2 class="nv-section__h2">${c.h2}</h2>
                 <div class="nv-feature-grid">${itemsHtml}</div>
-                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2.5rem;display:inline-block">${c.cta.label}</a>` : ''}
+                ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2.5rem;display:inline-flex">${c.cta.label}</a>` : ''}
                 ${renderFeedbackBlock(section.id)}
             </div>
         </section>`;
