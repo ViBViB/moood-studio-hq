@@ -494,8 +494,12 @@
 
         function validateCurrentSlide() {
             const currentInputs = slides[currentSlide - 1].querySelectorAll('input[required], textarea[required]');
+            return validateInputs(currentInputs);
+        }
+
+        function validateInputs(inputs) {
             let isValid = true;
-            currentInputs.forEach(input => {
+            inputs.forEach(input => {
                 if (!input.value.trim()) {
                     input.style.borderColor = '#ff0000';
                     isValid = false;
@@ -507,7 +511,12 @@
         }
 
         async function submitForm() {
-            if (!validateCurrentSlide()) return;
+            // Global validation before final submission
+            const allRequired = document.querySelectorAll('input[required], textarea[required]');
+            if (!validateInputs(allRequired)) {
+                alert('Please complete all technical requirements before activating strategy.');
+                return;
+            }
 
             const formData = {};
             document.querySelectorAll('input, textarea').forEach(el => {
