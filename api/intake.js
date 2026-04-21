@@ -91,24 +91,26 @@ module.exports = async (req, res) => {
         const markdownContent = `
 /strategy-director
 
-Brief: PROJECTS/_training/STRATEGIST/T13/01-PRD.md
-Content type: homepage
-Deliverable: Strategic Audit completo + Narrative Script con Creative Refinement Pass.
-Idioma de output: español
-
 # STRATEGY INTAKE: ${companyName}
 **Lead:** ${fullName} (${email})
 
-## 1. Evidence Repository
+## Project Protocol
+1. **Workspace**: Create folder \`PROJECTS/${companyName.replace(/\s+/g, '_')}\`.
+   *Note: If path exists, create \`-V2\`, \`-V3\`, etc. to prevent overwriting.*
+2. **Phase 1**: Generate \`01-PRD.md\` using the Evidence Repository below.
+3. **Phase 2**: Execute full Strategic Audit + Narrative Tension Map.
+4. **Phase 3**: Deliver Narrative Script with Creative Refinement Pass.
+
+## Evidence Repository
 ${evidence}
 
-## 2. The Adversary
+## The Adversary
 ${adversary}
 
-## 3. Human Portrait
+## Human Portrait
 ${portrait}
 
-## 4. Singular Objective
+## Singular Objective
 ${objective}
         `.trim();
 
