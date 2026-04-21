@@ -661,8 +661,12 @@
             try {
                 const uploadedUrls = [];
                 
-                // Import the upload function dynamically
-                const { upload } = await import('https://cdn.jsdelivr.net/npm/@vercel/blob/+esm');
+                // Use esm.sh which is more reliable for browser imports
+                const { upload } = await import('https://esm.sh/@vercel/blob/client');
+
+                if (typeof upload !== 'function') {
+                    throw new Error('Vercel Blob SDK could not be loaded correctly.');
+                }
 
                 // 1. Upload files to Vercel Blob (Client-side)
                 for (const file of selectedFiles) {

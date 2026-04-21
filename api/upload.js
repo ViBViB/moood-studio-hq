@@ -1,5 +1,6 @@
 const { handleUpload } = require('@vercel/blob/client');
 
+// Force redeploy v2 to activate BLOB_READ_WRITE_TOKEN
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -10,7 +11,6 @@ module.exports = async (req, res) => {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname) => {
-        // Here you can validate the user session
         return {
           allowedContentTypes: [
             'image/jpeg', 
@@ -22,13 +22,10 @@ module.exports = async (req, res) => {
             'application/msword',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
           ],
-          tokenPayload: JSON.stringify({
-            // optional metadata
-          }),
+          tokenPayload: JSON.stringify({}),
         };
       },
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
-        // This is called when the upload is finished on Vercel's side
+      onUploadCompleted: async ({ blob }) => {
         console.log('Upload completed:', blob.url);
       },
     });
