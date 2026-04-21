@@ -3,724 +3,520 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strategic Intake | Moood.Studio</title>
+    <title>Strategic Intake Portal | MOOOD.STUDIO</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         :root {
-            --sidebar-width: 30%;
-            --accent-color: #000;
-            --gray-light: #f5f5f5;
-            --gray-mid: #e0e0e0;
-            --transition-speed: 0.8s;
+            --bg-color: #0d0d0d;
+            --sidebar-color: #1a1a1a;
+            --accent-color: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+            margin: 0;
+            display: flex;
             height: 100vh;
             overflow: hidden;
-            background: #fff;
-            padding-bottom: 0;
-            display: flex;
-            flex-direction: row;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
-        .q-layout {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-        }
-
-        /* LEFT SIDEBAR */
+        /* Sidebar */
         .q-sidebar {
-            width: var(--sidebar-width);
-            background: #000;
-            color: #fff;
-            padding: 80px 60px;
+            width: 400px;
+            background: var(--sidebar-color);
+            padding: 60px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            border-right: 1px solid var(--border-color);
             position: relative;
-            z-index: 100;
-            gap: 40px;
         }
 
-        .q-sidebar .logo {
-            position: relative;
-            top: auto;
-            right: auto;
-            margin-bottom: 20px;
-            pointer-events: auto;
-        }
-
-        .q-sidebar .logo-img {
-            height: 48px;
-            width: auto;
-            filter: brightness(0) invert(1);
-            display: block;
-        }
-
-        .q-h1 {
-            font-size: clamp(40px, 4.5vw, 64px);
-            font-weight: 300;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            color: #fff;
-            margin: 0;
+        .q-sidebar-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
         }
 
         .q-sidebar-instruction {
             font-size: 18px;
             line-height: 1.5;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-dim);
             margin-top: 30px;
             margin-bottom: 60px;
         }
 
-        .q-nav-list {
+        .q-progress-bar {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            margin-top: -30px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .q-progress-fill {
+            position: absolute;
+            height: 100%;
+            background: var(--accent-color);
+            width: 20%;
+            transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .q-chapters-list {
             list-style: none;
             padding: 0;
-            margin: 40px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
+            margin: 0;
+            flex-grow: 1;
         }
 
-        .q-nav-item {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .q-nav-item span {
-            width: 0;
-            height: 1px;
-            background: #fff;
-            transition: width 0.3s ease;
-        }
-
-        .q-nav-item.active {
-            color: #fff;
-        }
-
-        .q-nav-item.active span {
-            width: 20px;
-        }
-
-        .progress-container-sidebar {
-            width: 100%;
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: #fff;
-            transition: width 0.4s ease;
-        }
-
-        .q-sidebar-footer {
-            margin-top: auto;
-        }
-
-        .privacy-note {
-            font-size: 12px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 0.05em;
-        }
-
-        /* RIGHT CONTENT AREA */
-        .q-main {
-            flex: 1;
-            background: #fff;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .q-slider-viewport {
-            flex: 1;
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .q-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            padding: 120px 40px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), 
-                        visibility var(--transition-speed) ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            gap: 48px;
-        }
-
-        .q-slide.active {
-            opacity: 1;
-            visibility: visible;
-            z-index: 2;
-        }
-
-        .q-slide.exit {
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1;
-        }
-
-        .q-section-title {
-            font-size: clamp(32px, 3vw, 48px);
-            font-weight: 400;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-            color: #000;
-        }
-
-        .q-section-intro {
-            font-size: 18px;
-            font-weight: 400;
-            color: rgba(0,0,0,0.5);
-            line-height: 1.6;
-            margin-bottom: 48px;
-            max-width: 600px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            margin-bottom: 48px;
-        }
-
-        .form-group label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(0,0,0,0.4);
-        }
-
-        .form-group input, 
-        .form-group textarea {
-            padding: 16px 0;
-            border: none;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            border-radius: 0;
-            font-size: clamp(16px, 1.1vw, 20px);
-            font-family: inherit;
-            background: transparent;
-            color: #000;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
+        .q-chapter-item {
             font-size: 14px;
-            color: #ccc;
-            font-weight: 400;
-        }
-
-        .form-group input:focus, 
-        .form-group textarea:focus {
-            border-color: #000;
-            outline: none;
-        }
-
-        .q-nav {
-            padding: 40px 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            z-index: 1000;
-        }
-
-        .btn-next {
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 24px 48px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            padding: 12px 0;
+            color: var(--text-dim);
+            transition: 0.3s;
             cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 280px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
 
-        .btn-prev {
-            background: #fff;
-            color: #000;
-            border: 1px solid #000;
-            padding: 24px 48px;
-            font-size: 13px;
+        .q-chapter-item.active {
+            color: var(--accent-color);
             font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 280px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .btn-prev:disabled { opacity: 0; pointer-events: none; }
+        .q-chapter-item span:first-child {
+            font-family: 'Mono', monospace;
+            font-size: 10px;
+            opacity: 0.5;
+        }
 
-        .btn-next:hover { padding-right: 56px; background: #1a1a1a; }
+        .q-privacy-tag {
+            font-size: 12px;
+            color: var(--text-dim);
+            line-height: 1.4;
+            padding-top: 40px;
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            right: 60px;
+        }
 
-        .success-text {
-            font-size: clamp(16px, 1.1vw, 20px);
-            line-height: 1.8;
-            color: rgba(0,0,0,0.6);
+        /* Main Content */
+        .q-main {
+            flex-grow: 1;
+            padding: 80px 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        .q-step {
+            display: none;
+        }
+
+        .q-step.active {
+            display: block;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-step-number {
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0.5;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .q-step-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .q-input-group {
             margin-top: 40px;
         }
 
-        /* File Upload Styling */
-        .file-upload-container {
-            margin-top: 24px;
-            border: 1px dashed rgba(0,0,0,0.1);
-            padding: 40px;
+        .q-input-label {
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .q-text-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+            padding: 16px 0;
+            font-size: 24px;
+            color: var(--accent-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .q-text-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .q-textarea {
+            min-height: 150px;
+            resize: none;
+        }
+
+        /* Upload Area */
+        .q-upload-area {
+            border: 1px dashed var(--border-color);
+            padding: 60px;
             text-align: center;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            background: #fafafa;
             cursor: pointer;
-            position: relative;
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 20px;
         }
 
-        .file-upload-container:hover {
-            border-color: #000;
-            background: #f0f0f0;
+        .q-upload-area:hover {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.02);
         }
 
-        .file-upload-container.dragging {
-            border-color: #000;
-            background: #eee;
-        }
-
-        .file-upload-icon {
-            font-size: 24px;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .file-upload-text {
-            font-size: 13px;
-            color: rgba(0,0,0,0.6);
-        }
-
-        .file-upload-input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-list {
-            margin-top: 16px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .file-item {
+        .q-file-list {
+            margin-top: 20px;
             font-size: 12px;
-            padding: 8px 12px;
-            background: #fff;
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 4px;
+            color: var(--text-dim);
+            text-align: left;
+            width: 100%;
+        }
+
+        .q-file-item {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
-        .file-remove {
-            color: #ff0000;
+        /* Navigation */
+        .q-nav {
+            position: fixed;
+            bottom: 60px;
+            right: 120px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .q-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            padding: 16px 40px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            font-size: 16px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        @media (max-width: 768px) {
-            body { flex-direction: column; overflow-y: auto; }
-            .q-sidebar { width: 100%; height: auto; padding: 40px 24px; }
-            .q-main { height: auto; min-height: 100vh; }
-            .q-slide { position: relative; top: 0 !important; opacity: 1 !important; visibility: visible !important; height: auto; padding: 40px 24px; }
-            .q-nav { position: sticky; bottom: 0; padding: 24px; flex-direction: column-reverse; gap: 20px; }
-            .btn-next { width: 100%; }
+        .q-btn:hover:not(:disabled) {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .q-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .q-btn-primary {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* Success State */
+        .q-success {
+            text-align: center;
+        }
+
+        .q-success-icon {
+            font-size: 64px;
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
-    <div class="q-layout">
-        <aside class="q-sidebar">
-            <div class="logo">
-                <a href="../index.html">
-                    <img src="../assets/images/moood-logo.svg" alt="Moood.Studio" class="logo-img">
-                </a>
+    <div class="q-sidebar">
+        <div class="q-sidebar-title">Strategic Intake</div>
+        <p class="q-sidebar-instruction">Provide the atomic technical evidence required to activate the Strategy Director protocol.</p>
+        
+        <div class="q-progress-bar">
+            <div class="q-progress-fill" id="progressFill"></div>
+        </div>
+
+        <ul class="q-chapters-list">
+            <li class="q-chapter-item active" data-step="1"><span>01</span> Identification</li>
+            <li class="q-chapter-item" data-step="2"><span>02</span> Evidence</li>
+            <li class="q-chapter-item" data-step="3"><span>03</span> The Adversary</li>
+            <li class="q-chapter-item" data-step="4"><span>04</span> Human Portrait</li>
+            <li class="q-chapter-item" data-step="5"><span>05</span> Singular Objective</li>
+        </ul>
+
+        <div class="q-privacy-tag">
+            Privacy is a high-performance requirement. All technical data is encrypted and used solely for strategy development.
+        </div>
+    </div>
+
+    <div class="q-main">
+        <form id="intakeForm">
+            <!-- Step 1: ID -->
+            <div class="q-step active" id="step1">
+                <span class="q-step-number">01 / 05</span>
+                <h1 class="q-step-title">Who is the lead on this project?</h1>
+                <div class="q-input-group">
+                    <label class="q-input-label">Project / Company Name</label>
+                    <input type="text" name="companyName" class="q-text-input" placeholder="e.g. Anthros Global" required>
+                </div>
+                <div class="q-input-group">
+                    <label class="q-input-label">Full Name</label>
+                    <input type="text" name="fullName" class="q-text-input" placeholder="e.g. John Doe" required>
+                </div>
+                <div class="q-input-group">
+                    <label class="q-input-label">Communication Node (Email)</label>
+                    <input type="email" name="email" class="q-text-input" placeholder="john@company.com" required>
+                </div>
             </div>
-            <div class="q-sidebar-main">
-                <h1 class="q-h1">Strategic Intake</h1>
-                <p class="q-sidebar-instruction">Raw facts only. We don't need polished writing at this stage; we need technical evidence and market reality.</p>
+
+            <!-- Step 2: Evidence -->
+            <div class="q-step" id="step2">
+                <span class="q-step-number">02 / 05</span>
+                <h1 class="q-step-title">Evidence Repository</h1>
+                <p style="color: var(--text-dim); margin-bottom: 30px;">Paste technical documentation, URLs, or raw data here.</p>
+                <div class="q-input-group">
+                    <textarea name="evidence" class="q-text-input q-textarea" placeholder="Paste transcripts, white papers, or links..." required></textarea>
+                </div>
                 
-                <div class="progress-container-sidebar">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-
-                <ul class="q-nav-list">
-                    <li class="q-nav-item active" data-goto="1"><span></span> 01. Identification</li>
-                    <li class="q-nav-item" data-goto="2"><span></span> 02. Evidence</li>
-                    <li class="q-nav-item" data-goto="3"><span></span> 03. Adversary</li>
-                    <li class="q-nav-item" data-goto="4"><span></span> 04. Portrait</li>
-                    <li class="q-nav-item" data-goto="5"><span></span> 05. Objective</li>
-                </ul>
-            </div>
-            <div class="q-sidebar-footer">
-                <p class="privacy-note">Privacy is a high-performance requirement. All technical data is encrypted and used solely for strategy development.</p>
-            </div>
-        </aside>
-
-        <main class="q-main">
-            <div class="q-slider-viewport" id="sliderViewport">
-                
-                <!-- STEP 1: Basic Info -->
-                <div class="q-slide active" data-index="1">
-                    <div class="q-content">
-                        <h2 class="q-section-title">01. Identification</h2>
-                        <p class="q-section-intro">Define the project we are building the narrative for.</p>
-                        <div class="form-group">
-                            <label>Project / Company Name</label>
-                            <input type="text" name="companyName" placeholder="e.g., Anthros, Restacked.ai" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" name="fullName" placeholder="Authorized Lead" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Your Email</label>
-                            <input type="email" name="email" placeholder="For the strategy delivery" required>
-                        </div>
+                <div class="q-input-group">
+                    <label class="q-input-label">Technical Assets (Max Total: 4.5MB)</label>
+                    <div class="q-upload-area" id="dropZone">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        </svg>
+                        <p style="text-align: center;">Click or drag documents, infographics or charts here.</p>
+                        <input type="file" id="fileInput" multiple style="display: none;">
                     </div>
+                    <div class="q-file-list" id="fileList"></div>
                 </div>
-
-                <!-- STEP 2: Evidence -->
-                <div class="q-slide" data-index="2">
-                    <div class="q-content">
-                        <h2 class="q-section-title">02. Evidence Repository</h2>
-                        <p class="q-section-intro">Links to clinical studies, technical manuals, whitepapers, or internal research. <strong>No fluff, just data.</strong></p>
-                        <div class="form-group">
-                            <label>Sources & Links</label>
-                            <textarea name="evidence" placeholder="Paste links to PDFs, documentation, or study results here..." rows="6" required></textarea>
-                        </div>
-                        
-                        <div class="file-upload-container" id="dropZone">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.6;">
-                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M17 8L12 3L7 8" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 3V15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="file-upload-text"><strong>Click to upload</strong> or drag & drop<br>Documents, Images, Infographics</span>
-                            <input type="file" id="fileInput" class="file-upload-input" multiple>
-                        </div>
-                        <div class="file-list" id="fileList"></div>
-                    </div>
-                </div>
-
-                <!-- STEP 3: The Adversary -->
-                <div class="q-slide" data-index="3">
-                    <div class="q-content">
-                        <h2 class="q-section-title">03. The Adversary</h2>
-                        <p class="q-section-intro">Who are we fighting against? Mention 2-3 competitors or broken industry standards.</p>
-                        <div class="form-group">
-                            <label>Market Context</label>
-                            <textarea name="adversary" placeholder="Who is currently failing the user? Why are they inferior?" rows="6" required></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 4: Human Portrait -->
-                <div class="q-slide" data-index="4">
-                    <div class="q-content">
-                        <h2 class="q-section-title">04. The Human Portrait</h2>
-                        <p class="q-section-intro">Who is feeling the pain right now? Describe the profile and their current friction.</p>
-                        <div class="form-group">
-                            <label>Audience Profile</label>
-                            <textarea name="portrait" placeholder="e.g. 'Software engineers with chronic back pain who have tried everything else...'" rows="6" required></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 5: Singular Objective -->
-                <div class="q-slide" data-index="5">
-                    <div class="q-content">
-                        <h2 class="q-section-title">05. The Singular Objective</h2>
-                        <p class="q-section-intro">What is the one—and only one—action they should take after reading the narrative?</p>
-                        <div class="form-group">
-                            <label>Conversion Goal (CTA)</label>
-                            <input type="text" name="objective" placeholder="e.g., Book a Spine Audit, Download the Manual" required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 6: Success -->
-                <div class="q-slide" data-index="6">
-                    <div class="q-content">
-                        <h2 class="q-section-title">Context Transmitted.</h2>
-                        <div class="success-text">
-                            <p>The **Strategy Director** has been notified. We will now perform a forensic analysis of your data to build the Narrative Tension Map.</p>
-                            <p>Expect a response within **24 hours** with the strategic audit.</p>
-                        </div>
-                        <button class="btn-prev" style="margin-top: 40px; width: 100%; border: 1px black solid;" onclick="window.location.href='../index.html'">
-                            <span>Return to Portal</span>
-                        </button>
-                    </div>
-                </div>
-
             </div>
 
-            <nav class="q-nav" id="qNav">
-                <button class="btn-prev" id="btnPrev" disabled onclick="prevSlide()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 12H6M6 12L11 17M6 12L11 7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>Back</span>
-                </button>
-                <button class="btn-next" id="btnNext" onclick="nextSlide()">
-                    <span id="btnNextText">Next Step</span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </nav>
-        </main>
+            <!-- Step 3: Adversary -->
+            <div class="q-step" id="step3">
+                <span class="q-step-number">03 / 05</span>
+                <h1 class="q-step-title">The Adversary</h1>
+                <div class="q-input-group">
+                    <label class="q-input-label">What specific friction is currently hindering growth?</label>
+                    <textarea name="adversary" class="q-text-input q-textarea" placeholder="Describe the status quo we are fighting against..." required></textarea>
+                </div>
+            </div>
+
+            <!-- Step 4: Human Portrait -->
+            <div class="q-step" id="step4">
+                <span class="q-step-number">04 / 05</span>
+                <h1 class="q-step-title">The Human Portrait</h1>
+                <div class="q-input-group">
+                    <label class="q-input-label">Describe the psychology of the ideal visitor.</label>
+                    <textarea name="portrait" class="q-text-input q-textarea" placeholder="What are they afraid of? What keeps them awake?" required></textarea>
+                </div>
+            </div>
+
+            <!-- Step 5: Objective -->
+            <div class="q-step" id="step5">
+                <span class="q-step-number">05 / 05</span>
+                <h1 class="q-step-title">The Singular Objective</h1>
+                <div class="q-input-group">
+                    <label class="q-input-label">What is the one—and only one—action they should take?</label>
+                    <input type="text" name="objective" class="q-text-input" placeholder="e.g. Schedule a technical audit" required>
+                </div>
+            </div>
+
+            <!-- Success -->
+            <div class="q-step" id="step6">
+                <div class="q-success">
+                    <div class="q-success-icon">✓</div>
+                    <h1 class="q-step-title">Intake Complete</h1>
+                    <p style="color: var(--text-dim); font-size: 18px;">Strategy Director protocol has been activated. Alberto will receive the strategic brief immediately.</p>
+                    <br><br>
+                    <a href="/" class="q-btn" style="display: inline-flex; text-decoration: none;">Return to Lab</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="q-nav" id="navigation">
+        <button class="q-btn" id="btnBack" style="display: none;">Back</button>
+        <button class="q-btn q-btn-primary" id="btnNext">
+            <span id="btnNextText">Next Chapter</span>
+            <span>→</span>
+        </button>
     </div>
 
     <script>
         let currentSlide = 1;
-        const totalSlides = 6;
-        const slides = document.querySelectorAll('.q-slide');
-        const progressBar = document.getElementById('progressBar');
-        const btnPrev = document.getElementById('btnPrev');
+        const totalSlides = 5;
+        const selectedFiles = [];
+
         const btnNext = document.getElementById('btnNext');
-        const qNav = document.getElementById('qNav');
-        const navItems = document.querySelectorAll('.q-nav-item');
-
-        function updateSlider() {
-            slides.forEach((slide, index) => {
-                slide.classList.remove('active', 'exit');
-                if (index + 1 === currentSlide) slide.classList.add('active');
-                else if (index + 1 < currentSlide) slide.classList.add('exit');
-            });
-
-            // Update Sidebar Nav Items
-            navItems.forEach((item, index) => {
-                item.classList.remove('active');
-                if (index + 1 === currentSlide) item.classList.add('active');
-            });
-
-            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
-            progressBar.style.width = progress + '%';
-            btnPrev.disabled = currentSlide === 1;
-            
-            if (currentSlide === totalSlides) {
-                qNav.style.display = 'none';
-            } else {
-                qNav.style.display = 'flex';
-                document.getElementById('btnNextText').textContent = currentSlide === totalSlides - 1 ? 'Activate Strategy' : 'Next Step';
-            }
-        }
-
-        // Navigable Sidebar Click
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const targetSlide = parseInt(item.getAttribute('data-goto'));
-                if (targetSlide < currentSlide || validateCurrentSlide()) {
-                    currentSlide = targetSlide;
-                    updateSlider();
-                }
-            });
-        });
-
-        // File Upload Logic
+        const btnBack = document.getElementById('btnBack');
+        const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const fileList = document.getElementById('fileList');
-        const dropZone = document.getElementById('dropZone');
-        let selectedFiles = [];
 
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragging');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragging');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragging');
-            handleFiles(e.dataTransfer.files);
-        });
-
-        function handleFiles(files) {
-            Array.from(files).forEach(file => {
-                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
-                    selectedFiles.push(file);
-                }
+        // File handling
+        dropZone.onclick = () => fileInput.click();
+        
+        fileInput.onchange = (e) => {
+            Array.from(e.target.files).forEach(file => {
+                selectedFiles.push(file);
+                addFileToList(file);
             });
-            renderFileList();
-        }
-
-        function renderFileList() {
-            fileList.innerHTML = '';
-            selectedFiles.forEach((file, index) => {
-                const item = document.createElement('div');
-                item.className = 'file-item';
-                item.innerHTML = `
-                    <span>${file.name} (${(file.size / 1024).toFixed(1)} KB)</span>
-                    <span class="file-remove" onclick="removeFile(${index})">×</span>
-                `;
-                fileList.appendChild(item);
-            });
-        }
-
-        window.removeFile = (index) => {
-            selectedFiles.splice(index, 1);
-            renderFileList();
         };
 
-        function validateCurrentSlide() {
-            const currentInputs = slides[currentSlide - 1].querySelectorAll('input[required], textarea[required]');
-            return validateInputs(currentInputs);
+        function addFileToList(file) {
+            const item = document.createElement('div');
+            item.className = 'q-file-item';
+            item.innerHTML = `<span>${file.name}</span> <span>(${(file.size / 1024).toFixed(1)} KB)</span>`;
+            fileList.appendChild(item);
+        }
+
+        // Navigation
+        btnNext.onclick = () => {
+            if (currentSlide < totalSlides) {
+                if (validateStep(currentSlide)) {
+                    currentSlide++;
+                    updateSlider();
+                }
+            } else {
+                submitForm();
+            }
+        };
+
+        btnBack.onclick = () => {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlider();
+            }
+        };
+
+        function validateStep(stepId) {
+            const currentStepEl = document.getElementById(`step${stepId}`);
+            const inputs = currentStepEl.querySelectorAll('input[required], textarea[required]');
+            return validateInputs(inputs);
         }
 
         function validateInputs(inputs) {
-            let isValid = true;
+            let valid = true;
             inputs.forEach(input => {
                 if (!input.value.trim()) {
-                    input.style.borderColor = '#ff0000';
-                    isValid = false;
+                    input.parentElement.style.opacity = '0.5';
+                    input.style.borderColor = 'red';
+                    valid = false;
                 } else {
-                    input.style.borderColor = '';
+                    input.parentElement.style.opacity = '1';
+                    input.style.borderColor = 'var(--border-color)';
                 }
             });
-            return isValid;
+            return valid;
+        }
+
+        function updateSlider() {
+            document.querySelectorAll('.q-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${currentSlide}`).classList.add('active');
+
+            document.querySelectorAll('.q-chapter-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx + 1 === currentSlide);
+            });
+
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            btnBack.style.display = currentSlide > 1 ? 'block' : 'none';
+            
+            if (currentSlide === totalSlides) {
+                document.getElementById('btnNextText').textContent = 'Activate Strategy';
+            } else {
+                document.getElementById('btnNextText').textContent = 'Next Chapter';
+            }
+
+            if (currentSlide > 5) {
+                document.getElementById('navigation').style.display = 'none';
+            }
         }
 
         async function submitForm() {
             const allRequired = document.querySelectorAll('input[required], textarea[required]');
             if (!validateInputs(allRequired)) {
-                alert('Please complete all technical requirements before activating strategy.');
+                alert('Please complete all technical requirements.');
+                return;
+            }
+
+            // Total size validation for stable mode
+            const totalSize = selectedFiles.reduce((acc, f) => acc + f.size, 0);
+            if (totalSize > 4.5 * 1024 * 1024) {
+                alert('Archivos demasiado pesados para el modo estable (Límite total: 4.5MB). Por favor, intenta comprimirlos o enviarlos en partes.');
                 return;
             }
 
             const btnText = document.getElementById('btnNextText');
             btnNext.disabled = true;
-            btnText.textContent = 'Uploading technical assets...';
+            btnText.textContent = 'Transmitting...';
+
+            const formData = new FormData();
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.name) formData.append(el.name, el.value);
+            });
+
+            selectedFiles.forEach(file => {
+                formData.append('attachments', file);
+            });
 
             try {
-                const uploadedUrls = [];
-
-                if (selectedFiles.length > 0) {
-                    // Import the upload function from esm.sh
-                    const { upload } = await import('https://esm.sh/@vercel/blob/client');
-
-                    for (const file of selectedFiles) {
-                        console.log(`Direct upload started for: ${file.name}`);
-                        const newBlob = await upload(file.name, file, {
-                            access: 'public',
-                            handleUploadUrl: '/api/upload'
-                        });
-                        uploadedUrls.push({ name: file.name, url: newBlob.url });
-                    }
-                }
-
-                btnText.textContent = 'Transmitting strategic data...';
-
-                // 2. Final transmission with JSON
-                const payload = {};
-                document.querySelectorAll('input, textarea').forEach(el => {
-                    if (el.name) payload[el.name] = el.value;
-                });
-                
-                // Add the URLs of the blobs
-                payload.blobUrls = JSON.stringify(uploadedUrls);
-
                 const response = await fetch('/api/intake', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
+                    body: formData,
                 });
 
                 const result = await response.json();
 
                 if (response.ok) {
-                    currentSlide++;
+                    currentSlide = 6;
                     updateSlider();
                 } else {
                     throw new Error(result.message || result.error || 'Transmission failed');
                 }
             } catch (error) {
-                console.error('CRITICAL_SUBMISSION_ERROR:', error);
+                console.error('Submission error:', error);
                 alert(`Transmission error: ${error.message}`);
                 btnNext.disabled = false;
                 btnText.textContent = 'Activate Strategy';
             }
-        }
-
-        function nextSlide() {
-            if (currentSlide === totalSlides - 1) {
-                submitForm();
-            } else if (currentSlide < totalSlides) {
-                if (validateCurrentSlide()) {
-                    currentSlide++;
-                    updateSlider();
-                }
-            }
-        }
-
-        function prevSlide() {
-            if (currentSlide > 1) { currentSlide--; updateSlider(); }
         }
     </script>
 </body>
