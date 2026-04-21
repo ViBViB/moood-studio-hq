@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Bio — Homepage Narrative V1 | Moood.Studio</title>
+    <meta name="description" content="Strategic homepage narrative for Lumina Bio — prepared by Moood.Studio for client review.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black: #080808;
+            --white: #f8f8f6;
+            --gray-100: #f0efeb;
+            --gray-400: #9a9a96;
+            --gray-600: #5a5a56;
+            --gray-800: #1e1e1c;
+            --accent: #c8f56a;
+            --font: 'Inter', -apple-system, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            background: var(--black);
+            color: var(--white);
+            font-size: 17px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── AGENCY HEADER ─── */
+        .agency-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 40px;
+            background: rgba(8,8,8,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .agency-logo {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gray-400);
+        }
+
+        .agency-meta {
+            font-size: 11px;
+            color: var(--gray-600);
+            letter-spacing: 0.08em;
+        }
+
+        .review-badge {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--accent);
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+
+        /* ─── HERO ─── */
+        .s-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 120px 80px 80px;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .s-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(200,245,106,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+
+        .hero-h1 {
+            font-size: clamp(40px, 5vw, 72px);
+            font-weight: 300;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            max-width: 900px;
+            margin-bottom: 32px;
+        }
+
+        .hero-h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            font-weight: 300;
+            color: var(--gray-400);
+            max-width: 620px;
+            line-height: 1.7;
+            margin-bottom: 48px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--accent);
+            padding: 16px 32px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover { opacity: 0.85; }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white);
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 16px 32px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.4); }
+
+        /* ─── SECTIONS ─── */
+        section { position: relative; }
+
+        .s-light {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .s-dark {
+            background: var(--gray-800);
+            color: var(--white);
+        }
+
+        .s-black {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .s-accent {
+            background: var(--accent);
+            color: var(--black);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 100px 80px;
+        }
+
+        .container-narrow {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 100px 80px;
+        }
+
+        /* ─── SECTION LABELS ─── */
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+            opacity: 0.5;
+        }
+
+        /* ─── PROBLEM SECTION ─── */
+        .s-problem .section-h2 {
+            font-size: clamp(28px, 3.5vw, 48px);
+            font-weight: 300;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            max-width: 780px;
+            margin-bottom: 40px;
+            color: var(--black);
+        }
+
+        .s-problem .body-copy {
+            font-size: 17px;
+            line-height: 1.75;
+            color: var(--gray-600);
+            max-width: 660px;
+        }
+
+        .s-problem .body-copy p + p { margin-top: 20px; }
+
+        .stat-callout {
+            display: inline-block;
+            font-size: clamp(52px, 8vw, 96px);
+            font-weight: 200;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: var(--black);
+            margin: 40px 0 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray-600);
+            letter-spacing: 0.06em;
+        }
+
+        /* ─── ADVERSARY ─── */
+        .s-adversary .section-h2 {
+            font-size: clamp(28px, 3vw, 44px);
+            font-weight: 300;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            margin-bottom: 40px;
+        }
+
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            margin: 48px 0;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .competitor-item {
+            background: var(--gray-800);
+            padding: 32px 28px;
+        }
+
+        .competitor-fail {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #e05a5a;
+            margin-bottom: 12px;
+        }
+
+        .competitor-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .competitor-reason {
+            font-size: 13px;
+            color: var(--gray-400);
+            line-height: 1.6;
+        }
+
+        .adversary-resolution {
+            font-size: 20px;
+            font-weight: 300;
+            color: var(--white);
+            border-left: 2px solid var(--accent);
+            padding-left: 24px;
+            margin-top: 48px;
+            line-height: 1.6;
+        }
+
+        /* ─── PROTOCOL ─── */
+        .s-protocol {
+            background: var(--black);
+        }
+
+        .s-protocol .section-label { color: var(--accent); opacity: 1; }
+
+        .s-protocol .section-h2 {
+            font-size: clamp(24px, 3vw, 40px);
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            max-width: 700px;
+            margin-bottom: 64px;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+
+        .protocol-module {
+            background: var(--gray-800);
+            padding: 48px;
+        }
+
+        .module-number {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .module-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .module-body {
+            font-size: 15px;
+            color: var(--gray-400);
+            line-height: 1.75;
+        }
+
+        .protocol-bridge {
+            margin-top: 48px;
+            padding: 32px;
+            background: rgba(200,245,106,0.06);
+            border: 1px solid rgba(200,245,106,0.15);
+            font-size: 16px;
+            color: var(--white);
+            line-height: 1.7;
+        }
+
+        /* ─── EVIDENCE ─── */
+        .s-evidence {
+            background: var(--white);
+        }
+
+        .s-evidence .section-label { color: var(--gray-600); }
+
+        .s-evidence .section-h2 {
+            font-size: clamp(24px, 2.5vw, 38px);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            color: var(--black);
+            margin-bottom: 48px;
+        }
+
+        .pull-quote {
+            font-size: clamp(18px, 2.5vw, 26px);
+            font-weight: 300;
+            line-height: 1.4;
+            color: var(--black);
+            border-left: 3px solid var(--black);
+            padding-left: 28px;
+            margin-bottom: 48px;
+            letter-spacing: -0.01em;
+        }
+
+        .evidence-list { list-style: none; }
+
+        .evidence-item {
+            display: flex;
+            gap: 20px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-size: 15px;
+            color: var(--gray-600);
+            line-height: 1.7;
+            align-items: flex-start;
+        }
+
+        .evidence-item:last-child { border-bottom: none; }
+
+        .evidence-tag {
+            flex-shrink: 0;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: var(--black);
+            color: var(--white);
+            padding: 3px 8px;
+            margin-top: 3px;
+        }
+
+        .evidence-tag.verified { background: #2a5c3a; }
+        .evidence-tag.attributed { background: #3a4a6a; }
+        .evidence-tag.vendor { background: #4a3a2a; }
+
+        .client-asset-flag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #c05a2a;
+            background: rgba(192,90,42,0.1);
+            border: 1px solid rgba(192,90,42,0.3);
+            padding: 3px 8px;
+            margin-top: 6px;
+        }
+
+        /* ─── SOCIAL PROOF ─── */
+        .s-proof {
+            background: var(--gray-800);
+        }
+
+        .s-proof .section-h2 {
+            font-size: clamp(22px, 2.5vw, 36px);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            margin-bottom: 48px;
+        }
+
+        .placeholder-notice {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #c8f56a;
+            background: rgba(200,245,106,0.08);
+            border: 1px solid rgba(200,245,106,0.2);
+            padding: 10px 16px;
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 40px;
+        }
+
+        .testimonial-quote {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--white);
+            margin-bottom: 28px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray-400);
+        }
+
+        .testimonial-placeholder {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #c8f56a;
+            margin-bottom: 12px;
+            opacity: 0.7;
+        }
+
+        /* ─── CTA ─── */
+        .s-cta {
+            background: var(--black);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .s-cta .section-h2 {
+            font-size: clamp(32px, 4.5vw, 64px);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            max-width: 700px;
+            margin-bottom: 24px;
+        }
+
+        .s-cta .cta-sub {
+            font-size: 16px;
+            color: var(--gray-400);
+            max-width: 580px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .s-cta .client-assets-block {
+            background: rgba(192,90,42,0.07);
+            border: 1px solid rgba(192,90,42,0.25);
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+
+        .client-assets-block-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #e07a3a;
+            margin-bottom: 12px;
+        }
+
+        .client-assets-block ul {
+            list-style: none;
+            font-size: 13px;
+            color: var(--gray-400);
+            line-height: 1.8;
+        }
+
+        .client-assets-block ul li::before {
+            content: '→ ';
+            color: #e07a3a;
+        }
+
+        /* ─── FOOTER ─── */
+        .s-footer {
+            background: var(--gray-800);
+            padding: 40px 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-brand {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .footer-legal {
+            font-size: 11px;
+            color: var(--gray-600);
+            max-width: 400px;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .agency-bar { padding: 14px 24px; }
+            .s-hero { padding: 100px 24px 60px; }
+            .container, .container-narrow { padding: 72px 24px; }
+            .protocol-grid, .testimonials-grid, .competitor-grid { grid-template-columns: 1fr; }
+            .s-footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+            .footer-legal { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Agency identification bar -->
+    <header class="agency-bar">
+        <div class="agency-logo">Moood.Studio</div>
+        <div class="agency-meta">Lumina Bio — Narrative V1 — 2026-04-21</div>
+        <span class="review-badge">Pending Client Review</span>
+    </header>
+
+    <!-- S1: HERO -->
+    <section class="s-hero" id="hero">
+        <div class="hero-eyebrow">Lumina Bio — Homepage Narrative</div>
+        <h1 class="hero-h1">Your mitochondria are running at 60%. That's not an energy problem.<br><em>It's an engineering problem.</em></h1>
+        <p class="hero-sub">The most advanced system in your company is the one you've never audited. Lumina Bio restores ATP synthesis efficiency through targeted photobiomodulation and nano-liposomal NAD+ delivery — 90-day protocols, not supplements.</p>
+        <div style="display:flex; gap: 16px; flex-wrap: wrap;">
+            <a href="#protocol" class="btn-primary">See the Protocol →</a>
+            <a href="#cta" class="btn-ghost">Book the Audit</a>
+        </div>
+    </section>
+
+    <!-- S2: THE REAL PROBLEM -->
+    <section class="s-light s-problem">
+        <div class="container">
+            <div class="section-label">The Real Problem</div>
+            <div class="stat-callout">~50%</div>
+            <div class="stat-label">NAD+ decline between ages 40 and 60 — Yoshino et al., Cell Metabolism (2018)</div>
+            <h2 class="section-h2" style="margin-top: 48px;">NAD+ levels fall ~50% between 40 and 60. Your cells are running the same demands on half the fuel.</h2>
+            <div class="body-copy">
+                <p>According to Yoshino et al. in <em>Cell Metabolism</em> (2018), NAD+ levels decline approximately 50% between the ages of 40 and 60. For a founder or executive in a chronic high-cortisol environment, that decline accelerates — cortisol actively degrades the NAD+ salvage pathway, depleting the precursor pool faster than supplementation can replenish it through standard oral delivery.</p>
+                <p>The result isn't "burnout." It's a measurable reduction in ATP production capacity — the cellular currency that runs your prefrontal cortex, your working memory, and your decision processing speed. The fog isn't psychological. It's electrochemical.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- S3: THE ADVERSARY -->
+    <section class="s-dark s-adversary">
+        <div class="container">
+            <div class="section-label" style="color: #e05a5a; opacity: 1;">You've already tried the obvious answers.</div>
+            <h2 class="section-h2">Why everything else has failed you.</h2>
+            <div class="competitor-grid">
+                <div class="competitor-item">
+                    <div class="competitor-fail">✕ GI Degradation</div>
+                    <div class="competitor-name">Oral NR Supplements</div>
+                    <div class="competitor-reason">60–70% of the active compound degrades before reaching your bloodstream. The label says 300mg. Your cells receive far less.</div>
+                </div>
+                <div class="competitor-item">
+                    <div class="competitor-fail">✕ Operationally Impossible</div>
+                    <div class="competitor-name">IV NAD+ Clinics</div>
+                    <div class="competitor-reason">Effective — but four hours in a recliner chair, three times a week, is not a CEO operating cadence. The protocol doesn't survive your calendar.</div>
+                </div>
+                <div class="competitor-item">
+                    <div class="competitor-fail">✕ Surface-Level</div>
+                    <div class="competitor-name">Biohacking Stacks</div>
+                    <div class="competitor-reason">Adaptogens and nootropics address the symptom. None target mitochondrial ATP depletion at the cellular level — the actual source of executive cognitive decline.</div>
+                </div>
+            </div>
+            <div class="adversary-resolution">
+                None of them combine photobiomodulation — which activates the mitochondria's own ATP engine — with delivery that actually reaches the cell.<br><br>
+                <strong style="font-weight: 500;">Lumina Bio does both. Through a single protocol.</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- S4: THE PROTOCOL -->
+    <section class="s-protocol" id="protocol">
+        <div class="container">
+            <div class="section-label">The Protocol</div>
+            <h2 class="section-h2">Two mechanisms. One protocol. Designed for the cellular environment of a post-40 executive.</h2>
+            <div class="protocol-grid">
+                <div class="protocol-module">
+                    <div class="module-number">Module 01</div>
+                    <div class="module-title">Targeted Photobiomodulation (PBM)</div>
+                    <div class="module-body">Near-infrared light at specific wavelengths (660–850nm) activates cytochrome c oxidase — the terminal enzyme in the mitochondrial electron transport chain responsible for converting oxygen into ATP. In post-40, high-cortisol cells, this enzyme is suppressed. PBM restores its activation without pharmacological intervention.</div>
+                </div>
+                <div class="protocol-module">
+                    <div class="module-number">Module 02</div>
+                    <div class="module-title">Nano-Liposomal NAD+ Delivery<br><span style="font-size:13px; font-weight:400; color: var(--gray-400);">Patent #US11447</span></div>
+                    <div class="module-body">Standard oral NAD+ precursors are degraded by gastric acid and intestinal enzymes before reaching systemic circulation. Lumina Bio's nano-liposomal encapsulation surrounds the NAD+ precursor in a phospholipid bilayer — structurally identical to cell membranes — allowing direct absorption into the bloodstream at 3–5x the efficiency of standard oral supplementation.</div>
+                </div>
+            </div>
+            <div class="protocol-bridge">
+                PBM activates the mitochondria's ATP production mechanism. Nano-liposomal NAD+ provides the precursor substrate that mechanism needs. <strong style="font-weight: 500; color: var(--accent);">Neither works at full capacity without the other.</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- S5: EVIDENCE -->
+    <section class="s-evidence">
+        <div class="container">
+            <div class="section-label">The Evidence</div>
+            <h2 class="section-h2">The science isn't new. The delivery mechanism is.</h2>
+            <blockquote class="pull-quote">"NAD+ levels drop ~50% by age 60. Most supplements deliver less than 30% of their stated dose to systemic circulation."</blockquote>
+            <ul class="evidence-list">
+                <li class="evidence-item">
+                    <span class="evidence-tag verified">Verified</span>
+                    <span>NAD+ levels decline approximately 50% between ages 40 and 60 — Yoshino et al., <em>Cell Metabolism</em> (2018).</span>
+                </li>
+                <li class="evidence-item">
+                    <span class="evidence-tag attributed">Attributed</span>
+                    <span>Photobiomodulation research demonstrates that specific near-infrared wavelengths activate cytochrome c oxidase — mitochondria's primary ATP-production enzyme — Hamblin (2019).</span>
+                </li>
+                <li class="evidence-item">
+                    <span class="evidence-tag vendor">Vendor</span>
+                    <div>
+                        <div>Lumina Bio's 2025 clinical study on mitochondrial integrity through targeted photobiomodulation documents restored ATP synthesis in post-40 adults in high-cortisol environments.</div>
+                        <div class="client-asset-flag">⚠ Client Asset Required — English-language study confirmation needed for publication</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- S6: SOCIAL PROOF -->
+    <section class="s-proof">
+        <div class="container">
+            <div class="section-label" style="color: var(--gray-400);">What executives report after 90 days.</div>
+            <h2 class="section-h2">The results aren't theoretical.</h2>
+            <div class="placeholder-notice">📋 Placeholder — to be replaced with real executive testimonials before launch</div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-placeholder">Placeholder testimonial</div>
+                    <p class="testimonial-quote">"I've been managing a Series B company since 2021. By mid-afternoon, my decision quality used to fall off a cliff. After 8 weeks of the Lumina protocol, that cliff is gone. I don't know how to quantify it, but my co-founder noticed before I said anything."</p>
+                    <div class="testimonial-author">CTO, B2B SaaS — 47</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-placeholder">Placeholder testimonial</div>
+                    <p class="testimonial-quote">"I had already tried NMN, lion's mane, and a full hormone optimization panel. Nothing was addressing the afternoon cognitive drag. The Lumina audit showed my mitochondrial marker panel was off. Three months in, my HRV is up 18% and the fog is gone."</p>
+                    <div class="testimonial-author">Managing Partner, Growth Equity — 52</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- S7: CTA -->
+    <section class="s-cta" id="cta">
+        <div class="container">
+            <h2 class="section-h2">Your biological hardware has never been audited.</h2>
+            <p class="cta-sub">The Mitochondrial Integrity Audit identifies your current ATP production efficiency, NAD+ baseline, and cytochrome c oxidase activity — and maps the 90-day protocol to restore it.</p>
+            <div class="client-assets-block">
+                <div class="client-assets-block-title">⚠ Client Assets Required Before Publication</div>
+                <ul>
+                    <li>Audit format, duration, and delivery method (online / presencial / hybrid)</li>
+                    <li>Price anchor (exact price or starting-from range)</li>
+                    <li>Booking link or Calendly embed URL</li>
+                    <li>2 real executive testimonials with name, role, and company</li>
+                    <li>English-language confirmation of 2025 clinical study</li>
+                </ul>
+            </div>
+            <a href="#" class="btn-primary">Book your Mitochondrial Integrity Audit →</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="s-footer">
+        <div class="footer-brand">Lumina Bio © 2026</div>
+        <div class="footer-legal">Clinical longevity protocols. Not for diagnosis or treatment of medical conditions.<br>Narrative prepared by Moood.Studio — moood.studio</div>
+    </footer>
+
+</body>
+</html>
