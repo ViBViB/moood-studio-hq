@@ -429,14 +429,34 @@
             return isValid;
         }
 
+        async function submitIntake() {
+            const formData = new FormData();
+            document.querySelectorAll('.q-slide input, .q-slide textarea').forEach(el => {
+                if (el.name) formData.append(el.name, el.value);
+            });
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput && fileInput.files.length > 0) {
+                Array.from(fileInput.files).forEach(file => formData.append('files', file));
+            }
+
+            try {
+                const res = await fetch('/api/intake', { method: 'POST', body: formData });
+                if (!res.ok) {
+                    const err = await res.json();
+                    console.error('Intake API error:', err);
+                }
+            } catch (err) {
+                console.error('Intake submit failed:', err);
+            }
+        }
+
         function nextSlide() {
             if (currentSlide < totalSlides) {
                 if (validateCurrentSlide()) {
                     currentSlide++;
                     updateSlider();
                     if (currentSlide === totalSlides) {
-                        // In a real scenario, this is where data would be sent.
-                        console.log("Intake Submitted");
+                        submitIntake();
                     }
                 }
             }
