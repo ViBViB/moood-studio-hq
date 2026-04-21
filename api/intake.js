@@ -99,7 +99,9 @@ module.exports = async (req, res) => {
    *Note: If path exists, create \`-V2\`, \`-V3\`, etc. to prevent overwriting.*
 2. **Phase 1**: Generate \`01-PRD.md\` using the Evidence Repository below.
 3. **Phase 2**: Execute full Strategic Audit + Narrative Tension Map.
-4. **Phase 3**: Deliver Narrative Script with Creative Refinement Pass.
+4. **Phase 3**: Deliver **Narrative Script** with Creative Refinement Pass.
+5. **Phase 4**: **The Visitor Loop**. Run \`The Visitor\` review and submit to Alberto for final approval.
+6. **Phase 5**: **Publication**. Deploy approved narrative to a new project node (GitHub/Vercel) for client sign-off.
 
 ## Evidence Repository
 ${evidence}
