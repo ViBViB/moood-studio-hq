@@ -1,65 +1,17 @@
 const { Resend } = require('resend');
 const PDFDocument = require('pdfkit');
-const Busboy = require('busboy');
-const { put } = require('@vercel/blob');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// IMPORTANT: Disable Vercel's default body parser to handle large streaming uploads
 module.exports = async (req, res) => {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        console.log('Starting streaming intake processing...');
-        
-        const busboy = Busboy({ headers: req.headers });
-        const fields = {};
-        const uploadedAssets = [];
-        const uploadPromises = [];
-
-        const parseForm = new Promise((resolve, reject) => {
-            busboy.on('field', (name, val) => {
-                fields[name] = val;
-            });
-
-            busboy.on('file', (name, file, info) => {
-                const { filename, mimeType } = info;
-                console.log(`Piping file to Vercel Blob: ${filename}`);
-                
-                // Start the upload stream immediately
-                const uploadPromise = put(filename, file, {
-                    access: 'public',
-                    contentType: mimeType,
-                }).then(blob => {
-                    uploadedAssets.push({ name: filename, url: blob.url });
-                    console.log(`Upload successful: ${blob.url}`);
-                }).catch(err => {
-                    console.error(`Upload failed for ${filename}:`, err);
-                    throw err;
-                });
-                
-                uploadPromises.push(uploadPromise);
-            });
-
-            busboy.on('finish', async () => {
-                try {
-                    // Wait for all concurrent uploads to finish
-                    await Promise.all(uploadPromises);
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            });
-            
-            busboy.on('error', reject);
-            req.pipe(busboy);
-        });
-
-        await parseForm;
-
-        const { companyName, fullName, email, evidence, adversary, portrait, objective } = fields;
+        // Since we are now uploading assets client-side, we can use the standard body parser
+        const { companyName, fullName, email, evidence, adversary, portrait, objective, blobUrls } = req.body;
+        const uploadedAssets = blobUrls ? JSON.parse(blobUrls) : [];
 
         if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
             return res.status(400).json({ error: 'Missing strategic requirements' });
@@ -99,19 +51,16 @@ module.exports = async (req, res) => {
             }
             doc.moveDown(2);
 
-            // Adversary
             doc.fontSize(14).font('Helvetica-Bold').text('03. THE ADVERSARY');
             doc.moveDown(0.5);
             doc.fontSize(10).font('Helvetica').text(adversary, { width: 500, align: 'justify' });
             doc.moveDown(2);
 
-            // Portrait
             doc.fontSize(14).font('Helvetica-Bold').text('04. THE HUMAN PORTRAIT');
             doc.moveDown(0.5);
             doc.fontSize(10).font('Helvetica').text(portrait, { width: 500, align: 'justify' });
             doc.moveDown(2);
 
-            // Objective
             doc.fontSize(14).font('Helvetica-Bold').text('05. SINGULAR OBJECTIVE');
             doc.moveDown(0.5);
             doc.fontSize(10).font('Helvetica-Bold').text('CTA: ', { continued: true }).font('Helvetica').text(objective);
@@ -119,7 +68,7 @@ module.exports = async (req, res) => {
             doc.end();
         });
 
-        // 2. Prepare Markdown block
+        // 2. Metadata for AI
         const markdownContent = `
 /strategy-director
 
@@ -146,7 +95,7 @@ ${portrait}
 ${objective}
         `.trim();
 
-        // 3. Send email to AGENCY
+        // 3. Send email via Resend
         await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
@@ -170,14 +119,7 @@ ${objective}
         return res.status(200).json({ success: true });
 
     } catch (err) {
-        console.error('INTAKE_API_ERROR:', err);
-        return res.status(500).json({ error: 'Intake failed', message: err.message });
+        console.error('API_ERROR:', err);
+        return res.status(500).json({ error: 'Intake process failed', details: err.message });
     }
-};
-
-// Vercel config to allow streaming and large payloads (bypass body limit)
-module.exports.config = {
-    api: {
-        bodyParser: false,
-    },
 };

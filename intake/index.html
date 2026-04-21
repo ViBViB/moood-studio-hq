@@ -656,22 +656,40 @@
 
             const btnText = document.getElementById('btnNextText');
             btnNext.disabled = true;
-            btnText.textContent = 'Transmitting Technical Evidence...';
+            btnText.textContent = 'Uploading technical assets...';
 
             try {
-                const formData = new FormData();
-                document.querySelectorAll('input, textarea').forEach(el => {
-                    if (el.name) formData.append(el.name, el.value);
-                });
+                const uploadedUrls = [];
 
-                // Append local files for server-side streaming
-                selectedFiles.forEach(file => {
-                    formData.append('attachments', file);
+                if (selectedFiles.length > 0) {
+                    // Import the upload function from esm.sh
+                    const { upload } = await import('https://esm.sh/@vercel/blob/client');
+
+                    for (const file of selectedFiles) {
+                        console.log(`Direct upload started for: ${file.name}`);
+                        const newBlob = await upload(file.name, file, {
+                            access: 'public',
+                            handleUploadUrl: '/api/upload'
+                        });
+                        uploadedUrls.push({ name: file.name, url: newBlob.url });
+                    }
+                }
+
+                btnText.textContent = 'Transmitting strategic data...';
+
+                // 2. Final transmission with JSON
+                const payload = {};
+                document.querySelectorAll('input, textarea').forEach(el => {
+                    if (el.name) payload[el.name] = el.value;
                 });
+                
+                // Add the URLs of the blobs
+                payload.blobUrls = JSON.stringify(uploadedUrls);
 
                 const response = await fetch('/api/intake', {
                     method: 'POST',
-                    body: formData,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
                 });
 
                 const result = await response.json();
@@ -683,7 +701,7 @@
                     throw new Error(result.message || result.error || 'Transmission failed');
                 }
             } catch (error) {
-                console.error('Submission error:', error);
+                console.error('CRITICAL_SUBMISSION_ERROR:', error);
                 alert(`Transmission error: ${error.message}`);
                 btnNext.disabled = false;
                 btnText.textContent = 'Activate Strategy';
