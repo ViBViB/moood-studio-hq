@@ -656,40 +656,18 @@
 
             const btnText = document.getElementById('btnNextText');
             btnNext.disabled = true;
-            btnText.textContent = 'Uploading Assets...';
+            btnText.textContent = 'Transmitting Technical Evidence...';
 
             try {
-                const uploadedUrls = [];
-                
-                // Use esm.sh which is more reliable for browser imports
-                const { upload } = await import('https://esm.sh/@vercel/blob/client');
-
-                if (typeof upload !== 'function') {
-                    throw new Error('Vercel Blob SDK could not be loaded correctly.');
-                }
-
-                // 1. Upload files to Vercel Blob (Client-side)
-                for (const file of selectedFiles) {
-                    const newBlob = await upload(file.name, file, {
-                        access: 'public',
-                        handleUploadUrl: '/api/upload',
-                    });
-                    uploadedUrls.push({
-                        name: file.name,
-                        url: newBlob.url
-                    });
-                }
-
-                btnText.textContent = 'Transmitting...';
-
-                // 2. Send final data to Intake API
                 const formData = new FormData();
                 document.querySelectorAll('input, textarea').forEach(el => {
                     if (el.name) formData.append(el.name, el.value);
                 });
 
-                // Instead of sending raw files, send the URLs of the blobs
-                formData.append('blobUrls', JSON.stringify(uploadedUrls));
+                // Append local files for server-side streaming
+                selectedFiles.forEach(file => {
+                    formData.append('attachments', file);
+                });
 
                 const response = await fetch('/api/intake', {
                     method: 'POST',
