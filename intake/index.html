@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         :root {
-            --bg-color: #0d0d0d;
-            --sidebar-color: #1a1a1a;
-            --accent-color: #ffffff;
-            --text-dim: rgba(255, 255, 255, 0.5);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg-color: #ffffff;
+            --sidebar-color: #f8f8f8;
+            --accent-color: #000000;
+            --text-dim: rgba(0, 0, 0, 0.4);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --font-main: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
-        /* Forces layout to override global style.css */
+        /* Moood Studio Skeleton Alignment */
         html, body {
             background-color: var(--bg-color) !important;
             color: var(--accent-color) !important;
@@ -24,14 +25,15 @@
             height: 100vh !important;
             width: 100vw !important;
             overflow: hidden !important;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Sidebar Architecture */
+        /* Sidebar: Light Gray Architecture */
         .q-sidebar {
             width: 440px;
             background: var(--sidebar-color);
-            padding: 80px 60px;
+            padding: 100px 60px;
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--border-color);
@@ -42,26 +44,27 @@
         }
 
         .q-sidebar-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
             margin-bottom: 0;
+            color: #000;
         }
 
         .q-sidebar-instruction {
             font-size: 18px;
             line-height: 1.5;
-            color: var(--text-dim);
+            color: rgba(0, 0, 0, 0.6);
             margin-top: 30px;
-            margin-bottom: 60px;
-            max-width: none; /* Elimina el max-width */
+            margin-bottom: 80px;
+            font-weight: 400;
         }
 
         .q-progress-bar {
             height: 2px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             width: 100%;
-            margin-bottom: 60px; /* Entre el párrafo y la lista */
+            margin-bottom: 80px;
             position: relative;
         }
 
@@ -70,50 +73,49 @@
             height: 100%;
             background: var(--accent-color);
             width: 20%;
-            transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: width 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .q-chapters-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            /* Sin centrado vertical */
         }
 
         .q-chapter-item {
-            font-size: 14px;
-            padding: 16px 0;
+            font-size: 15px;
+            padding: 18px 0;
             color: var(--text-dim);
             transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid transparent;
+            gap: 16px;
+            font-weight: 500;
         }
 
         .q-chapter-item.active {
             color: var(--accent-color);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .q-chapter-item span:first-child {
-            font-family: 'Mono', monospace;
-            font-size: 10px;
-            opacity: 0.5;
-            width: 20px;
+            font-family: monospace;
+            font-size: 11px;
+            opacity: 0.4;
+            width: 24px;
         }
 
         .q-privacy-tag {
             font-size: 12px;
-            color: var(--text-dim);
-            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.4);
+            line-height: 1.6;
             position: absolute;
             bottom: 60px;
             left: 60px;
             right: 60px;
         }
 
-        /* Main Workspace */
+        /* Main Canvas: White Space */
         .q-main {
             flex-grow: 1;
             padding: 120px;
@@ -121,13 +123,12 @@
             flex-direction: column;
             justify-content: center;
             background-color: var(--bg-color);
-            position: relative;
-            z-index: 5;
             height: 100vh;
+            position: relative;
         }
 
         #intakeForm {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
         }
 
@@ -137,70 +138,74 @@
 
         .q-step.active {
             display: block;
-            animation: slideUpFade 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            animation: vaultEntry 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes vaultEntry {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .q-step-number {
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            margin-bottom: 24px;
+            letter-spacing: 3px;
+            color: rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
             display: block;
         }
 
         .q-step-title {
-            font-size: 48px;
+            font-size: 64px;
             font-weight: 700;
-            margin-bottom: 40px;
-            line-height: 1.1;
-            letter-spacing: -1px;
+            margin-bottom: 60px;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            color: #000;
         }
 
         .q-input-group {
-            margin-top: 50px;
+            margin-top: 60px;
         }
 
         .q-input-label {
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-dim);
-            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: rgba(0, 0, 0, 0.8);
+            margin-bottom: 24px;
             display: block;
+            font-weight: 700;
         }
 
         .q-text-input {
             background: transparent;
             border: none;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1.5px solid var(--border-color);
             width: 100%;
-            padding: 20px 0;
-            font-size: 24px;
-            color: var(--accent-color);
+            padding: 24px 0;
+            font-size: 32px;
+            color: #000;
             outline: none;
-            transition: 0.3s;
+            transition: 0.4s;
+            font-weight: 400;
         }
 
         .q-text-input:focus {
-            border-bottom-color: var(--accent-color);
+            border-bottom-color: #000;
         }
 
         .q-textarea {
-            min-height: 200px;
-            line-height: 1.4;
+            min-height: 180px;
+            line-height: 1.5;
+            font-size: 24px;
         }
 
-        /* Evidence Dropzone */
+        /* Vault Upload Style */
         .q-upload-area {
-            border: 1px dashed var(--border-color);
-            padding: 60px;
+            border: 1.5px dashed var(--border-color);
+            padding: 80px 40px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
@@ -208,56 +213,55 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .q-upload-area:hover {
-            border-color: var(--accent-color);
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.02);
+            border-color: #000;
         }
 
         .q-file-list {
-            margin-top: 24px;
-            font-size: 13px;
-            color: var(--text-dim);
+            margin-top: 30px;
         }
 
         .q-file-item {
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
+            font-size: 14px;
         }
 
-        /* Nav Controls */
+        /* Navigation: High Contrast */
         .q-nav {
             position: fixed;
             bottom: 80px;
-            right: 120px;
+            right: 100px;
             display: flex;
-            gap: 20px;
-            z-index: 20;
+            gap: 24px;
+            z-index: 100;
         }
 
         .q-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--accent-color);
-            padding: 18px 45px;
-            font-size: 13px;
-            font-weight: 600;
+            background: #000;
+            color: #fff;
+            padding: 20px 48px;
+            font-size: 14px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.4s;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
+            border: none;
         }
 
         .q-btn:hover:not(:disabled) {
-            background: var(--accent-color);
-            color: var(--bg-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .q-btn:disabled {
@@ -265,13 +269,14 @@
             cursor: not-allowed;
         }
 
-        .q-btn-primary {
-            background: var(--accent-color);
-            color: var(--bg-color);
+        .q-btn-back {
+            background: transparent;
+            color: #000;
+            border: 1.5px solid #000;
         }
 
-        .q-success {
-            max-width: 600px;
+        .q-success-message {
+            max-width: 700px;
         }
     </style>
 </head>
@@ -323,16 +328,16 @@
                 <h1 class="q-step-title">Evidence Repository</h1>
                 <div class="q-input-group">
                     <label class="q-input-label">Technical Documentation / Raw Data</label>
-                    <textarea name="evidence" class="q-text-input q-textarea" placeholder="Paste transcripts, white papers, or technical links..." required></textarea>
+                    <textarea name="evidence" class="q-text-input q-textarea" placeholder="Paste transcripts, white papers, or links..." required></textarea>
                 </div>
                 
                 <div class="q-input-group">
                     <label class="q-input-label">Technical Assets (Max Total: 4.5MB)</label>
                     <div class="q-upload-area" id="dropZone">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
                         </svg>
-                        <p style="font-size: 14px; opacity: 0.7;">Upload documents, infographics or charts.</p>
+                        <p style="font-size: 16px; opacity: 0.7;">Upload technical assets.</p>
                         <input type="file" id="fileInput" multiple style="display: none;">
                     </div>
                     <div class="q-file-list" id="fileList"></div>
@@ -345,7 +350,7 @@
                 <h1 class="q-step-title">The Adversary</h1>
                 <div class="q-input-group">
                     <label class="q-input-label">What specific friction is currently hindering growth?</label>
-                    <textarea name="adversary" class="q-text-input q-textarea" placeholder="Describe the status quo we are fighting against..." required></textarea>
+                    <textarea name="adversary" class="q-text-input q-textarea" placeholder="Describe the status quo..." required></textarea>
                 </div>
             </div>
 
@@ -354,7 +359,7 @@
                 <span class="q-step-number">04 / 05</span>
                 <h1 class="q-step-title">The Human Portrait</h1>
                 <div class="q-input-group">
-                    <label class="q-input-label">Describe the psychology of the ideal visitor.</label>
+                    <label class="q-input-label">The visitor's psychographic landscape.</label>
                     <textarea name="portrait" class="q-text-input q-textarea" placeholder="What are they afraid of? What keeps them awake?" required></textarea>
                 </div>
             </div>
@@ -364,28 +369,28 @@
                 <span class="q-step-number">05 / 05</span>
                 <h1 class="q-step-title">The Singular Objective</h1>
                 <div class="q-input-group">
-                    <label class="q-input-label">The one action they should take after reading the narrative?</label>
+                    <label class="q-input-label">The one action they should take?</label>
                     <input type="text" name="objective" class="q-text-input" placeholder="e.g. Schedule a technical audit" required>
                 </div>
             </div>
 
             <!-- Success -->
             <div class="q-step" id="step6">
-                <div class="q-success">
-                    <h1 class="q-step-title">Protocol Activated</h1>
-                    <p style="color: var(--text-dim); font-size: 20px; line-height: 1.6;">Strategy Director has received the atomic brief. Check the secure node (Email) for confirmation.</p>
+                <div class="q-success-message">
+                    <h1 class="q-step-title" style="font-size: 80px;">Protocol Activated.</h1>
+                    <p style="font-size: 24px; line-height: 1.6; opacity: 0.6;">The brief has been transmitted. The Strategy Director will provide the audit via the secure communication node.</p>
                     <br><br>
-                    <a href="/" class="q-btn" style="text-decoration: none; display: inline-flex;">Return to Lab</a>
+                    <a href="/" class="q-btn" style="text-decoration: none; display: inline-flex;">Back to Dashboard</a>
                 </div>
             </div>
         </form>
     </div>
 
     <div class="q-nav" id="navigation">
-        <button class="q-btn" id="btnBack" style="display: none;">Back</button>
-        <button class="q-btn q-btn-primary" id="btnNext">
+        <button class="q-btn q-btn-back" id="btnBack" style="display: none;">Back</button>
+        <button class="q-btn" id="btnNext">
             <span id="btnNextText">Next Chapter</span>
-            <span>→</span>
+            <span style="font-size: 24px;">→</span>
         </button>
     </div>
 
@@ -469,7 +474,7 @@
         async function submitForm() {
             const totalSize = selectedFiles.reduce((acc, f) => acc + f.size, 0);
             if (totalSize > 4.5 * 1024 * 1024) {
-                alert('Archivos demasiado pesados (Máx: 4.5MB total). Por favor, comprímelos.');
+                alert('Limit exceeded (4.5MB). Please compress files.');
                 return;
             }
 
@@ -489,10 +494,10 @@
                     updateSlider();
                 } else {
                     const err = await response.json();
-                    throw new Error(err.message || 'Transmission failed');
+                    throw new Error(err.message || 'Error');
                 }
             } catch (error) {
-                alert(`Error: ${error.message}`);
+                alert(error.message);
                 btnNext.disabled = false;
                 document.getElementById('btnNextText').textContent = 'Activate Strategy';
             }
