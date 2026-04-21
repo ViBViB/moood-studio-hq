@@ -303,6 +303,75 @@
             margin-top: 40px;
         }
 
+        /* File Upload Styling */
+        .file-upload-container {
+            margin-top: 24px;
+            border: 1px dashed rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .file-upload-container:hover {
+            border-color: #000;
+            background: #f0f0f0;
+        }
+
+        .file-upload-container.dragging {
+            border-color: #000;
+            background: #eee;
+        }
+
+        .file-upload-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .file-upload-text {
+            font-size: 13px;
+            color: rgba(0,0,0,0.6);
+        }
+
+        .file-upload-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-list {
+            margin-top: 16px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-item {
+            font-size: 12px;
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-remove {
+            color: #ff0000;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
         @media (max-width: 768px) {
             body { flex-direction: column; overflow-y: auto; }
             .q-sidebar { width: 100%; height: auto; padding: 40px 24px; }
@@ -374,6 +443,13 @@
                             <label>Sources & Links</label>
                             <textarea name="evidence" placeholder="Paste links to PDFs, documentation, or study results here..." rows="6" required></textarea>
                         </div>
+                        
+                        <div class="file-upload-container" id="dropZone">
+                            <span class="file-upload-icon">📁</span>
+                            <span class="file-upload-text"><strong>Click to upload</strong> or drag & drop<br>Documents, Images, Infographics</span>
+                            <input type="file" id="fileInput" class="file-upload-input" multiple>
+                        </div>
+                        <div class="file-list" id="fileList"></div>
                     </div>
                 </div>
 
@@ -492,6 +568,58 @@
             });
         });
 
+        // File Upload Logic
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const dropZone = document.getElementById('dropZone');
+        let selectedFiles = [];
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragging');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragging');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragging');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            });
+            renderFileList();
+        }
+
+        function renderFileList() {
+            fileList.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <span>${file.name} (${(file.size / 1024).toFixed(1)} KB)</span>
+                    <span class="file-remove" onclick="removeFile(${index})">×</span>
+                `;
+                fileList.appendChild(item);
+            });
+        }
+
+        window.removeFile = (index) => {
+            selectedFiles.splice(index, 1);
+            renderFileList();
+        };
+
         function validateCurrentSlide() {
             const currentInputs = slides[currentSlide - 1].querySelectorAll('input[required], textarea[required]');
             return validateInputs(currentInputs);
@@ -511,16 +639,20 @@
         }
 
         async function submitForm() {
-            // Global validation before final submission
             const allRequired = document.querySelectorAll('input[required], textarea[required]');
             if (!validateInputs(allRequired)) {
                 alert('Please complete all technical requirements before activating strategy.');
                 return;
             }
 
-            const formData = {};
+            const formData = new FormData();
             document.querySelectorAll('input, textarea').forEach(el => {
-                if (el.name) formData[el.name] = el.value;
+                if (el.name) formData.append(el.name, el.value);
+            });
+
+            // Append files
+            selectedFiles.forEach(file => {
+                formData.append('attachments', file);
             });
 
             const btnText = document.getElementById('btnNextText');
@@ -530,8 +662,7 @@
             try {
                 const response = await fetch('/api/intake', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
+                    body: formData, // Fetch automatically sets multipart/form-data with boundary
                 });
 
                 if (response.ok) {

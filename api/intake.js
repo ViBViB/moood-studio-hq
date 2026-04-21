@@ -1,5 +1,6 @@
 const { Resend } = require('resend');
 const PDFDocument = require('pdfkit');
+const Busboy = require('busboy');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -9,8 +10,37 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const data = req.body;
-        const { companyName, fullName, email, evidence, adversary, portrait, objective } = data;
+        // Parse Multipart Form Data using Busboy
+        const busboy = Busboy({ headers: req.headers });
+        const fields = {};
+        const attachments = [];
+
+        const parseForm = new Promise((resolve, reject) => {
+            busboy.on('field', (name, val) => {
+                fields[name] = val;
+            });
+
+            busboy.on('file', (name, file, info) => {
+                const { filename, mimeType } = info;
+                const chunks = [];
+                file.on('data', (chunk) => chunks.push(chunk));
+                file.on('end', () => {
+                    attachments.push({
+                        filename,
+                        content: Buffer.concat(chunks),
+                        contentType: mimeType
+                    });
+                });
+            });
+
+            busboy.on('finish', () => resolve());
+            busboy.on('error', reject);
+            req.pipe(busboy);
+        });
+
+        await parseForm;
+
+        const { companyName, fullName, email, evidence, adversary, portrait, objective } = fields;
 
         if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
             return res.status(400).json({ error: 'Missing strategic requirements' });
@@ -43,6 +73,14 @@ module.exports = async (req, res) => {
             doc.fontSize(14).font('Helvetica-Bold').text('02. EVIDENCE REPOSITORY');
             doc.moveDown(0.5);
             doc.fontSize(10).font('Helvetica').text(evidence, { width: 500, align: 'justify' });
+            
+            if (attachments.length > 0) {
+                doc.moveDown(1);
+                doc.font('Helvetica-Bold').text('Attached Files:');
+                attachments.forEach(att => {
+                    doc.font('Helvetica').text(`- ${att.filename}`);
+                });
+            }
             doc.moveDown(2);
 
             // Adversary
@@ -80,6 +118,8 @@ Idioma de output: español
 ## 1. Evidence Repository
 ${evidence}
 
+${attachments.length > 0 ? `### Attached Files:\n${attachments.map(a => `- ${a.filename}`).join('\n')}` : ''}
+
 ## 2. The Adversary
 ${adversary}
 
@@ -104,7 +144,7 @@ ${objective}
 ${markdownContent}
                     </pre>
 
-                    <p>Detailed PDF technical backing is attached.</p>
+                    <p>Detailed PDF technical backing and ${attachments.length} uploaded files are attached.</p>
                 </div>
             `,
             attachments: [
@@ -112,6 +152,7 @@ ${markdownContent}
                     filename: `Strategy_Intake_${companyName.replace(/\s+/g, '_')}.pdf`,
                     content: pdfBuffer,
                 },
+                ...attachments
             ],
         });
 
