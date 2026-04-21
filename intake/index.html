@@ -562,7 +562,7 @@
                 qNav.style.display = 'none';
             } else {
                 qNav.style.display = 'flex';
-                document.getElementById('btnNextText').textContent = currentSlide === totalSlides - 1 ? 'Activate Strategy' : 'Next Step';
+                document.getElementById('btnNextText').textContent = currentSlide === totalSlides - 1 ? 'Activate Strategy Phase' : 'Next Step';
             }
         }
 
@@ -677,7 +677,7 @@
 
             const btnText = document.getElementById('btnNextText');
             btnNext.disabled = true;
-            btnText.textContent = 'Transmitting Technical Evidence...';
+            btnText.textContent = 'Activating Strategy Phase...';
 
             try {
                 const formData = new FormData();
