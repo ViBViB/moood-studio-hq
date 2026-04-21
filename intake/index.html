@@ -44,15 +44,23 @@
             gap: 40px;
         }
 
+        .q-sidebar .logo {
+            position: relative;
+            top: auto;
+            right: auto;
+            margin-bottom: 20px;
+            pointer-events: auto;
+        }
+
         .q-sidebar .logo-img {
             height: 48px;
-            filter: invert(1) brightness(100);
+            width: auto;
+            filter: brightness(0) invert(1);
             display: block;
-            margin-bottom: 20px;
         }
 
         .q-h1 {
-            font-size: clamp(32px, 3vw, 48px);
+            font-size: clamp(40px, 4.5vw, 64px);
             font-weight: 300;
             line-height: 1.1;
             letter-spacing: -0.02em;
@@ -61,12 +69,11 @@
         }
 
         .q-sidebar-instruction {
-            font-size: 13px;
-            line-height: 1.6;
+            font-size: 18px;
+            line-height: 1.5;
             color: rgba(255, 255, 255, 0.8);
-            margin-top: 12px;
-            max-width: 280px;
-            text-transform: capitalize;
+            margin-top: 20px;
+            max-width: 320px;
         }
 
         /* Navigable Sections */
