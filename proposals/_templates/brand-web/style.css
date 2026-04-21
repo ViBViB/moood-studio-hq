@@ -63,7 +63,7 @@ body {
 .q-h1 {
     font-size: 12px;
     /* User Request: Min 14px (was 10px) */
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.12em;
     color: rgba(255, 255, 255, 0.35);
     margin-bottom: 16px;
@@ -74,7 +74,6 @@ body {
     font-size: clamp(28px, 3vw, 48px);
     font-weight: 300;
     line-height: 1.1;
-    letter-spacing: -0.02em;
     color: var(--color-white);
     margin: 0 0 56px 0;
 }
@@ -232,9 +231,8 @@ body {
     font-size: clamp(32px, 3.5vw, 52px);
     font-weight: 300;
     line-height: 1.1;
-    /*letter-spacing: -0.02em;*/
     color: var(--color-black);
-    margin-bottom: 40px;
+    margin-bottom: 12px;
 }
 
 .slide-body {

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vantage Optics — Narrative Review — Moood.Studio</title>
+    <meta name="description" content="Vantage Optics narrative review document by Moood.Studio">
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        /* ═══════════════════════════════════════════════════════════
+           MOOOD.STUDIO — NARRATIVE VIEWER ENGINE (v3.0)
+           Editorial review archetype with integrated feedback logic.
+           Unified with 20/80 Sidebar Polarity.
+           ═══════════════════════════════════════════════════════════ */
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* ── TOKENS ── */
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-100: #f7f7f7;
+            --gray-200: #eeeeee;
+            --gray-300: #dddddd;
+            --gray-500: #999999;
+            --gray-700: #555555;
+            --gray-900: #1a1a1a;
+
+            --font: 'Inter', -apple-system, sans-serif;
+            --sidebar-width: 20%; /* UNIFIED AGENCY RATIO */
+            --content-max: 720px;
+            --radius: 3px;
+            --transition-speed: 0.8s;
+        }
+
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            background: var(--white);
+            color: var(--gray-900);
+            min-height: 100vh;
+        }
+
+        /* ── LAYOUT ── */
+        .nv-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .nv-sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            border-right: 1px solid var(--gray-200);
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .nv-sidebar__header {
+            padding: 48px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .nv-sidebar__logo {
+            height: 50px;
+            width: auto;
+            display: block;
+            margin-bottom: 32px;
+        }
+
+        .nv-sidebar__project {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--black);
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .nv-sidebar__meta {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+        }
+
+        .nv-sidebar__sections-label {
+            padding: 24px 48px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gray-300);
+        }
+
+        .nv-sidebar__nav {
+            padding: 0 0 24px;
+            flex: 1;
+        }
+
+        .nv-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 48px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nv-nav-item:hover { background: var(--gray-100); }
+
+        .nv-nav-item.active {
+            background: var(--black);
+        }
+
+        .nv-nav-item.active .nv-nav-item__number,
+        .nv-nav-item.active .nv-nav-item__label { color: var(--white); }
+
+        .nv-nav-item__number {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--gray-300);
+            min-width: 20px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .nv-nav-item__label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-700);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nv-sidebar__footer {
+            padding: 32px 48px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .nv-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 6px 10px;
+            border-radius: var(--radius);
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+
+        .nv-status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gray-300);
+        }
+
+        .nv-status-badge.pending { color: var(--gray-700); }
+        .nv-status-badge.approved { background: #000; color: #fff; }
+        .nv-status-badge.approved::before { background: #fff; }
+
+        /* ── MAIN CONTENT ── */
+        .nv-main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ── TOP BAR ── */
+        .nv-topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 80px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .nv-topbar__info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nv-topbar__client {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: -0.01em;
+        }
+
+        .nv-topbar__segment {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--gray-700);
+        }
+
+        .nv-topbar__sep {
+            font-size: 12px;
+            color: var(--gray-300);
+            user-select: none;
+        }
+
+        .nv-topbar__meta {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--gray-500);
+        }
+
+        .nv-topbar__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nv-btn {
+            height: 36px;
+            padding: 0 16px;
+            border-radius: var(--radius);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .nv-btn--ghost {
+            background: transparent;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .nv-btn--ghost:hover { border-color: var(--black); color: var(--black); }
+
+        .nv-btn--primary {
+            background: var(--black);
+            color: var(--white);
+            border: 1px solid var(--black);
+        }
+
+        .nv-btn--primary:hover { opacity: 0.85; }
+
+        /* ── SECTION CONTAINER ── */
+        .nv-section {
+            padding: 100px 80px;
+            border-bottom: 1px solid var(--gray-200);
+            scroll-margin-top: 60px;
+        }
+
+        .nv-section:last-child { border-bottom: none; }
+
+        .nv-section__inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+        }
+
+        /* ── SECTION LABEL ── */
+        .nv-section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .nv-section-label__number {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--gray-300);
+        }
+
+        .nv-section-label__divider {
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+            max-width: 40px;
+        }
+
+        .nv-section-label__name {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+        }
+
+        /* ── EYEBROW ── */
+        .nv-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        /* ── HERO TYPE ── */
+        .nv-hero__h1 {
+            font-size: clamp(36px, 4vw, 60px);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: var(--black);
+            margin-bottom: 24px;
+        }
+
+        .nv-hero__description {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--gray-700);
+            max-width: 620px;
+        }
+
+        /* ── SECTION TYPE ── */
+        .nv-section__h2 {
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--black);
+            margin-bottom: 12px;
+        }
+
+        .nv-section__p {
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--gray-700);
+            margin-bottom: 32px;
+        }
+
+        .nv-cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--black);
+            text-decoration: none;
+            border-bottom: 2px solid var(--black);
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .nv-cta-link:hover { opacity: 0.6; }
+
+        @media (max-width: 1024px) {
+            :root { --sidebar-width: 0; }
+            .nv-sidebar { display: none; }
+            .nv-main { margin-left: 0; }
+            .nv-section { padding: 60px 40px; }
+            .nv-topbar { padding: 0 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nv-layout" id="app">
+    <div class="nv-loading">Loading diagnostic narrative...</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const data = {
+    "meta": {
+        "project": "Vantage Optics",
+        "client": "Sarah K.",
+        "page": "Homepage",
+        "date": "April 21, 2026",
+        "version": "v1.0 (Diagnostic)",
+        "status": "Pending Approval"
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "label": "Section 01",
+        "eyebrow": "Neural Integrity",
+        "h1": "Your brain doesn't stop. Your eyes do.",
+        "description": "Software engineering is a marathon of focus. But every hour spent in front of high-density displays, your brain pays a quantified 15% focus tax."
+      },
+      {
+        "id": "adversary",
+        "label": "Section 02",
+        "eyebrow": "The Market Toy",
+        "h2": "Gunnars are Yellow Toys.",
+        "p": "Standard 'blue-light' glasses are mass-market toys that offer no spectral protection for high-precision engineers. They treat symptoms; we treat neural throughput."
+      },
+      {
+        "id": "solution",
+        "label": "Section 03",
+        "eyebrow": "The Solution",
+        "h2": "Neural Spectral Integrity",
+        "p": "Vantage Optics doesn't block light; we optimize it. By resolving spectral noise, we eliminate the micro-refocusing loop that erodes focus during peak engineering hours."
+      },
+      {
+        "id": "action",
+        "label": "Section 04",
+        "eyebrow": "Next Step",
+        "h2": "Reclaim Your Focus.",
+        "p": "Stop accepting the 4 PM Fog as a prerequisite. Execute the BVB (Baseline Vision Baseline) Protocol to measure and reclaim your focus.",
+        "cta": "Order Baseline Vision Audit",
+        "ctaLink": "#"
+      }
+    ]
+};
+
+const MOOOD_LOGO = `<svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg" class="nv-sidebar__logo"><path d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654Z" fill="black"/><path d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L322.5 237.35L90.251 11.9447C63.6166 -13.9048 19 4.96764 19 42.0833V389.317C19 458.246 101.859 493.296 151.323 445.289L208.949 389.361L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L436.814 390.102L493.677 445.289C543.141 493.296 626 458.246 626 389.317V42.0833Z" fill="black"/></svg>`;
+
+function renderApp() {
+    const app = document.getElementById('app');
+    let html = `
+        <div class="nv-sidebar">
+            <div class="nv-sidebar__header">
+                ${MOOOD_LOGO}
+                <div class="nv-sidebar__project">${data.meta.project}</div>
+                <div class="nv-sidebar__meta">Narrative Review</div>
+            </div>
+            <div class="nv-sidebar__nav">
+                ${data.sections.map((s, i) => `<a href="#${s.id}" class="nv-nav-item"><span class="nv-nav-item__number">0${i+1}</span><span class="nv-nav-item__label">${s.eyebrow}</span></a>`).join('')}
+            </div>
+        </div>
+        <main class="nv-main">
+            <div class="nv-topbar">
+                <div class="nv-topbar__info"><span class="nv-topbar__client">${data.meta.client}</span></div>
+                <div class="nv-topbar__actions"><button class="nv-btn nv-btn--primary">Approve Narrative</button></div>
+            </div>
+            ${data.sections.map((s, i) => `
+                <section class="nv-section" id="${s.id}">
+                    <div class="nv-section__inner">
+                        <div class="nv-eyebrow">${s.eyebrow}</div>
+                        ${s.h1 ? `<h1 class="nv-hero__h1">${s.h1}</h1>` : `<h2 class="nv-section__h2">${s.h2}</h2>`}
+                        <div class="${s.h1 ? 'nv-hero__description' : 'nv-section__p'}">${s.description || s.p}</div>
+                    </div>
+                </section>
+            `).join('')}
+        </main>`;
+    app.innerHTML = html;
+}
+renderApp();
+</script>
+</body>
+</html>
