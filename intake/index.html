@@ -608,12 +608,12 @@
 
             Array.from(files).forEach(file => {
                 if (file.size > MAX_TOTAL) {
-                    alert(`El archivo "${file.name}" supera el límite de 4.5MB. Por favor, sube una versión más ligera o proporciona un link.`);
+                    alert(`The file "${file.name}" exceeds the 4.5MB limit. Please upload a lighter version or provide a link.`);
                     return;
                 }
                 
                 if (currentTotal + file.size > MAX_TOTAL) {
-                    alert('El total de archivos supera el límite de 4.5MB para esta transmisión. Por favor, remueve algunos archivos o usa enlaces externos.');
+                    alert('Total file size exceeds the 4.5MB stability limit. Please remove some files or use external links.');
                     return;
                 }
 
