@@ -53,7 +53,8 @@ module.exports = async (req, res) => {
 
         await parseForm;
 
-        const { companyName, fullName, email, evidence, adversary, portrait, objective } = fields;
+        const { companyName, fullName, email, evidence, adversary, portrait, objective, blobUrls } = fields;
+        const uploadedAssets = blobUrls ? JSON.parse(blobUrls) : [];
 
         if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
             console.error('Validation Error: Missing fields', fields);
@@ -91,15 +92,16 @@ module.exports = async (req, res) => {
                 doc.moveDown(0.5);
                 doc.fontSize(10).font('Helvetica').text(evidence, { width: 500, align: 'justify' });
                 
-                if (attachments.length > 0) {
+                if (uploadedAssets.length > 0) {
                     doc.moveDown(1);
-                    doc.font('Helvetica-Bold').text('Attached Files:');
-                    attachments.forEach(att => {
-                        doc.font('Helvetica').text(`- ${att.filename}`);
+                    doc.font('Helvetica-Bold').text('Uploaded Evidence Assets:');
+                    uploadedAssets.forEach(asset => {
+                        doc.font('Helvetica').fillColor('blue').text(`- ${asset.name} (View online)`, { link: asset.url }).fillColor('black');
                     });
                 }
                 doc.moveDown(2);
 
+                // ... rest of PDF content ...
                 doc.fontSize(14).font('Helvetica-Bold').text('03. THE ADVERSARY');
                 doc.moveDown(0.5);
                 doc.fontSize(10).font('Helvetica').text(adversary, { width: 500, align: 'justify' });
@@ -136,7 +138,7 @@ Idioma de output: español
 ## 1. Evidence Repository
 ${evidence}
 
-${attachments.length > 0 ? `### Attached Files:\n${attachments.map(a => `- ${a.filename}`).join('\n')}` : ''}
+${uploadedAssets.length > 0 ? `### Uploaded Evidence Assets:\n${uploadedAssets.map(a => `- [${a.name}](${a.url})`).join('\n')}` : ''}
 
 ## 2. The Adversary
 ${adversary}
@@ -161,18 +163,14 @@ ${objective}
 ${markdownContent}
                     </pre>
 
-                    <p>Detailed PDF technical backing and ${attachments.length} uploaded files are attached.</p>
+                    <p>Detailed PDF technical backing is attached. Uploaded assets are linked within the content.</p>
                 </div>
             `,
             attachments: [
                 {
                     filename: `Strategy_Intake_${companyName.replace(/\s+/g, '_')}.pdf`,
                     content: pdfBuffer,
-                },
-                ...attachments.map(a => ({
-                    filename: a.filename,
-                    content: a.content,
-                }))
+                }
             ],
         });
 

@@ -654,21 +654,39 @@
                 return;
             }
 
-            const formData = new FormData();
-            document.querySelectorAll('input, textarea').forEach(el => {
-                if (el.name) formData.append(el.name, el.value);
-            });
-
-            // Append files
-            selectedFiles.forEach(file => {
-                formData.append('attachments', file);
-            });
-
             const btnText = document.getElementById('btnNextText');
             btnNext.disabled = true;
-            btnText.textContent = 'Transmitting...';
+            btnText.textContent = 'Uploading Assets...';
 
             try {
+                const uploadedUrls = [];
+                
+                // Import the upload function dynamically
+                const { upload } = await import('https://cdn.jsdelivr.net/npm/@vercel/blob/+esm');
+
+                // 1. Upload files to Vercel Blob (Client-side)
+                for (const file of selectedFiles) {
+                    const newBlob = await upload(file.name, file, {
+                        access: 'public',
+                        handleUploadUrl: '/api/upload',
+                    });
+                    uploadedUrls.push({
+                        name: file.name,
+                        url: newBlob.url
+                    });
+                }
+
+                btnText.textContent = 'Transmitting...';
+
+                // 2. Send final data to Intake API
+                const formData = new FormData();
+                document.querySelectorAll('input, textarea').forEach(el => {
+                    if (el.name) formData.append(el.name, el.value);
+                });
+
+                // Instead of sending raw files, send the URLs of the blobs
+                formData.append('blobUrls', JSON.stringify(uploadedUrls));
+
                 const response = await fetch('/api/intake', {
                     method: 'POST',
                     body: formData,
