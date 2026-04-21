@@ -67,6 +67,13 @@ module.exports = async (req, res) => {
 
         // 2. Prepare Markdown block for the Strategy Director (AI)
         const markdownContent = `
+/strategy-director
+
+Brief: PROJECTS/_training/STRATEGIST/T13/01-PRD.md
+Content type: homepage
+Deliverable: Strategic Audit completo + Narrative Script con Creative Refinement Pass.
+Idioma de output: español
+
 # STRATEGY INTAKE: ${companyName}
 **Lead:** ${fullName} (${email})
 
