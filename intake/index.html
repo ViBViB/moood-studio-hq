@@ -73,17 +73,24 @@
             line-height: 1.5;
             color: rgba(255, 255, 255, 0.8);
             margin-top: 20px;
-            max-width: 320px;
         }
 
-        /* Navigable Sections */
+        /* Navigable Sections Wrapper */
+        .q-nav-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
         .q-nav-list {
             list-style: none;
             padding: 0;
-            margin: 40px 0;
+            margin: 0;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            width: 100%;
         }
 
         .q-nav-item {
@@ -131,11 +138,11 @@
         }
 
         .q-sidebar-footer {
-            margin-top: auto;
+            margin-top: 0;
         }
 
         .privacy-note {
-            font-size: 10px;
+            font-size: 12px;
             line-height: 1.6;
             color: rgba(255, 255, 255, 0.4);
             letter-spacing: 0.05em;
@@ -328,7 +335,9 @@
                 <div class="progress-container-sidebar">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
+            </div>
 
+            <div class="q-nav-container">
                 <ul class="q-nav-list">
                     <li class="q-nav-item active" data-goto="1"><span></span> 01. Identification</li>
                     <li class="q-nav-item" data-goto="2"><span></span> 02. Evidence</li>
