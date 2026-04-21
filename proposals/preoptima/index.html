@@ -239,7 +239,7 @@ body {
     font-size: clamp(32px, 3.5vw, 52px);
     font-weight: 300;
     line-height: 1.1;
-    letter-spacing: -0.02em;
+    /*letter-spacing: -0.02em;*/
     color: var(--color-black);
     margin-bottom: 40px;
 }
@@ -722,6 +722,7 @@ body {
     color: #aaa;
     margin-top: 28px;
 }
+
 /* ── PDF COVER ── */
 .pdf-cover {
     display: none;
@@ -769,7 +770,7 @@ body {
         font-weight: 700;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.35);
+        color: rgba(255, 255, 255, 0.35);
         text-align: right;
         line-height: 1.8;
     }
@@ -787,7 +788,7 @@ body {
         font-weight: 700;
         letter-spacing: 0.2em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.35);
+        color: rgba(255, 255, 255, 0.35);
         margin-bottom: 24px;
     }
 
@@ -803,7 +804,7 @@ body {
     .pdf-cover__tagline {
         font-size: 18px;
         font-weight: 300;
-        color: rgba(255,255,255,0.5);
+        color: rgba(255, 255, 255, 0.5);
         letter-spacing: 0;
         max-width: 480px;
         line-height: 1.6;
@@ -813,12 +814,12 @@ body {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        border-top: 1px solid rgba(255,255,255,0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
         padding-top: 24px;
         font-size: 11px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.25);
+        color: rgba(255, 255, 255, 0.25);
     }
 }
 
@@ -829,7 +830,9 @@ body {
 }
 
 @media print {
-    html, body {
+
+    html,
+    body {
         height: auto !important;
         overflow: visible !important;
         display: block !important;
@@ -914,54 +917,169 @@ body {
     }
 
     /* ── PRINT TYPOGRAPHY SCALE ── */
-    .slide-eyebrow      { font-size: 9px !important; letter-spacing: 0.18em !important; }
-    .slide-title        { font-size: 32px !important; margin-bottom: 6px !important; }
-    .slide-body         { font-size: 13px !important; line-height: 1.6 !important; }
-    .slide-footer-note  { font-size: 11px !important; }
+    .slide-eyebrow {
+        font-size: 9px !important;
+        letter-spacing: 0.18em !important;
+    }
 
-    .diagnosis-content strong   { font-size: 13px !important; }
-    .diagnosis-content span     { font-size: 12px !important; }
-    .diagnosis-item             { padding: 18px 20px !important; }
-    .diagnosis-list             { gap: 14px !important; }
+    .slide-title {
+        font-size: 32px !important;
+        margin-bottom: 6px !important;
+    }
 
-    .roadmap-v2__title  { font-size: 15px !important; }
-    .roadmap-v2__meta   { font-size: 12px !important; }
-    .roadmap-v2__steps  { font-size: 11px !important; }
-    .roadmap-v2__item   { margin-bottom: 28px !important; }
+    .slide-body {
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+    }
 
-    .platform-card__name    { font-size: 15px !important; }
-    .platform-card__label   { font-size: 9px !important; }
-    .platform-card__specs li { font-size: 11px !important; }
+    .slide-footer-note {
+        font-size: 11px !important;
+    }
 
-    .deliverable-section-title  { font-size: 9px !important; }
-    .deliverable-text strong    { font-size: 13px !important; }
-    .deliverable-text span      { font-size: 11px !important; }
-    .deliverable-list           { gap: 10px !important; }
-    .deliverable-section        { margin-bottom: 24px !important; }
+    .diagnosis-content strong {
+        font-size: 13px !important;
+    }
 
-    .card-number    { font-size: 9px !important; }
-    .card-body      { font-size: 12px !important; }
-    .card           { padding: 18px !important; }
+    .diagnosis-content span {
+        font-size: 12px !important;
+    }
 
-    .investment-table td        { font-size: 13px !important; padding: 12px 0 !important; }
-    .investment-table .total-row td { font-size: 15px !important; }
-    .investment-table .optional td  { font-size: 11px !important; }
+    .diagnosis-item {
+        padding: 18px 20px !important;
+    }
 
-    .retainer-box           { padding: 20px 24px !important; }
-    .retainer-box-title     { font-size: 11px !important; margin-bottom: 10px !important; }
-    .retainer-box-body      { font-size: 11px !important; line-height: 1.6 !important; }
+    .diagnosis-list {
+        gap: 14px !important;
+    }
 
-    .next-step          { gap: 12px !important; }
-    .step-number        { width: 22px !important; height: 22px !important; font-size: 11px !important; }
-    .step-text          { font-size: 12px !important; }
-    .next-steps         { gap: 12px !important; margin-top: 20px !important; }
+    .roadmap-v2__title {
+        font-size: 15px !important;
+    }
 
-    .investment-note    { font-size: 10px !important; }
-    .compare-note       { font-size: 10px !important; }
-    .u-text-small       { font-size: 11px !important; }
+    .roadmap-v2__meta {
+        font-size: 12px !important;
+    }
 
-    .next-steps-list            { gap: 10px !important; margin-top: 16px !important; }
-    .next-steps-list li         { font-size: 12px !important; line-height: 1.5 !important; gap: 10px !important; }
+    .roadmap-v2__steps {
+        font-size: 11px !important;
+    }
+
+    .roadmap-v2__item {
+        margin-bottom: 28px !important;
+    }
+
+    .platform-card__name {
+        font-size: 15px !important;
+    }
+
+    .platform-card__label {
+        font-size: 9px !important;
+    }
+
+    .platform-card__specs li {
+        font-size: 11px !important;
+    }
+
+    .deliverable-section-title {
+        font-size: 9px !important;
+    }
+
+    .deliverable-text strong {
+        font-size: 13px !important;
+    }
+
+    .deliverable-text span {
+        font-size: 11px !important;
+    }
+
+    .deliverable-list {
+        gap: 10px !important;
+    }
+
+    .deliverable-section {
+        margin-bottom: 24px !important;
+    }
+
+    .card-number {
+        font-size: 9px !important;
+    }
+
+    .card-body {
+        font-size: 12px !important;
+    }
+
+    .card {
+        padding: 18px !important;
+    }
+
+    .investment-table td {
+        font-size: 13px !important;
+        padding: 12px 0 !important;
+    }
+
+    .investment-table .total-row td {
+        font-size: 15px !important;
+    }
+
+    .investment-table .optional td {
+        font-size: 11px !important;
+    }
+
+    .retainer-box {
+        padding: 20px 24px !important;
+    }
+
+    .retainer-box-title {
+        font-size: 11px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .retainer-box-body {
+        font-size: 11px !important;
+        line-height: 1.6 !important;
+    }
+
+    .next-step {
+        gap: 12px !important;
+    }
+
+    .step-number {
+        width: 22px !important;
+        height: 22px !important;
+        font-size: 11px !important;
+    }
+
+    .step-text {
+        font-size: 12px !important;
+    }
+
+    .next-steps {
+        gap: 12px !important;
+        margin-top: 20px !important;
+    }
+
+    .investment-note {
+        font-size: 10px !important;
+    }
+
+    .compare-note {
+        font-size: 10px !important;
+    }
+
+    .u-text-small {
+        font-size: 11px !important;
+    }
+
+    .next-steps-list {
+        gap: 10px !important;
+        margin-top: 16px !important;
+    }
+
+    .next-steps-list li {
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        gap: 10px !important;
+    }
 
     /* Section break: forces a new page and shows a fresh logo header */
     .pdf-section-break {
@@ -976,7 +1094,6 @@ body {
         width: auto;
     }
 }
-
 </style>
 </head>
 <body>
@@ -1304,19 +1421,7 @@ body {
                         </table>
                     </div>
 
-                    <!-- BLOCK 2: MAINTENANCE & GROWTH -->
-                    <div class="investment-block">
-                        <h2 class="slide-title">Maintenance & Growth</h2>
-                        <table class="investment-table">
-                            <tr class="u-border-black">
-                                <td>Retainer Support <span class="u-text-small">(Technical monitoring, Framer management, 4hrs/mo updates)</span></td>
-                                <td>$350/mo</td>
-                            </tr>
-                        </table>
-                        <p class="u-text-small u-mt-16"><strong class="u-text-black">Your day-to-day:</strong> Copy updates and image swaps remain in your hands. The retainer covers structural changes, new sections, and ongoing technical growth.</p>
-                    </div>
-
-                    <!-- BLOCK 3: NEXT STEPS -->
+                    <!-- BLOCK 2: NEXT STEPS -->
                     <div class="investment-block">
                         <h2 class="slide-title">Next Steps</h2>
                         <ul class="next-steps-list">

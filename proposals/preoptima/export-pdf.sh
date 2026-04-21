@@ -5,7 +5,7 @@
 
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 DIR="$(cd "$(dirname "$0")" && pwd)"
-INPUT="file://${DIR}/proposal.html"
+INPUT="file://${DIR}/index.html"
 OUTPUT="${DIR}/proposal-preoptima.pdf"
 
 echo "Inlining CSS..."
@@ -17,7 +17,7 @@ logo_b64 = __import__('subprocess').check_output(
 ).decode().replace('\n', '')
 
 css = open('${DIR}/style.css').read()
-html = open('${DIR}/proposal.html').read()
+html = open('${DIR}/index.html').read()
 
 # Replace <style> block with updated style.css
 html = re.sub(r'<style>.*?</style>', f'<style>\n{css}\n</style>', html, flags=re.DOTALL)
@@ -33,7 +33,7 @@ html = html.replace(
     f'src="data:image/svg+xml;base64,{logo_b64}"'
 )
 
-open('${DIR}/proposal.html', 'w').write(html)
+open('${DIR}/index.html', 'w').write(html)
 print(f"  proposal.html updated ({len(html)} chars)")
 PYEOF
 
