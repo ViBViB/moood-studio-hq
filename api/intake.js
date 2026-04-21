@@ -9,8 +9,13 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
+    // Set CORS headers if needed
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+
     try {
-        // Parse Multipart Form Data using Busboy
+        console.log('Starting intake processing...');
+        
         const busboy = Busboy({ headers: req.headers });
         const fields = {};
         const attachments = [];
@@ -33,8 +38,16 @@ module.exports = async (req, res) => {
                 });
             });
 
-            busboy.on('finish', () => resolve());
-            busboy.on('error', reject);
+            busboy.on('finish', () => {
+                console.log('Busboy finish. Fields received:', Object.keys(fields));
+                resolve();
+            });
+            
+            busboy.on('error', (err) => {
+                console.error('Busboy Error:', err);
+                reject(err);
+            });
+
             req.pipe(busboy);
         });
 
@@ -43,67 +56,72 @@ module.exports = async (req, res) => {
         const { companyName, fullName, email, evidence, adversary, portrait, objective } = fields;
 
         if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
-            return res.status(400).json({ error: 'Missing strategic requirements' });
+            console.error('Validation Error: Missing fields', fields);
+            return res.status(400).json({ 
+                error: 'Missing strategic requirements', 
+                received: Object.keys(fields) 
+            });
         }
 
-        // 1. Generate PDF for the file system / record
+        console.log('Validation passed. Generating PDF...');
+
+        // 1. Generate PDF
         const pdfBuffer = await new Promise((resolve, reject) => {
-            const doc = new PDFDocument({ margin: 50 });
-            const chunks = [];
-            doc.on('data', chunk => chunks.push(chunk));
-            doc.on('end', () => resolve(Buffer.concat(chunks)));
-            doc.on('error', reject);
+            try {
+                const doc = new PDFDocument({ margin: 50 });
+                const chunks = [];
+                doc.on('data', chunk => chunks.push(chunk));
+                doc.on('end', () => resolve(Buffer.concat(chunks)));
+                doc.on('error', reject);
 
-            // Header
-            doc.fontSize(24).font('Helvetica-Bold').text('STRATEGIC INTAKE', { letterSpacing: 2 });
-            doc.fontSize(10).font('Helvetica').text('MOOOD.STUDIO AGENCY PROTOCOL', { characterSpacing: 1 });
-            doc.moveDown(2);
-            doc.rect(50, doc.y, 500, 1).fill('#000000');
-            doc.moveDown(2);
+                doc.fontSize(24).font('Helvetica-Bold').text('STRATEGIC INTAKE', { letterSpacing: 2 });
+                doc.fontSize(10).font('Helvetica').text('MOOOD.STUDIO AGENCY PROTOCOL', { characterSpacing: 1 });
+                doc.moveDown(2);
+                doc.rect(50, doc.y, 500, 1).fill('#000000');
+                doc.moveDown(2);
 
-            // Identification
-            doc.fontSize(14).font('Helvetica-Bold').text('01. PROJECT IDENTIFICATION');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica-Bold').text('Project: ', { continued: true }).font('Helvetica').text(companyName);
-            doc.font('Helvetica-Bold').text('Lead: ', { continued: true }).font('Helvetica').text(fullName);
-            doc.font('Helvetica-Bold').text('Email: ', { continued: true }).font('Helvetica').text(email);
-            doc.moveDown(2);
+                doc.fontSize(14).font('Helvetica-Bold').text('01. PROJECT IDENTIFICATION');
+                doc.moveDown(0.5);
+                doc.fontSize(10).font('Helvetica-Bold').text('Project: ', { continued: true }).font('Helvetica').text(companyName);
+                doc.font('Helvetica-Bold').text('Lead: ', { continued: true }).font('Helvetica').text(fullName);
+                doc.font('Helvetica-Bold').text('Email: ', { continued: true }).font('Helvetica').text(email);
+                doc.moveDown(2);
 
-            // Evidence
-            doc.fontSize(14).font('Helvetica-Bold').text('02. EVIDENCE REPOSITORY');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica').text(evidence, { width: 500, align: 'justify' });
-            
-            if (attachments.length > 0) {
-                doc.moveDown(1);
-                doc.font('Helvetica-Bold').text('Attached Files:');
-                attachments.forEach(att => {
-                    doc.font('Helvetica').text(`- ${att.filename}`);
-                });
+                doc.fontSize(14).font('Helvetica-Bold').text('02. EVIDENCE REPOSITORY');
+                doc.moveDown(0.5);
+                doc.fontSize(10).font('Helvetica').text(evidence, { width: 500, align: 'justify' });
+                
+                if (attachments.length > 0) {
+                    doc.moveDown(1);
+                    doc.font('Helvetica-Bold').text('Attached Files:');
+                    attachments.forEach(att => {
+                        doc.font('Helvetica').text(`- ${att.filename}`);
+                    });
+                }
+                doc.moveDown(2);
+
+                doc.fontSize(14).font('Helvetica-Bold').text('03. THE ADVERSARY');
+                doc.moveDown(0.5);
+                doc.fontSize(10).font('Helvetica').text(adversary, { width: 500, align: 'justify' });
+                doc.moveDown(2);
+
+                doc.fontSize(14).font('Helvetica-Bold').text('04. THE HUMAN PORTRAIT');
+                doc.moveDown(0.5);
+                doc.fontSize(10).font('Helvetica').text(portrait, { width: 500, align: 'justify' });
+                doc.moveDown(2);
+
+                doc.fontSize(14).font('Helvetica-Bold').text('05. SINGULAR OBJECTIVE');
+                doc.moveDown(0.5);
+                doc.fontSize(10).font('Helvetica-Bold').text('CTA: ', { continued: true }).font('Helvetica').text(objective);
+
+                doc.end();
+            } catch (pdfErr) {
+                reject(pdfErr);
             }
-            doc.moveDown(2);
-
-            // Adversary
-            doc.fontSize(14).font('Helvetica-Bold').text('03. THE ADVERSARY');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica').text(adversary, { width: 500, align: 'justify' });
-            doc.moveDown(2);
-
-            // Portrait
-            doc.fontSize(14).font('Helvetica-Bold').text('04. THE HUMAN PORTRAIT');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica').text(portrait, { width: 500, align: 'justify' });
-            doc.moveDown(2);
-
-            // Objective
-            doc.fontSize(14).font('Helvetica-Bold').text('05. SINGULAR OBJECTIVE');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica-Bold').text('CTA: ', { continued: true }).font('Helvetica').text(objective);
-
-            doc.end();
         });
 
-        // 2. Prepare Markdown block for the Strategy Director (AI)
+        console.log('PDF Generated. Sending email via Resend...');
+
         const markdownContent = `
 /strategy-director
 
@@ -130,7 +148,6 @@ ${portrait}
 ${objective}
         `.trim();
 
-        // 3. Send email to AGENCY
         await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
@@ -152,14 +169,22 @@ ${markdownContent}
                     filename: `Strategy_Intake_${companyName.replace(/\s+/g, '_')}.pdf`,
                     content: pdfBuffer,
                 },
-                ...attachments
+                ...attachments.map(a => ({
+                    filename: a.filename,
+                    content: a.content,
+                }))
             ],
         });
 
-        return res.status(200).json({ success: true, message: 'Intake transmitted successfully' });
+        console.log('Email sent successfully.');
+        return res.status(200).json({ success: true });
 
     } catch (err) {
-        console.error('Intake API Error:', err);
-        return res.status(500).json({ error: 'Internal server error', details: err.message });
+        console.error('INTAKE_API_ERROR:', err);
+        return res.status(500).json({ 
+            error: 'Intake failed', 
+            message: err.message,
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        });
     }
 };

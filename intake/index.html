@@ -671,15 +671,20 @@
             try {
                 const response = await fetch('/api/intake', {
                     method: 'POST',
-                    body: formData, // Fetch automatically sets multipart/form-data with boundary
+                    body: formData,
                 });
+
+                const result = await response.json();
 
                 if (response.ok) {
                     currentSlide++;
                     updateSlider();
-                } else throw new Error('Transmission failed');
+                } else {
+                    throw new Error(result.message || result.error || 'Transmission failed');
+                }
             } catch (error) {
-                alert('Transmission error. Please try again.');
+                console.error('Submission error:', error);
+                alert(`Transmission error: ${error.message}`);
                 btnNext.disabled = false;
                 btnText.textContent = 'Activate Strategy';
             }
