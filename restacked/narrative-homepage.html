@@ -248,8 +248,9 @@ const NARRATIVE_DATA = {
             "type": "feature-list",
             "label": "One Endpoint. Every Tool.",
             "content": {
-                "eyebrow": "Now it knows.",
-                "h2": "Your schemas, your business rules, which systems talk to each other — and how. Set it up once — your whole team ships with context.",
+                "eyebrow": null,
+                "h2": "Now it knows.",
+                "p": "Your schemas, your business rules, which systems talk to each other — and how. Set it up once — your whole team ships with context.",
                 "items": [
                     { "title": "Connect.", "description": "Your existing vendor MCPs or your sources directly — 40+ integrations, no migration, no new infrastructure." },
                     { "title": "Configure.", "description": "Your naming conventions, your system relationships, your business rules — captured once, auto-maintained for your whole team." },
@@ -471,6 +472,7 @@ function renderFeatureList(section, index) {
                 ${renderSectionLabel(section, index)}
                 ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
                 <h2 class="nv-section__h2">${c.h2}</h2>
+                ${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}
                 <div class="nv-feature-grid">${itemsHtml}</div>
                 ${c.cta ? `<a href="${c.cta.url || '#'}" class="nv-btn nv-btn--primary" style="margin-top:2.5rem;display:inline-flex">${c.cta.label}</a>` : ''}
                 ${renderFeedbackBlock(section.id)}
