@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
                 
                 // Start the upload stream immediately
                 const uploadPromise = put(filename, file, {
-                    access: 'public',
+                    access: 'private',
                     contentType: mimeType,
                 }).then(blob => {
                     uploadedAssets.push({ name: filename, url: blob.url });
