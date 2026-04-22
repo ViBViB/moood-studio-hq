@@ -58,7 +58,7 @@ const db = firebase.firestore();
 const NARRATIVE_ID = "stride-lab-homepage-v3-diagnostic";
 
 const NARRATIVE_DATA = {
-    "meta": { "project": "Stride Lab", "client": "Marcus Webb", "page": "Homepage", "date": "April 21, 2026", "version": "v1.1 — FIDELITY MIRROR", "status": "Pending Approval" },
+    "meta": { "project": "Stride Lab", "client": "Marcus Webb", "page": "Homepage", "date": "April 21, 2026", "version": "v1.1", "status": "Pending Approval" },
     "sections": [
         { "id": "hero", "label": "HERO", "content": { "headline": "The shoe was built for someone else.", "subheadline": "Up to 56% of recreational runners get injured yearly. The shoe is the one variable nobody adjusts.", "cta": "Book Your Free Gait Analysis" } },
         { "id": "indictment", "label": "INDICTMENT", "content": { "headline": "Engineered for champions. Sized for everyone.", "subheadline": "Nike and Adidas build shoes for elite athletes, then sell them to everyone else.", "p": ["Body — Block A: A 58kg elite marathoner has a fundamentally different gait pattern than a 82kg recreational runner. The shoe doesn't know the difference. The brand doesn't care.", "Body — Block B: Neither Nike nor Adidas offers gait analysis before purchase. They sell aspiration. You absorb the biomechanical consequence."] } },
@@ -135,7 +135,7 @@ function renderSection(section) {
 (function init() {
     const data = NARRATIVE_DATA;
     const nav = data.sections.map(s => `<a class="nv-nav-item" href="#section-${s.id}" data-nav="${s.id}">${s.label}</a>`).join("");
-    document.getElementById('app').innerHTML = `<div class="nv-sidebar"><div class="nv-sidebar__header">${MOOOD_LOGO}</div><div class="nv-sidebar__nav">${nav}</div></div><div class="nv-main"><div class="nv-topbar"><div class="nv-topbar__meta"><span class="nv-topbar__project">${data.meta.project}</span><div class="nv-topbar__divider"></div><span>${data.meta.page}</span><div class="nv-topbar__divider"></div><span>${data.meta.version}</span></div><div class="nv-topbar__actions"><button class="nv-btn nv-btn--outline" onclick="window.print()">Print PDF</button><button class="nv-btn nv-btn--primary">Approve Narrative</button></div></div>${data.sections.map(s => renderSection(s)).join("")}</div>`;
+    document.getElementById('app').innerHTML = `<div class="nv-sidebar"><div class="nv-sidebar__header">${MOOOD_LOGO}</div><div class="nv-sidebar__nav">${nav}</div></div><div class="nv-main"><div class="nv-topbar"><div class="nv-topbar__meta"><span class="nv-topbar__project">${data.meta.project}</span><div class="nv-topbar__divider"></div><span>Narrative</span><div class="nv-topbar__divider"></div><span>${data.meta.version}</span></div><div class="nv-topbar__actions"><button class="nv-btn nv-btn--outline" onclick="window.print()">Print PDF</button><button class="nv-btn nv-btn--primary">Approve Narrative</button></div></div>${data.sections.map(s => renderSection(s)).join("")}</div>`;
 
     const sections = document.querySelectorAll('.nv-section');
     const navItems = document.querySelectorAll('.nv-nav-item');
