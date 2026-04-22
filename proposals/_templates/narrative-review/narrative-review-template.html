@@ -862,7 +862,20 @@ function renderQuote(section, index) {
     return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}<div class="nv-quote"><span class="nv-quote__mark">"</span><p class="nv-quote__text">${c.quote}</p><p class="nv-quote__attribution">— ${c.attribution}</p></div>${renderFeedbackBlock(section.id)}</div></section>`;
 }
 
-const RENDERERS = { 'hero': renderHero, 'section': renderSection, 'feature-list': renderFeatureList, 'quote': renderQuote, 'table': renderTable };
+function renderStatBlock(section, index) {
+    const c = section.content;
+    const stats = (c.stats || []).map(s => `
+        <div style="margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee;">
+            <p style="font-size: 11px; font-weight: 700; color: #999; margin-bottom: 12px; letter-spacing: 0.1em; text-transform: uppercase;">${s.label}</p>
+            <h3 style="font-size: 24px; font-weight: 600; color: #000; margin-bottom: 12px;">${s.h3}</h3>
+            <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 16px;">${s.p}</p>
+            <p style="font-size: 12px; font-weight: 600; color: #000; letter-spacing: 0.05em;">SOURCE: ${s.source}</p>
+        </div>
+    `).join('');
+    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}<h2 class="nv-section__h2">${c.h2}</h2>${stats}${renderFeedbackBlock(section.id)}</div></section>`;
+}
+
+const RENDERERS = { 'hero': renderHero, 'section': renderSection, 'feature-list': renderFeatureList, 'quote': renderQuote, 'table': renderTable, 'stat-block': renderStatBlock };
 
 function renderNav(data) {
     const items = data.sections.map((s, i) => `<a class="nv-nav-item" href="#section-${s.id}" id="nav-${s.id}"><span class="nv-nav-item__number">${String(i+1).padStart(2, '0')}</span><span class="nv-nav-item__label">${s.label}</span></a>`).join("");
