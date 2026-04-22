@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strategic Intake | Moood.Studio</title>
     <!-- Rule 3: Stylesheet inclusion -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../../../style.css">
     <style>
         /* Exact Reconstruction of https://moood.studio/intake */
         :root {
@@ -78,7 +78,7 @@
             font-weight: 300;
             line-height: 1.1;
             color: #fff;
-            margin: 0;
+            margin-bottom: 32px;
         }
 
         .q-sidebar-instruction {
@@ -147,9 +147,28 @@
 
         .form-group { display: flex; flex-direction: column; gap: 16px; width: 100%; }
         .form-group label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(0,0,0,0.4); }
-        .form-group input, .form-group textarea { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: clamp(18px, 1.2vw, 24px); font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; }
-        .form-group select { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: clamp(18px, 1.2vw, 24px); font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; appearance: none; -webkit-appearance: none; cursor: pointer; width: 100%; }
+        .form-group input, .form-group textarea { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: 16px; font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; }
+        .form-group select { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: 16px; font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; appearance: none; -webkit-appearance: none; cursor: pointer; width: 100%; }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #000; outline: none; }
+        
+        /* Disable Browser Autofill Styles */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        textarea:-webkit-autofill:active,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus,
+        select:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px white inset !important;
+            -webkit-text-fill-color: #000 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
         .form-group textarea { resize: none; }
         ::placeholder { font-size: 14px; color: rgba(0,0,0,0.4); opacity: 1; }
 
@@ -222,7 +241,7 @@
         .success-list li { margin-bottom: 16px; font-weight: 400; color: #000; display: flex; align-items: baseline; gap: 12px; }
         .success-list li::before { content: "—"; color: rgba(0,0,0,0.3); }
 
-        .success-signature { margin-top: 60px; font-weight: 500; font-size: 16px; color: #000; }
+        .q-signature-brand { font-size: 14px; opacity: 0.8; display: block; margin-top: 4px; }
 
         @media (max-width: 1024px) {
             .q-sidebar { width: 400px; min-width: 400px; }
@@ -284,7 +303,7 @@
                     </div>
                     <div class="form-group">
                         <label>PROJECT / COMPANY NAME</label>
-                        <input type="text" name="companyName" placeholder="e.g., Anthros, Restacked.ai" required>
+                        <input type="text" name="companyName" placeholder="e.g., Your company name" required>
                     </div>
                     <div class="form-group">
                         <label>PAGE TYPE</label>
@@ -357,26 +376,29 @@
                     </div>
                     <div class="form-group">
                         <label>CONVERSION GOAL (CTA)</label>
-                        <input type="text" name="objective" placeholder="e.g., Book a Spine Audit, Download the Manual" required>
+                        <textarea name="objective" placeholder="e.g., Book a Spine Audit, Download the Manual" rows="4" required></textarea>
                     </div>
                 </div>
 
                 <!-- FINAL CONFIRMATION -->
                 <div class="q-slide" id="slide-6" data-index="6">
-                    <h1 class="success-hero">Context Received.</h1>
-                    <div class="success-text">
-                        <p>We’ve gathered all the technical evidence needed to kick off your strategic build. Here is the sequence we are moving through now:</p>
-                        <ul class="success-list">
-                            <li>PRD & Technical Calibration</li>
-                            <li>Narrative Tension Map</li>
-                            <li>Strategic Content Script</li>
-                        </ul>
-                        <p>Expect to have the final <strong>Narrative Review</strong> in your inbox within the next 24 hours.</p>
-                        <p class="success-signature">Talk soon,<br>Alberto, Moood.Studio</p>
+                    <div class="q-section-header">
+                        <h2 class="q-section-title">Context Received.</h2>
+                        <div class="q-section-intro">
+                            We’ve gathered all the technical evidence needed to kick off your strategic build. 
+                            Here is the sequence we are moving through now:
+                            
+                            <ul class="success-list">
+                                <li>PRD & Technical Calibration</li>
+                                <li>Narrative Tension Map</li>
+                                <li>Strategic Content Script</li>
+                            </ul>
+
+                            Expect to have the final <strong>Narrative Review</strong> in your inbox within the next 24 hours.
+                            <br><br>
+                            Talk soon,<br>Alberto<br><span class="q-signature-brand">Moood.Studio</span>
+                        </div>
                     </div>
-                    <button class="btn-next btn-return" onclick="window.location.href='../index.html'">
-                        <span>Return to Studio</span>
-                    </button>
                 </div>
             </div>
 
@@ -428,6 +450,9 @@
         }
 
         function validateCurrentSlide() {
+            // DEBUG BYPASS: Allow free navigation for repairs
+            if (localStorage.getItem('moood_debug') === 'true') return true;
+
             const current = slides[currentSlide - 1];
             const required = current.querySelectorAll('[required]');
             let isValid = true;
@@ -485,7 +510,8 @@
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 const target = parseInt(item.getAttribute('data-goto'));
-                if (target < currentSlide) {
+                const isDebug = localStorage.getItem('moood_debug') === 'true';
+                if (target < currentSlide || isDebug) {
                     currentSlide = target;
                     updateSlider();
                 }
