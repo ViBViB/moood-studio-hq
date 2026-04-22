@@ -638,7 +638,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Unique ID for this narrative document (Placeholders provided for automatic injection)
-const NARRATIVE_ID = "stride-lab-homepage-v3-final";
+const NARRATIVE_ID = "stride-lab-homepage-v3-final-IA";
 
 // ── NARRATIVE DATA (PLACEHOLDERS) ─────────────────────
 const NARRATIVE_DATA = {
@@ -647,14 +647,14 @@ const NARRATIVE_DATA = {
         "client": "Marcus Webb",
         "page": "Homepage",
         "date": "April 21, 2026",
-        "version": "v1.2 (Fidelity Locked)",
+        "version": "v1.1 (Fidelity Fix)",
         "status": "Pending Approval"
     },
     "sections": [
         {
-            "id": "hero", "type": "hero", "label": "Hero",
+            "id": "hero", "type": "hero", "label": "HERO",
             "content": {
-                "eyebrow": "Certified Running Diagnostics · v1.2",
+                "eyebrow": "Home / Stride Lab",
                 "h1": "The shoe was built for someone else.",
                 "p": "Up to 56% of recreational runners get injured yearly. The shoe is the one variable nobody adjusts.",
                 "cta": "Book Your Free Gait Analysis",
@@ -662,7 +662,7 @@ const NARRATIVE_DATA = {
             }
         },
         {
-            "id": "indictment", "type": "section", "label": "Indictment",
+            "id": "indictment", "type": "section", "label": "INDICTMENT",
             "content": {
                 "eyebrow": "The Market Protocol",
                 "h2": "Engineered for champions. Sized for everyone.",
@@ -674,7 +674,7 @@ const NARRATIVE_DATA = {
             }
         },
         {
-            "id": "reframe", "type": "section", "label": "The Reframe",
+            "id": "reframe", "type": "section", "label": "REFRAME",
             "content": {
                 "eyebrow": "The Technical Truth",
                 "h2": "Your gait was never mapped.",
@@ -683,46 +683,45 @@ const NARRATIVE_DATA = {
             }
         },
         {
-            "id": "evidence", "type": "stat-block", "label": "Evidence",
+            "id": "evidence", "type": "stat-block", "label": "EVIDENCE",
             "content": {
-                "eyebrow": "The Clinical Data",
-                "h2": "One correctable variable.",
+                "eyebrow": "Clinical Data",
+                "h2": "Raw clinical data deployed as indictment.",
                 "stats": [
                     {
                         "label": "Stat 01",
                         "h3": "56% injured per year.",
                         "p": "Up to 56% of recreational runners sustain a running-related injury annually. This is not an elite sport risk. This is you.",
-                        "source": "NIH / PubMed + Harvard Health"
+                        "source": "NIH / PubMed + Harvard Health."
                     },
                     {
                         "label": "Stat 02",
                         "h3": "3 in 4 injuries. Preventable.",
                         "p": "Between 50% and 75% of all running injuries are overuse injuries. They are not accidents. They are accumulated errors.",
-                        "source": "Tandfonline / au.dk research"
+                        "source": "Tandfonline / au.dk research."
                     }
                 ]
             }
         },
         {
-            "id": "comparison", "type": "table", "label": "Comparison",
+            "id": "comparison", "type": "table", "label": "COMPARISON",
             "content": {
                 "eyebrow": "The Competitive Gap",
-                "h2": "Stop choosing. Start running.",
+                "h2": "Binary exposure of market omissions.",
                 "headers": ["Criteria", "Nike / Adidas", "Generic Store", "Stride Lab"],
                 "rows": [
-                    ["Pre-purchase analysis", "✗", "Theater (30-sec treadmill)", "✓ Clinical"],
+                    ["Pre-purchase analysis", "✗", "Theater", "✓ Clinical"],
                     ["Certified specialist", "✗", "Retail associate", "✓"],
                     ["Training load assessed", "✗", "✗", "✓"],
-                    ["Single shoe prescription", "✗", "3 options", "✓ One"]
+                    ["Single prescription", "✗", "3 options", "✓ One"]
                 ]
             }
         },
         {
-            "id": "specs", "type": "feature-list", "label": "Diagnostics",
+            "id": "specs", "type": "feature-list", "label": "SPECS",
             "content": {
-                "eyebrow": "The Protocol",
-                "h2": "What we read when you run.",
-                "p": "[CLIENT ASSET REQUIRED: Final clinical measurement checklist]",
+                "eyebrow": "Diagnostic Protocol",
+                "h2": "What the specialist actually measures.",
                 "items": [
                     { "title": "Foot Strike Pattern", "description": "Heel, midfoot, or forefoot dominance determines cushioning. Misalignment here is the origin of most shin and knee injuries." },
                     { "title": "Cadence & Load Rate", "description": "Steps per minute and ground contact time reveal how your body absorbs impact. High load rate = high injury risk." },
@@ -731,31 +730,30 @@ const NARRATIVE_DATA = {
             }
         },
         {
-            "id": "testimonial", "type": "quote", "label": "Testimonial",
+            "id": "testimonial", "type": "quote", "label": "TESTIMONIALS",
             "content": {
                 "quote": "Two years. Three shoes. Same IT band injury. The Stride Lab analysis took 18 minutes. Turns out I've been a severe overpronator the whole time. No one had ever checked.",
-                "attribution": "[PLACEHOLDER] J.M., Recreational Runner, 41"
+                "attribution": "[PLACEHOLDER] J.M., Recreational Runner, 41."
             }
         },
         {
-            "id": "protocol", "type": "section", "label": "The Process",
+            "id": "protocol", "type": "section", "label": "PROTOCOL",
             "content": {
-                "eyebrow": "Three Steps to Prescription",
-                "h2": "Sixty seconds to schedule. Twenty minutes to solve.",
-                "h3": "A certified specialist analyzes your gait pattern and training load.",
+                "eyebrow": "Three-Step Protocol",
+                "h2": "Fast, clinical, and inevitable conversion.",
                 "p": [
-                    "Step 1 — Book: Choose in-store or video. No preparation required.",
-                    "Step 2 — Run: We read your body's biomechanical data in real-time.",
-                    "Step 3 — Prescribe: Not a category. One specific shoe matched to your profile."
+                    "<strong>Step 01 — Book:</strong> 60 seconds to schedule. Choose in-store or video. No preparation required.",
+                    "<strong>Step 02 — Run:</strong> 20 minutes of clinical reading. A certified specialist analyzes your gait pattern and training load. You run. We read.",
+                    "<strong>Step 03 — Prescribe:</strong> One shoe. Full rationale. Not a category. One specific shoe matched to your gait profile with a direct purchase link."
                 ],
                 "cta": "Book Your Free Gait Analysis",
                 "ctaHref": "#booking"
             }
         },
         {
-            "id": "final-cta", "type": "hero", "label": "Final Action",
+            "id": "final-cta", "type": "hero", "label": "FINAL_CTA",
             "content": {
-                "eyebrow": "The End of the Cycle",
+                "eyebrow": "The Loop Closed",
                 "h1": "Stop choosing. Start running.",
                 "p": "Your gait analysis is free. Your next injury doesn't have to be inevitable.",
                 "cta": "Book Your Free Gait Analysis",
