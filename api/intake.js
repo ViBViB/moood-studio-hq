@@ -94,14 +94,18 @@ module.exports = async (req, res) => {
 # STRATEGY INTAKE: ${companyName}
 **Lead:** ${fullName} (${email})
 
-## Project Protocol
-1. **Workspace**: Create folder \`PROJECTS/${companyName.replace(/\s+/g, '_')}\`.
-   *Note: If path exists, create \`-V2\`, \`-V3\`, etc. to prevent overwriting.*
-2. **Phase 1**: Generate \`01-PRD.md\` using the Evidence Repository below.
-3. **Phase 2**: Execute full Strategic Audit + Narrative Tension Map.
-4. **Phase 3**: Deliver **Narrative Script** with Creative Refinement Pass — built for a **${pageType || 'Homepage'}**.
-5. **Phase 4**: **The Visitor Loop**. Run \`The Visitor\` review and submit to Alberto for final approval.
-6. **Phase 5**: **Publication**. Deploy approved narrative to a new project node (GitHub/Vercel) for client sign-off.
+## [GATE 0] — MANDATORY WORKSPACE ISOLATION
+1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/${companyName.replace(/\s+/g, '_')}\`.
+2. **Strict Versioning**: You MUST increment the version number by exactly +1 (e.g., if no folder exists, initialize \`V1\`).
+3. **Ghost Creation**: Create the new folder \`PROJECTS/${companyName.replace(/\s+/g, '_')}-V[N]\`.
+   *Rule: It is strictly forbidden to use, read, or reference any markdown files from previous versions. This must be a 100% clean strategic build based only on the evidence below.*
+
+## Project Protocol (Phase-by-Phase)
+1. **Phase 1 (Setup)**: Generate \`01-PRD.md\` inside the NEW workspace.
+2. **Phase 2 (Audit)**: Execute \`02-STRATEGIC-AUDIT.md\` + \`04-TENSION_MAP.md\`.
+3. **Phase 3 (Scripting)**: Deliver \`03-NARRATIVE.md\` built for a **${pageType || 'Homepage'}**. Use the Two-Layer Content Law.
+4. **Phase 4 (Validation)**: Run \`05-VISITOR_REVIEW.md\` (Automated Skeptic Protocol).
+5. **Phase 5 (Publication)**: Deploy \`narrative-review/index.html\` to \`MOOOD.STUDIO-WEBSITE/${companyName.toLowerCase().replace(/\s+/g, '-')}-v[n]\`.
 
 ## Page Type
 **${pageType || 'Not specified'}**
