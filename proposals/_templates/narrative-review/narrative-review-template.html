@@ -3,34 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ PROJECT_NAME }} — Narrative Review — Moood.Studio</title>
-    <meta name="description" content="{{ PROJECT_NAME }} narrative review document by Moood.Studio">
+    <title>{{ PROJECT_NAME }} — Diagnostic Narrative Blueprint</title>
+    <meta name="description" content="Technical narrative documentation for {{ PROJECT_NAME }} by Moood.Studio">
     <meta name="robots" content="noindex, nofollow">
     <style>
         /* ═══════════════════════════════════════════════════════════
-           MOOOD.STUDIO — NARRATIVE VIEWER ENGINE (v3.0)
-           Editorial review archetype with integrated feedback logic.
-           Unified with 20/80 Sidebar Polarity.
+           MOOOD.STUDIO — DIAGNOSTIC BLUEPRINT ENGINE (v4.0)
+           1:1 Architectural Mirror for 03-NARRATIVE.md
            ═══════════════════════════════════════════════════════════ */
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-        /* ── TOKENS ── */
         :root {
             --black: #000000;
             --white: #ffffff;
-            --gray-100: #f7f7f7;
+            --gray-100: #f8f8f8;
             --gray-200: #eeeeee;
             --gray-300: #dddddd;
-            --gray-500: #999999;
-            --gray-700: #555555;
+            --gray-500: #777777;
             --gray-900: #1a1a1a;
 
-            --font: 'Inter', -apple-system, sans-serif;
-            --sidebar-width: 20%; /* UNIFIED AGENCY RATIO */
-            --content-max: 720px;
-            --radius: 3px;
-            --transition-speed: 0.8s;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --sidebar-width: 250px;
+            --content-max: 900px;
         }
 
         /* ── RESET ── */
@@ -38,592 +34,166 @@
         html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
 
         body {
-            font-family: var(--font);
+            font-family: var(--font-sans);
             background: var(--white);
-            color: var(--gray-900);
-            min-height: 100vh;
+            color: var(--black);
+            line-height: 1.6;
         }
 
-        /* ── LAYOUT ── */
-        .nv-layout {
-            display: flex;
-            min-height: 100vh;
-        }
+        .nv-layout { display: flex; min-height: 100vh; }
 
         /* ── SIDEBAR ── */
         .nv-sidebar {
             width: var(--sidebar-width);
             position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            border-right: 1px solid var(--gray-200);
+            top: 0; left: 0; bottom: 0;
             background: var(--white);
+            border-right: 1px solid var(--gray-200);
             display: flex;
             flex-direction: column;
-            z-index: 100;
-            overflow-y: auto;
+            z-index: 1000;
         }
 
-        .nv-sidebar__header {
-            padding: 48px;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .nv-sidebar__logo {
-            height: 50px;
-            width: auto;
-            display: block;
-            margin-bottom: 32px;
-        }
-
-        .nv-sidebar__project {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--black);
-            line-height: 1.2;
-            margin-bottom: 4px;
-        }
-
-        .nv-sidebar__meta {
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-        }
-
-        .nv-sidebar__sections-label {
-            padding: 24px 48px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--gray-300);
-        }
-
-        .nv-sidebar__nav {
-            padding: 0 0 24px;
-            flex: 1;
-        }
-
+        .nv-sidebar__header { padding: 40px 30px; border-bottom: 1px solid var(--gray-200); }
+        .nv-sidebar__logo { height: 40px; display: block; margin-bottom: 20px; }
+        .nv-sidebar__project { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .nv-sidebar__nav { flex: 1; overflow-y: auto; padding: 20px 0; }
         .nv-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 48px;
-            cursor: pointer;
-            transition: background 0.15s ease;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .nv-nav-item:hover { background: var(--gray-100); }
-
-        .nv-nav-item.active {
-            background: var(--black);
-        }
-
-        .nv-nav-item.active .nv-nav-item__number,
-        .nv-nav-item.active .nv-nav-item__label { color: var(--white); }
-
-        .nv-nav-item__number {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            color: var(--gray-300);
-            min-width: 20px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .nv-nav-item__label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--gray-700);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .nv-sidebar__footer {
-            padding: 32px 48px;
-            border-top: 1px solid var(--gray-200);
-        }
-
-        .nv-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            padding: 10px 30px;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            padding: 6px 10px;
-            border-radius: var(--radius);
-            background: var(--gray-100);
             color: var(--gray-500);
+            text-decoration: none;
+            display: block;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
         }
-
-        .nv-status-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gray-300);
-        }
-
-        .nv-status-badge.pending { color: var(--gray-700); }
-        .nv-status-badge.approved { background: #000; color: #fff; }
-        .nv-status-badge.approved::before { background: #fff; }
+        .nv-nav-item:hover { background: var(--gray-100); color: var(--black); }
+        .nv-nav-item.active { background: var(--gray-100); color: var(--black); border-left-color: var(--black); }
 
         /* ── MAIN CONTENT ── */
-        .nv-main {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            min-width: 0;
-        }
+        .nv-main { margin-left: var(--sidebar-width); flex: 1; min-width: 0; padding-bottom: 100px; }
 
-        /* ── TOP BAR ── */
         .nv-topbar {
-            position: sticky;
-            top: 0;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--gray-200);
-            padding: 0 80px;
             height: 60px;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 50;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 500;
         }
 
-        .nv-topbar__info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nv-topbar__client {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--black);
-            letter-spacing: -0.01em;
-        }
-
-        .nv-topbar__segment {
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--gray-700);
-        }
-
-        .nv-topbar__sep {
-            font-size: 12px;
-            color: var(--gray-300);
-            user-select: none;
-        }
-
-        .nv-topbar__meta {
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.04em;
-            color: var(--gray-500);
-        }
-
-        .nv-topbar__actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .nv-topbar__meta { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
 
         .nv-btn {
-            height: 36px;
-            padding: 0 16px;
-            border-radius: var(--radius);
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            border: none;
+            height: 32px; padding: 0 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+            text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; border: 1px solid var(--black);
         }
+        .nv-btn--primary { background: var(--black); color: var(--white); }
+        .nv-btn--outline { background: transparent; color: var(--black); margin-right: 8px; }
 
-        .nv-btn--ghost {
-            background: transparent;
-            border: 1px solid var(--gray-300);
-            color: var(--gray-700);
-        }
-
-        .nv-btn--ghost:hover { border-color: var(--black); color: var(--black); }
-
-        .nv-btn--primary {
-            background: var(--black);
-            color: var(--white);
-            border: 1px solid var(--black);
-        }
-
-        .nv-btn--primary:hover { opacity: 0.85; }
-
-        /* ── SECTION CONTAINER ── */
+        /* ── BLUEPRINT SECTION ── */
         .nv-section {
-            padding: 100px 80px;
-            border-bottom: 1px solid var(--gray-200);
-            scroll-margin-top: 60px;
-        }
-
-        .nv-section:last-child { border-bottom: none; }
-
-        .nv-section__inner {
+            padding: 80px 20px 40px;
             max-width: var(--content-max);
             margin: 0 auto;
+            border-bottom: 2px solid var(--gray-200);
+            scroll-margin-top: 60px;
         }
+        .nv-section:last-child { border-bottom: none; }
 
-        /* ── SECTION LABEL ── */
-        .nv-section-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-
-        .nv-section-label__number {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            color: var(--gray-300);
-        }
-
-        .nv-section-label__divider {
-            flex: 1;
-            height: 1px;
-            background: var(--gray-200);
-            max-width: 40px;
-        }
-
-        .nv-section-label__name {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-        }
-
-        /* ── EYEBROW ── */
-        .nv-eyebrow {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 16px;
-        }
-
-        /* ── HERO TYPE ── */
-        .nv-hero__h1 {
-            font-size: clamp(36px, 4vw, 60px);
-            font-weight: 600;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            color: var(--black);
-            margin-bottom: 24px;
-        }
-
-        .nv-hero__description {
-            font-size: 20px;
-            font-weight: 400;
-            line-height: 1.6;
-            color: var(--gray-700);
-            max-width: 620px;
-        }
-
-        /* ── SECTION TYPE ── */
-        .nv-section__h2 {
-            font-size: clamp(24px, 3vw, 36px);
-            font-weight: 600;
-            line-height: 1.2;
-            color: var(--black);
-            margin-bottom: 12px;
-        }
-
-        .nv-section__p {
-            font-size: 17px;
-            font-weight: 400;
-            line-height: 1.7;
-            color: var(--gray-700);
-            margin-bottom: 32px;
-        }
-
-        .nv-cta-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--black);
-            text-decoration: none;
-            border-bottom: 2px solid var(--black);
-            padding-bottom: 2px;
-            transition: opacity 0.2s;
-        }
-
-        .nv-cta-link:hover { opacity: 0.6; }
-
-        /* ── FEATURE LIST TYPE ── */
-        .nv-feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: var(--gray-200);
-            border: 1px solid var(--gray-200);
-            margin-top: 40px;
-        }
-
-        .nv-feature-item {
-            background: var(--white);
-            padding: 32px;
-        }
-
-        .nv-feature-item__title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 8px;
-        }
-
-        .nv-feature-item__description {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--gray-700);
-        }
-
-        /* ── QUOTE TYPE ── */
-        .nv-quote {
-            padding: 48px 0;
-        }
-
-        .nv-quote__mark {
-            font-size: 64px;
-            line-height: 0;
-            color: var(--gray-200);
-            font-family: Georgia, serif;
-            margin-bottom: 32px;
-            display: block;
-        }
-
-        .nv-quote__text {
+        .nv-section__id {
             font-size: 24px;
-            font-weight: 400;
-            line-height: 1.5;
-            letter-spacing: -0.01em;
-            color: var(--black);
-            margin-bottom: 24px;
-        }
-
-        .nv-quote__attribution {
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
+            font-weight: 700;
             text-transform: uppercase;
-            color: var(--gray-500);
-        }
-
-        /* ── CTA BLOCK TYPE ── */
-        .nv-cta-block {
-            background: var(--gray-100);
-            padding: 64px;
-            border-radius: var(--radius);
-        }
-
-        .nv-cta-block__h2 {
-            font-size: clamp(24px, 3vw, 36px);
-            font-weight: 600;
-            line-height: 1.2;
-            color: var(--black);
-            margin-bottom: 16px;
-        }
-
-        .nv-cta-block__description {
-            font-size: 17px;
-            color: var(--gray-700);
-            margin-bottom: 36px;
-            line-height: 1.6;
-        }
-
-        /* ── TABLE TYPE ── */
-        .nv-table-wrap { margin-top: 40px; overflow-x: auto; }
-        .nv-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .nv-table thead { border-bottom: 2px solid #000; }
-        .nv-table__th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #555; }
-        .nv-table__th--highlight { color: #000; }
-        .nv-table tbody tr { border-bottom: 1px solid #eee; }
-        .nv-table tbody tr:last-child { border-bottom: none; }
-        .nv-table__td { padding: 16px; color: #555; line-height: 1.5; }
-        .nv-table__td:first-child { font-weight: 600; color: #1a1a1a; width: 30%; }
-        .nv-table__td--highlight { color: #000; font-weight: 500; }
-
-        /* ── COMMENTING SYSTEM UI ── */
-        .nv-feedback-toggle {
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            width: fit-content;
-            margin-top: 40px;
-            padding: 8px 14px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #999;
-            background: transparent;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
+            gap: 20px;
         }
-        .nv-feedback-toggle:hover { border-color: #000; color: #000; }
-        .nv-feedback-toggle svg { width: 12px; height: 12px; }
+        .nv-section__id::after { content: ''; flex: 1; height: 1px; background: var(--gray-300); }
+
+        .nv-metadata {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #333;
+        }
+        .nv-metadata strong { font-weight: 700; color: var(--black); }
+
+        /* ── ATOMIC LIST ── */
+        .nv-atomic-list { list-style: none; padding-left: 40px; }
+        .nv-atomic-item { margin-bottom: 12px; font-size: 15px; }
+        .nv-atomic-label { font-weight: 700; margin-right: 6px; }
+        .nv-atomic-value { color: #333; }
+
+        /* ── STATS / BLOCKS ── */
+        .nv-block-header { font-size: 18px; font-weight: 700; margin: 30px 0 15px; }
+        .nv-block { margin-bottom: 40px; }
+
+        /* ── COMPARISON TABLE ── */
+        .nv-table-container { margin: 30px 40px; }
+        .nv-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .nv-table th { padding: 12px 10px; border-bottom: 2px solid var(--black); font-weight: 700; text-transform: uppercase; }
+        .nv-table td { padding: 16px 10px; border-bottom: 1px solid var(--gray-200); }
+        .nv-table tr:last-child td { border-bottom: none; }
+
+        /* ── FEEDBACK UI ── */
+        .nv-feedback-toggle {
+            margin-top: 40px; padding: 6px 12px; font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-500);
+            border: 1px solid var(--gray-200); background: transparent; cursor: pointer; border-radius: 2px;
+        }
+        .nv-feedback-toggle:hover { border-color: var(--black); color: var(--black); }
 
         .nv-feedback-panel {
-            display: none;
-            margin-top: 16px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            overflow: hidden;
+            display: none; margin-top: 20px; border: 1px solid var(--gray-200); border-radius: 4px; overflow: hidden;
         }
         .nv-feedback-panel.open { display: block; }
-
-        .nv-feedback-form {
-            padding: 20px 24px;
-            background: #f7f7f7;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .nv-feedback-form { padding: 20px; background: var(--gray-100); display: flex; flex-direction: column; gap: 10px; }
+        .nv-feedback-form input, .nv-feedback-form textarea {
+            padding: 10px; font-family: inherit; font-size: 13px; border: 1px solid var(--gray-300); border-radius: 2px; outline: none;
         }
-        .nv-feedback-form input,
-        .nv-feedback-form textarea {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 13px;
-            font-family: inherit;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            background: #fff;
-            color: #1a1a1a;
-            resize: vertical;
-            box-sizing: border-box;
-            transition: border-color 0.15s;
-            outline: none;
-        }
-        .nv-feedback-form input:focus,
-        .nv-feedback-form textarea:focus { border-color: #000; }
         .nv-feedback-form textarea { min-height: 80px; }
-        .nv-feedback-form ::placeholder { font-size: 14px; color: #999; opacity: 1; }
+        .nv-feedback-form input:focus, .nv-feedback-form textarea:focus { border-color: var(--black); }
 
-        .nv-feedback-submit {
-            height: 40px;
-            padding: 0 20px;
-            background: #000;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: inherit;
-            white-space: nowrap;
-            transition: opacity 0.2s;
-        }
-        .nv-feedback-submit:hover { opacity: 0.75; }
-
-        .nv-comment {
-            padding: 16px 24px;
-            border-bottom: 1px solid #f0f0f0;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 12px;
-            align-items: start;
-        }
-        .nv-comment__avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #000;
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .nv-comment__name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
-        .nv-comment__time { font-size: 11px; color: #aaa; margin-left: 8px; }
-        .nv-comment__text { font-size: 13px; line-height: 1.6; color: #555; margin-top: 4px; }
+        .nv-comment { padding: 15px 20px; border-bottom: 1px solid var(--gray-200); font-size: 13px; }
+        .nv-comment__name { font-weight: 700; margin-right: 10px; }
+        .nv-comment__time { color: var(--gray-500); font-size: 11px; }
+        .nv-comment__text { margin-top: 4px; color: #555; }
 
         .nv-db-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 6px 12px;
-            border-radius: 3px;
-            background: #f7f7f7;
-            border: 1px solid #ddd;
-            color: #999;
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s;
+            position: fixed; bottom: 20px; right: 20px; font-size: 10px; font-weight: 700;
+            text-transform: uppercase; background: var(--black); color: var(--white);
+            padding: 6px 12px; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 2000;
         }
-        .nv-db-status.visible { opacity: 1; }
+        .nv-db-status.show { opacity: 1; }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
-            :root { --sidebar-width: 0; }
-            .nv-sidebar { display: none; }
-            .nv-main { margin-left: 0; }
-            .nv-section { padding: 60px 40px; }
-            .nv-topbar { padding: 0 40px; }
-        }
-
-        /* ── PRINT ── */
         @media print {
-            .nv-sidebar, .nv-topbar, .nv-feedback-toggle { display: none !important; }
+            .nv-sidebar, .nv-topbar, .nv-feedback-toggle, .nv-db-status { display: none !important; }
             .nv-main { margin-left: 0 !important; }
-            .nv-section { padding: 48px 40px; page-break-inside: avoid; }
+            .nv-section { border-bottom: 2px solid #000; page-break-inside: avoid; }
         }
     </style>
 </head>
 <body>
 
 <div class="nv-layout" id="app">
-    <div class="nv-loading">Loading diagnostic narrative...</div>
+    <div class="nv-loading" style="padding: 100px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #999;">Initializing Architectural Mirror...</div>
 </div>
 <div class="nv-db-status" id="db-status"></div>
 
-<!-- Firebase SDK via CDN -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
-// ═══════════════════════════════════════════════════════
-//  MOOOD.STUDIO — NARRATIVE ENGINE v3.0
-//  Unified Editorial Feedback System
-// ═══════════════════════════════════════════════════════
-
 // ── CONFIG ───────────────────────────────────────────
 const firebaseConfig = {
     apiKey: "AIzaSyBs2PMfYylGJWJCrqt6puGMqqlzmeWA9-4",
@@ -677,83 +247,40 @@ function timeAgo(ts) {
     if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
-function showStatus(msg, isError = false) {
+function showStatus(msg) {
     const el = document.getElementById('db-status');
-    el.textContent = msg;
-    el.className = 'nv-db-status visible' + (isError ? ' error' : '');
-    setTimeout(() => el.className = 'nv-db-status', 2500);
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2000);
 }
 
 // ── APPROVAL SYSTEM ──────────────────────────────────
 async function approveNarrative() {
     const data = NARRATIVE_DATA;
-    
-    // Smooth transition to Thank You state
     document.getElementById('app').innerHTML = `
-        <div style="height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; background: #fff; text-align: center; padding: 40px; animation: fadeIn 0.8s ease;">
-            <div style="max-width: 640px;">
-                <div style="margin-bottom: 48px;">
-                    ${MOOOD_LOGO.replace('class="nv-sidebar__logo"', 'style="height:60px;width:auto;margin:0 auto;display:block"')}
-                </div>
-                <h1 style="font-size: clamp(32px, 5vw, 48px); font-weight: 600; letter-spacing: -0.04em; margin-bottom: 24px; color: #000;">Narrative Approved.</h1>
-                <p style="font-size: 18px; line-height: 1.7; color: #555; margin-bottom: 48px; font-family: 'Inter', sans-serif;">
-                    Thank you. The strategic narrative for <strong>${data.meta.project}</strong> has been locked.<br><br>
-                    This document will now serve as the absolute structural blueprint to generate the <strong>Skeleton</strong> (Structural Wireframe) and the <strong>Mockup</strong> (High-Fidelity Visuals). We will notify you once these assets are ready for your review.
-                </p>
-                <div style="display: none;">
-                    <a href="https://moood.studio">Return to Studio</a>
-                    <button onclick="location.reload()">View Narrative Again</button>
-                </div>
+        <div style="height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; background: #fff; text-align: center; padding: 40px;">
+            <div>
+                <div style="margin-bottom: 40px;">${MOOOD_LOGO.replace('class="nv-sidebar__logo"', 'style="height:60px"')}</div>
+                <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 16px;">Narrative Approved.</h1>
+                <p style="color: #666; max-width: 500px; margin: 0 auto 40px;">The strategic blueprint for <strong>${data.meta.project}</strong> has been locked. Pipeline ready for Skeleton construction.</p>
+                <button class="nv-btn nv-btn--primary" onclick="location.reload()">Return to Review</button>
             </div>
         </div>
-        <style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>
     `;
-    window.scrollTo(0,0);
-    
-    // Trigger automated notification (Email / Agency Webhook)
     try {
-        await fetch('/api/approve', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                clientName: data.meta.client || 'Client',
-                projectName: data.meta.project || 'Project',
-                segment: 'Narrative Review',
-                status: 'Approved',
-                narrativeId: NARRATIVE_ID,
-                message: `URGENT: Narrative approved for ${data.meta.project}. Pipeline ready for Skeleton Construction.`
-            })
-        });
-    } catch (err) {
-        console.error("Notification trigger failed, but approval was logged in DB.");
-    }
-
-    // Optional: Log approval to Firestore
-    try {
-        await db.collection('narratives').doc(NARRATIVE_ID).set({
-            approved: true,
-            approvedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            status: 'Approved'
-        }, { merge: true });
+        await db.collection('narratives').doc(NARRATIVE_ID).set({ approved: true, approvedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        showStatus('✓ Approval Logged');
     } catch(e) {}
 }
 
 // ── COMMENTING SYSTEM ────────────────────────────────
 function renderFeedbackBlock(sectionId) {
     return `
-        <button class="nv-feedback-toggle" onclick="toggleFeedback('${sectionId}')">
-            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 1H2C1.45 1 1 1.45 1 2v9c0 .55.45 1 1 1h2v3l3-3h7c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-            </svg>
-            Leave feedback
-        </button>
+        <button class="nv-feedback-toggle" onclick="toggleFeedback('${sectionId}')">Leave Feedback</button>
         <div class="nv-feedback-panel" id="panel-${sectionId}">
             <div class="nv-feedback-form">
-                <div class="nv-feedback-form-row" style="display:flex;gap:10px;margin-bottom:10px">
-                    <input type="text" id="name-${sectionId}" placeholder="Your name" style="flex:1">
-                    <button class="nv-feedback-submit" onclick="submitComment('${sectionId}')">Send</button>
-                </div>
-                <textarea id="comment-${sectionId}" placeholder="Your feedback on this section..."></textarea>
+                <input type="text" id="name-${sectionId}" placeholder="Your name">
+                <textarea id="comment-${sectionId}" placeholder="Your comments on this section..."></textarea>
+                <button class="nv-btn nv-btn--primary" style="width:fit-content;align-self:flex-end" onclick="submitComment('${sectionId}')">Send</button>
             </div>
             <div class="nv-comments-list" id="comments-${sectionId}"></div>
         </div>
@@ -763,176 +290,151 @@ function renderFeedbackBlock(sectionId) {
 function toggleFeedback(sectionId) {
     const panel = document.getElementById('panel-' + sectionId);
     panel.classList.toggle('open');
-    if (panel.classList.contains('open')) {
-        loadComments(sectionId);
-        document.getElementById('name-' + sectionId).focus();
-    }
+    if (panel.classList.contains('open')) loadComments(sectionId);
 }
 
 async function submitComment(sectionId) {
-    const nameEl = document.getElementById('name-' + sectionId);
-    const commentEl = document.getElementById('comment-' + sectionId);
-    const name = nameEl.value.trim();
-    const comment = commentEl.value.trim();
-    if (!name || !comment) { showStatus('Please fill in both fields.', true); return; }
+    const name = document.getElementById('name-' + sectionId).value.trim();
+    const comment = document.getElementById('comment-' + sectionId).value.trim();
+    if (!name || !comment) return;
     try {
-        await db.collection('narratives').doc(NARRATIVE_ID)
-            .collection('sections').doc(sectionId)
-            .collection('comments').add({
-                name, comment,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        commentEl.value = '';
-        showStatus('Feedback sent ✓');
+        await db.collection('narratives').doc(NARRATIVE_ID).collection('sections').doc(sectionId).collection('comments').add({ name, comment, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+        document.getElementById('comment-' + sectionId).value = '';
+        showStatus('✓ Message Sent');
         loadComments(sectionId);
-    } catch (e) {
-        showStatus('Error — Firestore error.', true);
-    }
+    } catch(e) {}
 }
 
 async function loadComments(sectionId) {
     const container = document.getElementById('comments-' + sectionId);
-    try {
-        const snap = await db.collection('narratives').doc(NARRATIVE_ID)
-            .collection('sections').doc(sectionId)
-            .collection('comments')
-            .orderBy('timestamp', 'asc').get();
-        if (snap.empty) {
-            container.innerHTML = '<p style="padding:16px;font-size:12px;color:#aaa">No feedback yet.</p>';
-            return;
-        }
-        container.innerHTML = snap.docs.map(doc => {
-            const d = doc.data();
-            return `<div class="nv-comment"><div class="nv-comment__avatar">${getInitials(d.name)}</div><div class="nv-comment__body"><span class="nv-comment__name">${d.name}</span><span class="nv-comment__time">${timeAgo(d.timestamp)}</span><p class="nv-comment__text">${d.comment}</p></div></div>`;
-        }).join('');
-    } catch (e) {
-        container.innerHTML = '<p style="padding:16px;font-size:12px;color:#fcc">Error loading feedback.</p>';
-    }
+    const snap = await db.collection('narratives').doc(NARRATIVE_ID).collection('sections').doc(sectionId).collection('comments').orderBy('timestamp', 'asc').get();
+    container.innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="nv-comment"><span class="nv-comment__name">${d.name}</span><span class="nv-comment__time">${timeAgo(d.timestamp)}</span><p class="nv-comment__text">${d.comment}</p></div>`;
+    }).join("");
 }
 
 // ── RENDERERS ─────────────────────────────────────────
-function renderSectionLabel(section, index) {
-    return `<div class="nv-section-label"><span class="nv-section-label__number">${String(index + 1).padStart(2, '0')}</span><div class="nv-section-label__divider"></div><span class="nv-section-label__name">${section.label || 'Section'}</span></div>`;
+function renderAtomicItem(label, value) {
+    if (!value) return '';
+    return `<li class="nv-atomic-item"><span class="nv-atomic-label">• ${label}:</span><span class="nv-atomic-value">${value}</span></li>`;
 }
 
-function renderHero(section, index) {
+function renderSection(section) {
     const c = section.content;
-    const desc = c.description || c.p || '';
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h1 class="nv-hero__h1">${c.h1}</h1>${desc ? `<p class="nv-hero__description">${desc}</p>` : ''}${c.cta ? `<div style="margin-top:40px"><a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a></div>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
-}
+    let listContent = '';
 
-function renderSection(section, index) {
-    const c = section.content;
-    let bodyHtml = '';
+    // Core mapping based on standard Strategist labels
+    listContent += renderAtomicItem('Headline', c.headline || c.h1 || c.h2);
+    listContent += renderAtomicItem('Sub-headline', c.subheadline || c.h3);
     
     if (Array.isArray(c.p)) {
-        bodyHtml = c.p.map(para => `<p class="nv-section__p">${para}</p>`).join('');
-    } else if (c.p) {
-        bodyHtml = `<p class="nv-section__p">${c.p}</p>`;
+        c.p.forEach((text, i) => {
+            // Check for explicit "Body — Block X" labels or just index them
+            const label = text.includes('Body — Block') ? text.split(':')[0] : `Body Block ${i+1}`;
+            const value = text.includes('Body — Block') ? text.split(':')[1].trim() : text;
+            listContent += renderAtomicItem(label, value);
+        });
+    } else if (c.p || c.body) {
+        listContent += renderAtomicItem('Body', c.p || c.body);
     }
 
-    return `<section class="nv-section" id="section-${section.id}">
-        <div class="nv-section__inner">
-            ${renderSectionLabel(section, index)}
-            ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
-            <h2 class="nv-section__h2">${c.h2}</h2>
-            ${c.h3 ? `<p class="nv-section__h3" style="font-weight:700; margin-bottom:20px;">${c.h3}</p>` : ''}
-            ${bodyHtml}
-            ${c.cta ? `<a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a>` : ''}
-            ${renderFeedbackBlock(section.id)}
-        </div>
-    </section>`;
-}
+    listContent += renderAtomicItem('CTA', c.cta);
 
-function renderFeatureList(section, index) {
-    const c = section.content;
-    const items = (c.items || []).map(item => `<div class="nv-feature-item"><div class="nv-feature-item__title">${item.title}</div><div class="nv-feature-item__description">${item.description}</div></div>`).join('');
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}<h2 class="nv-section__h2">${c.h2}</h2>${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}<div class="nv-feature-grid">${items}</div>${renderFeedbackBlock(section.id)}</div></section>`;
-}
-
-function renderTable(section, index) {
-    const c = section.content;
-    const headers = (c.headers || []).map((h, i) => `<th class="nv-table__th${i === 1 ? ' nv-table__th--highlight' : ''}">${h}</th>`).join('');
-    const rows = (c.rows || []).map(row => `<tr>${row.map((cell, i) => `<td class="nv-table__td${i === 1 ? ' nv-table__td--highlight' : ''}">${cell}</td>`).join('')}</tr>`).join('');
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}<h2 class="nv-section__h2">${c.h2}</h2><div class="nv-table-wrap"><table class="nv-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>${renderFeedbackBlock(section.id)}</div></section>`;
-}
-
-function renderQuote(section, index) {
-    const c = section.content;
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}<div class="nv-quote"><span class="nv-quote__mark">"</span><p class="nv-quote__text">${c.quote}</p><p class="nv-quote__attribution">— ${c.attribution}</p></div>${renderFeedbackBlock(section.id)}</div></section>`;
-}
-
-function renderStatBlock(section, index) {
-    const c = section.content;
-    const stats = (c.stats || []).map(s => `
-        <div style="margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #eee;">
-            <p style="font-size: 11px; font-weight: 700; color: #999; margin-bottom: 12px; letter-spacing: 0.1em; text-transform: uppercase;">${s.label}</p>
-            <h3 style="font-size: 24px; font-weight: 600; color: #000; margin-bottom: 12px;">${s.h3}</h3>
-            <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 16px;">${s.p}</p>
-            <p style="font-size: 12px; font-weight: 600; color: #000; letter-spacing: 0.05em;">SOURCE: ${s.source}</p>
-        </div>
-    `).join('');
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}<h2 class="nv-section__h2">${c.h2}</h2>${stats}${renderFeedbackBlock(section.id)}</div></section>`;
-}
-
-const RENDERERS = { 'hero': renderHero, 'section': renderSection, 'feature-list': renderFeatureList, 'quote': renderQuote, 'table': renderTable, 'stat-block': renderStatBlock };
-
-function renderNav(data) {
-    const items = data.sections.map((s, i) => `<a class="nv-nav-item" href="#section-${s.id}" id="nav-${s.id}"><span class="nv-nav-item__number">${String(i+1).padStart(2, '0')}</span><span class="nv-nav-item__label">${s.label}</span></a>`).join("");
-    return `<aside class="nv-sidebar"><div class="nv-sidebar__header">${MOOOD_LOGO}</div><div class="nv-sidebar__sections-label">Sections</div><nav class="nv-sidebar__nav">${items}</nav><div class="nv-sidebar__footer"><span class="nv-status-badge pending">${data.meta.status}</span></div></aside>`;
-}
-
-function renderMain(data) {
-    const sections = data.sections.map((section, i) => {
-        const renderer = RENDERERS[section.type];
-        return renderer ? renderer(section, i) : `<section class="nv-section"><p>Unknown type: ${section.type}</p></section>`;
-    }).join("");
-    
-    return `
-        <div class="nv-main">
-            <div class="nv-topbar">
-                <div class="nv-topbar__info">
-                    <span class="nv-topbar__client">${data.meta.project}</span>
-                    <span class="nv-topbar__sep">·</span>
-                    <span class="nv-topbar__segment">Narrative</span>
-                    <span class="nv-topbar__sep">·</span>
-                    <span class="nv-topbar__segment">${data.meta.page || 'Homepage'}</span>
-                    <span class="nv-topbar__sep">·</span>
-                    <span class="nv-topbar__meta">${data.meta.date || ''}</span>
-                    <span class="nv-topbar__sep">·</span>
-                    <span class="nv-topbar__meta">${data.meta.version || ''}</span>
-                </div>
-                <div class="nv-topbar__actions">
-                    <button class="nv-btn nv-btn--ghost" onclick="window.print()">Print / PDF</button>
-                    <button class="nv-btn nv-btn--primary" onclick="approveNarrative()">Approve Narrative</button>
-                </div>
+    // Stats mapping
+    let statsContent = '';
+    if (c.stats) {
+        statsContent = c.stats.map(s => `
+            <div class="nv-block">
+                <div class="nv-block-header">${s.label || 'Stat'}</div>
+                <ul class="nv-atomic-list">
+                    ${renderAtomicItem('Headline', s.h3)}
+                    ${renderAtomicItem('Body', s.p)}
+                    ${renderAtomicItem('Source', s.source)}
+                </ul>
             </div>
-            ${sections}
-        </div>`;
-}
+        `).join("");
+    }
 
-function initScrollSpy(sections) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.id.replace('section-', '');
-                document.querySelectorAll('.nv-nav-item').forEach(el => el.classList.remove('active'));
-                const nav = document.getElementById('nav-' + id);
-                if (nav) nav.classList.add('active');
-            }
-        });
-    }, { rootMargin: '-20% 0px -70% 0px' });
-    sections.forEach(s => {
-        const el = document.getElementById('section-' + s.id);
-        if (el) observer.observe(el);
-    });
+    // List/Specs mapping
+    let itemsContent = '';
+    if (c.items) {
+        itemsContent = c.items.map((item, i) => `
+            <div class="nv-block">
+                <div class="nv-block-header">Block ${String(i+1).padStart(2, '0')}</div>
+                <ul class="nv-atomic-list">
+                    ${renderAtomicItem('Headline', item.title)}
+                    ${renderAtomicItem('Body', item.description)}
+                    ${renderAtomicItem('Icon_Intent', item.icon_intent)}
+                </ul>
+            </div>
+        `).join("");
+    }
+
+    // Comparison Table mapping
+    let tableContent = '';
+    if (c.headers && c.rows) {
+        const headers = c.headers.map(h => `<th>${h}</th>`).join("");
+        const rows = c.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`).join("");
+        tableContent = `<div class="nv-table-container"><table class="nv-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+
+    // Quote mapping
+    if (c.quote) {
+        listContent += renderAtomicItem('Quote', c.quote);
+        listContent += renderAtomicItem('Attribution', c.attribution);
+    }
+
+    return `
+        <section class="nv-section" id="section-${section.id}">
+            <div class="nv-section__id">SECTION: ${section.label || section.id}</div>
+            <div class="nv-metadata">
+                <strong>Component:</strong> ${section.type || 'Generic'}&nbsp;&nbsp;&nbsp;
+                <strong>Logic:</strong> ${section.logic || 'Strategic anchor'}
+            </div>
+            <ul class="nv-atomic-list">${listContent}</ul>
+            ${statsContent}
+            ${itemsContent}
+            ${tableContent}
+            <div class="nv-feedback-wrap">${renderFeedbackBlock(section.id)}</div>
+        </section>
+    `;
 }
 
 // ── INIT ─────────────────────────────────────────────
 (function init() {
     const data = NARRATIVE_DATA;
-    document.getElementById('app').innerHTML = renderNav(data) + renderMain(data);
-    initScrollSpy(data.sections);
+    const navItems = data.sections.map(s => `<a class="nv-nav-item" href="#section-${s.id}" data-id="${s.id}">${s.label || s.id}</a>`).join("");
+    const mainContent = data.sections.map(s => renderSection(s)).join("");
+
+    document.getElementById('app').innerHTML = `
+        <div class="nv-sidebar">
+            <div class="nv-sidebar__header">${MOOOD_LOGO} <div class="nv-sidebar__project">${data.meta.project}</div></div>
+            <div class="nv-sidebar__nav">${navItems}</div>
+        </div>
+        <div class="nv-main">
+            <div class="nv-topbar">
+                <div class="nv-topbar__meta">${data.meta.page} | ${data.meta.version}</div>
+                <div class="nv-topbar__actions">
+                    <button class="nv-btn nv-btn--outline" onclick="window.print()">Print PDF</button>
+                    <button class="nv-btn nv-btn--primary" onclick="approveNarrative()">Approve Narrative</button>
+                </div>
+            </div>
+            ${mainContent}
+        </div>
+    `;
+
+    // Scrollspy
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                document.querySelectorAll('.nv-nav-item').forEach(el => el.classList.remove('active'));
+                const nav = document.querySelector(`.nv-nav-item[data-id="${entry.target.id.split('-')[1]}"]`);
+                if (nav) nav.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    data.sections.forEach(s => observer.observe(document.getElementById('section-' + s.id)));
 })();
 </script>
 </body>
