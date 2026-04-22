@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthFlex (V2) — Narrative Review</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --black: #000; --white: #fff; --gray-100: #f8f8f8; --gray-200: #eee; --gray-300: #ddd; --gray-500: #777; --font-sans: 'Inter', sans-serif; --sidebar-width: 250px; --content-max: 900px; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-sans); background: var(--white); color: var(--black); line-height: 1.6; }
+        .nv-layout { display: flex; min-height: 100vh; }
+        .nv-sidebar { width: var(--sidebar-width); position: fixed; top: 0; left: 0; bottom: 0; background: var(--white); border-right: 1px solid var(--gray-200); z-index: 1000; }
+        .nv-sidebar__header { padding: 40px 30px; border-bottom: 1px solid var(--gray-200); text-align: center; }
+        .nv-sidebar__nav { padding: 20px 0; }
+        .nv-nav-item { padding: 12px 30px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-500); text-decoration: none; display: block; border-left: 3px solid transparent; transition: all 0.2s; }
+        .nv-nav-item:hover { background: var(--gray-100); color: var(--black); }
+        .nv-nav-item.active { background: var(--gray-100); color: var(--black); border-left-color: var(--black); font-weight: 700; }
+        .nv-main { margin-left: var(--sidebar-width); flex: 1; padding-bottom: 100px; }
+        .nv-topbar { height: 60px; border-bottom: 1px solid var(--gray-200); padding: 0 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 500; }
+        .nv-topbar__meta { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; display: flex; gap: 10px; }
+        .nv-topbar__project { color: var(--black); font-weight: 700; }
+        .nv-section { padding: 80px 60px 40px; max-width: var(--content-max); margin: 0 auto; scroll-margin-top: 60px; }
+        .nv-section__id { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
+        .nv-section__id::after { content: ''; flex: 1; height: 1px; background: var(--gray-300); }
+        .nv-atomic-list { list-style: none; padding: 0; }
+        .nv-atomic-item { margin-bottom: 15px; display: flex; align-items: flex-start; }
+        .nv-atomic-label { font-weight: 700; margin-right: 15px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-500); width: 130px; text-align: right; padding-top: 4px; }
+        .nv-atomic-value { flex: 1; color: #333; }
+        .nv-block { margin-top: 40px; }
+        .nv-block-header { font-size: 13px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; border-left: 3px solid var(--black); padding-left: 15px; }
+        .nv-btn { height: 32px; padding: 0 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; cursor: pointer; border: 1px solid var(--black); }
+        .nv-btn--primary { background: var(--black); color: var(--white); }
+        .nv-btn--outline { background: transparent; color: var(--black); margin-right: 8px; }
+        .nv-alert { background: var(--gray-100); padding: 15px; border-left: 3px solid var(--gray-500); font-size: 11px; font-style: italic; color: #555; margin-bottom: 30px; }
+        .nv-alert--action { background: var(--gray-100); padding: 15px; border-left: 3px solid var(--black); font-size: 11px; color: var(--black); margin-bottom: 30px; }
+        .nv-table-container { margin-top: 20px; border: 1px solid var(--gray-200); border-radius: 4px; overflow: hidden; }
+        .nv-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+        .nv-table th { padding: 14px 16px; background: var(--gray-100); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .nv-table td { padding: 14px 16px; border-top: 1px solid var(--gray-200); }
+        .nv-table td:first-child { font-weight: 700; }
+        .nv-table td:last-child { font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="nv-layout">
+    <div class="nv-sidebar">
+        <div class="nv-sidebar__header"><strong>MOOOD.STUDIO</strong></div>
+        <nav class="nv-sidebar__nav">
+            <a class="nv-nav-item active" href="#section-HERO">Hero</a>
+            <a class="nv-nav-item" href="#section-COMPARISON">Comparison</a>
+            <a class="nv-nav-item" href="#section-INDICTMENT">Indictment</a>
+            <a class="nv-nav-item" href="#section-HOI_STACK">HOI Stack</a>
+            <a class="nv-nav-item" href="#section-RISK">Risk Suppression</a>
+            <a class="nv-nav-item" href="#section-PROOF">Social Proof</a>
+            <a class="nv-nav-item" href="#section-CTA">Final CTA</a>
+        </nav>
+    </div>
+
+    <div class="nv-main">
+        <div class="nv-topbar">
+            <div class="nv-topbar__meta">
+                <span class="nv-topbar__project">HealthFlex</span>
+                <span>/</span>
+                <span>Homepage Narrative</span>
+                <span>/</span>
+                <span style="color:var(--black)">v2.0</span>
+            </div>
+            <div class="nv-topbar__actions">
+                <button class="nv-btn nv-btn--outline" onclick="window.print()">Export PDF</button>
+                <button class="nv-btn nv-btn--primary">Request Custom Quote</button>
+            </div>
+        </div>
+
+        <!-- HERO -->
+        <section class="nv-section" id="section-HERO">
+            <div class="nv-section__id">Hero Reframe</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">This is not insurance. It is your team's health infrastructure.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Legacy "Sick-Care" activates when the damage is done. HealthFlex operates before, during, and after.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">CTA</span><span class="nv-atomic-value">Request Infrastructure Audit</span></li>
+            </ul>
+        </section>
+
+        <!-- COMPARISON -->
+        <section class="nv-section" id="section-COMPARISON">
+            <div class="nv-section__id">The Comparison</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Sick-Care Model vs. Health Operations Infrastructure.</span></li>
+            </ul>
+            <div class="nv-table-container">
+                <table class="nv-table">
+                    <thead>
+                        <tr><th>Dimension</th><th>Legacy Sick-Care</th><th>HealthFlex HOI</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Activation Point</td><td>When employee is hospitalized</td><td>Continuous (24/7 preventive)</td></tr>
+                        <tr><td>Primary Care</td><td>External. Paid per visit</td><td>Unlimited OPD. Core of plan</td></tr>
+                        <tr><td>Claims Management</td><td>HR-owned. Manual. Delayed</td><td>Clinical Navigation Host. Fully external</td></tr>
+                        <tr><td>Response SLA</td><td>No SLA</td><td>Sub-10-Min Protocol (24/7)</td></tr>
+                        <tr><td>Wellness Impact</td><td>Cosmetic (Yoga, Apps)</td><td>Clinical Risk Suppression Stack</td></tr>
+                        <tr><td>HR Administrative Load</td><td>High (Insurance agent role)</td><td>Zero (Host-managed)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- INDICTMENT -->
+        <section class="nv-section" id="section-INDICTMENT">
+            <div class="nv-section__id">The Indictment</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Your HR team is an unpaid insurance broker.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Every claim your team manages is an hour they didn't spend on talent.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Body</span><span class="nv-atomic-value">100 employees × 4h monthly insurance navigation = 400 unrecoverable hours of operational capacity. The Paperwork Labyrinth is a structural leak in your company's performance engine.</span></li>
+            </ul>
+        </section>
+
+        <!-- HOI STACK -->
+        <section class="nv-section" id="section-HOI_STACK">
+            <div class="nv-section__id">HOI Stack</div>
+            <div class="nv-block">
+                <div class="nv-block-header">Zero-Cost Primary Interface</div>
+                <ul class="nv-atomic-list">
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Value</span><span class="nv-atomic-value">Unlimited GP access integrated into the core policy. No per-visit fees. No appointment friction. Your team accesses care in minutes, not days.</span></li>
+                </ul>
+            </div>
+            <div class="nv-block">
+                <div class="nv-block-header">Clinical Navigation Host</div>
+                <ul class="nv-atomic-list">
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Value</span><span class="nv-atomic-value">A dedicated operator externally manages 100% of hospital navigation, claims, and pharmacy coordination for your entire team.</span></li>
+                </ul>
+            </div>
+            <div class="nv-block">
+                <div class="nv-block-header">Sub-10 Response Protocol</div>
+                <ul class="nv-atomic-list">
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Value</span><span class="nv-atomic-value">Medical and administrative SLA: under 10 minutes. 24/7. No hold queues. No escalation chains.</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- RISK SUPPRESSION -->
+        <section class="nv-section" id="section-RISK">
+            <div class="nv-section__id">Clinical Risk Suppression</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Clinical Risk Suppression Stack.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Mental health, nutrition, and fitness — monitored and measured against your claims data.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Body</span><span class="nv-atomic-value">Cosmetic wellness programs don't move loss ratios. HealthFlex's stack correlates usage data with clinical outcomes to reduce your company's long-term insurance cost.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">CTA</span><span class="nv-atomic-value">View Clinical Outcomes</span></li>
+            </ul>
+        </section>
+
+        <!-- SOCIAL PROOF -->
+        <section class="nv-section" id="section-PROOF">
+            <div class="nv-section__id">Social Proof</div>
+            <div class="nv-alert--action">
+                Strategy Note: Awaiting verified HR Director testimonial. Benchmark stat included as placeholder to maintain conversion momentum.
+            </div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Benchmark</span><span class="nv-atomic-value">Companies with HOI-grade health infrastructure report 23% reduction in employee absenteeism.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Testimonial</span><span class="nv-atomic-value">[CLIENT ASSET REQUIRED — HR Director testimonial with documented absenteeism reduction % and verified company name]</span></li>
+            </ul>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="nv-section" id="section-CTA">
+            <div class="nv-section__id">Final CTA</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Audit your current health infrastructure.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Get a custom transition plan from your legacy broker to HealthFlex HOI.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">CTA</span><span class="nv-atomic-value">Request Custom Quote</span></li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+<script>
+    const sections = document.querySelectorAll('.nv-section');
+    const navItems = document.querySelectorAll('.nv-nav-item');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navItems.forEach(nav => nav.classList.toggle('active', nav.getAttribute('href') === `#${id}`));
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50% 0px' });
+    sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
