@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ PROJECT_NAME }} — Narrative Review — Moood.Studio</title>
-    <meta name="description" content="{{ PROJECT_NAME }} narrative review document by Moood.Studio">
+    <title>Stride Lab — Narrative Review — Moood.Studio</title>
+    <meta name="description" content="Stride Lab narrative review document by Moood.Studio">
     <meta name="robots" content="noindex, nofollow">
     <style>
         /* ═══════════════════════════════════════════════════════════
@@ -638,19 +638,131 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Unique ID for this narrative document (Placeholders provided for automatic injection)
-const NARRATIVE_ID = "stride-lab-homepage-v3-ia-richness";
+const NARRATIVE_ID = "stride-lab-homepage-v3-final";
 
 // ── NARRATIVE DATA (PLACEHOLDERS) ─────────────────────
 const NARRATIVE_DATA = {
     "meta": {
-        "project": "{{ PROJECT_NAME }}",
-        "client": "{{ CLIENT_NAME }}",
-        "page": "{{ PAGE_NAME }}",
-        "date": "{{ DATE }}",
-        "version": "{{ VERSION }}",
-        "status": "{{ STATUS || 'Pending Approval' }}"
+        "project": "Stride Lab",
+        "client": "Marcus Webb",
+        "page": "Homepage",
+        "date": "April 21, 2026",
+        "version": "v1.2 (Fidelity Locked)",
+        "status": "Pending Approval"
     },
-    "sections": [ /* {{ SECTIONS_JSON_INJECTION }} */ ]
+    "sections": [
+        {
+            "id": "hero", "type": "hero", "label": "Hero",
+            "content": {
+                "eyebrow": "Certified Running Diagnostics · v1.2",
+                "h1": "The shoe was built for someone else.",
+                "p": "Up to 56% of recreational runners get injured yearly. The shoe is the one variable nobody adjusts.",
+                "cta": "Book Your Free Gait Analysis",
+                "ctaHref": "#booking"
+            }
+        },
+        {
+            "id": "indictment", "type": "section", "label": "Indictment",
+            "content": {
+                "eyebrow": "The Market Protocol",
+                "h2": "Engineered for champions. Sized for everyone.",
+                "h3": "Nike and Adidas build shoes for elite athletes, then sell them to everyone else.",
+                "p": [
+                    "<strong>Body — Block A:</strong> A 58kg elite marathoner has a fundamentally different gait pattern than a 82kg recreational runner. The shoe doesn't know the difference. The brand doesn't care.",
+                    "<strong>Body — Block B:</strong> Neither Nike nor Adidas offers gait analysis before purchase. They sell aspiration. You absorb the biomechanical consequence."
+                ]
+            }
+        },
+        {
+            "id": "reframe", "type": "section", "label": "The Reframe",
+            "content": {
+                "eyebrow": "The Technical Truth",
+                "h2": "Your gait was never mapped.",
+                "h3": "The market tells you that you're \"injury-prone\" when you're actually \"data-blind\".",
+                "p": "50–75% of running injuries are overuse injuries — accumulated biomechanical error, not bad luck or weak effort."
+            }
+        },
+        {
+            "id": "evidence", "type": "stat-block", "label": "Evidence",
+            "content": {
+                "eyebrow": "The Clinical Data",
+                "h2": "One correctable variable.",
+                "stats": [
+                    {
+                        "label": "Stat 01",
+                        "h3": "56% injured per year.",
+                        "p": "Up to 56% of recreational runners sustain a running-related injury annually. This is not an elite sport risk. This is you.",
+                        "source": "NIH / PubMed + Harvard Health"
+                    },
+                    {
+                        "label": "Stat 02",
+                        "h3": "3 in 4 injuries. Preventable.",
+                        "p": "Between 50% and 75% of all running injuries are overuse injuries. They are not accidents. They are accumulated errors.",
+                        "source": "Tandfonline / au.dk research"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "comparison", "type": "table", "label": "Comparison",
+            "content": {
+                "eyebrow": "The Competitive Gap",
+                "h2": "Stop choosing. Start running.",
+                "headers": ["Criteria", "Nike / Adidas", "Generic Store", "Stride Lab"],
+                "rows": [
+                    ["Pre-purchase analysis", "✗", "Theater (30-sec treadmill)", "✓ Clinical"],
+                    ["Certified specialist", "✗", "Retail associate", "✓"],
+                    ["Training load assessed", "✗", "✗", "✓"],
+                    ["Single shoe prescription", "✗", "3 options", "✓ One"]
+                ]
+            }
+        },
+        {
+            "id": "specs", "type": "feature-list", "label": "Diagnostics",
+            "content": {
+                "eyebrow": "The Protocol",
+                "h2": "What we read when you run.",
+                "p": "[CLIENT ASSET REQUIRED: Final clinical measurement checklist]",
+                "items": [
+                    { "title": "Foot Strike Pattern", "description": "Heel, midfoot, or forefoot dominance determines cushioning. Misalignment here is the origin of most shin and knee injuries." },
+                    { "title": "Cadence & Load Rate", "description": "Steps per minute and ground contact time reveal how your body absorbs impact. High load rate = high injury risk." },
+                    { "title": "Hip & Knee Alignment", "description": "Dynamic valgus collapse and hip drop are invisible to the untrained eye but are primary overuse injury drivers." }
+                ]
+            }
+        },
+        {
+            "id": "testimonial", "type": "quote", "label": "Testimonial",
+            "content": {
+                "quote": "Two years. Three shoes. Same IT band injury. The Stride Lab analysis took 18 minutes. Turns out I've been a severe overpronator the whole time. No one had ever checked.",
+                "attribution": "[PLACEHOLDER] J.M., Recreational Runner, 41"
+            }
+        },
+        {
+            "id": "protocol", "type": "section", "label": "The Process",
+            "content": {
+                "eyebrow": "Three Steps to Prescription",
+                "h2": "Sixty seconds to schedule. Twenty minutes to solve.",
+                "h3": "A certified specialist analyzes your gait pattern and training load.",
+                "p": [
+                    "Step 1 — Book: Choose in-store or video. No preparation required.",
+                    "Step 2 — Run: We read your body's biomechanical data in real-time.",
+                    "Step 3 — Prescribe: Not a category. One specific shoe matched to your profile."
+                ],
+                "cta": "Book Your Free Gait Analysis",
+                "ctaHref": "#booking"
+            }
+        },
+        {
+            "id": "final-cta", "type": "hero", "label": "Final Action",
+            "content": {
+                "eyebrow": "The End of the Cycle",
+                "h1": "Stop choosing. Start running.",
+                "p": "Your gait analysis is free. Your next injury doesn't have to be inevitable.",
+                "cta": "Book Your Free Gait Analysis",
+                "ctaHref": "#booking"
+            }
+        }
+    ]
 };
 
 // ── LOGO ────────────────────────────────────────────
