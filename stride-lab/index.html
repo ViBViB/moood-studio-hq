@@ -10,51 +10,43 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
         :root { --black: #000; --white: #fff; --gray-100: #f8f8f8; --gray-200: #eee; --gray-300: #ddd; --gray-500: #777; --font-sans: 'Inter', sans-serif; --sidebar-width: 250px; --content-max: 900px; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body { font-family: var(--font-sans); background: var(--white); color: var(--black); line-height: 1.6; -webkit-font-smoothing: antialiased; }
         .nv-layout { display: flex; min-height: 100vh; }
         .nv-sidebar { width: var(--sidebar-width); position: fixed; top: 0; left: 0; bottom: 0; background: var(--white); border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; z-index: 1000; }
         .nv-sidebar__header { padding: 40px 30px; border-bottom: 1px solid var(--gray-200); }
-        .nv-sidebar__logo { height: 40px; display: block; margin-bottom: 20px; }
-        .nv-sidebar__project { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nv-sidebar__logo { height: 40px; display: block; }
         .nv-sidebar__nav { flex: 1; overflow-y: auto; padding: 20px 0; }
-        .nv-nav-item { padding: 10px 30px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-500); text-decoration: none; display: block; border-left: 3px solid transparent; }
+        .nv-nav-item { padding: 12px 30px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-500); text-decoration: none; display: block; border-left: 3px solid transparent; transition: all 0.2s; }
         .nv-nav-item:hover { background: var(--gray-100); color: var(--black); }
-        .nv-nav-item.active { background: var(--gray-100); color: var(--black); border-left-color: var(--black); }
+        .nv-nav-item.active { background: var(--gray-100); color: var(--black); border-left-color: var(--black); font-weight: 700; }
         .nv-main { margin-left: var(--sidebar-width); flex: 1; min-width: 0; padding-bottom: 100px; }
-        .nv-topbar { height: 60px; border-bottom: 1px solid var(--gray-200); padding: 0 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); z-index: 500; }
-        .nv-topbar__meta { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
-        .nv-btn { height: 32px; padding: 0 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; cursor: pointer; display: inline-flex; align-items: center; border: 1px solid var(--black); }
+        .nv-topbar { height: 60px; border-bottom: 1px solid var(--gray-200); padding: 0 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 500; }
+        .nv-topbar__meta { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; }
+        .nv-topbar__project { color: var(--black); font-weight: 700; }
+        .nv-topbar__divider { width: 1px; height: 12px; background: var(--gray-300); }
+        .nv-btn { height: 32px; padding: 0 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; cursor: pointer; display: inline-flex; align-items: center; border: 1px solid var(--black); transition: all 0.2s; }
         .nv-btn--primary { background: var(--black); color: var(--white); }
         .nv-btn--outline { background: transparent; color: var(--black); margin-right: 8px; }
-        .nv-section { padding: 80px 20px 0px; max-width: var(--content-max); margin: 0 auto; scroll-margin-top: 60px; }
+        .nv-section { padding: 100px 60px 40px; max-width: var(--content-max); margin: 0 auto; scroll-margin-top: 60px; }
         .nv-section__id { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
         .nv-section__id::after { content: ''; flex: 1; height: 1px; background: var(--gray-300); }
-        .nv-atomic-list { list-style: none; padding-left: 20px; margin-bottom: 40px; }
-        .nv-atomic-item { margin-bottom: 10px; font-size: 15px; display: flex; align-items: flex-start; }
-        .nv-atomic-label { font-weight: 700; margin-right: 8px; white-space: nowrap; }
-        .nv-atomic-value { color: #333; }
-        .nv-block-header { font-size: 18px; font-weight: 700; margin: 30px 0 15px; }
-        .nv-block { margin-bottom: 40px; }
-        .nv-table-container { margin: 20px 20px 30px; overflow-x: auto; }
+        .nv-atomic-list { list-style: none; padding-left: 20px; margin-bottom: 20px; }
+        .nv-atomic-item { margin-bottom: 12px; font-size: 15px; display: flex; align-items: flex-start; }
+        .nv-atomic-label { font-weight: 700; margin-right: 15px; white-space: nowrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-500); padding-top: 4px; width: 130px; text-align: right; }
+        .nv-atomic-value { color: #333; flex: 1; }
+        .nv-block-header { font-size: 15px; font-weight: 700; margin: 40px 0 20px; text-transform: uppercase; letter-spacing: 0.05em; border-left: 3px solid var(--black); padding-left: 15px; }
+        .nv-block { margin-bottom: 60px; }
+        .nv-table-container { margin: 30px 20px 40px; overflow-x: auto; border: 1px solid var(--gray-200); border-radius: 4px; }
         .nv-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        .nv-table th { padding: 12px 10px; border-bottom: 2px solid var(--black); font-weight: 700; text-transform: uppercase; }
-        .nv-table td { padding: 14px 10px; border-bottom: 1px solid var(--gray-200); }
-        .nv-feedback-toggle { margin-top: 20px; padding: 6px 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--gray-500); border: 1px solid var(--gray-200); background: transparent; cursor: pointer; }
-        .nv-feedback-panel { display: none; margin-top: 15px; border: 1px solid var(--gray-200); }
-        .nv-feedback-panel.open { display: block; }
-        .nv-feedback-form { padding: 20px; background: var(--gray-100); display: flex; flex-direction: column; gap: 10px; }
-        .nv-feedback-form input, .nv-feedback-form textarea { padding: 10px; font-family: inherit; font-size: 13px; border: 1px solid var(--gray-300); }
-        .nv-comment { padding: 15px 20px; border-bottom: 1px solid var(--gray-200); font-size: 13px; }
-        .nv-comment__name { font-weight: 700; }
-        .nv-db-status { position: fixed; bottom: 20px; right: 20px; font-size: 10px; font-weight: 700; background: var(--black); color: var(--white); padding: 6px 12px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-        .nv-db-status.show { opacity: 1; }
-        @media print { .nv-sidebar, .nv-topbar, .nv-feedback-toggle, .nv-db-status { display: none !important; } .nv-main { margin-left: 0 !important; } .nv-section { page-break-inside: avoid; } }
+        .nv-table th { padding: 15px 15px; border-bottom: 1px solid var(--gray-200); font-weight: 700; text-transform: uppercase; background: var(--gray-100); }
+        .nv-table td { padding: 15px 15px; border-bottom: 1px solid var(--gray-100); }
+        @media print { .nv-sidebar, .nv-topbar { display: none !important; } .nv-main { margin-left: 0 !important; } .nv-section { padding: 40px 0 !important; page-break-inside: avoid; } }
     </style>
 </head>
 <body>
 
 <div class="nv-layout" id="app"></div>
-<div class="nv-db-status" id="db-status"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -95,7 +87,7 @@ const MOOOD_LOGO = `<svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.
 
 function renderAtomicItem(label, value) {
     if (!value) return '';
-    return `<li class="nv-atomic-item"><span class="nv-atomic-label">• ${label}:</span><span class="nv-atomic-value">${value}</span></li>`;
+    return `<li class="nv-atomic-item"><span class="nv-atomic-label">${label}</span><span class="nv-atomic-value">${value}</span></li>`;
 }
 
 function renderSection(section) {
@@ -137,16 +129,31 @@ function renderSection(section) {
 
     if (c.quote) { listContent += renderAtomicItem('Quote', c.quote); listContent += renderAtomicItem('Attribution', c.attribution); }
 
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__id">SECTION: ${section.label}</div><ul class="nv-atomic-list">${listContent}</ul>${statsContent}${itemsContent}${tableContent}</section>`;
+    return `<section class="nv-section" id="section-${section.id}" data-section="${section.id}"><div class="nv-section__id">SECTION: ${section.label}</div><ul class="nv-atomic-list">${listContent}</ul>${statsContent}${itemsContent}${tableContent}</section>`;
 }
 
 (function init() {
     const data = NARRATIVE_DATA;
-    const nav = data.sections.map(s => `<a class="nv-nav-item" href="#section-${s.id}" id="nav-${s.id}">${s.label}</a>`).join("");
-    document.getElementById('app').innerHTML = `<div class="nv-sidebar"><div class="nv-sidebar__header">${MOOOD_LOGO}<div class="nv-sidebar__project">${data.meta.project}</div></div><div class="nv-sidebar__nav">${nav}</div></div><div class="nv-main"><div class="nv-topbar"><div class="nv-topbar__meta">${data.meta.page} | ${data.meta.version}</div><div class="nv-topbar__actions"><button class="nv-btn nv-btn--outline" onclick="window.print()">Print PDF</button><button class="nv-btn nv-btn--primary" onclick="approveNarrative()">Approve Narrative</button></div></div>${data.sections.map(s => renderSection(s)).join("")}</div>`;
-})();
+    const nav = data.sections.map(s => `<a class="nv-nav-item" href="#section-${s.id}" data-nav="${s.id}">${s.label}</a>`).join("");
+    document.getElementById('app').innerHTML = `<div class="nv-sidebar"><div class="nv-sidebar__header">${MOOOD_LOGO}</div><div class="nv-sidebar__nav">${nav}</div></div><div class="nv-main"><div class="nv-topbar"><div class="nv-topbar__meta"><span class="nv-topbar__project">${data.meta.project}</span><div class="nv-topbar__divider"></div><span>${data.meta.page}</span><div class="nv-topbar__divider"></div><span>${data.meta.version}</span></div><div class="nv-topbar__actions"><button class="nv-btn nv-btn--outline" onclick="window.print()">Print PDF</button><button class="nv-btn nv-btn--primary">Approve Narrative</button></div></div>${data.sections.map(s => renderSection(s)).join("")}</div>`;
 
-function approveNarrative() { alert('Approved.'); }
+    // ── NAVIGATION OBSERVER ───────────────────────────
+    const sections = document.querySelectorAll('.nv-section');
+    const navItems = document.querySelectorAll('.nv-nav-item');
+    const options = { threshold: 0.3, rootMargin: '0px 0px -50% 0px' };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.dataset.section;
+                navItems.forEach(nav => {
+                    nav.classList.toggle('active', nav.dataset.nav === id);
+                });
+            }
+        });
+    }, options);
+    sections.forEach(s => observer.observe(s));
+})();
 </script>
 </body>
 </html>
