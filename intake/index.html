@@ -518,6 +518,38 @@
             });
         });
 
+        // File Selection Feedback & Drag and Drop
+        const fileInput = document.getElementById('fileInput');
+        const uploadContainer = document.querySelector('.file-upload-container');
+        const uploadText = document.querySelector('.file-upload-text');
+
+        fileInput.addEventListener('change', (e) => {
+            if (fileInput.files.length > 0) {
+                uploadText.innerHTML = `<strong>${fileInput.files.length} file(s) selected:</strong><br>` + 
+                                     Array.from(fileInput.files).map(f => f.name).join(', ');
+                uploadContainer.style.borderColor = '#000';
+            }
+        });
+
+        // Drag & Drop Implementation
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, () => uploadContainer.style.background = '#f0f0f0', false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, () => uploadContainer.style.background = '#fafafa', false);
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            fileInput.files = dt.files;
+            fileInput.dispatchEvent(new Event('change'));
+        });
+
         updateSlider();
     </script>
 </body>
