@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stride Lab — Narrative Review — Moood.Studio</title>
-    <meta name="description" content="Stride Lab narrative review document by Moood.Studio">
+    <title>{{ PROJECT_NAME }} — Narrative Review — Moood.Studio</title>
+    <meta name="description" content="{{ PROJECT_NAME }} narrative review document by Moood.Studio">
     <meta name="robots" content="noindex, nofollow">
     <style>
         /* ═══════════════════════════════════════════════════════════
@@ -638,7 +638,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Unique ID for this narrative document (Placeholders provided for automatic injection)
-const NARRATIVE_ID = "stride-lab-homepage-v1";
+const NARRATIVE_ID = "stride-lab-homepage-v2-fidelity-fix";
 
 // ── NARRATIVE DATA (PLACEHOLDERS) ─────────────────────
 const NARRATIVE_DATA = {
@@ -647,14 +647,14 @@ const NARRATIVE_DATA = {
         "client": "Marcus Webb",
         "page": "Homepage",
         "date": "April 21, 2026",
-        "version": "v1.0 (Component-Ready)",
+        "version": "v1.1 (Clinical Fidelity)",
         "status": "Pending Approval"
     },
     "sections": [
         {
             "id": "hero", "type": "hero", "label": "Hero",
             "content": {
-                "eyebrow": "Certified Running Diagnostics · v1.0",
+                "eyebrow": "Certified Running Diagnostics · v1.1",
                 "h1": "The shoe was built for someone else.",
                 "p": "Up to 56% of recreational runners get injured yearly. The shoe is the one variable nobody adjusts.",
                 "cta": "Book Your Free Gait Analysis",
@@ -666,7 +666,11 @@ const NARRATIVE_DATA = {
             "content": {
                 "eyebrow": "The Market Protocol",
                 "h2": "Engineered for champions. Sized for everyone.",
-                "p": "Nike and Adidas build shoes for elite athletes, then sell them to everyone else via aspiration. A 58kg elite marathoner has a fundamentally different gait pattern than an 82kg recreational runner. The shoe doesn't know the difference. The brand doesn't care."
+                "h3": "Nike and Adidas build shoes for elite athletes, then sell them to everyone else.",
+                "p": [
+                    "A 58kg elite marathoner has a fundamentally different gait pattern than a 82kg recreational runner. The shoe doesn't know the difference. The brand doesn't care.",
+                    "Neither Nike nor Adidas offers gait analysis before purchase. They sell aspiration. You absorb the biomechanical consequence."
+                ]
             }
         },
         {
@@ -674,7 +678,8 @@ const NARRATIVE_DATA = {
             "content": {
                 "eyebrow": "The Technical Truth",
                 "h2": "Your gait was never mapped.",
-                "p": "50–75% of running injuries are overuse injuries — accumulated biomechanical error, not bad luck or weak effort. The market tells you that you're 'injury-prone' when you're actually just 'data-blind'."
+                "h3": "The market tells you that you're \"injury-prone\" when you're actually \"data-blind\".",
+                "p": "50–75% of running injuries are overuse injuries — accumulated biomechanical error, not bad luck or weak effort."
             }
         },
         {
@@ -684,23 +689,23 @@ const NARRATIVE_DATA = {
                 "h2": "One correctable variable.",
                 "headers": ["Metric", "Source", "Finding"],
                 "rows": [
-                    ["Annual Injury Rate", "NIH / PubMed consensus", "35% – 56% of recreational runners"],
-                    ["Injury Type", "Tandfonline / au.dk", "50% – 75% are Overuse (Non-Traumatic)"],
-                    ["Primary Causes", "Harvard Health Research", "1. Load Error | 2. Mismatched Footwear"]
+                    ["Annual injury rate", "NIH / PubMed consensus", "35% – 56% of recreational runners"],
+                    ["Injury Type", "Tandfonline / au.dk", "50% – 75% are overuse injuries"],
+                    ["Primary Causes", "Harvard Health Research", "Sudden load increase | Mismatched footwear"]
                 ]
             }
         },
         {
             "id": "comparison", "type": "table", "label": "Comparison",
             "content": {
-                "eyebrow": "The Strategy Gap",
+                "eyebrow": "The Competitive Gap",
                 "h2": "Stop choosing. Start running.",
-                "headers": ["Criteria", "Nike / Adidas", "Generic Stores", "Stride Lab"],
+                "headers": ["Criteria", "Nike / Adidas", "Generic Store", "Stride Lab"],
                 "rows": [
                     ["Pre-purchase analysis", "✗", "Theater (30-sec treadmill)", "✓ Clinical"],
                     ["Certified specialist", "✗", "Retail associate", "✓"],
                     ["Training load assessed", "✗", "✗", "✓"],
-                    ["Single prescription", "✗", "3 options presented", "✓ One"]
+                    ["Single shoe prescription", "✗", "3 options", "✓ One"]
                 ]
             }
         },
@@ -711,14 +716,14 @@ const NARRATIVE_DATA = {
                 "h2": "What we read when you run.",
                 "p": "[CLIENT ASSET REQUIRED: Final clinical measurement checklist]",
                 "items": [
-                    { "title": "Foot Strike Pattern", "description": "Heel, midfoot, or forefoot dominance determines cushioning requirement. Misalignment here is the origin of most shin and knee injuries." },
+                    { "title": "Foot Strike Pattern", "description": "Heel, midfoot, or forefoot dominance determines cushioning. Misalignment here is the origin of most shin and knee injuries." },
                     { "title": "Cadence & Load Rate", "description": "Steps per minute and ground contact time reveal how your body absorbs impact. High load rate = high injury risk." },
-                    { "title": "Hip & Knee Alignment", "description": "Dynamic valgus collapse and hip drop are invisible to the untrained eye. They are primary overuse injury drivers." }
+                    { "title": "Hip & Knee Alignment", "description": "Dynamic valgus collapse and hip drop are invisible to the untrained eye but are primary overuse injury drivers." }
                 ]
             }
         },
         {
-            "id": "testimonial-1", "type": "quote", "label": "Testimonial",
+            "id": "testimonial", "type": "quote", "label": "Testimonial",
             "content": {
                 "quote": "Two years. Three shoes. Same IT band injury. The Stride Lab analysis took 18 minutes. Turns out I've been a severe overpronator the whole time. No one had ever checked.",
                 "attribution": "[PLACEHOLDER] J.M., Recreational Runner, 41"
@@ -729,7 +734,22 @@ const NARRATIVE_DATA = {
             "content": {
                 "eyebrow": "Three Steps to Prescription",
                 "h2": "Sixty seconds to schedule. Twenty minutes to solve.",
-                "p": "Step 1 — Book: Choose in-store or video. No preparation required.\n\nStep 2 — Run: A certified specialist analyzes your foot strike, cadence, and load rate. You run. We read.\n\nStep 3 — Prescribe: You receive one specific shoe recommendation with full clinical rationale and a direct purchase link.",
+                "h3": "A certified specialist analyzes your gait pattern and training load.",
+                "p": [
+                    "Step 1 — Book: Choose in-store or video. No preparation required.",
+                    "Step 2 — Run: We read your body's biomechanical data in real-time.",
+                    "Step 3 — Prescribe: Not a category. One specific shoe matched to your profile."
+                ],
+                "cta": "Book Your Free Gait Analysis",
+                "ctaHref": "#booking"
+            }
+        },
+        {
+            "id": "final-cta", "type": "hero", "label": "Final Action",
+            "content": {
+                "eyebrow": "The End of the Cycle",
+                "h1": "Stop choosing. Start running.",
+                "p": "Your gait analysis is free. Your next injury doesn't have to be inevitable.",
                 "cta": "Book Your Free Gait Analysis",
                 "ctaHref": "#booking"
             }
@@ -907,7 +927,25 @@ function renderHero(section, index) {
 
 function renderSection(section, index) {
     const c = section.content;
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h2 class="nv-section__h2">${c.h2}</h2>${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}${c.cta ? `<a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
+    let bodyHtml = '';
+    
+    if (Array.isArray(c.p)) {
+        bodyHtml = c.p.map(para => `<p class="nv-section__p">${para}</p>`).join('');
+    } else if (c.p) {
+        bodyHtml = `<p class="nv-section__p">${c.p}</p>`;
+    }
+
+    return `<section class="nv-section" id="section-${section.id}">
+        <div class="nv-section__inner">
+            ${renderSectionLabel(section, index)}
+            ${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}
+            <h2 class="nv-section__h2">${c.h2}</h2>
+            ${c.h3 ? `<p class="nv-section__h3" style="font-weight:700; margin-bottom:20px;">${c.h3}</p>` : ''}
+            ${bodyHtml}
+            ${c.cta ? `<a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a>` : ''}
+            ${renderFeedbackBlock(section.id)}
+        </div>
+    </section>`;
 }
 
 function renderFeatureList(section, index) {
