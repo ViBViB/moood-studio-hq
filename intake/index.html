@@ -184,13 +184,12 @@
         /* Navigation Bar */
         .q-nav {
             width: 100%;
-            padding: 40px 80px;
+            padding: 40px 64px;
+            border-top: 1px solid rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(0,0,0,0.06);
             background: #fff;
-            z-index: 100;
         }
 
         .btn-next {
@@ -330,10 +329,6 @@
                         <label>YOUR EMAIL</label>
                         <input type="email" name="email" placeholder="For the strategy delivery" required>
                     </div>
-                    <button class="btn-next" onclick="nextSlide()">
-                        <span>Next Step</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
                 </div>
 
                 <!-- STEP 2 -->
@@ -352,11 +347,6 @@
                         <input type="file" id="fileInput" style="display: none;" multiple>
                     </div>
                     <div class="q-file-list" id="qFileList"></div>
-                    <button class="btn-next" onclick="nextSlide()">
-                        <span>Next Step</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
                 </div>
 
                 <!-- STEP 3 -->
@@ -369,10 +359,6 @@
                         <label>MARKET CONTEXT</label>
                         <textarea name="adversary" placeholder="Who is currently failing the user? Why are they inferior?" rows="6" required></textarea>
                     </div>
-                    <button class="btn-next" onclick="nextSlide()">
-                        <span>Next Step</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
                 </div>
 
                 <!-- STEP 4 -->
@@ -385,10 +371,6 @@
                         <label>AUDIENCE PROFILE</label>
                         <textarea name="portrait" placeholder="e.g. 'Software engineers with chronic back pain who have tried everything else...'" rows="6" required></textarea>
                     </div>
-                    <button class="btn-next" onclick="nextSlide()">
-                        <span>Next Step</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
                 </div>
 
                 <!-- STEP 5 -->
@@ -401,10 +383,6 @@
                         <label>CONVERSION GOAL (CTA)</label>
                         <textarea name="objective" placeholder="e.g., Book a Spine Audit, Download the Manual" rows="4" required></textarea>
                     </div>
-                    <button class="btn-next btn-finish" onclick="nextSlide()">
-                        <span>Activate Strategy Phase</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
                 </div>
 
                 <!-- FINAL CONFIRMATION -->
@@ -437,10 +415,8 @@
                     <span>Back</span>
                 </button>
                 <button class="btn-next" id="btnNext" onclick="nextSlide()">
-                    <span id="btnNextText">Next Step</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <span id="nextBtnText">Next Step</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
             </nav>
         </main>
@@ -452,14 +428,14 @@
         const slides = document.querySelectorAll('.q-slide');
         const qNav = document.getElementById('qNav');
         const btnPrev = document.getElementById('btnPrev');
-        const btnNextText = document.getElementById('btnNextText');
+        const btnNext = document.getElementById('btnNext');
+        const nextBtnText = document.getElementById('nextBtnText');
         const navItems = document.querySelectorAll('.q-nav-item');
 
         function updateSlider() {
             slides.forEach((slide, index) => {
-                slide.classList.remove('active', 'exit');
-                if (index + 1 === currentSlide) slide.classList.add('active');
-                else if (index + 1 < currentSlide) slide.classList.add('exit');
+                slide.classList.toggle('active', (index + 1) === currentSlide);
+                slide.classList.toggle('exit', (index + 1) < currentSlide);
             });
 
             navItems.forEach((item, index) => {
@@ -468,6 +444,14 @@
 
             btnPrev.disabled = currentSlide === 1;
             
+            if (currentSlide === 5) {
+                nextBtnText.innerText = "Activate Strategy Phase";
+                btnNext.classList.add('btn-finish');
+            } else {
+                nextBtnText.innerText = "Next Step";
+                btnNext.classList.remove('btn-finish');
+            }
+
             if (currentSlide === totalSlides) {
                 qNav.style.display = 'none';
             } else {
