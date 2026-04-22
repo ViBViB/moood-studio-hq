@@ -638,7 +638,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Unique ID for this narrative document (Placeholders provided for automatic injection)
-const NARRATIVE_ID = "forma-seating-homepage-v1";
+const NARRATIVE_ID = "forma-seating-homepage-v2";
 
 // ── NARRATIVE DATA (PLACEHOLDERS) ─────────────────────
 const NARRATIVE_DATA = {
@@ -647,24 +647,22 @@ const NARRATIVE_DATA = {
         "client": "Daniela Reyes",
         "page": "Homepage",
         "date": "April 21, 2026",
-        "version": "v1.0 (Diagnostic)",
+        "version": "v2.0 (Full Homepage)",
         "status": "Pending Approval"
     },
     "sections": [
         {
-            "id": "hero",
-            "type": "hero",
-            "label": "Hero",
+            "id": "hero", "type": "hero", "label": "Hero",
             "content": {
-                "eyebrow": "Ergonomics Specialist · Remote Consultation",
+                "eyebrow": "Ergonomics Specialist · Free 30-Min Assessment",
                 "h1": "You didn't buy the wrong chair. Nobody asked the right questions.",
-                "p": "60.6% of sedentary workers have chronic low back pain. Not because good chairs don't exist. Because no one diagnosed them before selling one."
+                "p": "60.6% of sedentary workers have chronic low back pain. Not because good chairs don't exist. Because no one diagnosed them before selling one.",
+                "cta": "Book Your Free Assessment",
+                "ctaHref": "#assessment"
             }
         },
         {
-            "id": "indictment",
-            "type": "section",
-            "label": "The Indictment",
+            "id": "problem", "type": "section", "label": "The Problem",
             "content": {
                 "eyebrow": "The Industry's Standard Protocol",
                 "h2": "Buy. Adjust. Endure.",
@@ -672,9 +670,7 @@ const NARRATIVE_DATA = {
             }
         },
         {
-            "id": "reframe",
-            "type": "section",
-            "label": "The Reframe",
+            "id": "reframe", "type": "section", "label": "The Reframe",
             "content": {
                 "eyebrow": "A Different Protocol",
                 "h2": "A chair is a prescription. Not a purchase.",
@@ -682,30 +678,69 @@ const NARRATIVE_DATA = {
             }
         },
         {
-            "id": "evidence",
-            "type": "table",
-            "label": "The Evidence",
+            "id": "comparison", "type": "table", "label": "Market Comparison",
             "content": {
-                "eyebrow": "Clinical Foundation",
-                "h2": "The numbers behind the protocol.",
+                "eyebrow": "The Competitive Gap",
+                "h2": "What every other brand skipped.",
+                "headers": ["Criteria", "IKEA", "Gaming Chairs", "Herman Miller", "Forma"],
+                "rows": [
+                    ["Pre-purchase clinical assessment", "✗", "✗", "✗", "✓"],
+                    ["Published ergonomic studies", "✗", "✗", "Partial", "✓"],
+                    ["WFH professional fit", "✗", "✗", "Partial", "✓"],
+                    ["Personalized chair prescription", "✗", "✗", "✗", "✓"],
+                    ["Price range", "$150–$300", "$300–$600", "$1,200–$2,000", "From $890"]
+                ]
+            }
+        },
+        {
+            "id": "specs", "type": "feature-list", "label": "Technical Specs",
+            "content": {
+                "eyebrow": "Engineering Detail",
+                "h2": "Built for sustained seated performance.",
+                "p": "[CLIENT ASSET REQUIRED: Final technical spec sheet from product engineering team]",
+                "items": [
+                    { "title": "Adaptive Lumbar System", "description": "Dynamic lumbar support that adjusts to micro-movements, maintaining spinal neutral across posture shifts. Not a static pad — a responsive mechanism." },
+                    { "title": "4D Armrest Calibration", "description": "Height, depth, width, and pivot angle adjustable independently. Eliminates shoulder elevation — the primary driver of upper back tension in knowledge workers." },
+                    { "title": "Pelvic Tilt Correction", "description": "Seat pan angle adjustable to anterior tilt. Prevents posterior pelvic collapse — the root cause of lumbar flattening after 4+ hours of sitting." },
+                    { "title": "Breathable Mesh Structure", "description": "High-tensile woven mesh distributes body weight across a larger surface area, reducing peak pressure points by a measurable margin vs. foam padding." }
+                ]
+            }
+        },
+        {
+            "id": "evidence", "type": "table", "label": "Clinical Evidence",
+            "content": {
+                "eyebrow": "The Data",
+                "h2": "These are not Forma's numbers. These are the cost of the status quo.",
                 "headers": ["Metric", "Source", "Finding"],
                 "rows": [
-                    ["Low back pain prevalence", "NIH / PubMed (n=350)", "60.6% of sedentary workers; 62.7% chronic"],
-                    ["Continuous sitting risk", "Behavioral research", "82.86% pain rate at 6+ hours seated"],
+                    ["Low back pain prevalence", "NIH / PubMed (cross-sectional, n=350)", "60.6% of sedentary workers; 62.7% chronic"],
+                    ["Continuous sitting risk", "Published behavioral research", "82.86% pain rate at 6+ hours seated"],
                     ["Annual economic cost", "OSHA Ergonomics Standard", "$20B+ in direct costs to U.S. employers"]
                 ]
             }
         },
         {
-            "id": "protocol",
-            "type": "section",
-            "label": "The Protocol",
+            "id": "testimonial-1", "type": "quote", "label": "Client Voice",
             "content": {
-                "eyebrow": "Your Assessment",
+                "quote": "I had a Herman Miller for two years. Still left work with lower back pain every single day. After the Forma assessment, the specialist told me my seated geometry required a shallower seat depth than the Aeron offers. Three weeks into my prescribed chair: the 5PM pain is gone. I wish someone had asked these questions before I spent $1,500 on the wrong chair.",
+                "attribution": "[PLACEHOLDER — Replace with verified client testimonial] M.T., Senior Engineer, Remote"
+            }
+        },
+        {
+            "id": "testimonial-2", "type": "quote", "label": "Client Voice 2",
+            "content": {
+                "quote": "The assessment took 28 minutes. The specialist identified that I have a longer-than-average torso and short femurs — two measurements that made every 'universal fit' chair I've ever owned technically wrong for me. That level of clinical specificity doesn't exist anywhere else at this price point.",
+                "attribution": "[PLACEHOLDER — Replace with verified client testimonial] R.A., Product Designer, Hybrid"
+            }
+        },
+        {
+            "id": "protocol", "type": "section", "label": "The Assessment",
+            "content": {
+                "eyebrow": "Your Assessment — 3 Steps",
                 "h2": "Thirty minutes. One specialist. One prescription.",
-                "p": "A 30-minute video consultation with a certified ergonomics specialist. They will assess your seated geometry, work habits, and pain history. At the end of the session, you receive a single, specific chair recommendation — with clinical rationale.\n\nNot a configurator. Not an algorithm. A specialist who has read your body and written a prescription.",
+                "p": "Step 1 — Book: Schedule your free 30-minute video call. No preparation required.\n\nStep 2 — Diagnose: A certified ergonomics specialist assesses your seated geometry, work habits, daily hours at desk, and existing pain history. They are reading your body, not running a script.\n\nStep 3 — Prescribe: You receive a single, specific chair recommendation with full clinical rationale — and a direct purchase link if you choose to proceed.",
                 "cta": "Book Your Free Assessment",
-                "ctaHref": "#"
+                "ctaHref": "#assessment"
             }
         }
     ]
@@ -875,12 +910,13 @@ function renderSectionLabel(section, index) {
 
 function renderHero(section, index) {
     const c = section.content;
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h1 class="nv-hero__h1">${c.h1}</h1>${c.description ? `<p class="nv-hero__description">${c.description}</p>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
+    const desc = c.description || c.p || '';
+    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h1 class="nv-hero__h1">${c.h1}</h1>${desc ? `<p class="nv-hero__description">${desc}</p>` : ''}${c.cta ? `<div style="margin-top:40px"><a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a></div>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
 }
 
 function renderSection(section, index) {
     const c = section.content;
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h2 class="nv-section__h2">${c.h2}</h2>${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
+    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h2 class="nv-section__h2">${c.h2}</h2>${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}${c.cta ? `<a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
 }
 
 function renderFeatureList(section, index) {

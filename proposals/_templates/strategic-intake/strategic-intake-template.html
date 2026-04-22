@@ -148,7 +148,8 @@
         .form-group { display: flex; flex-direction: column; gap: 16px; width: 100%; }
         .form-group label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(0,0,0,0.4); }
         .form-group input, .form-group textarea { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: clamp(18px, 1.2vw, 24px); font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; }
-        .form-group input:focus, .form-group textarea:focus { border-color: #000; outline: none; }
+        .form-group select { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: clamp(18px, 1.2vw, 24px); font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; appearance: none; -webkit-appearance: none; cursor: pointer; width: 100%; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #000; outline: none; }
         .form-group textarea { resize: none; }
         ::placeholder { font-size: 14px; color: rgba(0,0,0,0.4); opacity: 1; }
 
@@ -284,6 +285,18 @@
                     <div class="form-group">
                         <label>PROJECT / COMPANY NAME</label>
                         <input type="text" name="companyName" placeholder="e.g., Anthros, Restacked.ai" required>
+                    </div>
+                    <div class="form-group">
+                        <label>PAGE TYPE</label>
+                        <select name="pageType" required>
+                            <option value="" disabled selected>Select content type</option>
+                            <option value="Homepage">Homepage</option>
+                            <option value="Product Page">Product Page</option>
+                            <option value="Landing Page (Campaign)">Landing Page (Campaign)</option>
+                            <option value="Blog / Pillar Page">Blog / Pillar Page</option>
+                            <option value="Social Media Post">Social Media Post</option>
+                            <option value="Email Campaign">Email Campaign</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>YOUR NAME</label>
@@ -431,7 +444,7 @@
 
         async function submitIntake() {
             const formData = new FormData();
-            document.querySelectorAll('.q-slide input, .q-slide textarea').forEach(el => {
+            document.querySelectorAll('.q-slide input, .q-slide textarea, .q-slide select').forEach(el => {
                 if (el.name) formData.append(el.name, el.value);
             });
             const fileInput = document.getElementById('fileInput');

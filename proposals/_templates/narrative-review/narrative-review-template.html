@@ -817,12 +817,13 @@ function renderSectionLabel(section, index) {
 
 function renderHero(section, index) {
     const c = section.content;
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h1 class="nv-hero__h1">${c.h1}</h1>${c.description ? `<p class="nv-hero__description">${c.description}</p>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
+    const desc = c.description || c.p || '';
+    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h1 class="nv-hero__h1">${c.h1}</h1>${desc ? `<p class="nv-hero__description">${desc}</p>` : ''}${c.cta ? `<div style="margin-top:40px"><a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a></div>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
 }
 
 function renderSection(section, index) {
     const c = section.content;
-    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h2 class="nv-section__h2">${c.h2}</h2>${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
+    return `<section class="nv-section" id="section-${section.id}"><div class="nv-section__inner">${renderSectionLabel(section, index)}${c.eyebrow ? `<p class="nv-eyebrow">${c.eyebrow}</p>` : ''}<h2 class="nv-section__h2">${c.h2}</h2>${c.p ? `<p class="nv-section__p">${c.p}</p>` : ''}${c.cta ? `<a href="${c.ctaHref || '#'}" class="nv-cta-link">${c.cta} →</a>` : ''}${renderFeedbackBlock(section.id)}</div></section>`;
 }
 
 function renderFeatureList(section, index) {
