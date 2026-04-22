@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark-Matter (V1) — Narrative Review</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --black: #000; --white: #fff; --gray-100: #f8f8f8; --gray-200: #eee; --gray-300: #ddd; --gray-500: #777; --font-sans: 'Inter', sans-serif; --sidebar-width: 250px; --content-max: 900px; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-sans); background: var(--white); color: var(--black); line-height: 1.6; }
+        .nv-layout { display: flex; min-height: 100vh; }
+        .nv-sidebar { width: var(--sidebar-width); position: fixed; top: 0; left: 0; bottom: 0; background: var(--white); border-right: 1px solid var(--gray-200); z-index: 1000; }
+        .nv-sidebar__header { padding: 40px 30px; border-bottom: 1px solid var(--gray-200); text-align: center; }
+        .nv-sidebar__logo { height: 35px; }
+        .nv-sidebar__nav { padding: 20px 0; }
+        .nv-nav-item { padding: 12px 30px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-500); text-decoration: none; display: block; border-left: 3px solid transparent; transition: all 0.2s; }
+        .nv-nav-item:hover { background: var(--gray-100); color: var(--black); }
+        .nv-nav-item.active { background: var(--gray-100); color: var(--black); border-left-color: var(--black); font-weight: 700; }
+        .nv-main { margin-left: var(--sidebar-width); flex: 1; padding-bottom: 100px; }
+        .nv-topbar { height: 60px; border-bottom: 1px solid var(--gray-200); padding: 0 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 500; }
+        .nv-topbar__meta { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; display: flex; gap: 10px; }
+        .nv-topbar__project { color: var(--black); font-weight: 700; }
+        .nv-btn { height: 32px; padding: 0 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; cursor: pointer; border: 1px solid var(--black); transition: all 0.2s; }
+        .nv-btn--primary { background: var(--black); color: var(--white); }
+        .nv-btn--outline { background: transparent; color: var(--black); margin-right: 8px; }
+        .nv-section { padding: 80px 60px 40px; max-width: var(--content-max); margin: 0 auto; scroll-margin-top: 60px; }
+        .nv-section__id { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
+        .nv-section__id::after { content: ''; flex: 1; height: 1px; background: var(--gray-300); }
+        .nv-atomic-list { list-style: none; }
+        .nv-atomic-item { margin-bottom: 15px; display: flex; align-items: flex-start; }
+        .nv-atomic-label { font-weight: 700; margin-right: 15px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-500); width: 130px; text-align: right; padding-top: 4px; }
+        .nv-atomic-value { flex: 1; }
+        .nv-block { margin-top: 40px; }
+        .nv-block-header { font-size: 13px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; border-left: 3px solid var(--black); padding-left: 15px; }
+        .nv-table-container { margin-top: 20px; border: 1px solid var(--gray-200); border-radius: 4px; overflow: hidden; }
+        .nv-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .nv-table th { padding: 15px; background: var(--gray-100); font-weight: 700; font-size: 11px; text-transform: uppercase; }
+        .nv-table td { padding: 15px; border-top: 1px solid var(--gray-200); }
+    </style>
+</head>
+<body>
+
+<div class="nv-layout" id="app">
+    <div class="nv-sidebar">
+        <div class="nv-sidebar__header">
+            <strong>MOOOD.STUDIO</strong>
+        </div>
+        <nav class="nv-sidebar__nav">
+            <a class="nv-nav-item active" href="#section-HERO_PRECISION">Hero</a>
+            <a class="nv-nav-item" href="#section-THE_COMPARISON">Comparison</a>
+            <a class="nv-nav-item" href="#section-THE_INDICTMENT">Indictment</a>
+            <a class="nv-nav-item" href="#section-SENSORIAL_PROFILE">Sensorial</a>
+            <a class="nv-nav-item" href="#section-THE_EVIDENCE">Evidence</a>
+            <a class="nv-nav-item" href="#section-FINAL_CTA">Final CTA</a>
+        </nav>
+    </div>
+
+    <div class="nv-main">
+        <div class="nv-topbar">
+            <div class="nv-topbar__meta">
+                <span class="nv-topbar__project">Dark-Matter</span>
+                <span>/</span>
+                <span>Homepage Narrative</span>
+                <span>/</span>
+                <span style="color:var(--black)">v1.1</span>
+            </div>
+            <div class="nv-topbar__actions">
+                <button class="nv-btn nv-btn--outline" onclick="window.print()">Export PDF</button>
+                <button class="nv-btn nv-btn--primary">Approve Blueprint</button>
+            </div>
+        </div>
+
+        <!-- SECTION: HERO -->
+        <section class="nv-section" id="section-HERO_PRECISION">
+            <div class="nv-section__id">Hero Precision</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Stop drinking adrenaline. Start drinking precision.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Standard coffee is an energy debt. Dark-Matter is a 6.4h linear energy plateau.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">CTA</span><span class="nv-atomic-value">Upgrade Fuel Source</span></li>
+            </ul>
+        </section>
+
+        <!-- SECTION: THE_COMPARISON -->
+        <section class="nv-section" id="section-THE_COMPARISON">
+            <div class="nv-section__id">The Comparison</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Human Performance vs. Market Standard.</span></li>
+            </ul>
+            <div class="nv-table-container">
+                <table class="nv-table">
+                    <thead>
+                        <tr><th>Metric</th><th>Roast-to-Hide coffee</th><th>Dark-Matter Protocol</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Toxic Load</strong></td><td>High Acrilamide</td><td>-94% Acrilamide Reduction</td></tr>
+                        <tr><td><strong>Cognitive Fuel</strong></td><td>Adrenaline Spike</td><td>Pure Polyphenol Plateau</td></tr>
+                        <tr><td><strong>Recovery</strong></td><td>Cortisol Disruption</td><td>Zero Sleep-Cycle Tax</td></tr>
+                        <tr><td><strong>Extraction</strong></td><td>Thermal (Masking)</td><td>Supercritical CO2 (Pure)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION: THE_INDICTMENT -->
+        <section class="nv-section" id="section-THE_INDICTMENT">
+            <div class="nv-section__id">The Indictment</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Thermal roasting is a mask.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Standard 400°F roasting creates neurotoxic acrilamides to hide low-caliber bean decay.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Body</span><span class="nv-atomic-value">Dark-Matter utilizes pressurized CO2 to bypass fire entirely. We extract the bio-available polyphenols while leaving the adrenaline spikes at the door. Precision energy for a precision brain.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">CTA</span><span class="nv-atomic-value">Order Launch Kit</span></li>
+            </ul>
+        </section>
+
+        <!-- SECTION: SENSORIAL_PROFILE -->
+        <section class="nv-section" id="section-SENSORIAL_PROFILE">
+            <div class="nv-section__id">Sensorial Profile</div>
+            <div class="nv-block">
+                <div class="nv-block-header">Block 01</div>
+                <ul class="nv-atomic-list">
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Zero Bitterness</span></li>
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Body</span><span class="nv-atomic-value">CO2 supercritical extraction removes the alkaloid bitterness common in over-roasted commercial coffee.</span></li>
+                </ul>
+            </div>
+            <div class="nv-block">
+                <div class="nv-block-header">Block 02</div>
+                <ul class="nv-atomic-list">
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Dark-Stone Notes</span></li>
+                    <li class="nv-atomic-item"><span class="nv-atomic-label">Body</span><span class="nv-atomic-value">A technical profile of volcanic stone and cold-pressed cacao. Clean, high-density flavor.</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION: THE_EVIDENCE -->
+        <section class="nv-section" id="section-THE_EVIDENCE">
+            <div class="nv-section__id">The Evidence</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Verified by St. Jude Surgical Teams.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">Standard protocol for 12-hour neurosurgical rotations and Formula E track-side analysts.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Body</span><span class="nv-atomic-value">Documented 6.4h focus plateau without jitter. Validated via Oura and Whoop biometric tracking during high-stakes cognitive tasks.</span></li>
+            </ul>
+        </section>
+
+        <!-- SECTION: FINAL_CTA -->
+        <section class="nv-section" id="section-FINAL_CTA">
+            <div class="nv-section__id">Final CTA</div>
+            <ul class="nv-atomic-list">
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Headline</span><span class="nv-atomic-value">Reclaim your cognitive sovereignty.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">Sub-headline</span><span class="nv-atomic-value">The Launch Kit: Subcritical hardware + 1 month of precision cartridges.</span></li>
+                <li class="nv-atomic-item"><span class="nv-atomic-label">CTA</span><span class="nv-atomic-value">Secure Launch Kit</span></li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+<script>
+    const sections = document.querySelectorAll('.nv-section');
+    const navItems = document.querySelectorAll('.nv-nav-item');
+    const options = { threshold: 0.2, rootMargin: '0px 0px -50% 0px' };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navItems.forEach(nav => {
+                    nav.classList.toggle('active', nav.getAttribute('href') === `#${id}`);
+                });
+            }
+        });
+    }, options);
+    sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
