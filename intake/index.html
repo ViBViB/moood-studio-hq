@@ -966,17 +966,12 @@
             selectedFiles.forEach(file => formData.append('files', file));
 
             try {
-                // We don't wait for the response to show the success slide for better UX,
-                // but we still process the result for the ID.
-                currentSlide = 6;
-                updateSlides();
-
                 const res = await fetch('/api/intake', { method: 'POST', body: formData });
                 const result = await res.json();
                 
                 if (res.ok) {
                     console.log('Intake success:', result);
-                    // Update reference ID in success slide
+                    // Show reference ID in success slide
                     const successSlide = document.querySelector('.q-slide:last-child');
                     if (successSlide) {
                         const existingInfo = successSlide.querySelector('.reference-id');
@@ -989,11 +984,16 @@
                         info.innerHTML = `Intake Reference ID: <span style="font-family:monospace">${result.id || 'N/A'}</span>`;
                         successSlide.appendChild(info);
                     }
+                    // Proceed to success slide (Slide 6)
+                    currentSlide = 6;
+                    updateSlides();
                 } else {
                     console.error('Intake server error:', result);
+                    alert(`Intake Error: ${result.error}${result.missing ? ' (Missing: ' + result.missing.join(', ') + ')' : ''}`);
                 }
             } catch (err) {
-                console.error('Intake background failure (Silent):', err);
+                console.error('Intake network failure:', err);
+                alert('Intake Connection Failed. Please check your internet or try again later.');
             }
         };
 
