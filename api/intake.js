@@ -151,8 +151,8 @@ ${objective}
 
         await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
-            to: [email],
-            cc: ['alberto.contreras@gmail.com', 'notifications@moood.studio'],
+            to: ['alberto.contreras@gmail.com'],
+            cc: ['notifications@moood.studio'],
             subject: `[STRATEGY INTAKE] ${companyName}`,
             html: `
                 <div style="font-family: sans-serif; color: #111; max-width: 700px;">
