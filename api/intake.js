@@ -84,10 +84,61 @@ ${portrait}
 ${objective}
         `.trim();
 
+        // 2. Generate PDF Technical Audit
+        const pdfBuffer = await new Promise((resolve, reject) => {
+            const doc = new PDFDocument({ margin: 50 });
+            const chunks = [];
+            doc.on('data', chunk => chunks.push(chunk));
+            doc.on('end', () => resolve(Buffer.concat(chunks)));
+            doc.on('error', reject);
+
+            doc.fontSize(24).font('Helvetica-Bold').text('STRATEGIC INTAKE', { letterSpacing: 2 });
+            doc.fontSize(10).font('Helvetica').text('MOOOD.STUDIO AGENCY PROTOCOL', { characterSpacing: 1 });
+            doc.moveDown(2);
+            doc.rect(50, doc.y, 500, 1).fill('#000000');
+            doc.moveDown(2);
+
+            doc.fontSize(14).font('Helvetica-Bold').text('01. PROJECT IDENTIFICATION');
+            doc.moveDown(0.5);
+            doc.fontSize(10).font('Helvetica-Bold').text('Project: ', { continued: true }).font('Helvetica').text(companyName);
+            doc.font('Helvetica-Bold').text('Lead: ', { continued: true }).font('Helvetica').text(fullName);
+            doc.font('Helvetica-Bold').text('Email: ', { continued: true }).font('Helvetica').text(email);
+            doc.moveDown(2);
+
+            doc.fontSize(14).font('Helvetica-Bold').text('02. EVIDENCE REPOSITORY');
+            doc.moveDown(0.5);
+            doc.fontSize(10).font('Helvetica').text(evidence, { width: 500, align: 'justify' });
+            doc.moveDown(2);
+
+            doc.fontSize(14).font('Helvetica-Bold').text('03. THE ADVERSARY');
+            doc.moveDown(0.5);
+            doc.fontSize(10).font('Helvetica').text(adversary, { width: 500, align: 'justify' });
+            doc.moveDown(2);
+
+            doc.fontSize(14).font('Helvetica-Bold').text('04. THE HUMAN PORTRAIT');
+            doc.moveDown(0.5);
+            doc.fontSize(10).font('Helvetica').text(portrait, { width: 500, align: 'justify' });
+            doc.moveDown(2);
+
+            doc.fontSize(14).font('Helvetica-Bold').text('05. SINGULAR OBJECTIVE');
+            doc.moveDown(0.5);
+            doc.fontSize(10).font('Helvetica-Bold').text('CTA: ', { continued: true }).font('Helvetica').text(objective);
+
+            doc.end();
+        });
+
+        const finalAttachments = [
+            {
+                filename: `Strategy_Intake_${companyName.replace(/\s+/g, '_')}.pdf`,
+                content: pdfBuffer,
+            },
+            ...attachments
+        ];
+
         const { data, error } = await resend.emails.send({
-            from: 'Moood Intake <notifications@moood.studio>',
+            from: 'Moood Studio <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
-            cc: [email],
+            cc: [email, 'notifications@moood.studio'],
             subject: `[STRATEGY INTAKE] ${companyName}`,
             html: `
                 <div style="font-family: sans-serif; color: #111; max-width: 600px; line-height: 1.6;">
@@ -105,9 +156,10 @@ ${objective}
                     <p><strong>Adversary:</strong><br>${adversary.replace(/\n/g, '<br>')}</p>
                     <p><strong>Portrait:</strong><br>${portrait}</p>
                     <p><strong>Objective:</strong><br>${objective}</p>
+                    <p style="margin-top: 20px; font-size: 12px; color: #666;">Attached: Technical PDF + Evidence Files.</p>
                 </div>
             `,
-            attachments: attachments
+            attachments: finalAttachments
         });
 
         if (error) {
