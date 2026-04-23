@@ -962,13 +962,19 @@
             try {
                 const res = await fetch('/api/intake', { method: 'POST', body: formData });
                 const result = await res.json();
+                
                 if (res.ok) {
                     console.log('Intake success:', result);
+                    // Proceed to success slide (Slide 6)
+                    currentSlide = 6;
+                    updateSlides();
                 } else {
                     console.error('Intake server error:', result);
+                    alert(`Intake Error: ${result.error}${result.missing ? ' (Missing: ' + result.missing.join(', ') + ')' : ''}`);
                 }
             } catch (err) {
                 console.error('Intake network failure:', err);
+                alert('Intake Connection Failed. Please check your internet or try again later.');
             }
         };
 

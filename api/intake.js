@@ -41,11 +41,28 @@ module.exports = async (req, res) => {
 
         const { companyName, fullName, email, pageType, evidence, adversary, portrait, objective } = fields;
 
+        // DEBUG: Ensure we see what we are receiving
+        console.log('INTAKE_FIELDS_RECEIVED:', { companyName, fullName, email, pageType });
+
+        if (!email) {
+            return res.status(400).json({ error: 'Delivery email is required' });
+        }
+
         if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
-            return res.status(400).json({ error: 'Missing strategic requirements' });
+            return res.status(400).json({ 
+                error: 'Missing strategic requirements', 
+                missing: Object.entries({ companyName, fullName, evidence, adversary, portrait, objective })
+                    .filter(([k,v]) => !v).map(([k,v]) => k)
+            });
+        }
+
+        if (!process.env.RESEND_API_KEY) {
+            console.error('MISSING_RESEND_API_KEY');
+            return res.status(500).json({ error: 'Server configuration error: Resend API Key missing' });
         }
 
         // 1. Generate PDF Technical Audit
+        // ... [rest of PDF logic stays same]
         const pdfBuffer = await new Promise((resolve, reject) => {
             const doc = new PDFDocument({ margin: 50 });
             const chunks = [];
@@ -134,7 +151,8 @@ ${objective}
 
         await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
-            to: ['alberto.contreras@gmail.com'],
+            to: [email],
+            cc: ['alberto.contreras@gmail.com', 'notifications@moood.studio'],
             subject: `[STRATEGY INTAKE] ${companyName}`,
             html: `
                 <div style="font-family: sans-serif; color: #111; max-width: 700px;">
