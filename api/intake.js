@@ -41,13 +41,11 @@ module.exports = async (req, res) => {
 
         const { companyName, fullName, email, pageType, evidence, adversary, portrait, objective } = fields;
 
-        // DEBUG: Ensure we see what we are receiving
-        console.log('INTAKE_FIELDS_RECEIVED:', { companyName, fullName, email, pageType });
+        // DEBUG
+        console.log('INTAKE_FIELDS:', { companyName, email });
 
-        if (!email) {
-            return res.status(400).json({ error: 'Delivery email is required' });
-        }
-
+        if (!email) return res.status(400).json({ error: 'Delivery email is required' });
+        
         if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
             return res.status(400).json({ 
                 error: 'Missing strategic requirements', 
@@ -55,55 +53,6 @@ module.exports = async (req, res) => {
                     .filter(([k,v]) => !v).map(([k,v]) => k)
             });
         }
-
-        if (!process.env.RESEND_API_KEY) {
-            console.error('MISSING_RESEND_API_KEY');
-            return res.status(500).json({ error: 'Server configuration error: Resend API Key missing' });
-        }
-
-        // 1. Generate PDF Technical Audit
-        // ... [rest of PDF logic stays same]
-        const pdfBuffer = await new Promise((resolve, reject) => {
-            const doc = new PDFDocument({ margin: 50 });
-            const chunks = [];
-            doc.on('data', chunk => chunks.push(chunk));
-            doc.on('end', () => resolve(Buffer.concat(chunks)));
-            doc.on('error', reject);
-
-            doc.fontSize(24).font('Helvetica-Bold').text('STRATEGIC INTAKE', { letterSpacing: 2 });
-            doc.fontSize(10).font('Helvetica').text('MOOOD.STUDIO AGENCY PROTOCOL', { characterSpacing: 1 });
-            doc.moveDown(2);
-            doc.rect(50, doc.y, 500, 1).fill('#000000');
-            doc.moveDown(2);
-
-            doc.fontSize(14).font('Helvetica-Bold').text('01. PROJECT IDENTIFICATION');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica-Bold').text('Project: ', { continued: true }).font('Helvetica').text(companyName);
-            doc.font('Helvetica-Bold').text('Lead: ', { continued: true }).font('Helvetica').text(fullName);
-            doc.font('Helvetica-Bold').text('Email: ', { continued: true }).font('Helvetica').text(email);
-            doc.moveDown(2);
-
-            doc.fontSize(14).font('Helvetica-Bold').text('02. EVIDENCE REPOSITORY');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica').text(evidence, { width: 500, align: 'justify' });
-            doc.moveDown(2);
-
-            doc.fontSize(14).font('Helvetica-Bold').text('03. THE ADVERSARY');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica').text(adversary, { width: 500, align: 'justify' });
-            doc.moveDown(2);
-
-            doc.fontSize(14).font('Helvetica-Bold').text('04. THE HUMAN PORTRAIT');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica').text(portrait, { width: 500, align: 'justify' });
-            doc.moveDown(2);
-
-            doc.fontSize(14).font('Helvetica-Bold').text('05. SINGULAR OBJECTIVE');
-            doc.moveDown(0.5);
-            doc.fontSize(10).font('Helvetica-Bold').text('CTA: ', { continued: true }).font('Helvetica').text(objective);
-
-            doc.end();
-        });
 
         const markdownContent = `
 /strategy-director
@@ -113,19 +62,14 @@ module.exports = async (req, res) => {
 
 ## [GATE 0] — MANDATORY WORKSPACE ISOLATION
 1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/${companyName.replace(/\s+/g, '_')}\`.
-2. **Strict Versioning**: You MUST increment the version number by exactly +1 (e.g., if no folder exists, initialize \`V1\`).
+2. **Strict Versioning**: You MUST increment the version number by exactly +1.
 3. **Ghost Creation**: Create the new folder \`PROJECTS/${companyName.replace(/\s+/g, '_')}-V[N]\`.
-   *Rule: It is strictly forbidden to use, read, or reference any markdown files from previous versions. This must be a 100% clean strategic build based only on the evidence below.*
 
 ## Project Protocol (Phase-by-Phase)
-1. **Phase 1 (Setup)**: Generate \`01-PRD.md\` inside the NEW workspace.
+1. **Phase 1 (Setup)**: Generate \`01-PRD.md\`
 2. **Phase 2 (Audit)**: Execute \`02-STRATEGIC-AUDIT.md\` + \`04-TENSION_MAP.md\`.
-3. **Phase 3 (Scripting)**: Deliver \`03-NARRATIVE.md\` built for a **${pageType || 'Homepage'}**. Use the Two-Layer Content Law.
-4. **Phase 4 (Validation)**: Run \`05-VISITOR_REVIEW.md\` (Automated Skeptic Protocol).
-5. **Phase 5 (Publication)**: Deploy \`narrative-review/index.html\` to \`MOOOD.STUDIO-WEBSITE/${companyName.toLowerCase().replace(/\s+/g, '-')}-v[n]\`.
-
-## Page Type
-**${pageType || 'Not specified'}**
+3. **Phase 3 (Scripting)**: Deliver \`03-NARRATIVE.md\` for **${pageType || 'Homepage'}**.
+4. **Phase 4 (Validation)**: Run \`05-VISITOR_REVIEW.md\`.
 
 ## Evidence Repository
 ${evidence}
@@ -140,39 +84,35 @@ ${portrait}
 ${objective}
         `.trim();
 
-        // 3. Send email with Direct Attachments
-        const finalAttachments = [
-            {
-                filename: `Strategy_Intake_${companyName.replace(/\s+/g, '_')}.pdf`,
-                content: pdfBuffer,
-            },
-            ...attachments
-        ];
-
         const { data, error } = await resend.emails.send({
-            from: 'Moood Studio <notifications@moood.studio>',
+            from: 'Moood Intake <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
-            cc: ['notifications@moood.studio'],
+            cc: [email],
             subject: `[STRATEGY INTAKE] ${companyName}`,
             html: `
-                <div style="font-family: sans-serif; color: #111; max-width: 700px;">
-                    <h2 style="border-bottom: 2px solid #000; padding-bottom: 10px;">New Strategic Intake Received</h2>
-                    <p>Lead Email: ${email}</p>
-                    <p>Copy & Paste to **Strategy Director**:</p>
-                    <pre style="background: #f4f4f4; padding: 20px; border-left: 4px solid #000; white-space: pre-wrap; font-size: 13px;">${markdownContent}</pre>
-                    <p>Attached: Technical PDF + Evidence Files.</p>
+                <div style="font-family: sans-serif; color: #111; max-width: 600px; line-height: 1.6;">
+                    <h2 style="border-bottom: 2px solid #000; padding-bottom: 10px;">Strategic Intake: ${companyName}</h2>
+                    <p><strong>Customer:</strong> ${fullName} (${email})</p>
+                    <p><strong>Page Type:</strong> ${pageType || 'Homepage'}</p>
+                    
+                    <div style="background: #f9f9f9; padding: 20px; border: 1px solid #ddd; margin: 20px 0;">
+                        <h4 style="margin-top: 0;">Copy to Strategy Director:</h4>
+                        <pre style="white-space: pre-wrap; font-size: 12px; background: #fff; padding: 15px; border: 1px solid #eee;">${markdownContent}</pre>
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Strategic Breakdown:</h3>
+                    <p><strong>Evidence:</strong><br>${evidence.replace(/\n/g, '<br>')}</p>
+                    <p><strong>Adversary:</strong><br>${adversary.replace(/\n/g, '<br>')}</p>
+                    <p><strong>Portrait:</strong><br>${portrait}</p>
+                    <p><strong>Objective:</strong><br>${objective}</p>
                 </div>
             `,
-            attachments: finalAttachments,
+            attachments: attachments
         });
 
         if (error) {
             console.error('RESEND_ERROR:', error);
-            return res.status(500).json({ 
-                error: 'Email delivery failed vía Resend', 
-                details: error,
-                message: error.message 
-            });
+            return res.status(500).json({ error: 'Email failed', details: error });
         }
 
         return res.status(200).json({ success: true, id: data.id });
