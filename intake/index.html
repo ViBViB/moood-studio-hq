@@ -208,8 +208,48 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             min-width: 280px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        /* Spinner Styles */
+        .btn-next.loading span,
+        .btn-next.loading svg {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .btn-next .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            display: none;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-next.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .q-nav {
+            padding: 40px 64px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #fff;
         }
 
         .btn-prev {
@@ -719,6 +759,7 @@
                 </button>
                 <button class="btn-next" id="btnNext" onclick="nextSlide()">
                     <span id="nextBtnText">Next Step</span>
+                    <div class="spinner"></div>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
             </nav>
@@ -930,6 +971,7 @@
         // Update submitIntake to use selectedFiles array
         const originalSubmit = submitIntake;
         window.submitIntake = async function() {
+            const btnNext = document.getElementById('btnNext');
             const formData = new FormData();
             
             // Safe helper to get value by name or ID
@@ -937,6 +979,13 @@
                 const el = document.querySelector(selector);
                 return el ? el.value : '';
             };
+
+            // Loading state
+            btnNext.classList.add('loading');
+            btnNext.disabled = true;
+
+            // Artificial delay to show technical weight
+            const minDelay = new Promise(resolve => setTimeout(resolve, 1200));
 
             // 1. Basic Identification mapping
             formData.append('companyName', getVal('input[name="projectName"]'));
@@ -966,7 +1015,12 @@
             selectedFiles.forEach(file => formData.append('files', file));
 
             try {
-                const res = await fetch('/api/intake', { method: 'POST', body: formData });
+                // Wait for both the API and the minimum delay
+                const [res] = await Promise.all([
+                    fetch('/api/intake', { method: 'POST', body: formData }),
+                    minDelay
+                ]);
+                
                 const result = await res.json();
                 
                 if (res.ok) {
@@ -990,10 +1044,16 @@
                 } else {
                     console.error('Intake server error:', result);
                     alert(`Intake Error: ${result.error}${result.missing ? ' (Missing: ' + result.missing.join(', ') + ')' : ''}`);
+                    // Reset button
+                    btnNext.classList.remove('loading');
+                    btnNext.disabled = false;
                 }
             } catch (err) {
                 console.error('Intake network failure:', err);
                 alert('Intake Connection Failed. Please check your internet or try again later.');
+                // Reset button
+                btnNext.classList.remove('loading');
+                btnNext.disabled = false;
             }
         };
 
