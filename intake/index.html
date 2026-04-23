@@ -959,8 +959,8 @@
             formData.append('adversary', adversaryArray.join('\n'));
 
             // 4. Tactical Mapping
-            formData.append('portrait', document.getElementsByName('audience')[0].value);
-            formData.append('objective', document.getElementsByName('transformation')[0].value);
+            formData.append('portrait', getVal('textarea[name="audience"]'));
+            formData.append('objective', getVal('input[name="transformation"]'));
             
             // 5. Append files from our memory array
             selectedFiles.forEach(file => formData.append('files', file));
