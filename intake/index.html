@@ -965,6 +965,19 @@
                 
                 if (res.ok) {
                     console.log('Intake success:', result);
+                    // Show reference ID in success slide
+                    const successSlide = document.querySelector('.q-slide:last-child');
+                    if (successSlide) {
+                        const existingInfo = successSlide.querySelector('.reference-id');
+                        if (existingInfo) existingInfo.remove();
+                        const info = document.createElement('p');
+                        info.className = 'reference-id';
+                        info.style.marginTop = '20px';
+                        info.style.fontSize = '12px';
+                        info.style.opacity = '0.5';
+                        info.innerHTML = `Intake Reference ID: <span style="font-family:monospace">${result.id || 'N/A'}</span>`;
+                        successSlide.appendChild(info);
+                    }
                     // Proceed to success slide (Slide 6)
                     currentSlide = 6;
                     updateSlides();
