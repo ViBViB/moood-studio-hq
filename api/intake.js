@@ -150,8 +150,8 @@ ${objective}
         ];
 
         const { data, error } = await resend.emails.send({
-            from: 'Moood Studio <onboarding@resend.dev>',
-            to: [email, 'alberto.contreras@gmail.com'],
+            from: 'Moood Studio <notifications@moood.studio>',
+            to: ['alberto.contreras@gmail.com'],
             cc: ['notifications@moood.studio'],
             subject: `[STRATEGY INTAKE] ${companyName}`,
             html: `
