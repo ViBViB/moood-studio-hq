@@ -881,13 +881,15 @@
         }
 
         function nextSlide() {
-            if (currentSlide < totalSlides) {
+            if (currentSlide < totalSlides - 1) {
                 if (validateSlide(currentSlide)) {
                     currentSlide++;
                     updateSlider();
-                    if (currentSlide === totalSlides) {
-                        submitIntake();
-                    }
+                }
+            } else if (currentSlide === totalSlides - 1) {
+                // Last data slide (Slide 5), validate and then trigger boutique submission
+                if (validateSlide(currentSlide)) {
+                    submitIntake();
                 }
             }
         }
@@ -985,7 +987,7 @@
             btnNext.disabled = true;
 
             // Artificial delay to show technical weight
-            const minDelay = new Promise(resolve => setTimeout(resolve, 1200));
+            const minDelay = new Promise(resolve => setTimeout(resolve, 1500));
 
             // 1. Basic Identification mapping
             formData.append('companyName', getVal('input[name="projectName"]'));
@@ -1040,7 +1042,7 @@
                     }
                     // Proceed to success slide (Slide 6)
                     currentSlide = 6;
-                    updateSlides();
+                    updateSlider();
                 } else {
                     console.error('Intake server error:', result);
                     alert(`Intake Error: ${result.error}${result.missing ? ' (Missing: ' + result.missing.join(', ') + ')' : ''}`);
