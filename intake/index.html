@@ -932,11 +932,17 @@
         window.submitIntake = async function() {
             const formData = new FormData();
             
+            // Safe helper to get value by name or ID
+            const getVal = (selector) => {
+                const el = document.querySelector(selector);
+                return el ? el.value : '';
+            };
+
             // 1. Basic Identification mapping
-            formData.append('companyName', document.getElementsByName('projectName')[0].value);
-            formData.append('fullName', document.getElementsByName('leadName')[0].value);
-            formData.append('email', document.getElementsByName('email')[0].value);
-            formData.append('pageType', document.getElementById('deliverableInput').value);
+            formData.append('companyName', getVal('input[name="projectName"]'));
+            formData.append('fullName', getVal('input[name="leadName"]'));
+            formData.append('email', getVal('input[name="email"]'));
+            formData.append('pageType', getVal('#deliverableInput'));
 
             // 2. Consolidate Evidence Links
             const evidenceArray = [];
