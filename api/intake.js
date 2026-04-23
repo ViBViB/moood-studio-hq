@@ -149,14 +149,15 @@ ${objective}
             ...attachments
         ];
 
-        await resend.emails.send({
-            from: 'Moood Studio <notifications@moood.studio>',
-            to: ['alberto.contreras@gmail.com'],
+        const { data, error } = await resend.emails.send({
+            from: 'Moood Studio <onboarding@resend.dev>',
+            to: [email, 'alberto.contreras@gmail.com'],
             cc: ['notifications@moood.studio'],
             subject: `[STRATEGY INTAKE] ${companyName}`,
             html: `
                 <div style="font-family: sans-serif; color: #111; max-width: 700px;">
                     <h2 style="border-bottom: 2px solid #000; padding-bottom: 10px;">New Strategic Intake Received</h2>
+                    <p>Lead Email: ${email}</p>
                     <p>Copy & Paste to **Strategy Director**:</p>
                     <pre style="background: #f4f4f4; padding: 20px; border-left: 4px solid #000; white-space: pre-wrap; font-size: 13px;">${markdownContent}</pre>
                     <p>Attached: Technical PDF + Evidence Files.</p>
@@ -165,7 +166,16 @@ ${objective}
             attachments: finalAttachments,
         });
 
-        return res.status(200).json({ success: true });
+        if (error) {
+            console.error('RESEND_ERROR:', error);
+            return res.status(500).json({ 
+                error: 'Email delivery failed vía Resend', 
+                details: error,
+                message: error.message 
+            });
+        }
+
+        return res.status(200).json({ success: true, id: data.id });
 
     } catch (err) {
         console.error('INTAKE_API_ERROR:', err);
