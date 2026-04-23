@@ -931,17 +931,44 @@
         const originalSubmit = submitIntake;
         window.submitIntake = async function() {
             const formData = new FormData();
-            document.querySelectorAll('.q-slide input, .q-slide textarea, .q-slide select').forEach(el => {
-                if (el.name) formData.append(el.name, el.value);
-            });
             
-            // Append files from our memory array
+            // 1. Basic Identification mapping
+            formData.append('companyName', document.getElementsByName('projectName')[0].value);
+            formData.append('fullName', document.getElementsByName('leadName')[0].value);
+            formData.append('email', document.getElementsByName('email')[0].value);
+            formData.append('pageType', document.getElementById('deliverableInput').value);
+
+            // 2. Consolidate Evidence Links
+            const evidenceArray = [];
+            document.querySelectorAll('input[name="evidenceLinks[]"]').forEach(el => {
+                if (el.value.trim()) evidenceArray.push(el.value.trim());
+            });
+            formData.append('evidence', evidenceArray.join('\n'));
+
+            // 3. Consolidate Competitors
+            const adversaryArray = [];
+            document.querySelectorAll('input[name="competitors[]"]').forEach(el => {
+                if (el.value.trim()) adversaryArray.push(el.value.trim());
+            });
+            formData.append('adversary', adversaryArray.join('\n'));
+
+            // 4. Tactical Mapping
+            formData.append('portrait', document.getElementsByName('audience')[0].value);
+            formData.append('objective', document.getElementsByName('transformation')[0].value);
+            
+            // 5. Append files from our memory array
             selectedFiles.forEach(file => formData.append('files', file));
 
             try {
                 const res = await fetch('/api/intake', { method: 'POST', body: formData });
+                const result = await res.json();
+                if (res.ok) {
+                    console.log('Intake success:', result);
+                } else {
+                    console.error('Intake server error:', result);
+                }
             } catch (err) {
-                console.error('Intake submit failed:', err);
+                console.error('Intake network failure:', err);
             }
         };
 
@@ -964,9 +991,10 @@
                             </button>
                         </div>
                     </div>
-                    <div class="agent-feedback">
-                        <div class="agent-dot"></div>
-                        <div class="agent-msg"></div>
+                        <div class="agent-feedback">
+                            <div class="loading-pulse"></div>
+                            <div class="agent-msg" style="font-style: italic; opacity: 0.6; font-size: 11px; margin-left: 8px;">Analyzing source...</div>
+                        </div>
                     </div>
                 `;
                 
@@ -975,38 +1003,30 @@
                 const typeInput = newRow.querySelector('.agent-type-input');
                 const pulse = newRow.querySelector('.loading-pulse');
                 const feedback = newRow.querySelector('.agent-feedback');
-                const feedbackMsg = newRow.querySelector('.agent-msg');
 
                 input.addEventListener('blur', function() {
                     const val = input.value.trim().toLowerCase();
                     if (val !== "") {
-                        // Simulate agent processing
+                        feedback.classList.add('active');
                         pulse.style.display = 'inline-block';
                         
                         setTimeout(() => {
+                            // Determine Data Category (even if hidden)
+                            let cat = "Strategic Evidence";
+                            if (val.includes('pinterest') || val.includes('dribbble') || val.includes('instagram') || val.includes('behance')) {
+                                cat = "Aesthetic Reference";
+                            } else if (val.includes('notion') || val.includes('docs') || val.includes('slack')) {
+                                cat = "Technical Source";
+                            } else if (val.includes('linkedin') || val.includes('crunchbase')) {
+                                cat = "Market Context";
+                            }
+                            typeInput.value = cat;
+
+                            feedback.classList.remove('active');
                             pulse.style.display = 'none';
                             input.disabled = true;
                             input.style.opacity = '0.5';
                             deleteBtn.style.display = 'flex';
-                            
-                            // Determine Agent Message & Data Category
-                            let msg = "Resource added to extraction queue.";
-                            let cat = "Strategic Evidence";
-
-                            if (val.includes('pinterest') || val.includes('dribbble') || val.includes('instagram') || val.includes('behance')) {
-                                msg = "Aesthetic reference detected. Routing to Creative Direction as style indication for the Builder.";
-                                cat = "Aesthetic Reference";
-                            } else if (val.includes('notion') || val.includes('docs') || val.includes('slack')) {
-                                msg = "Technical source identified. Routing to Strategic Audit for data extraction.";
-                                cat = "Technical Source";
-                            } else if (val.includes('linkedin') || val.includes('crunchbase')) {
-                                msg = "Market context found. Routing to Strategic Analysis for positioning benchmarks.";
-                                cat = "Market Context";
-                            }
-                            
-                            typeInput.value = cat;
-                            feedbackMsg.innerText = msg;
-                            feedback.classList.add('active');
                         }, 1200);
 
                     } else {
