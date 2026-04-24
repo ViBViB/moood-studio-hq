@@ -257,7 +257,7 @@ function renderSection(section, index) {
 
 (function init() {
     const data = NARRATIVE_DATA;
-    const nav = data.sections.map(s => `<a class="nv-nav-item" href="#section-${s.id}" data-nav="${s.id}">${s.label}</a>`).join("");
+    const nav = data.sections.map((s, i) => `<a class="nv-nav-item" href="#section-${s.id}" data-nav="${s.id}">Section ${i + 1}</a>`).join("");
     
     const metaBox = `
         <div class="nv-meta-card">
