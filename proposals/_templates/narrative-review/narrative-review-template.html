@@ -86,50 +86,26 @@
         .nv-block:first-child { margin-top: 0; }
 
         @media print { 
-            @page { margin: 15mm; size: A4; }
-            body { background: white; font-size: 10pt; line-height: 1.5; color: black; }
+            @page { margin: 20mm; size: A4; }
+            body { background: white; font-size: 10pt; line-height: 1.6; color: black; }
             .nv-sidebar, .nv-topbar, .nv-btn, .nv-section::after { display: none !important; } 
             .nv-main { margin-left: 0 !important; padding: 0 !important; width: 100% !important; } 
-            .nv-doc-header { padding: 0 0 30px 0 !important; border-bottom: 2px solid black; margin-bottom: 30px; }
-            .nv-doc-title { font-size: 24pt; margin-bottom: 20px; }
+            .nv-doc-header { padding: 0 0 30px 0 !important; border-bottom: 2px solid black; margin-bottom: 40px; }
+            .nv-doc-title { font-size: 26pt; margin-bottom: 20px; }
             
-            .nv-meta-card { padding: 15px 0 !important; border: none; background: transparent; margin-bottom: 20px; }
-            .nv-meta-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 10px; border-top: 1px solid #eee; padding-top: 10px; }
-            .nv-meta-label { font-size: 8pt; }
-            .nv-meta-value { font-size: 9pt; }
+            .nv-meta-card { padding: 15px 0 !important; border: none; background: transparent; margin-bottom: 40px; }
+            .nv-meta-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+            .nv-meta-label { font-size: 8pt; font-weight: 700; color: #666; }
+            .nv-meta-value { font-size: 10pt; font-weight: 500; }
 
-            .nv-section { 
-                padding: 20px 0 !important; 
-                page-break-inside: avoid; 
-                columns: 2; 
-                column-gap: 30px; 
-            }
-            .nv-section-label { 
-                column-span: all; 
-                font-size: 9pt; 
-                border-bottom: 1px solid #eee; 
-                padding-bottom: 5px; 
-                margin-bottom: 15px; 
-            }
-            .nv-headline { 
-                column-span: all; 
-                font-size: 16pt; 
-                margin-bottom: 10px; 
-                letter-spacing: -0.01em; 
-            }
-            .nv-subheadline, .nv-block-title { 
-                font-size: 11pt; 
-                font-weight: 700; 
-                margin-bottom: 8px; 
-            }
-            .nv-body, .nv-block-body { 
-                font-size: 10pt; 
-                margin-bottom: 15px; 
-                text-align: justify;
-            }
-            .nv-block { margin: 0 0 20px 0; break-inside: avoid; }
-            .nv-quote { column-span: all; font-size: 14pt; margin: 20px 0; }
-            .nv-attribution { column-span: all; font-size: 9pt; }
+            .nv-section { padding: 30px 0 !important; page-break-inside: avoid; max-width: 100%; }
+            .nv-section-label { font-size: 9pt; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 20px; }
+            .nv-headline { font-size: 18pt; margin-bottom: 15px; letter-spacing: -0.01em; line-height: 1.2; }
+            .nv-subheadline, .nv-block-title { font-size: 12pt; font-weight: 700; margin-bottom: 10px; color: #222; }
+            .nv-body, .nv-block-body { font-size: 11pt; margin-bottom: 20px; color: #333; }
+            .nv-block { margin: 0 0 30px 0; break-inside: avoid; }
+            .nv-quote { font-size: 15pt; margin: 30px 0; border-left: 3px solid black; padding-left: 30px; }
+            .nv-attribution { font-size: 10pt; padding-left: 33px; }
             .nv-cta { display: none; }
         }
     </style>
