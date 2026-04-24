@@ -126,31 +126,33 @@
             overflow: hidden;
         }
 
-        .q-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            padding: 120px 80px;
-            opacity: 0; visibility: hidden;
-            transition: opacity var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column;
-            justify-content: flex-start;
-            gap: 64px;
-            transform: translateY(20px);
-            overflow-y: auto;
+        .q-slide { 
+            display: flex; flex-direction: column; gap: 60px; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            padding: 120px 80px; opacity: 0; visibility: hidden; 
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: translateY(20px); 
+            overflow-y: auto; justify-content: flex-start;
         }
+        #slide-2 { gap: 0; }
 
         .q-slide.active { opacity: 1; visibility: visible; z-index: 2; transform: translateY(0); }
         .q-slide.exit { opacity: 0; visibility: hidden; z-index: 1; transform: translateY(-20px); }
 
         .q-section-header { display: flex; flex-direction: column; gap: 12px; }
         .q-section-title { font-size: clamp(32px, 3vw, 48px); font-weight: 400; color: #000; margin: 0; }
-        .q-section-intro { font-size: 18px; color: rgba(0,0,0,0.5); line-height: 1.7; max-width: 640px; margin: 0; }
+        .q-section-intro { font-size: 18px; color: rgba(0,0,0,0.5); line-height: 1.7; margin: 0; }
 
-        .form-group { display: flex; flex-direction: column; gap: 16px; width: 100%; }
-        .form-group label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(0,0,0,0.4); }
-        .form-group input, .form-group textarea { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: 16px; font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; }
-        .form-group select { padding: 20px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; font-size: 16px; font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; appearance: none; -webkit-appearance: none; cursor: pointer; width: 100%; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #000; outline: none; }
+        .form-group { display: flex; flex-direction: column; gap: 0; width: 100%; }
+        .form-group label { 
+            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #000; 
+            display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+        }
+        .form-group label::before { content: ""; width: 30px; height: 1px; background: rgba(0,0,0,0.2); transition: all 0.3s ease; }
+        .form-group:focus-within label::before, .form-group:hover label::before { width: 45px; background: #000; }
+        .form-group input, .form-group textarea { padding: 20px 0; border: none; border-bottom: 2px solid rgba(0,0,0,0.1); border-radius: 0; font-size: 16px; font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; }
+        .form-group select { padding: 20px 0; border: none; border-bottom: 2px solid rgba(0,0,0,0.1); border-radius: 0; font-size: 16px; font-family: inherit; background: transparent; color: #000; transition: border-color 0.3s ease; appearance: none; -webkit-appearance: none; cursor: pointer; width: 100%; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus,
+        .form-group input:hover, .form-group textarea:hover, .form-group select:hover { border-color: #000; outline: none; }
         
         /* Disable Browser Autofill Styles */
         input:-webkit-autofill,
@@ -194,9 +196,9 @@
         }
 
         .btn-next {
-            background: #000;
-            color: #fff;
-            border: none;
+            background: #fff;
+            color: #000;
+            border: 1px solid rgba(0,0,0,0.12);
             padding: 22px 40px;
             font-size: 13px;
             font-weight: 600;
@@ -206,8 +208,66 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             min-width: 280px;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .btn-next:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-next.btn-finish {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .btn-next.btn-finish:hover {
+            background: #1a1a1a;
+        }
+
+        /* Spinner Styles */
+        .btn-next.loading span,
+        .btn-next.loading svg {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .btn-next .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #000;
+            border-radius: 50%;
+            display: none;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-next.btn-finish .spinner {
+            border-color: rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+        }
+
+        .btn-next.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .q-nav {
+            padding: 40px 64px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #fff;
         }
 
         .btn-prev {
@@ -230,11 +290,6 @@
         .btn-prev:hover { background: #f5f5f5; }
         .btn-prev:disabled { opacity: 0; pointer-events: none; }
 
-        .btn-next:hover {
-            padding-right: 60px;
-            background: #1a1a1a;
-        }
-
         .btn-return {
             margin-top: 48px;
         }
@@ -247,6 +302,179 @@
         .success-list li::before { content: "—"; color: rgba(0,0,0,0.3); }
 
         .q-signature-brand { font-size: 14px; opacity: 0.8; display: block; margin-top: 4px; }
+
+        .btn-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: transparent;
+            border: 1px solid rgba(0,0,0,0.1);
+            color: rgba(0,0,0,0.6);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+        }
+        .btn-upload:hover { border-color: #000; color: #000; background: #fafafa; }
+        .btn-upload svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .btn-upload:hover svg { transform: translateY(-2px); }
+
+        .modern-upload {
+            border: 2px dashed rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 64px 40px;
+            text-align: center;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-top: 32px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .modern-upload:hover { border-color: rgba(0,0,0,0.2); background: #fff; }
+        .modern-upload.dragover { border-color: #000; background: #fff; }
+        
+        .upload-icon-group { display: flex; align-items: center; justify-content: center; margin-bottom: 8px; position: relative; height: 60px; }
+        .upload-icon-card { position: absolute; width: 40px; height: 50px; background: #fff; border: 1.5px solid #000; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .upload-icon-card:nth-child(1) { transform: rotate(-10deg) translateX(-20px); z-index: 1; border-color: rgba(0,0,0,0.2); }
+        .upload-icon-card:nth-child(2) { transform: translateY(-5px); z-index: 3; border-color: #000; }
+        .upload-icon-card:nth-child(3) { transform: rotate(10deg) translateX(20px); z-index: 1; border-color: rgba(0,0,0,0.2); }
+        .upload-icon-card svg { width: 16px; height: 16px; color: #000; }
+
+        .upload-title { font-size: 22px; font-weight: 700; color: #000; line-height: 1.3; }
+        .upload-title span { color: rgba(0,0,0,0.5); }
+        .upload-subtitle { font-size: 14px; color: rgba(0,0,0,0.4); font-weight: 500; }
+        .upload-link { text-decoration: underline; color: #000; font-weight: 600; cursor: pointer; }
+        
+        .btn-upload-primary {
+            margin-top: 16px;
+            padding: 14px 40px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .btn-upload-primary:hover { transform: scale(1.02); }
+
+        /* Links Progression Section */
+        .link-trigger-wrap { display: flex; align-items: center; justify-content: flex-end; margin-top: 16px; }
+        .link-trigger-text { font-size: 13px; font-weight: 600; color: rgba(0,0,0,0.5); margin-right: 12px; }
+        
+        .btn-permanent-add {
+            padding: 8px 16px; border: 1px solid rgba(0,0,0,0.1); background: transparent; 
+            display: flex; align-items: center; gap: 10px;
+            cursor: pointer; transition: all 0.2s ease; border-radius: 4px;
+            position: relative;
+        }
+        .btn-permanent-add:hover { border-color: #000; background: #fafafa; }
+        .btn-permanent-add .trigger-label { font-size: 13px; font-weight: 600; color: #000; transition: opacity 0.2s; }
+        .btn-permanent-add:hover .trigger-label { opacity: 0.7; }
+        .btn-permanent-add svg { width: 14px; height: 14px; stroke: #000; stroke-width: 2.5; }
+        
+        .plus-indicator {
+            position: absolute; top: -5px; right: -5px;
+            width: 14px; height: 14px; background: #000; color: #fff;
+            font-size: 10px; font-weight: 800; border-radius: 50%;
+            display: none; align-items: center; justify-content: center; line-height: 1;
+        }
+        .btn-permanent-add.has-links .plus-indicator { display: flex; }
+
+        .progression-row { display: flex; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); transition: border-color 0.3s; padding: 12px 0; margin-top: 12px; }
+        .progression-row:focus-within { border-color: #000; }
+        .progression-row input { border: none !important; padding: 8px 0 !important; flex: 1; margin: 0 !important; font-size: 15px; outline: none !important; background: transparent; }
+
+        .link-row-actions { display: flex; gap: 8px; margin-left: 12px; }
+        .btn-row-action { 
+            width: 32px; height: 32px; border: 1px solid rgba(0,0,0,0.1); 
+            background: transparent; cursor: pointer; display: flex; 
+            align-items: center; justify-content: center; transition: all 0.2s; border-radius: 4px;
+        }
+        .btn-row-action:hover { border-color: #000; background: #fafafa; }
+        .btn-row-action svg { width: 14px; height: 14px; stroke: #000; stroke-width: 2.5; }
+
+        /* Agent Intelligence UI */
+        .agent-feedback { 
+            font-size: 11px; font-weight: 500; color: #000; margin-top: 8px; 
+            display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(5px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .agent-feedback.active { opacity: 1; transform: translateY(0); }
+        .agent-feedback .agent-dot { width: 4px; height: 4px; background: #000; border-radius: 50%; }
+        .agent-feedback .agent-msg { font-style: italic; opacity: 0.6; }
+        
+        .loading-pulse {
+            display: inline-block; width: 12px; height: 12px; border: 1px solid #000; border-top-color: transparent;
+            border-radius: 50%; animation: agent-spin 0.6s linear infinite; margin-left: 10px; display: none;
+        }
+        @keyframes agent-spin { to { transform: rotate(360deg); } }
+
+        /* Roadmap UI */
+        .roadmap-container { display: flex; flex-direction: column; gap: 24px; }
+        .roadmap-item { display: flex; gap: 24px; position: relative; }
+        .roadmap-point { 
+            width: 8px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 50%; 
+            margin-top: 6px; flex-shrink: 0; position: relative; z-index: 2;
+        }
+        .roadmap-point.active { 
+            background: #00D166; 
+            box-shadow: 0 0 0 4px rgba(0, 209, 102, 0.1);
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0px rgba(0, 209, 102, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 209, 102, 0); }
+            100% { box-shadow: 0 0 0 0px rgba(0, 209, 102, 0); }
+        }
+        .roadmap-item:not(:last-child)::after {
+            content: ""; position: absolute; left: 3.5px; top: 14px; bottom: -24px; 
+            width: 1px; background: rgba(0,0,0,0.05); z-index: 1;
+        }
+        .roadmap-content { flex: 1; }
+        .roadmap-content strong { display: block; font-size: 14px; font-weight: 700; color: #000; margin-bottom: 4px; }
+        .roadmap-content p { font-size: 14px; color: rgba(0,0,0,0.5); line-height: 1.6; margin: 0; }
+
+        .custom-select-wrapper { position: relative; width: 100%; border-bottom: 2px solid rgba(0,0,0,0.1); background: #fff; transition: border-color 0.3s ease; }
+        .custom-select-wrapper.invalid { border-bottom-color: #ff4d4d !important; }
+        .custom-select-wrapper:hover { border-color: #000; }
+        .select-trigger { padding: 20px 0; cursor: pointer; display: flex; align-items: center; gap: 16px; min-height: 60px; }
+        .trigger-icon-container { flex-shrink: 0; width: 24px; height: 24px; color: #000; display: none; align-items: center; justify-content: center; }
+        .trigger-text { flex: 1; font-size: 14px; color: rgba(0,0,0,0.4); }
+        .trigger-text.selected { color: #000; font-size: 16px; }
+        .select-chevron { transition: transform 0.3s ease; opacity: 0.4; display: flex; align-items: center; }
+        .custom-select-wrapper.open .select-chevron { transform: rotate(180deg); opacity: 1; }
+        .custom-select-wrapper.open .trigger-text { color: #000; }
+
+        .dropdown-menu { 
+            position: absolute; top: calc(100% + 12px); left: 0; width: 100%; background: #fff; 
+            border: none; border-radius: 4px; z-index: 2001; 
+            max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+        }
+        .custom-select-wrapper.open .dropdown-menu { 
+            max-height: 800px; 
+            border: 1px solid rgba(0,0,0,0.1); 
+            background: #efefef; /* Solid grid lines - No transparency */
+        }
+        
+        .dropdown-item { padding: 40px 20px; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; transition: background 0.2s; background: #fff; }
+        .dropdown-item:hover { background: #fafafa; }
+        .item-icon { flex-shrink: 0; width: 32px; height: 32px; color: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
+        .item-content { display: flex; flex-direction: column; gap: 8px; }
+        .item-title { display: block; font-size: 15px; font-weight: 600; color: #000; }
+        .item-desc { display: block; font-size: 14px; font-style: italic; color: rgba(0,0,0,0.5); line-height: 1.4; }
 
         @media (max-width: 1024px) {
             .q-sidebar { width: 400px; min-width: 400px; }
@@ -286,11 +514,11 @@
                 <p class="q-sidebar-instruction">Raw facts only. We don't need polished writing at this stage; we need technical evidence and market reality.</p>
                 
                 <ul class="q-nav-list">
-                    <li class="q-nav-item active" data-goto="1"><span></span> 01. IDENTIFICATION</li>
-                    <li class="q-nav-item" data-goto="2"><span></span> 02. EVIDENCE</li>
-                    <li class="q-nav-item" data-goto="3"><span></span> 03. ADVERSARY</li>
-                    <li class="q-nav-item" data-goto="4"><span></span> 04. PORTRAIT</li>
-                    <li class="q-nav-item" data-goto="5"><span></span> 05. OBJECTIVE</li>
+                    <li class="q-nav-item active" data-goto="1"><span></span> 01. Project scope</li>
+                    <li class="q-nav-item" data-goto="2"><span></span> 02. Sources</li>
+                    <li class="q-nav-item" data-goto="3"><span></span> 03. Competition</li>
+                    <li class="q-nav-item" data-goto="4"><span></span> 04. Audience</li>
+                    <li class="q-nav-item" data-goto="5"><span></span> 05. Conversion</li>
                 </ul>
             </div>
 
@@ -303,107 +531,234 @@
                 <!-- STEP 1 -->
                 <div class="q-slide active" id="slide-1" data-index="1">
                     <div class="q-section-header">
-                        <h2 class="q-section-title">01. Identification</h2>
-                        <p class="q-section-intro">Define the project we are building the narrative for.</p>
+                        <h2 class="q-section-title">01. Project scope</h2>
+                        <p class="q-section-intro">Let’s set the foundation for your project's narrative.</p>
                     </div>
+                    
                     <div class="form-group">
-                        <label>PROJECT / COMPANY NAME</label>
-                        <input type="text" name="companyName" placeholder="e.g., Your company name" required>
+                        <label>The deliverable</label>
+                        <div class="custom-select-wrapper" id="deliverableSelect">
+                            <div class="select-trigger">
+                                <div class="trigger-icon-container"></div>
+                                <span class="trigger-text">Select the type of narrative we'll build</span>
+                                <span class="select-chevron">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 4L6 9L11 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-item" data-value="Homepage Narrative">
+                                    <div class="item-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                    </div>
+                                    <div class="item-content">
+                                        <span class="item-title">Homepage Narrative</span>
+                                        <span class="item-desc">For the main page that defines the company's core message.</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item" data-value="Landing Page Narrative">
+                                    <div class="item-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    </div>
+                                    <div class="item-content">
+                                        <span class="item-title">Landing Page Narrative</span>
+                                        <span class="item-desc">For marketing campaigns, sign-ups, or ads focused on conversion.</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item" data-value="Product/Service Narrative">
+                                    <div class="item-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                                    </div>
+                                    <div class="item-content">
+                                        <span class="item-title">Product/Service Narrative</span>
+                                        <span class="item-desc">For pages that dive deep into a specific technical solution or service.</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item" data-value="Blog/Pillar Page Narrative">
+                                    <div class="item-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    </div>
+                                    <div class="item-content">
+                                        <span class="item-title">Blog/Pillar Page Narrative</span>
+                                        <span class="item-desc">For long-form content requiring deep editorial argumentation.</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item" data-value="Social Media Narrative">
+                                    <div class="item-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                    </div>
+                                    <div class="item-content">
+                                        <span class="item-title">Social Media Narrative</span>
+                                        <span class="item-desc">To define the strategic angles and hooks for social platform content.</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item" data-value="Communications Narrative">
+                                    <div class="item-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                                    </div>
+                                    <div class="item-content">
+                                        <span class="item-title">Communications Narrative</span>
+                                        <span class="item-desc">For emails, announcements, or press releases requiring a unified message.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="pageType" id="deliverableInput" required>
+                        </div>
                     </div>
+
+
                     <div class="form-group">
-                        <label>PAGE TYPE</label>
-                        <select name="pageType" required>
-                            <option value="" disabled selected>Select content type</option>
-                            <option value="Homepage">Homepage</option>
-                            <option value="Product Page">Product Page</option>
-                            <option value="Landing Page (Campaign)">Landing Page (Campaign)</option>
-                            <option value="Blog / Pillar Page">Blog / Pillar Page</option>
-                            <option value="Social Media Post">Social Media Post</option>
-                            <option value="Email Campaign">Email Campaign</option>
-                        </select>
+                        <label>The project name</label>
+                        <input type="text" name="projectName" placeholder="Company or product name we are focusing on" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label>YOUR NAME</label>
-                        <input type="text" name="fullName" placeholder="Authorized Lead" required>
+                        <label>The project lead</label>
+                        <input type="text" name="leadName" placeholder="Person driving this project forward" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label>YOUR EMAIL</label>
-                        <input type="email" name="email" placeholder="For the strategy delivery" required>
+                        <label>The delivery email</label>
+                        <input type="email" name="email" placeholder="The inbox where you’ll receive the finished narrative" required>
                     </div>
                 </div>
 
                 <!-- STEP 2 -->
                 <div class="q-slide" id="slide-2" data-index="2">
                     <div class="q-section-header">
-                        <h2 class="q-section-title">02. Evidence Repository</h2>
-                        <p class="q-section-intro">Links to clinical studies, technical manuals, whitepapers, or internal research. <strong>No fluff, just data.</strong></p>
+                        <h2 class="q-section-title">02. Sources</h2>
+                        <p class="q-section-intro">Provide the primary data for our analysis. Share technical documentation, market benchmarks, or any references that define your project’s tone and substance.</p>
                     </div>
-                    <div class="form-group">
-                        <label>SOURCES & LINKS</label>
-                        <textarea name="evidence" placeholder="Paste links to PDFs, documentation, or study results here..." rows="4" required></textarea>
-                    </div>
-                    <div class="file-upload-container" onclick="document.getElementById('fileInput').click()">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                        <span class="file-upload-text"><strong>Click to upload</strong> or drag & drop.<br>Documents, Images, Infographics (Max total: 4.5MB)</span>
+
+                    <div class="form-group" style="margin-top: 40px;">
+                        <div class="modern-upload" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon-group">
+                                <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                                <div class="upload-icon-card"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="22" y2="7"></line><line x1="2" y1="17" x2="22" y2="17"></line></svg></div>
+                                <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+                            </div>
+                            <div class="upload-title">Click to upload or <span>drag & drop</span> project files</div>
+                            <div class="upload-subtitle">Manuals, decks, research, or recordings <span>(Max 10MB)</span></div>
+                            <button type="button" class="btn-upload-primary">Upload</button>
+                        </div>
                         <input type="file" id="fileInput" style="display: none;" multiple>
+                        <div class="q-file-list" id="qFileList"></div>
                     </div>
-                    <div class="q-file-list" id="qFileList"></div>
+
+                    <div class="links-progression" id="linksProgression" style="display: block; margin-top: 24px;">
+                        <div id="linksList">
+                            <!-- Dynamic rows here -->
+                        </div>
+                    </div>
+
+                    <div class="link-trigger-wrap">
+                        <button type="button" class="btn-permanent-add" id="initialAddLinkBtn" title="Add Link">
+                            <span class="trigger-label">Got some links to share?</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                            <span class="plus-indicator">+</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- STEP 3 -->
                 <div class="q-slide" id="slide-3" data-index="3">
                     <div class="q-section-header">
-                        <h2 class="q-section-title">03. The Adversary</h2>
-                        <p class="q-section-intro">Who are we fighting against? Mention 2-3 competitors or broken industry standards.</p>
+                        <h2 class="q-section-title">03. Competition</h2>
+                        <p class="q-section-intro">To define your advantage, we need to know who we are fighting against. Name your main competitors or paste links to their websites.</p>
                     </div>
-                    <div class="form-group">
-                        <label>MARKET CONTEXT</label>
-                        <textarea name="adversary" placeholder="Who is currently failing the user? Why are they inferior?" rows="6" required></textarea>
+
+                    <div class="form-group" style="margin-top: 40px; position: relative;">
+                        <label class="q-nav-accent">Your competitors:</label>
+                        
+                        <div id="competitorList" style="margin-top: 24px;">
+                            <!-- Dynamic rows via JS -->
+                        </div>
+
+                        <div class="link-trigger-wrap">
+                            <button type="button" class="btn-permanent-add" id="addCompetitorBtn" title="Add Competitor">
+                                <span class="trigger-label">Add another competitor</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <!-- STEP 4 -->
                 <div class="q-slide" id="slide-4" data-index="4">
                     <div class="q-section-header">
-                        <h2 class="q-section-title">04. The Human Portrait</h2>
-                        <p class="q-section-intro">Who is feeling the pain right now? Describe the profile and their current friction.</p>
+                        <h2 class="q-section-title">04. Audience</h2>
+                        <p class="q-section-intro">Every narrative is built for a specific person. To build the right message, we need to know exactly who they are, what they do, and the specific problem we are solving for them.</p>
                     </div>
-                    <div class="form-group">
-                        <label>AUDIENCE PROFILE</label>
-                        <textarea name="portrait" placeholder="e.g. 'Software engineers with chronic back pain who have tried everything else...'" rows="6" required></textarea>
+                    <div class="form-group" style="margin-top: 40px;">
+                        <label class="q-nav-accent">YOUR IDEAL CUSTOMER</label>
+                        <textarea name="portrait" placeholder="Be specific. e.g., 'CTOs at Series A startups struggling with technical debt' or 'Retired veterans looking for ergonomic support that respects their mobility...'" rows="8" required></textarea>
                     </div>
                 </div>
 
                 <!-- STEP 5 -->
                 <div class="q-slide" id="slide-5" data-index="5">
                     <div class="q-section-header">
-                        <h2 class="q-section-title">05. The Singular Objective</h2>
-                        <p class="q-section-intro">What is the one—and only one—action they should take after reading the narrative?</p>
+                        <h2 class="q-section-title">05. Conversion</h2>
+                        <p class="q-section-intro">Every narrative must lead to a clear outcome. Define the primary action you want the user to take after reading the message.</p>
                     </div>
-                    <div class="form-group">
-                        <label>CONVERSION GOAL (CTA)</label>
-                        <textarea name="objective" placeholder="e.g., Book a Spine Audit, Download the Manual" rows="4" required></textarea>
+                    <div class="form-group" style="margin-top: 40px;">
+                        <label class="q-nav-accent">THE MAIN ACTION</label>
+                        <input type="text" name="cta" placeholder="e.g., 'Book a demo', 'Contact sales', 'Download the technical manual', or 'Purchase the product'..." required>
                     </div>
                 </div>
 
                 <!-- FINAL CONFIRMATION -->
+                <!-- STEP 6: FINAL CONFIRMATION -->
                 <div class="q-slide" id="slide-6" data-index="6">
                     <div class="q-section-header">
-                        <h2 class="q-section-title">Context Received.</h2>
-                        <div class="q-section-intro">
-                            We’ve gathered all the technical evidence needed to kick off your strategic build. 
-                            Here is the sequence we are moving through now:
-                            
-                            <ul class="success-list">
-                                <li>PRD & Technical Calibration</li>
-                                <li>Narrative Tension Map</li>
-                                <li>Strategic Content Script</li>
-                            </ul>
+                        <h2 class="q-section-title">You’re done. We’ll take it from here.</h2>
+                        <p class="q-section-intro">We have everything we need to start building your narrative. Your data is now being analyzed to extract the core pillars of your strategy. Here is the sequence we are moving through:</p>
+                    </div>
 
-                            Expect to have the final <strong>Narrative Review</strong> in your inbox within the next 24 hours.
-                            <br><br>
-                            Talk soon,<br>Alberto<br><span class="q-signature-brand">Moood.Studio</span>
+                    <!-- ROADMAP UNIT -->
+                    <div class="roadmap-unit" style="margin-top: 48px; border-top: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 32px 0;">
+                        <h3 style="font-size: 24px; font-weight: 400; color: #000; margin: 0 0 24px 0;">The roadmap</h3>
+                        
+                        <div class="roadmap-container">
+                            <div class="roadmap-item">
+                                <div class="roadmap-point active"></div>
+                                <div class="roadmap-content">
+                                    <strong>PRD & Technical Calibration</strong>
+                                    <p>Aligning your technical requirements with our strategic baseline.</p>
+                                </div>
+                            </div>
+
+                            <div class="roadmap-item">
+                                <div class="roadmap-point"></div>
+                                <div class="roadmap-content">
+                                    <strong>Narrative Tension Map</strong>
+                                    <p>Identifying the friction points where your story wins against the status quo.</p>
+                                </div>
+                            </div>
+
+                            <div class="roadmap-item">
+                                <div class="roadmap-point"></div>
+                                <div class="roadmap-content">
+                                    <strong>Strategic Content Script</strong>
+                                    <p>Translating the strategy into a high-conversion messaging structure.</p>
+                                </div>
+                            </div>
+
+                            <div class="roadmap-item">
+                                <div class="roadmap-point"></div>
+                                <div class="roadmap-content">
+                                    <strong>Final Narrative</strong>
+                                    <p>The ultimate blueprint for your brand’s voice and market positioning. <strong>Delivered in 24 hours for your review and final approval.</strong></p>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="final-signature" style="margin-top: 48px;">
+                        <p style="font-size: 15px; color: rgba(0,0,0,0.6); margin: 0;">Talk soon,</p>
+                        <p style="font-size: 18px; font-weight: 600; color: #000; margin: 4px 0 0 0;">Alberto</p>
+                        <p style="font-size: 13px; font-weight: 400; color: rgba(0,0,0,0.4); margin: 2px 0 0 0;">Moood.Studio</p>
                     </div>
                 </div>
             </div>
@@ -417,6 +772,7 @@
                 </button>
                 <button class="btn-next" id="btnNext" onclick="nextSlide()">
                     <span id="nextBtnText">Next Step</span>
+                    <div class="spinner"></div>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
             </nav>
@@ -457,25 +813,62 @@
                 qNav.style.display = 'none';
             } else {
                 qNav.style.display = 'flex';
-                btnNextText.textContent = currentSlide === totalSlides - 1 ? 'Activate Strategy Phase' : 'Next Step';
+                nextBtnText.textContent = currentSlide === totalSlides - 1 ? 'Activate Strategy Phase' : 'Next Step';
             }
         }
 
-        function validateCurrentSlide() {
-            // DEBUG BYPASS: Allow free navigation for repairs
-            if (localStorage.getItem('moood_debug') === 'true') return true;
+        function validateSlide(index) {
+            const currentSlideEl = document.querySelector(`.q-slide[data-index="${index}"]`);
+            if (!currentSlideEl) return true;
 
-            const current = slides[currentSlide - 1];
-            const required = current.querySelectorAll('[required]');
+            // SPECIAL LOGIC FOR SLIDE 2 (Sources)
+            if (index === 2) {
+                const linksList = document.getElementById('linksList');
+                const hasFiles = selectedFiles && selectedFiles.length > 0;
+                
+                // Check if at least one link row exists and has a value
+                let hasLinks = false;
+                if (linksList) {
+                    const linkInputs = linksList.querySelectorAll('input');
+                    linkInputs.forEach(input => {
+                        if (input.value.trim() !== "") hasLinks = true;
+                    });
+                }
+
+                if (!hasFiles && !hasLinks) {
+                    const dropZone = document.getElementById('dropZone');
+                    const initialAddBtn = document.getElementById('initialAddLinkBtn');
+                    if (dropZone) dropZone.style.borderColor = '#ff4d4d';
+                    if (initialAddBtn) initialAddBtn.style.borderColor = '#ff4d4d';
+                    setTimeout(() => {
+                        if (dropZone) dropZone.style.borderColor = 'rgba(0,0,0,0.1)';
+                        if (initialAddBtn) initialAddBtn.style.borderColor = 'rgba(0,0,0,0.1)';
+                    }, 2000);
+                    return false;
+                }
+                return true;
+            }
+
+            // GENERAL LOGIC FOR OTHER SLIDES
+            const requiredFields = currentSlideEl.querySelectorAll('[required]');
             let isValid = true;
-            required.forEach(el => {
-                if (!el.value.trim()) {
-                    el.style.borderColor = '#ff4d4d';
+
+            requiredFields.forEach(field => {
+                // Special check for Slide 1 custom select
+                if (field.id === 'deliverableInput' && !field.value) {
+                    const selectWrapper = document.getElementById('deliverableSelect');
+                    if (selectWrapper) {
+                        selectWrapper.classList.add('invalid');
+                        setTimeout(() => { selectWrapper.classList.remove('invalid'); }, 2000);
+                    }
                     isValid = false;
-                } else {
-                    el.style.borderColor = '';
+                } else if (!field.value.trim()) {
+                    field.style.borderBottomColor = '#ff4d4d';
+                    isValid = false;
+                    setTimeout(() => { field.style.borderBottomColor = ''; }, 2000);
                 }
             });
+
             return isValid;
         }
 
@@ -501,13 +894,15 @@
         }
 
         function nextSlide() {
-            if (currentSlide < totalSlides) {
-                if (validateCurrentSlide()) {
+            if (currentSlide < totalSlides - 1) {
+                if (validateSlide(currentSlide)) {
                     currentSlide++;
                     updateSlider();
-                    if (currentSlide === totalSlides) {
-                        submitIntake();
-                    }
+                }
+            } else if (currentSlide === totalSlides - 1) {
+                // Last data slide (Slide 5), validate and then trigger boutique submission
+                if (validateSlide(currentSlide)) {
+                    submitIntake();
                 }
             }
         }
@@ -532,8 +927,8 @@
 
         // File Selection Feedback & Drag and Drop
         const fileInput = document.getElementById('fileInput');
-        const uploadContainer = document.querySelector('.file-upload-container');
-        const uploadText = document.querySelector('.file-upload-text');
+        const uploadContainer = document.getElementById('dropZone');
+        const uploadText = document.querySelector('.upload-title');
         const qFileList = document.getElementById('qFileList');
         let selectedFiles = [];
 
@@ -547,10 +942,12 @@
             });
             
             // Restore upload text if empty
-            if (selectedFiles.length === 0) {
-                uploadText.innerHTML = '<strong>Click to upload</strong> or drag & drop.<br>Documents, Images, Infographics (Max total: 4.5MB)';
-            } else {
-                uploadText.innerHTML = `<strong>${selectedFiles.length} file(s) ready for transit.</strong>`;
+            if (uploadText) {
+                if (selectedFiles.length === 0) {
+                    uploadText.innerHTML = 'Click to upload or <span>drag & drop</span> project files';
+                } else {
+                    uploadText.innerHTML = `<span>${selectedFiles.length} file(s) ready for transit.</span>`;
+                }
             }
         }
 
@@ -566,41 +963,306 @@
         });
 
         // Drag & Drop Implementation
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadContainer.addEventListener(eventName, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
-        });
+        if (uploadContainer) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
+            });
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadContainer.addEventListener(eventName, () => uploadContainer.style.background = '#f0f0f0', false);
-        });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, () => uploadContainer.classList.add('dragover'), false);
+            });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadContainer.addEventListener(eventName, () => uploadContainer.style.background = '#fafafa', false);
-        });
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, () => uploadContainer.classList.remove('dragover'), false);
+            });
 
-        uploadContainer.addEventListener('drop', (e) => {
-            const newFiles = Array.from(e.dataTransfer.files);
-            selectedFiles = [...selectedFiles, ...newFiles];
-            updateFileListUI();
-        });
+            uploadContainer.addEventListener('drop', (e) => {
+                const newFiles = Array.from(e.dataTransfer.files);
+                selectedFiles = [...selectedFiles, ...newFiles];
+                updateFileListUI();
+            });
+        }
 
         // Update submitIntake to use selectedFiles array
         const originalSubmit = submitIntake;
         window.submitIntake = async function() {
+            const btnNext = document.getElementById('btnNext');
             const formData = new FormData();
-            document.querySelectorAll('.q-slide input, .q-slide textarea, .q-slide select').forEach(el => {
-                if (el.name) formData.append(el.name, el.value);
-            });
             
-            // Append files from our memory array
+            // Safe helper to get value by name or ID
+            const getVal = (selector) => {
+                const el = document.querySelector(selector);
+                return el ? el.value : '';
+            };
+
+            // Loading state
+            btnNext.classList.add('loading');
+            btnNext.disabled = true;
+
+            // Artificial delay to show technical weight
+            const minDelay = new Promise(resolve => setTimeout(resolve, 1500));
+
+            // 1. Basic Identification mapping
+            formData.append('companyName', getVal('input[name="projectName"]'));
+            formData.append('fullName', getVal('input[name="leadName"]'));
+            formData.append('email', getVal('input[name="email"]'));
+            formData.append('pageType', getVal('#deliverableInput'));
+
+            // 2. Consolidate Evidence Links
+            const evidenceArray = [];
+            document.querySelectorAll('input[name="evidenceLinks[]"]').forEach(el => {
+                if (el.value.trim()) evidenceArray.push(el.value.trim());
+            });
+            formData.append('evidence', evidenceArray.join('\n'));
+
+            // 3. Consolidate Competitors
+            const adversaryArray = [];
+            document.querySelectorAll('input[name="competitors[]"]').forEach(el => {
+                if (el.value.trim()) adversaryArray.push(el.value.trim());
+            });
+            formData.append('adversary', adversaryArray.join('\n'));
+
+            // 4. Tactical Mapping
+            formData.append('portrait', getVal('textarea[name="portrait"]'));
+            formData.append('objective', getVal('input[name="cta"]'));
+            
+            // 5. Append files from our memory array
             selectedFiles.forEach(file => formData.append('files', file));
 
             try {
-                const res = await fetch('/api/intake', { method: 'POST', body: formData });
+                // Wait for both the API and the minimum delay
+                const [res] = await Promise.all([
+                    fetch('/api/intake', { method: 'POST', body: formData }),
+                    minDelay
+                ]);
+                
+                const result = await res.json();
+                
+                if (res.ok) {
+                    console.log('Intake success:', result);
+                    // Show reference ID in success slide
+                    const successSlide = document.querySelector('.q-slide:last-child');
+                    if (successSlide) {
+                        const existingInfo = successSlide.querySelector('.reference-id');
+                        if (existingInfo) existingInfo.remove();
+                        const info = document.createElement('p');
+                        info.className = 'reference-id';
+                        info.style.marginTop = '20px';
+                        info.style.fontSize = '12px';
+                        info.style.opacity = '0.5';
+                        info.innerHTML = `Intake Reference ID: <span style="font-family:monospace">${result.id || 'N/A'}</span>`;
+                        successSlide.appendChild(info);
+                    }
+                    // Proceed to success slide (Slide 6)
+                    currentSlide = 6;
+                    updateSlider();
+                } else {
+                    console.error('Intake server error:', result);
+                    alert(`Intake Error: ${result.error}${result.missing ? ' (Missing: ' + result.missing.join(', ') + ')' : ''}`);
+                    // Reset button
+                    btnNext.classList.remove('loading');
+                    btnNext.disabled = false;
+                }
             } catch (err) {
-                console.error('Intake submit failed:', err);
+                console.error('Intake network failure:', err);
+                alert('Intake Connection Failed. Please check your internet or try again later.');
+                // Reset button
+                btnNext.classList.remove('loading');
+                btnNext.disabled = false;
             }
         };
+
+        // CORE INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            const linksList = document.getElementById('linksList');
+            const initialAddBtn = document.getElementById('initialAddLinkBtn');
+
+            function createLinkRow() {
+                const newRow = document.createElement('div');
+                newRow.className = 'progression-row-wrapper';
+                newRow.innerHTML = `
+                    <div class="progression-row">
+                        <input type="text" name="evidenceLinks[]" placeholder="Links to Notion, Slack, competitors, or any aesthetic and tone-of-voice references...">
+                        <input type="hidden" name="evidenceTypes[]" class="agent-type-input" value="General">
+                        <div class="loading-pulse" id="p-pulse"></div>
+                        <div class="link-row-actions">
+                            <button type="button" class="btn-row-action btn-delete" title="Delete" style="display: none;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                        <div class="agent-feedback">
+                            <div class="loading-pulse"></div>
+                            <div class="agent-msg" style="font-style: italic; opacity: 0.6; font-size: 11px; margin-left: 8px;">Analyzing source...</div>
+                        </div>
+                    </div>
+                `;
+                
+                const deleteBtn = newRow.querySelector('.btn-delete');
+                const input = newRow.querySelector('input');
+                const typeInput = newRow.querySelector('.agent-type-input');
+                const pulse = newRow.querySelector('.loading-pulse');
+                const feedback = newRow.querySelector('.agent-feedback');
+
+                input.addEventListener('blur', function() {
+                    const val = input.value.trim().toLowerCase();
+                    if (val !== "") {
+                        feedback.classList.add('active');
+                        pulse.style.display = 'inline-block';
+                        
+                        setTimeout(() => {
+                            // Determine Data Category (even if hidden)
+                            let cat = "Strategic Evidence";
+                            if (val.includes('pinterest') || val.includes('dribbble') || val.includes('instagram') || val.includes('behance')) {
+                                cat = "Aesthetic Reference";
+                            } else if (val.includes('notion') || val.includes('docs') || val.includes('slack')) {
+                                cat = "Technical Source";
+                            } else if (val.includes('linkedin') || val.includes('crunchbase')) {
+                                cat = "Market Context";
+                            }
+                            typeInput.value = cat;
+
+                            feedback.classList.remove('active');
+                            pulse.style.display = 'none';
+                            input.disabled = true;
+                            input.style.opacity = '0.5';
+                            deleteBtn.style.display = 'flex';
+                        }, 1200);
+
+                    } else {
+                        newRow.remove();
+                    }
+                });
+
+                // Support Enter key for same effect
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        input.blur();
+                    }
+                });
+
+                deleteBtn.addEventListener('click', function() {
+                    newRow.remove();
+                });
+                
+                return newRow;
+            }
+
+            // SLIDE 3: COMPETITOR MAPPING ENGINE
+            const competitorList = document.getElementById('competitorList');
+            const addCompetitorBtn = document.getElementById('addCompetitorBtn');
+
+            function createCompetitorRow() {
+                const newRow = document.createElement('div');
+                newRow.className = 'progression-row-wrapper';
+                newRow.innerHTML = `
+                    <div class="progression-row">
+                        <input type="text" name="competitors[]" placeholder="e.g., Coca-Cola, Pepsi (pepsi.com), or any links to their websites and digital presence...">
+                        <div class="loading-pulse"></div>
+                        <div class="link-row-actions">
+                            <button type="button" class="btn-row-action btn-delete" title="Delete" style="display: none;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                        <div class="agent-feedback">
+                            <div class="loading-pulse"></div>
+                            <div class="agent-msg" style="font-style: italic; opacity: 0.6; font-size: 11px; margin-left: 8px;">Analyzing competitor...</div>
+                        </div>
+                    </div>
+                `;
+                
+                const deleteBtn = newRow.querySelector('.btn-delete');
+                const input = newRow.querySelector('input');
+                const pulse = newRow.querySelector('.loading-pulse');
+                const feedback = newRow.querySelector('.agent-feedback');
+
+                input.addEventListener('blur', function() {
+                    const val = input.value.trim().toLowerCase();
+                    if (val !== "") {
+                        feedback.classList.add('active');
+                        pulse.style.display = 'inline-block';
+                        
+                        setTimeout(() => {
+                            feedback.classList.remove('active');
+                            pulse.style.display = 'none';
+                            input.disabled = true;
+                            input.style.opacity = '0.5';
+                            deleteBtn.style.display = 'flex';
+                        }, 1000);
+                    } else {
+                        newRow.remove();
+                    }
+                });
+
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+                });
+
+                deleteBtn.addEventListener('click', function() { newRow.remove(); });
+                return newRow;
+            }
+
+            if (initialAddBtn && linksList) {
+                initialAddBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.classList.add('has-links');
+                    const row = createLinkRow();
+                    linksList.appendChild(row);
+                    row.querySelector('input').focus();
+                });
+            }
+
+            if (addCompetitorBtn && competitorList) {
+                // Add initial row
+                competitorList.appendChild(createCompetitorRow());
+
+                addCompetitorBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.classList.add('has-links');
+                    const row = createCompetitorRow();
+                    competitorList.appendChild(row);
+                    row.querySelector('input').focus();
+                });
+            }
+        });
+
+        // Rest of the existing logic...
+        const deliverableSelect = document.getElementById('deliverableSelect');
+        const deliverableInput = document.getElementById('deliverableInput');
+        const triggerText = deliverableSelect?.querySelector('.trigger-text');
+        
+        if (deliverableSelect) {
+            deliverableSelect.querySelector('.select-trigger').addEventListener('click', () => {
+                deliverableSelect.classList.toggle('open');
+            });
+
+            deliverableSelect.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const value = item.getAttribute('data-value');
+                    const title = item.querySelector('.item-title').innerText;
+                    const icon = item.querySelector('.item-icon').innerHTML;
+                    
+                    deliverableInput.value = value;
+                    triggerText.innerText = title;
+                    triggerText.classList.add('selected');
+                    
+                    const triggerIcon = deliverableSelect.querySelector('.trigger-icon-container');
+                    triggerIcon.innerHTML = icon;
+                    triggerIcon.style.display = 'flex';
+                    
+                    deliverableSelect.classList.remove('open');
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!deliverableSelect.contains(e.target)) {
+                    deliverableSelect.classList.remove('open');
+                }
+            });
+        }
 
         updateSlider();
     </script>
