@@ -61,10 +61,10 @@
 
         /* Section styles */
         .nv-section { padding: 40px 60px; max-width: var(--content-max); margin: 0 auto; scroll-margin-top: 80px; position: relative; }
-        .nv-section::after { content: ''; display: block; height: 1px; background: var(--gray-100); margin-top: 80px; }
+        .nv-section::after { content: ''; display: block; height: 1px; background: var(--gray-100); margin-top: 60px; }
         .nv-section:last-of-type::after { display: none; }
 
-        .nv-section-label { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: capitalize; margin-bottom: 25px; display: block; }
+        .nv-section-label { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 30px; display: block; }
         .nv-headline { font-size: 28px; font-weight: 700; line-height: 1.25; margin-bottom: 20px; letter-spacing: -0.02em; }
         .nv-subheadline { font-size: 20px; font-weight: 500; line-height: 1.4; margin-bottom: 25px; color: #333; }
         .nv-body { font-size: 16px; line-height: 1.7; color: #444; margin-bottom: 25px; }
@@ -81,9 +81,11 @@
         .nv-table td { padding: 15px 20px; border-bottom: 1px solid var(--gray-100); }
         .nv-table tr:last-child td { border-bottom: none; }
 
-        .nv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin: 40px 0; }
-        .nv-block-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .nv-block-body { font-size: 14px; color: #555; }
+        /* Blocks (Stacked linearly) */
+        .nv-block { margin: 40px 0; }
+        .nv-block:first-child { margin-top: 0; }
+        .nv-block-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nv-block-body { font-size: 16px; color: #444; line-height: 1.6; }
 
         @media print { 
             .nv-sidebar, .nv-topbar { display: none !important; } 
@@ -218,15 +220,13 @@ function renderSection(section, index) {
         html += `<p class="nv-body">${c.p}</p>`;
     }
 
-    // Specialized Logic: Grid/Items
+    // Specialized Logic: Linear Blocks
     if (c.items) {
-        html += `<div class="nv-grid">`;
         c.items.forEach((item, i) => {
             const h = item.title;
             const b = item.description && item.description.includes('Body:') ? item.description.split('Body:')[1].trim() : (item.description || '');
             html += `<div class="nv-block"><div class="nv-block-title">${h}</div><div class="nv-block-body">${b}</div></div>`;
         });
-        html += `</div>`;
     }
 
     // Specialized Logic: Table
