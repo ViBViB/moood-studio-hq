@@ -110,6 +110,20 @@
         .nv-block { margin: 40px 0; }
         .nv-block:first-child { margin-top: 0; }
 
+        /* Modal Styles */
+        .nv-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .nv-modal-overlay.active { display: flex; opacity: 1; }
+        .nv-modal { background: var(--white); width: 480px; padding: 40px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transform: translateY(20px); transition: transform 0.3s; border-top: 3px solid var(--black); }
+        .nv-modal-overlay.active .nv-modal { transform: translateY(0); }
+        .nv-modal__header { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--gray-200); padding-bottom: 20px; margin-bottom: 20px; }
+        .nv-modal__body { font-size: 14px; color: #444; line-height: 1.6; margin-bottom: 30px; }
+        .nv-modal__input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300); font-family: var(--font-sans); font-size: 14px; border-radius: 3px; margin-bottom: 20px; outline: none; }
+        .nv-modal__input:focus { border-color: var(--black); }
+        .nv-modal__actions { display: flex; gap: 15px; justify-content: flex-end; }
+        .nv-lock-badge { display: none; background: #22c55e; color: #fff; border: none; cursor: default; padding: 0 16px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; align-items: center; justify-content: center; transition: background 0.2s; height: 32px; }
+        .nv-lock-badge.active { display: inline-flex; }
+        .nv-lock-badge:hover { background: #16a34a; }
+
         @media print { 
             @page { margin: 25mm; size: A4; }
             body { background: white; font-size: 8.5pt; line-height: 1.5; color: #111; }
@@ -123,6 +137,20 @@
 
 <div class="nv-layout" id="app"></div>
 <div class="nv-db-status" id="db-status"></div>
+
+<div class="nv-modal-overlay" id="approval-modal">
+    <div class="nv-modal">
+        <div class="nv-modal__header">Confirm Architecture Lock</div>
+        <div class="nv-modal__body">
+            By signing below, I formally approve the Architecture (Sections, Components) and Narrative (Copy, Data) of this page. I understand this page will be frozen as the Master Copy, and any deep structural changes beyond this point will require renegotiation of Phase 2.
+        </div>
+        <input type="text" id="signer-name" class="nv-modal__input" placeholder="Your signature (Name or Initials)" autocomplete="off">
+        <div class="nv-modal__actions">
+            <button class="nv-btn nv-btn--outline" onclick="closeApprovalModal()">Cancel</button>
+            <button class="nv-btn nv-btn--primary" onclick="confirmApproval()">LOCK NARRATIVE</button>
+        </div>
+    </div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -232,6 +260,53 @@ const NARRATIVE_DATA = {
 };
 
 const NARRATIVE_ID = "preoptima-homepage-v4";
+
+// ── APPROVAL WORKFLOW ────────
+function approveNarrative() { document.getElementById('approval-modal').classList.add('active'); }
+function closeApprovalModal() { document.getElementById('approval-modal').classList.remove('active'); document.getElementById('signer-name').value = ''; }
+
+async function confirmApproval() {
+    const signer = document.getElementById('signer-name').value.trim();
+    if(!signer) { showStatus('Signature required', true); return; }
+    try {
+        await db.collection('narratives').doc(NARRATIVE_ID).set({ status: 'APPROVED', signee: signer, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge: true});
+        closeApprovalModal();
+        applyLockState();
+        showStatus('NARRATIVE LOCKED');
+    } catch(e) { showStatus('Database Error', true); }
+}
+
+function applyLockState() {
+    document.getElementById('btn-approve').style.display = 'none';
+    document.getElementById('btn-locked').classList.add('active');
+    document.querySelectorAll('.nv-feedback-toggle, .nv-feedback-panel').forEach(el => el.style.display = 'none');
+}
+
+function removeLockState() {
+    document.getElementById('btn-approve').style.display = 'inline-flex';
+    document.getElementById('btn-locked').classList.remove('active');
+    document.querySelectorAll('.nv-feedback-toggle, .nv-feedback-panel').forEach(el => el.style.display = '');
+}
+
+async function checkLockStatus() {
+    try {
+        const doc = await db.collection('narratives').doc(NARRATIVE_ID).get();
+        if(doc.exists && doc.data().status === 'APPROVED') { applyLockState(); }
+    } catch(e) {}
+}
+
+document.addEventListener('dblclick', async function(e) {
+    if(e.target.id === 'btn-locked' && e.altKey) {
+        const pass = prompt("AGENCY OVERRIDE: Enter master passcode to unlock architecture:");
+        if(pass === "moood-lock") {
+            await db.collection('narratives').doc(NARRATIVE_ID).update({ status: 'REVIEW' });
+            removeLockState();
+            showStatus('UNLOCK PROTOCOL INITIATED');
+        } else if(pass !== null) {
+            alert("Access Denied.");
+        }
+    }
+});
 
 // ── HELPERS ─────────────────────────────────────────
 function getInitials(name) { return name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2); }
@@ -381,8 +456,10 @@ const MOOOD_LOGO = `<svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.
                     <div class="nv-topbar__divider"></div>
                     <span>${data.meta.version}</span>
                 </div>
-                <div class="nv-topbar__actions">
+                <div class="nv-topbar__actions" style="display: flex; gap: 10px;">
                     <a href="#" class="nv-btn nv-btn--outline" onclick="window.print(); return false;">Print PDF</a>
+                    <button class="nv-btn nv-btn--primary" id="btn-approve" onclick="approveNarrative()">Approve Narrative</button>
+                    <button class="nv-lock-badge" id="btn-locked" title="Alt+Double Click for God Mode">✓ LOCKED & APPROVED</button>
                 </div>
             </div>
             <div style="padding-top: 60px;">
@@ -405,6 +482,8 @@ const MOOOD_LOGO = `<svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.
         });
     }, { threshold: 0.3, rootMargin: '0px 0px -50% 0px' });
     sections.forEach(s => observer.observe(s));
+
+    checkLockStatus();
 })();
 </script>
 </body>
