@@ -402,7 +402,7 @@ module.exports = async (req, res) => {
             return res.status(404).send('<h1>Proposal not found</h1>');
         }
 
-        const response = await fetch(blobs[0].url);
+        const response = await fetch(blobs[0].downloadUrl);
         if (!response.ok) {
             return res.status(500).send('<h1>Failed to load proposal</h1>');
         }

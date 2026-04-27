@@ -19,8 +19,8 @@ module.exports = async (req, res) => {
             return res.status(404).json({ error: 'Code not found' });
         }
 
-        // Fetch blob content from its public URL
-        const response = await fetch(blobs[0].url);
+        // Fetch blob content via signed downloadUrl (private store)
+        const response = await fetch(blobs[0].downloadUrl);
         if (!response.ok) {
             return res.status(500).json({ error: 'Failed to read project data' });
         }
