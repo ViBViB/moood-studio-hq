@@ -1,4 +1,7 @@
 {
+    "functions": {
+        "api/client-intake.js": { "maxDuration": 60 }
+    },
     "redirects": [
         {
             "source": "/club-pilates-remix",
@@ -7,6 +10,18 @@
         }
     ],
     "rewrites": [
+        {
+            "source": "/client-intake",
+            "destination": "/proposals/_templates/client-intake/client-intake.html"
+        },
+        {
+            "source": "/admin/generate",
+            "destination": "/proposals/generator/index.html"
+        },
+        {
+            "source": "/p/:id",
+            "destination": "/api/proposal?id=:id"
+        },
         {
             "source": "/club-pilates-remix/",
             "destination": "https://club-pilates-remix.vercel.app/"

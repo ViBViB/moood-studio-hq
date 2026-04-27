@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal Generator — Moood.Studio</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#111;--gray:#f5f5f5;--border:#e0e0e0;--accent:#111;--radius:2px}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;color:#111;min-height:100vh}
+.gen-header{background:#000;color:#fff;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.gen-header-left{display:flex;align-items:center;gap:16px}
+.gen-logo svg{width:32px;height:32px}
+.gen-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)}
+.gen-title strong{color:#fff}
+.gen-body{max-width:800px;margin:0 auto;padding:40px 24px 120px}
+.section{background:#fff;border:1px solid var(--border);margin-bottom:2px}
+.section-header{padding:20px 24px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border)}
+.section-header:hover{background:#fafafa}
+.section-number{width:24px;height:24px;background:#111;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;flex:1}
+.section-desc{font-size:12px;color:#999}
+.section-chevron{font-size:10px;color:#999;transition:transform .2s}
+.section.open .section-chevron{transform:rotate(180deg)}
+.section-body{padding:24px;display:none;border-top:1px solid var(--border)}
+.section.open .section-body{display:block}
+.field-group{display:grid;gap:16px;margin-bottom:16px}
+.field-group.cols-2{grid-template-columns:1fr 1fr}
+.field-group.cols-3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#666}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-family:inherit;color:#111;background:#fff;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#111}
+.field textarea{resize:vertical;min-height:80px;line-height:1.5}
+.field-hint{font-size:11px;color:#999;margin-top:2px}
+.toggle-group{display:flex;gap:8px}
+.toggle-btn{padding:8px 16px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;border-radius:var(--radius);transition:all .2s;color:#999}
+.toggle-btn.active{background:#111;color:#fff;border-color:#111}
+.dynamic-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.dynamic-row{display:grid;gap:8px;align-items:center}
+.dynamic-row.pages-row{grid-template-columns:1fr 160px 32px}
+.dynamic-row.diagnosis-row{grid-template-columns:180px 1fr 32px}
+.dynamic-row.roadmap-step-row{grid-template-columns:1fr 32px}
+.dynamic-row.investment-row{grid-template-columns:1fr 120px 32px}
+.dynamic-row.branding-row{grid-template-columns:160px 1fr 32px}
+.dynamic-row.additional-row{grid-template-columns:1fr 32px}
+.btn-remove{width:32px;height:32px;border:1px solid #eee;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#ccc;border-radius:var(--radius);font-size:16px;line-height:1;flex-shrink:0;transition:all .2s}
+.btn-remove:hover{border-color:#f00;color:#f00}
+.btn-add{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 14px;border:1px dashed #ccc;background:#fff;cursor:pointer;color:#999;border-radius:var(--radius);transition:all .2s;margin-top:4px}
+.btn-add:hover{border-color:#111;color:#111}
+.roadmap-phase{border:1px solid var(--border);padding:16px;margin-bottom:8px;border-radius:var(--radius)}
+.roadmap-phase-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.roadmap-phase-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#666}
+.platform-toggle{margin-bottom:16px}
+.platform-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.platform-card-editor{border:1px solid var(--border);padding:16px;border-radius:var(--radius)}
+.platform-card-editor h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:12px}
+.spec-row{display:grid;grid-template-columns:1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:center}
+.gen-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #111;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.gen-footer-left{font-size:12px;color:#999}
+.btn-generate{padding:14px 40px;background:#111;color:#fff;border:none;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;cursor:pointer;border-radius:var(--radius);transition:all .2s}
+.btn-generate:hover{background:#333}
+.btn-generate:disabled{background:#999;cursor:wait}
+.result-box{background:#f0f0f0;border:1px solid var(--border);padding:20px 24px;margin-top:24px;display:none}
+.result-box.show{display:block}
+.result-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#666;margin-bottom:8px}
+.result-url{font-size:14px;font-weight:600;color:#111;word-break:break-all;margin-bottom:12px}
+.result-actions{display:flex;gap:8px}
+.btn-copy,.btn-open{padding:8px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border:1px solid #111;cursor:pointer;border-radius:var(--radius);background:#fff;transition:all .2s}
+.btn-copy:hover,.btn-open:hover{background:#111;color:#fff}
+.divider{height:1px;background:var(--border);margin:20px 0}
+.subsection-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<header class="gen-header">
+    <div class="gen-header-left">
+        <div class="gen-logo">
+            <svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447Z" fill="white"/></svg>
+        </div>
+        <div class="gen-title">Moood.Studio &nbsp;·&nbsp; <strong>Proposal Generator</strong></div>
+    </div>
+</header>
+
+<div class="gen-body">
+
+    <!-- RESULT BOX (shown after generation) -->
+    <div class="result-box" id="resultBox">
+        <div class="result-label">Proposal ready</div>
+        <div class="result-url" id="resultUrl"></div>
+        <div class="result-actions">
+            <button class="btn-copy" onclick="copyUrl()">Copy link</button>
+            <button class="btn-open" onclick="openUrl()">Open proposal</button>
+        </div>
+    </div>
+
+    <!-- 01 — CLIENT -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">1</div>
+            <div>
+                <div class="section-label">Client</div>
+                <div class="section-desc">Who is this proposal for</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div class="field-group cols-2">
+                <div class="field">
+                    <label>Client name *</label>
+                    <input type="text" id="clientName" placeholder="Preoptima" required>
+                </div>
+                <div class="field">
+                    <label>Client email</label>
+                    <input type="email" id="clientEmail" placeholder="alex@preoptima.com">
+                    <span class="field-hint">Used for the approval notification and intake link</span>
+                </div>
+            </div>
+            <div class="field-group cols-2">
+                <div class="field">
+                    <label>Project name *</label>
+                    <input type="text" id="projectName" placeholder="Preoptima Brand & Website">
+                </div>
+                <div class="field">
+                    <label>Proposal date</label>
+                    <input type="text" id="proposalDate" placeholder="April 2026">
+                </div>
+            </div>
+            <div class="field">
+                <label>Proposal type label</label>
+                <input type="text" id="proposalType" placeholder="Brand & Website Proposal" value="Brand & Website Proposal">
+                <span class="field-hint">Appears in the sidebar header</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 02 — PROJECT CONFIG -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">2</div>
+            <div>
+                <div class="section-label">Project Config</div>
+                <div class="section-desc">Scope, tier, and pipeline flags</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div class="field-group cols-3">
+                <div class="field">
+                    <label>Project type</label>
+                    <select id="projectType">
+                        <option value="website">Website</option>
+                        <option value="landing">Landing page</option>
+                        <option value="branding">Branding only</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Tier</label>
+                    <select id="projectTier">
+                        <option value="small">Small (3–5 pages)</option>
+                        <option value="medium">Medium (6–8 pages)</option>
+                        <option value="large" selected>Large (9+ pages)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Scenario</label>
+                    <select id="projectScenario">
+                        <option value="A">A — Brand-Free</option>
+                        <option value="B">B — Figma Fidelity</option>
+                        <option value="C">C — Component-Locked</option>
+                        <option value="B+C">B+C — Figma + Components</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field-group cols-2">
+                <div class="field">
+                    <label>Narrative</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" data-group="narrative" data-value="false" onclick="setToggle(this)">Strategist writes</button>
+                        <button class="toggle-btn" data-group="narrative" data-value="true" onclick="setToggle(this)">Client delivers copy</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Brand</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" data-group="brandkit" data-value="false" onclick="setToggle(this)">Brand-Free</button>
+                        <button class="toggle-btn" data-group="brandkit" data-value="true" onclick="setToggle(this)">Brand-Locked</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="subsection-label">Pages</div>
+            <div class="dynamic-list" id="pagesList"></div>
+            <button class="btn-add" onclick="addPage()">+ Add page</button>
+        </div>
+    </div>
+
+    <!-- 03 — THE VISION -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">3</div>
+            <div>
+                <div class="section-label">The Vision</div>
+                <div class="section-desc">Slide 01 — the big picture</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div class="subsection-label">Paragraphs (one per line break)</div>
+            <div class="field">
+                <label>Vision body *</label>
+                <textarea id="visionBody" rows="6" placeholder="The buildings sector accounts for nearly 40% of global carbon emissions. [CLIENT_NAME] exists to change that...&#10;&#10;That's a mission worth leading. But right now, the world can't see it clearly.&#10;&#10;The goal of this project is to close that gap..."></textarea>
+                <span class="field-hint">Each blank line creates a new paragraph. Use [CLIENT_NAME] as placeholder — it gets replaced automatically.</span>
+            </div>
+            <div class="field" style="margin-top:12px">
+                <label>Footer note (optional)</label>
+                <input type="text" id="visionNote" placeholder="This is a two-phase, fully integrated project — Brand Identity first, Website second.">
+                <span class="field-hint">Shown in smaller text at the bottom of the slide</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 04 — THE DIAGNOSIS -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">4</div>
+            <div>
+                <div class="section-label">The Diagnosis</div>
+                <div class="section-desc">Slide 02 — the client's pain points</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div class="dynamic-list" id="diagnosisList"></div>
+            <button class="btn-add" onclick="addDiagnosis()">+ Add problem</button>
+        </div>
+    </div>
+
+    <!-- 05 — THE ROADMAP -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">5</div>
+            <div>
+                <div class="section-label">The Roadmap</div>
+                <div class="section-desc">Slide 03 — phases and platform</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div id="roadmapPhases"></div>
+            <button class="btn-add" onclick="addPhase()">+ Add phase</button>
+
+            <div class="divider"></div>
+            <div class="subsection-label">Platform comparison (optional)</div>
+            <div class="field" style="margin-bottom:12px">
+                <div class="toggle-group">
+                    <button class="toggle-btn active" data-group="platform" data-value="false" onclick="setToggle(this,togglePlatform)">No comparison</button>
+                    <button class="toggle-btn" data-group="platform" data-value="true" onclick="setToggle(this,togglePlatform)">Show comparison</button>
+                </div>
+            </div>
+            <div id="platformEditor" style="display:none">
+                <div class="platform-cards">
+                    <div class="platform-card-editor">
+                        <h4>Current stack</h4>
+                        <div class="field" style="margin-bottom:10px"><label>Name</label><input type="text" id="platformCurrentName" placeholder="HubSpot Starter"></div>
+                        <div id="platformCurrentSpecs"></div>
+                        <button class="btn-add" onclick="addSpec('currentSpecs')">+ Add spec</button>
+                    </div>
+                    <div class="platform-card-editor">
+                        <h4>Proposed</h4>
+                        <div class="field" style="margin-bottom:10px"><label>Name</label><input type="text" id="platformProposedName" placeholder="Framer"></div>
+                        <div id="platformProposedSpecs"></div>
+                        <button class="btn-add" onclick="addSpec('proposedSpecs')">+ Add spec</button>
+                    </div>
+                </div>
+                <div class="field" style="margin-top:12px">
+                    <label>Comparison note</label>
+                    <input type="text" id="platformNote" placeholder="HubSpot stays as your CRM. Framer replaces HubSpot as the website layer.">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 06 — THE DELIVERABLES -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">6</div>
+            <div>
+                <div class="section-label">The Deliverables</div>
+                <div class="section-desc">Slide 04 — what the client receives</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div class="subsection-label">Branding deliverables (optional — leave empty if website only)</div>
+            <div class="dynamic-list" id="brandingList"></div>
+            <button class="btn-add" onclick="addBranding()">+ Add branding item</button>
+
+            <div class="divider"></div>
+            <div class="subsection-label">Additional technical deliverables</div>
+            <div class="field-hint" style="margin-bottom:12px">Pages come from the config above automatically. Add tech/setup items here.</div>
+            <div class="dynamic-list" id="additionalList"></div>
+            <button class="btn-add" onclick="addAdditional()">+ Add item</button>
+        </div>
+    </div>
+
+    <!-- 07 — INVESTMENT -->
+    <div class="section open">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-number">7</div>
+            <div>
+                <div class="section-label">Investment</div>
+                <div class="section-desc">Slide 05 — pricing and next steps</div>
+            </div>
+            <span class="section-chevron">▲</span>
+        </div>
+        <div class="section-body">
+            <div class="subsection-label">Line items</div>
+            <div class="dynamic-list" id="investmentRows"></div>
+            <button class="btn-add" onclick="addInvestmentRow()">+ Add line item</button>
+
+            <div class="divider"></div>
+            <div class="field-group cols-2">
+                <div class="field">
+                    <label>Total *</label>
+                    <input type="text" id="investmentTotal" placeholder="$5,200">
+                </div>
+                <div class="field">
+                    <label>Payment note</label>
+                    <input type="text" id="paymentNote" placeholder="Prices in USD. GBP / EUR equivalent available on request." value="Prices in USD. GBP / EUR equivalent available on request.">
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="subsection-label">Optional add-ons</div>
+            <div class="dynamic-list" id="optionalRows"></div>
+            <button class="btn-add" onclick="addOptionalRow()">+ Add optional</button>
+
+            <div class="divider"></div>
+            <div class="field">
+                <label>Next step 2 (custom)</label>
+                <input type="text" id="nextStepTwo" placeholder="We send a short intake form — references, competitors, and technical requirements" value="We send a short intake form — references, competitors, and technical requirements">
+                <span class="field-hint">Step 1 (approve) and Step 3 (work begins in 3 days) are fixed.</span>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /gen-body -->
+
+<footer class="gen-footer">
+    <div class="gen-footer-left" id="footerStatus">Fill all required fields (*) then generate.</div>
+    <button class="btn-generate" id="btnGenerate" onclick="generateProposal()">Generate Proposal →</button>
+</footer>
+
+<script>
+// ── SECTION TOGGLE ──────────────────────────────────────────
+function toggleSection(header) {
+    header.closest('.section').classList.toggle('open');
+}
+
+// ── TOGGLE BUTTONS ──────────────────────────────────────────
+const toggleState = { narrative: 'false', brandkit: 'false', platform: 'false' };
+function setToggle(btn, callback) {
+    const group = btn.dataset.group;
+    btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    toggleState[group] = btn.dataset.value;
+    if (callback) callback(btn.dataset.value === 'true');
+}
+function togglePlatform(show) {
+    document.getElementById('platformEditor').style.display = show ? 'block' : 'none';
+}
+
+// ── PAGES ────────────────────────────────────────────────────
+const PAGE_TYPES = ['homepage','product','about','services','contact','landing','blog','case-study','custom'];
+function addPage(name='', type='') {
+    const list = document.getElementById('pagesList');
+    const row = document.createElement('div');
+    row.className = 'dynamic-row pages-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Page name" value="${name}" class="page-name">
+        <select class="page-type">${PAGE_TYPES.map(t=>`<option value="${t}"${t===type?' selected':''}>${t}</option>`).join('')}</select>
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+
+// ── DIAGNOSIS ────────────────────────────────────────────────
+function addDiagnosis(title='', body='') {
+    const list = document.getElementById('diagnosisList');
+    const row = document.createElement('div');
+    row.className = 'dynamic-row diagnosis-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Problem title" value="${title}" class="diag-title">
+        <input type="text" placeholder="Explanation..." value="${body}" class="diag-body">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+
+// ── ROADMAP ──────────────────────────────────────────────────
+let phaseCount = 0;
+function addPhase(title='', meta='', steps=[]) {
+    const container = document.getElementById('roadmapPhases');
+    const id = 'phase-' + phaseCount++;
+    const div = document.createElement('div');
+    div.className = 'roadmap-phase';
+    div.dataset.phaseId = id;
+    div.innerHTML = `
+        <div class="roadmap-phase-header">
+            <span class="roadmap-phase-title">Phase ${phaseCount}</span>
+            <button class="btn-remove" onclick="this.closest('.roadmap-phase').remove()">× Remove phase</button>
+        </div>
+        <div class="field-group cols-2" style="margin-bottom:12px">
+            <div class="field"><label>Title</label><input type="text" placeholder="Phase 1 — Brand Identity" value="${title}" class="phase-title"></div>
+            <div class="field"><label>Timeline</label><input type="text" placeholder="(Weeks 1–2 · 10–12 days)" value="${meta}" class="phase-meta"></div>
+        </div>
+        <div class="subsection-label" style="margin-bottom:8px">Steps (in order)</div>
+        <div class="dynamic-list phase-steps-list"></div>
+        <button class="btn-add" onclick="addStep(this)">+ Add step</button>`;
+    container.appendChild(div);
+    const stepsList = div.querySelector('.phase-steps-list');
+    if (steps.length) steps.forEach(s => addStepToList(stepsList, s));
+    else { addStepToList(stepsList); addStepToList(stepsList); }
+}
+
+function addStep(btn) { addStepToList(btn.previousElementSibling); }
+function addStepToList(list, value='') {
+    const row = document.createElement('div');
+    row.className = 'dynamic-row roadmap-step-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Step name" value="${value}" class="step-name">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+
+// ── PLATFORM SPECS ───────────────────────────────────────────
+function addSpec(containerId, key='', val='') {
+    const container = document.getElementById('platform' + containerId.charAt(0).toUpperCase() + containerId.slice(1));
+    const row = document.createElement('div');
+    row.className = 'spec-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Label (e.g. Cost)" value="${key}" class="spec-key">
+        <input type="text" placeholder="Value (e.g. ~$500/mo)" value="${val}" class="spec-val">
+        <button class="btn-remove" onclick="this.closest('.spec-row').remove()">×</button>`;
+    container.appendChild(row);
+}
+
+// ── BRANDING DELIVERABLES ────────────────────────────────────
+function addBranding(title='', description='') {
+    const list = document.getElementById('brandingList');
+    const row = document.createElement('div');
+    row.className = 'dynamic-row branding-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Item title" value="${title}" class="brand-title">
+        <input type="text" placeholder="Description" value="${description}" class="brand-desc">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+
+// ── ADDITIONAL DELIVERABLES ──────────────────────────────────
+function addAdditional(value='') {
+    const list = document.getElementById('additionalList');
+    const row = document.createElement('div');
+    row.className = 'dynamic-row additional-row';
+    row.innerHTML = `
+        <input type="text" placeholder="e.g. Framer CMS configured" value="${value}" class="additional-item">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+
+// ── INVESTMENT ROWS ──────────────────────────────────────────
+function addInvestmentRow(label='', amount='', border=false) {
+    const list = document.getElementById('investmentRows');
+    const row = document.createElement('div');
+    row.className = 'dynamic-row investment-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Line item description" value="${label}" class="inv-label">
+        <input type="text" placeholder="$0,000" value="${amount}" class="inv-amount">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+function addOptionalRow(label='', amount='') {
+    const list = document.getElementById('optionalRows');
+    const row = document.createElement('div');
+    row.className = 'dynamic-row investment-row';
+    row.innerHTML = `
+        <input type="text" placeholder="+ Optional add-on" value="${label}" class="opt-label">
+        <input type="text" placeholder="+$000" value="${amount}" class="opt-amount">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+    list.appendChild(row);
+}
+
+// ── DATA COLLECTION ──────────────────────────────────────────
+function collectData() {
+    const v = id => document.getElementById(id)?.value?.trim() || '';
+    const clientName = v('clientName');
+    const projectName = v('projectName');
+    if (!clientName || !projectName) {
+        alert('Client name and Project name are required.');
+        return null;
+    }
+
+    const pages = [...document.querySelectorAll('#pagesList .pages-row')].map(r => ({
+        name: r.querySelector('.page-name').value.trim(),
+        type: r.querySelector('.page-type').value
+    })).filter(p => p.name);
+
+    const visionBody = v('visionBody');
+    const visionParagraphs = visionBody.split(/\n\n+/).map(p => p.replace(/\[CLIENT_NAME\]/g, clientName).trim()).filter(Boolean);
+
+    const diagnosisItems = [...document.querySelectorAll('#diagnosisList .diagnosis-row')].map(r => ({
+        title: r.querySelector('.diag-title').value.trim(),
+        body: r.querySelector('.diag-body').value.trim().replace(/\[CLIENT_NAME\]/g, clientName)
+    })).filter(d => d.title);
+
+    const roadmapPhases = [...document.querySelectorAll('#roadmapPhases .roadmap-phase')].map(phase => ({
+        title: phase.querySelector('.phase-title').value.trim(),
+        meta: phase.querySelector('.phase-meta').value.trim(),
+        steps: [...phase.querySelectorAll('.step-name')].map(s => s.value.trim()).filter(Boolean)
+    })).filter(p => p.title);
+
+    const showPlatform = toggleState.platform === 'true';
+    let platformComparison = null;
+    if (showPlatform) {
+        platformComparison = {
+            show: true,
+            current: {
+                name: v('platformCurrentName'),
+                specs: [...document.querySelectorAll('#platformCurrentSpecs .spec-row')].map(r => [r.querySelector('.spec-key').value.trim(), r.querySelector('.spec-val').value.trim()]).filter(([k]) => k)
+            },
+            proposed: {
+                name: v('platformProposedName'),
+                specs: [...document.querySelectorAll('#platformProposedSpecs .spec-row')].map(r => [r.querySelector('.spec-key').value.trim(), r.querySelector('.spec-val').value.trim()]).filter(([k]) => k)
+            },
+            note: v('platformNote')
+        };
+    }
+
+    const brandingDeliverables = [...document.querySelectorAll('#brandingList .branding-row')].map(r => ({
+        title: r.querySelector('.brand-title').value.trim(),
+        description: r.querySelector('.brand-desc').value.trim()
+    })).filter(b => b.title);
+
+    const additionalDeliverables = [...document.querySelectorAll('#additionalList .additional-row')].map(r => r.querySelector('.additional-item').value.trim()).filter(Boolean);
+
+    const investmentRows = [...document.querySelectorAll('#investmentRows .investment-row')].map(r => ({
+        label: r.querySelector('.inv-label').value.trim(),
+        amount: r.querySelector('.inv-amount').value.trim()
+    })).filter(r => r.label);
+
+    const investmentOptionals = [...document.querySelectorAll('#optionalRows .investment-row')].map(r => ({
+        label: r.querySelector('.opt-label').value.trim(),
+        amount: r.querySelector('.opt-amount').value.trim()
+    })).filter(r => r.label);
+
+    return {
+        clientName, clientEmail: v('clientEmail'),
+        projectName, proposalDate: v('proposalDate'),
+        proposalType: v('proposalType') || 'Brand & Website Proposal',
+        projectType: document.getElementById('projectType').value,
+        tier: document.getElementById('projectTier').value,
+        scenario: document.getElementById('projectScenario').value,
+        hasNarrative: toggleState.narrative === 'true',
+        hasBrandkit: toggleState.brandkit === 'true',
+        pages, visionParagraphs,
+        visionNote: v('visionNote').replace(/\[CLIENT_NAME\]/g, clientName),
+        diagnosisItems, roadmapPhases, platformComparison,
+        brandingDeliverables, additionalDeliverables,
+        investmentRows, investmentTotal: v('investmentTotal'),
+        investmentOptionals, paymentNote: v('paymentNote'),
+        nextStepTwo: v('nextStepTwo')
+    };
+}
+
+// ── GENERATE ─────────────────────────────────────────────────
+let generatedUrl = '';
+async function generateProposal() {
+    const data = collectData();
+    if (!data) return;
+
+    const btn = document.getElementById('btnGenerate');
+    const status = document.getElementById('footerStatus');
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
+    status.textContent = 'Saving to server...';
+
+    try {
+        const res = await fetch('/api/generate-proposal', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed');
+
+        generatedUrl = json.url;
+        document.getElementById('resultUrl').textContent = generatedUrl;
+        document.getElementById('resultBox').classList.add('show');
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+        status.textContent = `✓ Proposal created — ${json.id}`;
+        btn.textContent = 'Generate New →';
+        btn.disabled = false;
+    } catch (err) {
+        status.textContent = 'Error: ' + err.message;
+        btn.textContent = 'Generate Proposal →';
+        btn.disabled = false;
+    }
+}
+
+function copyUrl() {
+    navigator.clipboard.writeText(generatedUrl).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy link', 2000);
+    });
+}
+function openUrl() { window.open(generatedUrl, '_blank'); }
+
+// ── INIT DEFAULTS ────────────────────────────────────────────
+addPage('Home', 'homepage');
+addPage('About', 'about');
+addPage('Contact', 'contact');
+
+addDiagnosis('', '');
+addDiagnosis('', '');
+addDiagnosis('', '');
+
+addPhase('Phase 1 — Brand Identity', '(Weeks 1–2 · 10–12 days)', ['Logo concepts', 'Review', 'Refinement', 'Final Handoff']);
+addPhase('Phase 2 — Website Design & Build', '(Weeks 3–4 · 2 weeks)', ['Structure', 'Visual Design', 'Build', 'QA & Launch']);
+
+addInvestmentRow('', '');
+
+document.getElementById('proposalDate').value = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+</script>
+</body>
+</html>

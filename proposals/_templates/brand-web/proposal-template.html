@@ -1597,10 +1597,53 @@
             item.addEventListener('click', () => goTo(parseInt(item.dataset.slide)));
         });
 
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  PROJECT CONFIG — fill before sending this proposal      ║
+        // ╚══════════════════════════════════════════════════════════╝
+
+        // ── 1. CLIENT ─────────────────────────────────────────────
+        const CLIENT_NAME    = 'Preoptima';
+        const CLIENT_EMAIL   = '';           // leave empty — resolved from URL param
+
+        // ── 2. PROJECT ────────────────────────────────────────────
+        const PROJECT_NAME   = 'Preoptima Proposal';
+        const PROJECT_TYPE   = 'website';    // 'website' | 'landing' | 'branding'
+        const PROJECT_TIER   = 'large';      // 'small' | 'medium' | 'large'
+
+        // ── 3. PAGES (only for website / landing) ─────────────────
+        //    type options: homepage | product | about | services |
+        //                  contact | landing | blog | case-study | custom
+        const PROJECT_PAGES  = [
+            { name: 'Home',                  type: 'homepage' },
+            { name: 'CONCEPT',               type: 'product'  },
+            { name: 'PACER',                 type: 'product'  },
+            { name: 'About',                 type: 'about'    },
+            { name: 'Contact / Book a Demo', type: 'contact'  }
+        ];
+
+        // ── 4. NARRATIVE ──────────────────────────────────────────
+        //    hasNarrative: true  = client delivers final copy (Narrative-Provided)
+        //                  false = Strategist writes from scratch
+        const HAS_NARRATIVE  = false;
+
+        // ── 5. BRAND ──────────────────────────────────────────────
+        //    hasBrandkit: true  = client has brand assets to upload
+        //                 false = brand-free, Painter defines everything
+        const HAS_BRANDKIT   = true;
+
+        // ── 6. SCENARIO ───────────────────────────────────────────
+        //    'A' = Brand-Free (agency has full authority)
+        //    'B' = Figma Fidelity (client has Figma with tokens)
+        //    'C' = Component-Locked (client has component library)
+        //    Scenarios can be combined, e.g. 'B+C'
+        const SCENARIO       = 'A';
+
+        // ══════════════════════════════════════════════════════════
+
         // Data Recovery: Extract client info from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const clientEmail = urlParams.get('client_email');
-        const clientNameInUrl = urlParams.get('client_name');
+        const clientEmail = urlParams.get('client_email') || CLIENT_EMAIL;
+        const clientNameInUrl = urlParams.get('client_name') || CLIENT_NAME;
 
         async function approveProposal(btnElement) {
             const btn = btnElement || document.getElementById('btnApprove');
@@ -1617,10 +1660,16 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        clientName: clientNameInUrl || 'Preoptima',
-                        clientEmail: clientEmail || 'Not Provided',
-                        projectName: 'Preoptima Proposal',
-                        status: 'Approved'
+                        clientName:   clientNameInUrl,
+                        clientEmail:  clientEmail || 'Not Provided',
+                        projectName:  PROJECT_NAME,
+                        projectType:  PROJECT_TYPE,
+                        tier:         PROJECT_TIER,
+                        pages:        PROJECT_PAGES,
+                        hasNarrative: HAS_NARRATIVE,
+                        hasBrandkit:  HAS_BRANDKIT,
+                        scenario:     SCENARIO,
+                        status:       'Approved'
                     })
                 });
 
