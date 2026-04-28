@@ -14,7 +14,7 @@ function scenarioLabel(scenario) {
         'A':   'A — Brand-Free (agency full authority)',
         'B':   'B — Figma Fidelity (client has Figma tokens)',
         'C':   'C — Component-Locked (client has component library)',
-        'B+C': 'B+C — Figma + Component-Locked'
+        'D': 'D — Figma + Components'
     };
     return map[scenario] || scenario;
 }

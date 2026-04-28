@@ -7,32 +7,26 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--black:#111;--gray:#f5f5f5;--border:#e0e0e0;--accent:#111;--radius:2px}
-body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;color:#111;min-height:100vh}
-.gen-header{background:#000;color:#fff;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#111;min-height:100vh}
+.gen-header{background:transparent;color:#111;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .gen-header-left{display:flex;align-items:center;gap:16px}
-.gen-logo svg{width:32px;height:32px}
-.gen-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)}
-.gen-title strong{color:#fff}
-.gen-body{max-width:800px;margin:0 auto;padding:40px 24px 120px}
-.section{background:#fff;border:1px solid var(--border);margin-bottom:2px}
-.section-header{padding:20px 24px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border)}
-.section-header:hover{background:#fafafa}
-.section-number{width:24px;height:24px;background:#111;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;flex:1}
-.section-desc{font-size:12px;color:#999}
-.section-chevron{font-size:10px;color:#999;transition:transform .2s}
-.section.open .section-chevron{transform:rotate(180deg)}
-.section-body{padding:24px;display:none;border-top:1px solid var(--border)}
-.section.open .section-body{display:block}
+.gen-logo img{height:60px;width:auto;display:block}
+.gen-page-title{font-size:clamp(32px,4vw,42px);font-weight:400;color:#111;letter-spacing:-0.02em;margin-bottom:32px}
+.gen-body{max-width:1000px;margin:0 auto;padding:40px 24px}
+.section{margin-bottom:60px}
+.section-header{padding:20px 24px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.section-number{width:44px;height:44px;background:#111;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:500;flex-shrink:0}
+.section-label{font-size:29px;font-weight:500;flex:1}
+.section-body{padding:24px}
 .field-group{display:grid;gap:16px;margin-bottom:16px}
 .field-group.cols-2{grid-template-columns:1fr 1fr}
 .field-group.cols-3{grid-template-columns:1fr 1fr 1fr}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#666}
-.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-family:inherit;color:#111;background:#fff;outline:none;transition:border-color .2s}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:#111}
-.field textarea{resize:vertical;min-height:80px;line-height:1.5}
-.field-hint{font-size:11px;color:#999;margin-top:2px}
+.field{display:flex;flex-direction:column}
+.field label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#BCBCBC;display:flex;align-items:center;gap:12px;margin-bottom:10px}
+input, select, textarea{width:100%;padding:16px 20px;border:none;border-radius:8px;font-size:15px;font-family:inherit;background:#F7F7F7;color:#000;outline:none;transition:all 0.3s ease}
+select{appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg width=\"12\" height=\"8\" viewBox=\"0 0 12 8\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1.5L6 6.5L11 1.5\" stroke=\"black\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>');background-repeat:no-repeat;background-position:right 24px center}
+input:focus, select:focus, textarea:focus{box-shadow:inset 0 0 0 1px #111}
+textarea{resize:vertical;min-height:80px;line-height:1.5}
 .toggle-group{display:flex;gap:8px}
 .toggle-btn{padding:8px 16px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;border-radius:var(--radius);transition:all .2s;color:#999}
 .toggle-btn.active{background:#111;color:#fff;border-color:#111}
@@ -48,7 +42,8 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
 .btn-remove:hover{border-color:#f00;color:#f00}
 .btn-add{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 14px;border:1px dashed #ccc;background:#fff;cursor:pointer;color:#999;border-radius:var(--radius);transition:all .2s;margin-top:4px}
 .btn-add:hover{border-color:#111;color:#111}
-.roadmap-phase{border:1px solid var(--border);padding:16px;margin-bottom:8px;border-radius:var(--radius)}
+.roadmap-phase{padding:16px;margin-bottom:8px;border-radius:var(--radius)}
+.subsection-label{font-size:18px;font-weight:500;color:#999;margin-bottom:12px;padding-bottom:16px}
 .roadmap-phase-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .roadmap-phase-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#666}
 .platform-toggle{margin-bottom:16px}
@@ -56,8 +51,8 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
 .platform-card-editor{border:1px solid var(--border);padding:16px;border-radius:var(--radius)}
 .platform-card-editor h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:12px}
 .spec-row{display:grid;grid-template-columns:1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:center}
-.gen-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #111;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;z-index:100}
-.gen-footer-left{font-size:12px;color:#999}
+.gen-header-right{display:flex;align-items:center;gap:24px}
+.gen-header-status{font-size:12px;font-weight:500;color:#999}
 .btn-generate{padding:14px 40px;background:#111;color:#fff;border:none;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;cursor:pointer;border-radius:var(--radius);transition:all .2s}
 .btn-generate:hover{background:#333}
 .btn-generate:disabled{background:#999;cursor:wait}
@@ -77,13 +72,17 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
 <header class="gen-header">
     <div class="gen-header-left">
         <div class="gen-logo">
-            <svg viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447Z" fill="white"/></svg>
+            <img src="../../assets/images/moood-logo.svg" alt="Moood.Studio">
         </div>
-        <div class="gen-title">Moood.Studio &nbsp;·&nbsp; <strong>Proposal Generator</strong></div>
+    </div>
+    <div class="gen-header-right">
+        <div class="gen-header-status" id="footerStatus">Fill all required fields (*) then generate.</div>
+        <button class="btn-generate" id="btnGenerate" onclick="generateProposal()">Generate Proposal →</button>
     </div>
 </header>
 
 <div class="gen-body">
+    <h1 class="gen-page-title">Proposal Generator</h1>
 
     <!-- RESULT BOX (shown after generation) -->
     <div class="result-box" id="resultBox">
@@ -96,15 +95,13 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
     </div>
 
     <!-- 01 — CLIENT -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">1</div>
             <div>
                 <div class="section-label">Client</div>
-                <div class="section-desc">Who is this proposal for</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
             <div class="field-group cols-2">
                 <div class="field">
@@ -114,8 +111,7 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
                 <div class="field">
                     <label>Client email</label>
                     <input type="email" id="clientEmail" placeholder="alex@preoptima.com">
-                    <span class="field-hint">Used for the approval notification and intake link</span>
-                </div>
+                                    </div>
             </div>
             <div class="field-group cols-2">
                 <div class="field">
@@ -130,21 +126,18 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
             <div class="field">
                 <label>Proposal type label</label>
                 <input type="text" id="proposalType" placeholder="Brand & Website Proposal" value="Brand & Website Proposal">
-                <span class="field-hint">Appears in the sidebar header</span>
-            </div>
+                            </div>
         </div>
     </div>
 
     <!-- 02 — PROJECT CONFIG -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">2</div>
             <div>
                 <div class="section-label">Project Config</div>
-                <div class="section-desc">Scope, tier, and pipeline flags</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
             <div class="field-group cols-3">
                 <div class="field">
@@ -169,69 +162,61 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
                         <option value="A">A — Brand-Free</option>
                         <option value="B">B — Figma Fidelity</option>
                         <option value="C">C — Component-Locked</option>
-                        <option value="B+C">B+C — Figma + Components</option>
+                        <option value="D">D — Figma + Components</option>
                     </select>
                 </div>
             </div>
             <div class="field-group cols-2">
                 <div class="field">
                     <label>Narrative</label>
-                    <div class="toggle-group">
-                        <button class="toggle-btn active" data-group="narrative" data-value="false" onclick="setToggle(this)">Strategist writes</button>
-                        <button class="toggle-btn" data-group="narrative" data-value="true" onclick="setToggle(this)">Client delivers copy</button>
+                    <div class="radio-group" style="display:flex;gap:24px;margin-top:10px;">
+                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="false" checked style="width:auto;margin:0;"> Strategist writes</label>
+                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="true" style="width:auto;margin:0;"> Client delivers copy</label>
                     </div>
                 </div>
                 <div class="field">
                     <label>Brand</label>
-                    <div class="toggle-group">
-                        <button class="toggle-btn active" data-group="brandkit" data-value="false" onclick="setToggle(this)">Brand-Free</button>
-                        <button class="toggle-btn" data-group="brandkit" data-value="true" onclick="setToggle(this)">Brand-Locked</button>
+                    <div class="radio-group" style="display:flex;gap:24px;margin-top:10px;">
+                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="brandkit" value="false" checked style="width:auto;margin:0;"> Brand-Free</label>
+                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="brandkit" value="true" style="width:auto;margin:0;"> Brand-Locked</label>
                     </div>
                 </div>
             </div>
 
             <div class="divider"></div>
-            <div class="subsection-label">Pages</div>
-            <div class="dynamic-list" id="pagesList"></div>
+                        <div class="dynamic-list" id="pagesList"></div>
             <button class="btn-add" onclick="addPage()">+ Add page</button>
         </div>
     </div>
 
     <!-- 03 — THE VISION -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">3</div>
             <div>
                 <div class="section-label">The Vision</div>
-                <div class="section-desc">Slide 01 — the big picture</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
-            <div class="subsection-label">Paragraphs (one per line break)</div>
-            <div class="field">
+                        <div class="field">
                 <label>Vision body *</label>
                 <textarea id="visionBody" rows="6" placeholder="The buildings sector accounts for nearly 40% of global carbon emissions. [CLIENT_NAME] exists to change that...&#10;&#10;That's a mission worth leading. But right now, the world can't see it clearly.&#10;&#10;The goal of this project is to close that gap..."></textarea>
-                <span class="field-hint">Each blank line creates a new paragraph. Use [CLIENT_NAME] as placeholder — it gets replaced automatically.</span>
-            </div>
+                            </div>
             <div class="field" style="margin-top:12px">
                 <label>Footer note (optional)</label>
                 <input type="text" id="visionNote" placeholder="This is a two-phase, fully integrated project — Brand Identity first, Website second.">
-                <span class="field-hint">Shown in smaller text at the bottom of the slide</span>
-            </div>
+                            </div>
         </div>
     </div>
 
     <!-- 04 — THE DIAGNOSIS -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">4</div>
             <div>
                 <div class="section-label">The Diagnosis</div>
-                <div class="section-desc">Slide 02 — the client's pain points</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
             <div class="dynamic-list" id="diagnosisList"></div>
             <button class="btn-add" onclick="addDiagnosis()">+ Add problem</button>
@@ -239,22 +224,19 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
     </div>
 
     <!-- 05 — THE ROADMAP -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">5</div>
             <div>
                 <div class="section-label">The Roadmap</div>
-                <div class="section-desc">Slide 03 — phases and platform</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
             <div id="roadmapPhases"></div>
             <button class="btn-add" onclick="addPhase()">+ Add phase</button>
 
             <div class="divider"></div>
-            <div class="subsection-label">Platform comparison (optional)</div>
-            <div class="field" style="margin-bottom:12px">
+                        <div class="field" style="margin-bottom:12px">
                 <div class="toggle-group">
                     <button class="toggle-btn active" data-group="platform" data-value="false" onclick="setToggle(this,togglePlatform)">No comparison</button>
                     <button class="toggle-btn" data-group="platform" data-value="true" onclick="setToggle(this,togglePlatform)">Show comparison</button>
@@ -284,41 +266,33 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
     </div>
 
     <!-- 06 — THE DELIVERABLES -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">6</div>
             <div>
                 <div class="section-label">The Deliverables</div>
-                <div class="section-desc">Slide 04 — what the client receives</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
-            <div class="subsection-label">Branding deliverables (optional — leave empty if website only)</div>
-            <div class="dynamic-list" id="brandingList"></div>
+                        <div class="dynamic-list" id="brandingList"></div>
             <button class="btn-add" onclick="addBranding()">+ Add branding item</button>
 
             <div class="divider"></div>
-            <div class="subsection-label">Additional technical deliverables</div>
-            <div class="field-hint" style="margin-bottom:12px">Pages come from the config above automatically. Add tech/setup items here.</div>
-            <div class="dynamic-list" id="additionalList"></div>
+                                    <div class="dynamic-list" id="additionalList"></div>
             <button class="btn-add" onclick="addAdditional()">+ Add item</button>
         </div>
     </div>
 
     <!-- 07 — INVESTMENT -->
-    <div class="section open">
-        <div class="section-header" onclick="toggleSection(this)">
+    <div class="section">
+        <div class="section-header">
             <div class="section-number">7</div>
             <div>
                 <div class="section-label">Investment</div>
-                <div class="section-desc">Slide 05 — pricing and next steps</div>
-            </div>
-            <span class="section-chevron">▲</span>
-        </div>
+                            </div>
+                    </div>
         <div class="section-body">
-            <div class="subsection-label">Line items</div>
-            <div class="dynamic-list" id="investmentRows"></div>
+                        <div class="dynamic-list" id="investmentRows"></div>
             <button class="btn-add" onclick="addInvestmentRow()">+ Add line item</button>
 
             <div class="divider"></div>
@@ -334,32 +308,20 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fafafa;
             </div>
 
             <div class="divider"></div>
-            <div class="subsection-label">Optional add-ons</div>
-            <div class="dynamic-list" id="optionalRows"></div>
+                        <div class="dynamic-list" id="optionalRows"></div>
             <button class="btn-add" onclick="addOptionalRow()">+ Add optional</button>
 
             <div class="divider"></div>
             <div class="field">
                 <label>Next step 2 (custom)</label>
                 <input type="text" id="nextStepTwo" placeholder="We send a short intake form — references, competitors, and technical requirements" value="We send a short intake form — references, competitors, and technical requirements">
-                <span class="field-hint">Step 1 (approve) and Step 3 (work begins in 3 days) are fixed.</span>
-            </div>
+                            </div>
         </div>
     </div>
 
 </div><!-- /gen-body -->
 
-<footer class="gen-footer">
-    <div class="gen-footer-left" id="footerStatus">Fill all required fields (*) then generate.</div>
-    <button class="btn-generate" id="btnGenerate" onclick="generateProposal()">Generate Proposal →</button>
-</footer>
-
 <script>
-// ── SECTION TOGGLE ──────────────────────────────────────────
-function toggleSection(header) {
-    header.closest('.section').classList.toggle('open');
-}
-
 // ── TOGGLE BUTTONS ──────────────────────────────────────────
 const toggleState = { narrative: 'false', brandkit: 'false', platform: 'false' };
 function setToggle(btn, callback) {
@@ -415,8 +377,7 @@ function addPhase(title='', meta='', steps=[]) {
             <div class="field"><label>Title</label><input type="text" placeholder="Phase 1 — Brand Identity" value="${title}" class="phase-title"></div>
             <div class="field"><label>Timeline</label><input type="text" placeholder="(Weeks 1–2 · 10–12 days)" value="${meta}" class="phase-meta"></div>
         </div>
-        <div class="subsection-label" style="margin-bottom:8px">Steps (in order)</div>
-        <div class="dynamic-list phase-steps-list"></div>
+                <div class="dynamic-list phase-steps-list"></div>
         <button class="btn-add" onclick="addStep(this)">+ Add step</button>`;
     container.appendChild(div);
     const stepsList = div.querySelector('.phase-steps-list');
@@ -561,8 +522,8 @@ function collectData() {
         projectType: document.getElementById('projectType').value,
         tier: document.getElementById('projectTier').value,
         scenario: document.getElementById('projectScenario').value,
-        hasNarrative: toggleState.narrative === 'true',
-        hasBrandkit: toggleState.brandkit === 'true',
+        hasNarrative: document.querySelector('input[name="narrative"]:checked').value === 'true',
+        hasBrandkit: document.querySelector('input[name="brandkit"]:checked').value === 'true',
         pages, visionParagraphs,
         visionNote: v('visionNote').replace(/\[CLIENT_NAME\]/g, clientName),
         diagnosisItems, roadmapPhases, platformComparison,
@@ -627,7 +588,6 @@ addDiagnosis('', '');
 addDiagnosis('', '');
 
 addPhase('Phase 1 — Brand Identity', '(Weeks 1–2 · 10–12 days)', ['Logo concepts', 'Review', 'Refinement', 'Final Handoff']);
-addPhase('Phase 2 — Website Design & Build', '(Weeks 3–4 · 2 weeks)', ['Structure', 'Visual Design', 'Build', 'QA & Launch']);
 
 addInvestmentRow('', '');
 
