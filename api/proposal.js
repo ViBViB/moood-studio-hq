@@ -99,6 +99,7 @@ function renderProposal(d) {
     const approvalPayload = JSON.stringify({
         clientName: d.clientName,
         clientEmail: d.clientEmail || '',
+        leadName: d.leadName || '',
         projectName: d.projectName,
         projectType: d.projectType || 'website',
         tier: d.tier || 'medium',

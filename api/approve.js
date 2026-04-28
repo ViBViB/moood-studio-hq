@@ -74,7 +74,7 @@ module.exports = async (req, res) => {
 
     try {
         const {
-            clientName, clientEmail, projectName,
+            clientName, clientEmail, leadName, projectName,
             projectType, tier, pages,
             hasNarrative, hasBrandkit, scenario,
             status
@@ -93,6 +93,7 @@ module.exports = async (req, res) => {
             code,
             clientName,
             clientEmail:  clientEmail || '',
+            leadName:     leadName    || '',
             projectName,
             projectType:  projectType  || 'website',
             tier:         tier         || 'medium',
