@@ -230,7 +230,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                     </div>
         <div class="section-body">
             <div id="roadmapPhases"></div>
-            <button class="btn-add" onclick="addPhase()">+ Add phase</button>
+            <div style="display:flex; gap:8px;">
+                <button class="btn-add" onclick="addPhase()">+ Add phase</button>
+                <button class="btn-add" style="color:#999; border-color:transparent;" onclick="removeLastPhase()">- Remove phase</button>
+            </div>
 
             <div class="divider"></div>
                         <div class="field" style="margin-bottom:12px">
@@ -359,6 +362,13 @@ function addDiagnosis(title='', body='') {
 
 // ── ROADMAP ──────────────────────────────────────────────────
 let phaseCount = 0;
+function removeLastPhase() {
+    const container = document.getElementById('roadmapPhases');
+    if (container.lastElementChild) {
+        container.removeChild(container.lastElementChild);
+        phaseCount = Math.max(0, phaseCount - 1);
+    }
+}
 function addPhase(title='', meta='', steps=[]) {
     const container = document.getElementById('roadmapPhases');
     const id = 'phase-' + phaseCount++;
@@ -368,7 +378,6 @@ function addPhase(title='', meta='', steps=[]) {
     div.innerHTML = `
         <div class="roadmap-phase-header">
             <span class="roadmap-phase-title">Phase ${phaseCount}</span>
-            <button class="btn-remove" onclick="this.closest('.roadmap-phase').remove()">× Remove phase</button>
         </div>
         <div class="field-group cols-2" style="margin-bottom:12px">
             <div class="field"><label>Title</label><input type="text" placeholder="Phase 1 — Brand Identity" value="${title}" class="phase-title"></div>
