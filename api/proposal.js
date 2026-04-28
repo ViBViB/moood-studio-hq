@@ -224,6 +224,21 @@ body{height:100vh;overflow:hidden;background:var(--color-white);display:flex;fle
 </style>
 </head>
 <body>
+
+<!-- ── APPROVAL SUCCESS OVERLAY ─────────────────────────── -->
+<div id="approvedOverlay" style="position:fixed;inset:0;background:#fff;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin-bottom:40px">
+        <circle cx="32" cy="32" r="31" stroke="#000" stroke-width="1.5"/>
+        <path d="M20 32l9 9 15-15" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-bottom:20px">Project approved</p>
+    <h1 style="font-size:clamp(36px,5vw,64px);font-weight:300;letter-spacing:-0.02em;line-height:1.1;color:#000;margin-bottom:32px">${clientName}.</h1>
+    <p style="font-size:18px;color:#666;max-width:480px;line-height:1.7;margin-bottom:16px">Your project is confirmed. We're sending you an email with your project code and a link to complete your brief.</p>
+    <p style="font-size:14px;color:#bbb;max-width:400px;line-height:1.6">Work begins within 3 business days of intake completion. If you have any questions in the meantime, reply to the email or reach Alberto directly.</p>
+    <div style="width:40px;height:1px;background:#e0e0e0;margin:48px auto 32px"></div>
+    <p style="font-size:11px;color:#ccc;letter-spacing:0.15em;text-transform:uppercase">Moood.Studio</p>
+</div>
+
 <div class="q-layout">
     <aside class="q-sidebar">
         ${LOGO_WHITE}
@@ -404,8 +419,7 @@ async function approveProposal(btnElement) {
             body: JSON.stringify(APPROVAL_PAYLOAD)
         });
         if (response.ok) {
-            btn.innerHTML = '<span>Project approved ✓</span>';
-            btn.style.background = '#2a9d5c';
+            document.getElementById('approvedOverlay').style.display = 'flex';
         } else {
             throw new Error('failed');
         }
