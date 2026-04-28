@@ -106,23 +106,28 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
             <div class="field-group cols-2">
                 <div class="field">
                     <label>Client name *</label>
-                    <input type="text" id="clientName" placeholder="Preoptima" required>
+                    <input type="text" id="clientName" placeholder="Snøhetta" required>
                 </div>
                 <div class="field">
-                    <label>Client email</label>
-                    <input type="email" id="clientEmail" placeholder="alex@preoptima.com">
-                                    </div>
+                    <label>Project name *</label>
+                    <input type="text" id="projectName" placeholder="Snøhetta — Digital Presence Redesign" required>
+                </div>
             </div>
             <div class="field-group cols-2">
                 <div class="field">
-                    <label>Project name *</label>
-                    <input type="text" id="projectName" placeholder="Preoptima Brand & Website">
+                    <label>Project lead name</label>
+                    <input type="text" id="leadName" placeholder="Sofia Berg">
                 </div>
+                <div class="field">
+                    <label>Project lead email</label>
+                    <input type="email" id="clientEmail" placeholder="sofia@snohetta.com">
+                </div>
+            </div>
+            <div class="field-group cols-2">
                 <div class="field">
                     <label>Proposal date</label>
                     <input type="text" id="proposalDate" placeholder="April 2026">
                 </div>
-            </div>
             <div class="field">
                 <label>Proposal type label</label>
                 <input type="text" id="proposalType" placeholder="Brand & Website Proposal" value="Brand & Website Proposal">
@@ -534,7 +539,15 @@ function collectData() {
         visionNote: v('visionNote').replace(/\[CLIENT_NAME\]/g, clientName),
         diagnosisItems, roadmapPhases, platformComparison,
         brandingDeliverables, additionalDeliverables,
-        investmentRows, investmentTotal: v('investmentTotal'),
+        leadName: v('leadName'),
+        investmentRows, investmentTotal: (() => {
+            const manual = v('investmentTotal');
+            if (manual) return manual;
+            const sum = investmentRows.reduce((acc, r) => {
+                return acc + (parseFloat(r.amount.replace(/[^0-9.]/g, '')) || 0);
+            }, 0);
+            return sum > 0 ? '$' + sum.toLocaleString('en-US') : '';
+        })(),
         investmentOptionals, paymentNote: v('paymentNote'),
         nextStepTwo: v('nextStepTwo')
     };

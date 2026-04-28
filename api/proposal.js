@@ -144,7 +144,7 @@ body{height:100vh;overflow:hidden;background:var(--color-white);display:flex;fle
 .q-slide.active{opacity:1;visibility:visible;z-index:2}
 .pdf-slide-header{display:none}
 .slide-eyebrow{font-size:12px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:var(--color-gray-muted);margin-bottom:20px}
-.slide-title{font-size:clamp(32px,3.5vw,52px);font-weight:300;line-height:1.1;letter-spacing:0;color:var(--color-black);margin-bottom:12px}
+.slide-title{font-size:clamp(32px,3.5vw,52px);font-weight:300;line-height:1.1;letter-spacing:0;color:var(--color-black);margin-bottom:40px}
 .slide-body{font-size:18px;color:#555;line-height:1.7;max-width:600px}
 .slide-body p+p{margin-top:20px}
 .slide-footer-note{margin-top:32px;padding-top:32px;border-top:1px solid var(--color-gray-border);font-size:14px;color:var(--color-black);font-weight:400;line-height:1.6}
@@ -366,28 +366,49 @@ navItems.forEach(item => item.addEventListener('click', () => goTo(parseInt(item
 
 const APPROVAL_PAYLOAD = ${approvalPayload};
 
+let _approveArmed = false;
+let _approveTimer  = null;
+
 async function approveProposal(btnElement) {
     const btn = btnElement || document.getElementById('btnApproveTop');
-    if (!btn) return;
+    if (!btn || btn.disabled) return;
+
+    if (!_approveArmed) {
+        _approveArmed = true;
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span>Tap again to confirm →</span>';
+        btn.style.background = '#333';
+        _approveTimer = setTimeout(() => {
+            _approveArmed = false;
+            btn.innerHTML = original;
+            btn.style.background = '';
+        }, 3000);
+        return;
+    }
+
+    clearTimeout(_approveTimer);
+    _approveArmed = false;
     const originalHTML = btn.innerHTML;
-    if (!confirm('Approve this proposal? This will notify the Moood.Studio team and kick off the project.')) return;
+
     try {
-        btn.innerHTML = '<span>Processing...</span>';
+        btn.innerHTML = '<span>Processing…</span>';
         btn.disabled = true;
+        btn.style.background = '';
         const response = await fetch('/api/approve', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(APPROVAL_PAYLOAD)
         });
         if (response.ok) {
-            btn.innerHTML = '<span>PROJECT APPROVED ✓</span>';
+            btn.innerHTML = '<span>Project approved ✓</span>';
+            btn.style.background = '#2a9d5c';
         } else {
             throw new Error('failed');
         }
     } catch (err) {
         btn.innerHTML = originalHTML;
         btn.disabled = false;
-        alert('Something went wrong. Please try again or contact Alberto directly.');
+        btn.style.background = '';
     }
 }
 </script>
