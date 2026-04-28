@@ -227,7 +227,7 @@ body{height:100vh;overflow:hidden;background:var(--color-white);display:flex;fle
 <div class="q-layout">
     <aside class="q-sidebar">
         ${LOGO_WHITE}
-        <div class="q-sidebar-content" style="margin-top:32px;flex:1">
+        <div class="q-sidebar-content" style="flex:1;display:flex;flex-direction:column;justify-content:center">
             <p class="q-h1">${proposalType}</p>
             <h2 class="client-name">${clientName}</h2>
             <ul class="proposal-index" id="proposalIndex">${indexItems}</ul>
@@ -239,10 +239,6 @@ body{height:100vh;overflow:hidden;background:var(--color-white);display:flex;fle
             <button class="btn-proposal btn-download" onclick="window.print()">
                 <span>Download PDF</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="btn-proposal btn-approve" id="btnApproveTop" onclick="approveProposal(this)">
-                <span>Approve Project</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
         </header>
         <div class="q-slider-viewport" id="sliderViewport">
