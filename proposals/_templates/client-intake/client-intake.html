@@ -3975,23 +3975,11 @@
             </div>
 
             <div class="q-sidebar-content">
-                <p class="q-sidebar-tag">Client Intake</p>
-                <h1 class="q-h1">Strategic<br>Onboarding</h1>
-                <p class="q-sidebar-instruction">A few focused questions. Everything we need to start producing the
-                    work.</p>
+                <p class="q-sidebar-tag" id="sidebarTag">Client Intake</p>
+                <h1 class="q-h1" id="sidebarH1">Client<br>verification.</h1>
+                <p class="q-sidebar-instruction" id="sidebarDesc">Enter the 4-digit code from your approval email to load your project.</p>
 
-                <ul class="q-nav-list" id="navList">
-                    <li class="q-nav-item active" data-idx="0"><span class="bar"></span><span class="nav-label">01.
-                            About you</span></li>
-                    <li class="q-nav-item" data-idx="1"><span class="bar"></span><span class="nav-label">02. Site
-                            scope</span></li>
-                    <li class="q-nav-item" data-idx="2"><span class="bar"></span><span class="nav-label">03. Visual
-                            references</span></li>
-                    <li class="q-nav-item" data-idx="3"><span class="bar"></span><span class="nav-label">04. Brand
-                            assets</span></li>
-                    <li class="q-nav-item" data-idx="4"><span class="bar"></span><span class="nav-label">05. Your
-                            situation</span></li>
-                </ul>
+                <ul class="q-nav-list" id="navList" style="display:none"></ul>
             </div>
 
             <!-- ── WORKSPACE SIDEBAR (Area 2) ─────────────────── -->
@@ -4043,8 +4031,9 @@
                     <!-- ══ SLIDE WELCOME — CODE-ACTIVATED ════════════ -->
                     <div class="q-slide" id="slide-welcome" data-index="welcome">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">We know who you are.</h2>
-                            <p class="q-section-intro">Your proposal is approved and your project is in. Here's what we already have — confirm it's correct and we'll take it from here.</p>
+                            <h2 class="q-section-title" id="welcomeTitle">Great to have you with us.</h2>
+                            <p class="q-section-intro">With your proposal approved, we are ready to build.</p>
+                            <p class="q-section-intro" style="margin-top:12px">Please review the committed deliverables below. When you are ready to begin, hit "Next step" to begin the intake process where we will capture your brand's visual DNA.</p>
                         </div>
 
                         <div class="welcome-card">
@@ -5436,11 +5425,14 @@
                 'slide-7':               'Confirmation'
             };
 
+            const titleEl = document.getElementById('welcomeTitle');
             const nameEl  = document.getElementById('welcomeProjectName');
             const metaEl  = document.getElementById('welcomeMeta');
             const gridEl  = document.getElementById('welcomePagesGrid');
             const nextEl  = document.getElementById('welcomeNextSteps');
 
+            const displayName = passport.clientName || passport.projectName || '';
+            if (titleEl) titleEl.textContent = displayName ? `Great to have you with us, ${displayName}.` : 'Great to have you with us.';
             if (nameEl)  nameEl.textContent  = passport.projectName || '—';
 
             if (metaEl) {
@@ -5481,17 +5473,37 @@
             projectPassport = null;
             currentPath    = DEFAULT_PATH;
             currentIdx     = 0;
+
+            // Restore generic sidebar for non-code path
+            const tag  = document.getElementById('sidebarTag');
+            const h1   = document.getElementById('sidebarH1');
+            const desc = document.getElementById('sidebarDesc');
+            const nav  = document.getElementById('navList');
+            if (tag)  tag.textContent  = 'Client Intake';
+            if (h1)   h1.innerHTML     = 'Strategic<br>Onboarding';
+            if (desc) desc.textContent = 'A few focused questions. Everything we need to start producing the work.';
+            if (nav) {
+                nav.style.display = '';
+                nav.innerHTML = `
+                    <li class="q-nav-item active" data-idx="0"><span class="bar"></span><span class="nav-label">01. About you</span></li>
+                    <li class="q-nav-item" data-idx="1"><span class="bar"></span><span class="nav-label">02. Site scope</span></li>
+                    <li class="q-nav-item" data-idx="2"><span class="bar"></span><span class="nav-label">03. Visual references</span></li>
+                    <li class="q-nav-item" data-idx="3"><span class="bar"></span><span class="nav-label">04. Brand assets</span></li>
+                    <li class="q-nav-item" data-idx="4"><span class="bar"></span><span class="nav-label">05. Your situation</span></li>`;
+                navItems = document.querySelectorAll('.q-nav-item');
+            }
+
             updateSlider();
         }
 
         function updateSidebarForPassport(passport, path) {
-            // Switch sidebar heading to welcome state
-            const tagEl   = document.querySelector('.q-sidebar-tag');
-            const h1El    = document.querySelector('.q-h1');
-            const descEl  = document.querySelector('.q-sidebar-instruction');
-            if (tagEl)  tagEl.textContent  = 'Project Confirmed';
-            if (h1El)   h1El.innerHTML     = (passport.clientName || passport.projectName || 'Welcome') + '.';
-            if (descEl) descEl.textContent = 'Your approved proposal is loaded. We just need a few more inputs to get started.';
+            const tagEl   = document.getElementById('sidebarTag');
+            const h1El    = document.getElementById('sidebarH1');
+            const descEl  = document.getElementById('sidebarDesc');
+            const name    = passport.clientName || passport.projectName || 'Welcome';
+            if (tagEl)  tagEl.textContent  = 'Project confirmed';
+            if (h1El)   h1El.innerHTML     = name + '.';
+            if (descEl) descEl.textContent = 'Your approved proposal is loaded. We just need a few inputs to get started.';
 
             // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
             const navSlideLabels = {
@@ -5510,6 +5522,7 @@
 
             const navList = document.getElementById('navList');
             if (navList) {
+                navList.style.display = '';
                 navList.innerHTML = navSlides.map((id, i) =>
                     `<li class="q-nav-item" data-idx="${i}"><span class="bar"></span><span class="nav-label">${navSlideLabels[id]}</span></li>`
                 ).join('');
