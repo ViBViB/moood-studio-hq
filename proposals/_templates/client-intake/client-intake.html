@@ -3943,9 +3943,6 @@
             flex-shrink: 0;
         }
     </style>
-    <!-- Hide code slide before first paint when code is in URL — prevents flash -->
-    <script>if(new URLSearchParams(location.search).get('code')){document.documentElement.style.setProperty('--code-slide-vis','hidden')}</script>
-    <style>#slide-code{visibility:var(--code-slide-vis,visible)}</style>
 </head>
 
 <body>
@@ -7069,28 +7066,16 @@
             const code   = (params.get('code') || '').toUpperCase();
             if (!code) return;
 
-            // CSS in <head> already hides slide-code before paint — nothing to do here
-
-            // Fill OTP boxes from last 4 digits of MSD-YYYY-NNNN (kept for error fallback)
+            // Pre-fill OTP boxes so client sees their code, then auto-validate after 800ms
             const match = code.match(/MSD-\d{4}-(\d{4})$/);
-            if (match) {
-                const boxes = Array.from(document.querySelectorAll('.otp-box'));
-                match[1].split('').forEach((d, i) => {
-                    if (boxes[i]) { boxes[i].value = d; boxes[i].classList.add('filled'); }
-                });
-            }
+            if (!match) return;
 
-            fetch(`/api/validate-code?code=${encodeURIComponent(code)}`)
-                .then(r => r.json())
-                .then(data => {
-                    if (data.valid) {
-                        activatePassport(data);
-                    } else {
-                        // Invalid code — show entry screen so user can correct it
-                        if (codeSlide) codeSlide.style.visibility = '';
-                    }
-                })
-                .catch(() => { if (codeSlide) codeSlide.style.visibility = ''; });
+            const boxes = Array.from(document.querySelectorAll('.otp-box'));
+            match[1].split('').forEach((d, i) => {
+                if (boxes[i]) { boxes[i].value = d; boxes[i].classList.add('filled'); }
+            });
+
+            setTimeout(validateAndActivateCode, 800);
         })();
     </script>
 
