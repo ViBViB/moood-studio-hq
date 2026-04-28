@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         const proposal = { ...data, id, createdAt };
 
         await put(`proposals/${id}.json`, JSON.stringify(proposal), {
-            access: 'public',
+            access: 'private',
             contentType: 'application/json'
         });
 

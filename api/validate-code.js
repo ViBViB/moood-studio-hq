@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
         }
 
         // Fetch blob content via signed downloadUrl (private store)
-        const response = await fetch(blobs[0].url);
+        const response = await fetch(blobs[0].downloadUrl);
         if (!response.ok) {
             return res.status(500).json({ error: 'Failed to read project data' });
         }
