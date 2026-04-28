@@ -3943,6 +3943,9 @@
             flex-shrink: 0;
         }
     </style>
+    <!-- Hide code slide before first paint when code is in URL — prevents flash -->
+    <script>if(new URLSearchParams(location.search).get('code')){document.documentElement.style.setProperty('--code-slide-vis','hidden')}</script>
+    <style>#slide-code{visibility:var(--code-slide-vis,visible)}</style>
 </head>
 
 <body>
@@ -7066,9 +7069,7 @@
             const code   = (params.get('code') || '').toUpperCase();
             if (!code) return;
 
-            // Hide code entry immediately — user came via email link, no need to see it
-            const codeSlide = document.getElementById('slide-code');
-            if (codeSlide) codeSlide.style.visibility = 'hidden';
+            // CSS in <head> already hides slide-code before paint — nothing to do here
 
             // Fill OTP boxes from last 4 digits of MSD-YYYY-NNNN (kept for error fallback)
             const match = code.match(/MSD-\d{4}-(\d{4})$/);
