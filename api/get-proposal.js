@@ -18,7 +18,9 @@ module.exports = async (req, res) => {
             return res.status(404).json({ error: 'Proposal not found' });
         }
 
-        const response = await fetch(blobs[0].downloadUrl);
+        const response = await fetch(blobs[0].downloadUrl, {
+            headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` }
+        });
         if (!response.ok) {
             return res.status(500).json({ error: 'Failed to read proposal data' });
         }

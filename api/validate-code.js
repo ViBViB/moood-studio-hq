@@ -20,7 +20,9 @@ module.exports = async (req, res) => {
         }
 
         // Fetch blob content via signed downloadUrl (private store)
-        const response = await fetch(blobs[0].downloadUrl);
+        const response = await fetch(blobs[0].downloadUrl, {
+            headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` }
+        });
         if (!response.ok) {
             return res.status(500).json({ error: 'Failed to read project data' });
         }

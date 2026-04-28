@@ -402,11 +402,11 @@ module.exports = async (req, res) => {
             return res.status(404).send('<h1>Proposal not found</h1>');
         }
 
-        const downloadUrl = blobs[0].downloadUrl;
-        const response = await fetch(downloadUrl);
+        const response = await fetch(blobs[0].downloadUrl, {
+            headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` }
+        });
         if (!response.ok) {
-            const body = await response.text().catch(() => '');
-            return res.status(500).send(`<pre>fetch failed: ${response.status} ${response.statusText}\nurl: ${downloadUrl}\nbody: ${body}</pre>`);
+            return res.status(500).send('<h1>Failed to load proposal</h1>');
         }
 
         const data = await response.json();
@@ -418,6 +418,6 @@ module.exports = async (req, res) => {
 
     } catch (err) {
         console.error('Proposal render error:', err);
-        return res.status(500).send(`<pre>error: ${err.message}\nstack: ${err.stack}</pre>`);
+        return res.status(500).send('<h1>Internal server error</h1>');
     }
 };
