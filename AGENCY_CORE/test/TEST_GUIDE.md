@@ -90,52 +90,60 @@ Strategy, narrative, design system definition, skeleton build, and initial mocku
 
 ## STEP 3 — Complete the Client Intake (acting as client)
 
-Go to the intake link from the approval email.  
-The code will auto-fill and skip the scope/pages slides (already in the passport).
+Go to the intake link from the approval email (`moood.studio/client-intake?code=MSD-XXXX`).  
+The code auto-fills from the URL. The system validates it and **goes straight to the Welcome screen** — no code entry needed.
 
-You'll see slides: **Code → Pages Confirm → About → Goals → Audience → Competitors → Upload → Processing → Sitemap Review**
+**Flow (Scenario A — Brand-Free, Strategist writes):**  
+Welcome → Sources → Visual references → Brand assets → Competitors → Audience → Conversion → Confirmation
 
-### Slide: About your project
-| Field | Value |
+### Screen: Welcome (auto-shown, no input needed)
+The system displays what it already knows from the passport:
+- Project name: **Snøhetta — Digital Presence Redesign**
+- Scenario A — Brand-Free
+- 8 confirmed pages
+- Sidebar updates to "Snøhetta." with the upcoming steps listed
+
+Click **Continue** to proceed.
+
+### Slide: Sources
+Upload evidence documents for the Strategist. Use any files you have, or create quick dummies:
+- A text file named `snohetta-brief.txt` with: *"We are an interdisciplinary architecture and design firm. Founded Oslo 1989. 250 people. Known for Oslo Opera House, Times Square redesign, National September 11 Memorial Museum Pavilion."*
+- Optional: any PDF from desktop
+
+### Slide: Visual references
+Paste links to sites that inspire the aesthetic direction:
+
+| URL | Note |
 |---|---|
-| What does your company do? | Snøhetta is an interdisciplinary design practice working across architecture, interiors, landscape, brand strategy, and product design. We believe that the best buildings are inseparable from the landscapes and communities that surround them. |
-| How long have you been operating? | 36 years — founded in 1989 |
-| Where are you based? | Oslo, Norway — with offices in New York, San Francisco, and Paris |
+| snohetta.com | Current site (reference for what to evolve from) |
+| dezeen.com | Editorial clarity, strong typography |
+| serpentinegalleries.org | Cultural institution tone, white space |
+| vitsoe.com | Minimal, principled, long-form |
 
-### Slide: Goals
-| Field | Value |
-|---|---|
-| Primary goal | Position Snøhetta as the first-choice partner for clients pursuing meaningful, complex commissions at the intersection of architecture and culture |
-| Secondary goal | Create a digital experience that communicates interdisciplinary depth without overwhelming first-time visitors |
-| What does success look like? | A prospect who arrives not knowing Snøhetta leaves understanding why this firm is unlike any other — and sends an inquiry within the same visit |
-
-### Slide: Audience
-| Field | Value |
-|---|---|
-| Primary audience | Cultural institutions, municipal governments, and private developers commissioning landmark or civic projects ($10M+ budget range) |
-| Secondary audience | Junior architects and designers considering Snøhetta as a place to work — the site is a significant recruiting tool |
-| What do they know before they arrive? | Institutional clients often arrive via a referral or award recognition — they know the firm's name but not its breadth. Prospective employees have usually studied one or two projects in school |
+### Slide: Brand assets
+**Scenario A = Brand-Free → select "None — we'll define the brand from scratch"**
 
 ### Slide: Competitors
-*Enter these one by one as competitor URLs or names:*
+Enter one per field:
 
-| Competitor | Why it's relevant |
-|---|---|
-| big.dk (BIG — Bjarke Ingels Group) | Direct competitor, similar scale, strong digital presence, parametric-led aesthetic |
-| zaha-hadid.com | Brand benchmark for visual boldness and international recognition |
-| adjaye.com (Adjaye Associates) | Closest peer in cultural and civic work, similar philosophical depth |
-| studiogangarchitects.com | Strong narrative voice, clear positioning around social impact |
-| gensler.com | Different scale but dominant in the corporate sector — contrast case |
+| Competitor |
+|---|
+| big.dk |
+| zaha-hadid.com |
+| adjaye.com |
+| studiogangarchitects.com |
+| gensler.com |
 
-### Slide: Upload documents *(optional but recommended for stress-test)*
-Upload these as test files (or skip if you want to test the no-upload path):
-- Any PDF from your desktop named `snohetta-annual-report.pdf` (even a dummy PDF)
-- A text file named `brand-notes.txt` with the content: *"Primary palette: black, white, warm stone. Typography: custom editorial serif + geometric sans. Tone: precise, warm, institutional."*
+### Slide: Audience
 
-### Sitemap Review
-The sitemap will display the 8 pages from the passport. Approve each one (they're already correct — no changes needed in this test).
+> Cultural institutions, municipal governments, and private developers commissioning landmark or civic projects — $10M+ budget range. Secondary: junior architects and designers considering Snøhetta as a place to work. Institutional clients arrive via referral or award recognition; they know the name but not the breadth of disciplines.
 
-Click **Approve sitemap** to submit.
+### Slide: Conversion goal
+
+> Book an initial conversation with Snøhetta's new business team.
+
+### Confirmation screen
+Intake submitted. Alberto receives the full intake email with Strategist activation prompt.
 
 ---
 

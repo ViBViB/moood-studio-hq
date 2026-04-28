@@ -3799,6 +3799,133 @@
             padding: 4px 12px;
             font-weight: 600;
         }
+
+        /* ── WELCOME SLIDE ───────────────────────────────────── */
+        .welcome-card {
+            background: #f7f7f7;
+            border-radius: 12px;
+            padding: 32px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .welcome-project-name {
+            font-size: clamp(22px, 2.5vw, 32px);
+            font-weight: 400;
+            color: #000;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .welcome-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .welcome-tag {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.07);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .welcome-tag.tag-scenario-a {
+            color: #000;
+            background: rgba(0,0,0,0.07);
+        }
+
+        .welcome-tag.tag-scenario-bcd {
+            color: #000;
+            background: rgba(0,0,0,0.07);
+        }
+
+        .welcome-divider {
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+        }
+
+        .welcome-pages-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            margin-bottom: 12px;
+        }
+
+        .welcome-pages-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .welcome-page-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .welcome-page-num {
+            font-size: 10px;
+            color: rgba(0,0,0,0.3);
+            font-weight: 400;
+        }
+
+        .welcome-page-type {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+        }
+
+        .welcome-next-block {
+            margin-top: 8px;
+        }
+
+        .welcome-next-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            margin-bottom: 12px;
+        }
+
+        .welcome-next-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .welcome-next-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(0,0,0,0.65);
+        }
+
+        .welcome-next-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
@@ -3895,14 +4022,27 @@
                         </div>
                     </div>
 
-                    <!-- ══ SLIDE PAGES CONFIRM — SCOPE FROM PASSPORT ═ -->
-                    <div class="q-slide" id="slide-pages-confirm" data-index="-1">
+                    <!-- ══ SLIDE WELCOME — CODE-ACTIVATED ════════════ -->
+                    <div class="q-slide" id="slide-welcome" data-index="welcome">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">Your project scope.</h2>
-                            <p class="q-section-intro">This is what we agreed on. Everything's already set — just confirm and continue.</p>
+                            <h2 class="q-section-title">We know who you are.</h2>
+                            <p class="q-section-intro">Your proposal is approved and your project is in. Here's what we already have — confirm it's correct and we'll take it from here.</p>
                         </div>
-                        <div class="passport-meta" id="passportMeta"></div>
-                        <div class="pages-confirm-list" id="pagesConfirmList"></div>
+
+                        <div class="welcome-card">
+                            <h3 class="welcome-project-name" id="welcomeProjectName">—</h3>
+                            <div class="welcome-meta" id="welcomeMeta"></div>
+                            <div class="welcome-divider"></div>
+                            <div>
+                                <p class="welcome-pages-label">Pages confirmed</p>
+                                <div class="welcome-pages-grid" id="welcomePagesGrid"></div>
+                            </div>
+                        </div>
+
+                        <div class="welcome-next-block">
+                            <p class="welcome-next-label">What we'll cover next</p>
+                            <div class="welcome-next-steps" id="welcomeNextSteps"></div>
+                        </div>
                     </div>
 
                     <!-- ══ SLIDE 1 — PROJECT SCOPE ══════════════════ -->
@@ -5127,10 +5267,15 @@
         const SINGLE_NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-upload', 'slide-processing', 'slide-page-review'];
         const DEFAULT_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
 
-        // Code-activated paths — skip slide-scope (scope known) and slide-3 (path known)
-        const CODE_STRATEGY_PATH    = ['slide-code', 'slide-pages-confirm', 'slide-0', 'slide-1', 'slide-2', 'slide-sources', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
-        const CODE_NARRATIVE_PATH   = ['slide-code', 'slide-pages-confirm', 'slide-0', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
-        const CODE_SINGLE_NAR_PATH  = ['slide-code', 'slide-pages-confirm', 'slide-0', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-page-review'];
+        // Code-activated paths — welcome screen + scenario-conditional slides
+        // Scenario A (Brand-Free): Sources → Visual refs → Brand assets → Competition → Audience → Conversion → Submit
+        const CODE_A_STRATEGY    = ['slide-code', 'slide-welcome', 'slide-sources', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        // Scenario B/C/D (Brand-Locked): Visual refs removed, Brand assets is primary
+        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-welcome', 'slide-sources', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        // Scenario A + client provides narrative
+        const CODE_A_NARRATIVE   = ['slide-code', 'slide-welcome', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
+        // Scenario B/C/D + client provides narrative
+        const CODE_BCD_NARRATIVE = ['slide-code', 'slide-welcome', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
 
         let projectPassport = null;
         let codeActivated   = false;
@@ -5177,46 +5322,91 @@
             projectPassport = passport;
             codeActivated   = true;
 
-            // Pre-fill slide-0 fields
+            // Pre-fill slide-0 fields in case user reaches it via non-code path
             const pnInput = document.querySelector('[name="projectName"]');
             if (pnInput && passport.projectName) pnInput.value = passport.projectName;
 
-            // Build pages confirm list
-            const metaEl = document.getElementById('passportMeta');
-            const listEl = document.getElementById('pagesConfirmList');
-            if (metaEl) {
-                const tier     = passport.tier     ? `<span class="passport-tag">${passport.tier}</span>` : '';
-                const scenario = passport.scenario ? `<span class="passport-tag">Scenario ${passport.scenario}</span>` : '';
-                const type     = passport.projectType ? `<span class="passport-tag">${passport.projectType}</span>` : '';
-                metaEl.innerHTML = tier + type + scenario;
+            // Set scope state so downstream validation passes
+            const pages        = passport.pages || [];
+            const scenarioBCD  = ['B', 'C', 'D'].includes(passport.scenario);
+            selectedScope      = pages.length === 1 ? 'single' : 'multi';
+            if (pages.length === 1 && pages[0].type) selectedPageType = pages[0].type;
+
+            // Determine path by scenario + narrative flag
+            if (passport.hasNarrative) {
+                selectedPath = pages.length === 1 ? 'single' : 'multi';
+                currentPath  = scenarioBCD ? CODE_BCD_NARRATIVE : CODE_A_NARRATIVE;
+            } else {
+                selectedPath = 'strategy';
+                currentPath  = scenarioBCD ? CODE_BCD_STRATEGY : CODE_A_STRATEGY;
             }
-            if (listEl && Array.isArray(passport.pages)) {
-                listEl.innerHTML = passport.pages.map((p, i) =>
-                    `<div class="pages-confirm-item">
-                        <div class="pages-confirm-num">${i + 1}</div>
-                        <div class="pages-confirm-name">${p.name || p}</div>
-                        <div class="pages-confirm-type">${p.type || ''}</div>
+
+            // Populate welcome slide
+            populateWelcomeSlide(passport, currentPath);
+
+            currentIdx = 1; // move to slide-welcome
+            updateSlider();
+            updateSidebarForPassport(passport, currentPath);
+        }
+
+        function populateWelcomeSlide(passport, path) {
+            const scenarioLabels = {
+                'A': 'Brand-Free',
+                'B': 'Figma Fidelity',
+                'C': 'Component-Locked',
+                'D': 'Figma + Components'
+            };
+            const nextLabels = {
+                'slide-sources':         'Sources & evidence',
+                'slide-1':               'Visual references',
+                'slide-2':               'Brand assets',
+                'slide-st-competition':  'Competitors',
+                'slide-st-audience':     'Audience',
+                'slide-st-conversion':   'Conversion goal',
+                'slide-upload':          'Upload your narrative',
+                'slide-processing':      'Processing',
+                'slide-sitemap-review':  'Sitemap review',
+                'slide-7':               'Confirmation'
+            };
+
+            const nameEl  = document.getElementById('welcomeProjectName');
+            const metaEl  = document.getElementById('welcomeMeta');
+            const gridEl  = document.getElementById('welcomePagesGrid');
+            const nextEl  = document.getElementById('welcomeNextSteps');
+
+            if (nameEl)  nameEl.textContent  = passport.projectName || '—';
+
+            if (metaEl) {
+                const scLabel = scenarioLabels[passport.scenario] || `Scenario ${passport.scenario}`;
+                const narLabel = passport.hasNarrative ? 'Narrative provided' : 'Strategist writes';
+                metaEl.innerHTML = [
+                    passport.projectType ? `<span class="welcome-tag">${passport.projectType}</span>` : '',
+                    `<span class="welcome-tag">Scenario ${passport.scenario} — ${scLabel}</span>`,
+                    `<span class="welcome-tag">${narLabel}</span>`
+                ].join('');
+            }
+
+            if (gridEl && Array.isArray(passport.pages)) {
+                gridEl.innerHTML = passport.pages.map((p, i) =>
+                    `<div class="welcome-page-pill">
+                        <span class="welcome-page-num">${i + 1}</span>
+                        <span>${p.name || p}</span>
+                        ${p.type ? `<span class="welcome-page-type">${p.type}</span>` : ''}
                     </div>`
                 ).join('');
             }
 
-            // Set scope state so downstream validation passes
-            const pages = passport.pages || [];
-            selectedScope = pages.length === 1 ? 'single' : 'multi';
-            if (pages.length === 1 && pages[0].type) selectedPageType = pages[0].type;
-
-            // Determine path based on passport flags
-            if (passport.hasNarrative) {
-                selectedPath = pages.length === 1 ? 'single' : 'multi';
-                currentPath  = pages.length === 1 ? CODE_SINGLE_NAR_PATH : CODE_NARRATIVE_PATH;
-            } else {
-                selectedPath = 'strategy';
-                currentPath  = CODE_STRATEGY_PATH;
+            if (nextEl) {
+                // Show slides after slide-welcome (index 2 onwards), excluding terminal slides
+                const skip = new Set(['slide-code', 'slide-welcome', 'slide-processing']);
+                const steps = path.slice(2).filter(id => !skip.has(id));
+                nextEl.innerHTML = steps.map(id =>
+                    `<div class="welcome-next-item">
+                        <span class="welcome-next-dot"></span>
+                        <span>${nextLabels[id] || id}</span>
+                    </div>`
+                ).join('');
             }
-
-            currentIdx = 1; // move to slide-pages-confirm
-            updateSlider();
-            updateSidebarForPassport(passport);
         }
 
         function skipCodeEntry() {
@@ -5227,16 +5417,37 @@
             updateSlider();
         }
 
-        function updateSidebarForPassport(passport) {
-            const items = document.querySelectorAll('.q-nav-item');
-            items.forEach(item => {
-                const label = item.querySelector('.q-nav-label');
-                if (!label) return;
-                const text = label.textContent.trim();
-                if (text.includes('Project scope') || text.includes('scope')) {
-                    item.classList.add('q-nav-item--skipped');
-                }
-            });
+        function updateSidebarForPassport(passport, path) {
+            // Switch sidebar heading to welcome state
+            const tagEl   = document.querySelector('.q-sidebar-tag');
+            const h1El    = document.querySelector('.q-h1');
+            const descEl  = document.querySelector('.q-sidebar-instruction');
+            if (tagEl)  tagEl.textContent  = 'Project Confirmed';
+            if (h1El)   h1El.innerHTML     = (passport.clientName || passport.projectName || 'Welcome') + '.';
+            if (descEl) descEl.textContent = 'Your approved proposal is loaded. We just need a few more inputs to get started.';
+
+            // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
+            const navSlideLabels = {
+                'slide-sources':        '01. Sources',
+                'slide-1':              '02. Visual references',
+                'slide-2':              '03. Brand assets',
+                'slide-st-competition': '04. Competitors',
+                'slide-st-audience':    '05. Audience',
+                'slide-st-conversion':  '06. Conversion',
+                'slide-upload':         '01. Upload narrative',
+                'slide-7':              'Confirmation',
+                'slide-sitemap-review': 'Sitemap review'
+            };
+            const skip = new Set(['slide-code', 'slide-welcome', 'slide-processing', 'slide-page-review']);
+            const navSlides = path.filter(id => !skip.has(id) && navSlideLabels[id]);
+
+            const navList = document.getElementById('navList');
+            if (navList) {
+                navList.innerHTML = navSlides.map((id, i) =>
+                    `<li class="q-nav-item" data-idx="${i}"><span class="bar"></span><span class="nav-label">${navSlideLabels[id]}</span></li>`
+                ).join('');
+                navItems = document.querySelectorAll('.q-nav-item');
+            }
         }
 
         const qNav = document.getElementById('qNav');
@@ -6595,6 +6806,7 @@
 
             // Pages confirm: always valid (data is read-only)
             if (slideId === 'slide-pages-confirm') return true;
+            if (slideId === 'slide-welcome') return true;
 
             // Slide 0: basics only
             if (slideId === 'slide-0') {
