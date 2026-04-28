@@ -5431,7 +5431,8 @@
             const gridEl  = document.getElementById('welcomePagesGrid');
             const nextEl  = document.getElementById('welcomeNextSteps');
 
-            const displayName = passport.leadName || passport.clientName || passport.projectName || '';
+            const rawName    = passport.leadName || passport.clientName || passport.projectName || '';
+            const displayName = rawName.split(' ')[0];
             if (titleEl) titleEl.textContent = displayName ? `Great to have you with us, ${displayName}.` : 'Great to have you with us.';
             if (nameEl)  nameEl.textContent  = passport.projectName || '—';
 
