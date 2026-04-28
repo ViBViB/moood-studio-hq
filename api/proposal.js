@@ -14,7 +14,6 @@ function e(str) {
 }
 
 function renderProposal(d) {
-    const slideCount = 5;
     const clientName = e(d.clientName);
     const proposalType = e(d.proposalType || 'Brand & Website Proposal');
     const proposalDate = e(d.proposalDate || new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
@@ -116,113 +115,119 @@ function renderProposal(d) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${clientName} — ${proposalType} | Moood.Studio</title>
+<link rel="icon" type="image/png" href="/favicon.png">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fff;color:#111;overflow:hidden}
-.q-layout{display:grid;grid-template-columns:280px 1fr;height:100vh;overflow:hidden}
-.q-sidebar{background:#000;color:#fff;display:flex;flex-direction:column;padding:32px 24px;overflow-y:auto}
-.q-sidebar-content{margin-top:32px;flex:1}
-.q-h1{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4);margin-bottom:8px}
-.client-name{font-size:18px;font-weight:700;line-height:1.2;margin-bottom:32px;color:#fff}
+:root{--sidebar-width:20%;--transition-speed:0.7s;--font-main:'Helvetica Neue',Helvetica,Arial,sans-serif;--color-black:#000000;--color-white:#ffffff;--color-gray-soft:#fafafa;--color-gray-border:rgba(0,0,0,0.06);--color-gray-text:#666;--color-gray-muted:rgba(0,0,0,0.3)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{height:100vh;overflow:hidden;background:var(--color-white);display:flex;flex-direction:row;font-family:var(--font-main);font-size:16px}
+.q-layout{display:flex;width:100%;height:100vh}
+.q-sidebar{width:var(--sidebar-width);background:var(--color-black);color:var(--color-white);padding:64px 52px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;position:relative;z-index:100;flex-shrink:0}
+.logo-img{height:60px;width:auto;display:block;margin-left:0}
+.q-h1{font-size:12px;font-weight:400;letter-spacing:0;color:rgba(255,255,255,0.35);margin-bottom:16px;text-transform:uppercase}
+.client-name{font-size:clamp(28px,3vw,48px);font-weight:300;line-height:1.1;letter-spacing:0;color:var(--color-white);margin:0 0 56px 0}
 .proposal-index{list-style:none}
-.index-item{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s}
-.index-item:last-child{border-bottom:none}
-.index-item.active,.index-item:hover{color:#fff}
-.index-number{font-size:10px;color:rgba(255,255,255,.25)}
-.index-item.active .index-number{color:rgba(255,255,255,.5)}
-.q-sidebar-footer{font-size:10px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:1px;margin-top:32px}
-.q-main{display:flex;flex-direction:column;overflow:hidden;background:#fff}
-.proposal-header{display:flex;justify-content:flex-end;align-items:center;padding:16px 40px;border-bottom:1px solid #eee;flex-shrink:0}
-.btn-proposal{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;padding:8px 16px;cursor:pointer;border:none;text-decoration:none;transition:all .2s}
-.btn-download{background:#fff;color:#111;border:1px solid #ddd}
-.btn-download:hover{border-color:#111}
-.btn-approve{background:#111;color:#fff}
-.btn-approve:hover{background:#333}
-.q-slider-viewport{flex:1;overflow:hidden;position:relative}
-.q-slide{position:absolute;inset:0;overflow-y:auto;display:none;padding:48px 56px}
-.q-slide.active{display:block}
-.q-slide-container{max-width:720px}
-.pdf-slide-header{margin-bottom:32px}
-.pdf-slide-header svg,.pdf-slide-header img{width:40px;height:40px}
-.slide-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#999;margin-bottom:8px}
-.slide-title{font-size:36px;font-weight:700;line-height:1.1;margin-bottom:28px;letter-spacing:-0.5px}
-.slide-body p{font-size:16px;line-height:1.7;color:#333;margin-bottom:16px}
-.slide-body p:last-child{margin-bottom:0}
-.slide-footer-note{font-size:13px!important;color:#999!important;border-top:1px solid #eee;padding-top:16px;margin-top:24px!important}
-.diagnosis-list{display:flex;flex-direction:column;gap:0}
-.diagnosis-item{padding:20px 0;border-bottom:1px solid #eee}
-.diagnosis-item:first-child{border-top:1px solid #eee}
-.diagnosis-content{display:flex;flex-direction:column;gap:6px}
-.diagnosis-content strong{font-size:14px;font-weight:700;color:#111}
-.diagnosis-content span{font-size:14px;line-height:1.6;color:#555}
-.roadmap-v2{display:flex;flex-direction:column;gap:0}
-.roadmap-v2__item{display:grid;grid-template-columns:48px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid #eee}
-.roadmap-v2__item:first-child{border-top:1px solid #eee}
-.roadmap-v2__number{font-size:11px;font-weight:700;color:#999;padding-top:3px}
-.roadmap-v2__title{font-size:14px;font-weight:700;margin-bottom:10px}
-.roadmap-v2__meta{font-size:12px;font-weight:400;color:#999}
-.roadmap-v2__steps{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px;color:#555}
-.roadmap-v2__steps .sep{color:#bbb}
-.platform-shift{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
-.platform-card{padding:20px;border:1px solid #eee}
-.platform-card--proposed{border-color:#000}
-.platform-card__label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:8px}
-.platform-card__name{font-size:16px;font-weight:700;margin-bottom:12px}
-.platform-card__specs{list-style:none;display:flex;flex-direction:column;gap:6px}
-.platform-card__specs li{display:flex;justify-content:space-between;font-size:12px;color:#555;padding-bottom:6px;border-bottom:1px solid #f0f0f0}
-.platform-card__specs li:last-child{border-bottom:none}
-.compare-note{font-size:12px;color:#999;margin-top:12px;line-height:1.5}
-.deliverable-section{margin-bottom:28px}
-.deliverable-section-title{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#999;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #eee}
-.deliverable-list{display:flex;flex-direction:column;gap:12px}
-.deliverable-item{display:flex;gap:12px;align-items:flex-start}
-.deliverable-bullet{width:6px;height:6px;background:#111;border-radius:50%;flex-shrink:0;margin-top:5px}
-.deliverable-text strong{display:block;font-size:13px;font-weight:700;margin-bottom:2px}
-.deliverable-text span{font-size:12px;color:#777;line-height:1.5}
-.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.card{border:1px solid #eee;padding:20px}
-.card-number{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:12px}
-.card-body ul{list-style:none;display:flex;flex-direction:column;gap:6px}
-.card-body ul li{font-size:13px;color:#333;padding-bottom:6px;border-bottom:1px solid #f5f5f5}
-.card-body ul li:last-child{border-bottom:none}
-.pdf-section-break{margin:24px 0;text-align:center}
-.pdf-section-break svg{width:32px;height:32px;opacity:.15}
-.investment-block{margin-bottom:32px}
-.investment-table{width:100%;border-collapse:collapse;font-size:14px}
-.investment-table td{padding:12px 0;border-bottom:1px solid #eee}
-.investment-table td:last-child{text-align:right;font-weight:600;white-space:nowrap}
-.investment-table tr.u-border-black td{border-bottom:2px solid #111}
-.investment-table tr.total-row td{font-weight:700;font-size:16px;padding-top:14px}
-.investment-table tr.optional td{color:#999;font-size:13px}
-.next-steps-list{list-style:none;display:flex;flex-direction:column;gap:12px}
-.next-steps-list li{font-size:14px;color:#333;line-height:1.5;padding-left:20px;position:relative}
-.next-steps-list li::before{content:counter(li);counter-increment:li;position:absolute;left:0;font-weight:700;font-size:12px;color:#999}
-.next-steps-list{counter-reset:li}
-.investment-note{font-size:12px;color:#999;margin-top:8px}
-.u-mt-32{margin-top:32px}
-.q-nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-top:1px solid #eee;flex-shrink:0}
-.slide-counter{font-size:11px;color:#999;letter-spacing:1px}
-.btn-nav{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;padding:10px 20px;background:#fff;border:1px solid #ddd;cursor:pointer;transition:all .2s}
-.btn-nav:hover:not(:disabled){border-color:#111;background:#111;color:#fff}
-.btn-nav:disabled{opacity:.3;cursor:default}
-@media(max-width:768px){
-    .q-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-    html,body{overflow:auto}
-    .q-sidebar{padding:20px;flex-direction:row;align-items:center;flex-wrap:wrap;gap:16px}
-    .q-sidebar-content{margin-top:0}
-    .proposal-index{display:none}
-    .q-slider-viewport{position:relative;height:auto;overflow:visible}
-    .q-slide{position:static;display:none;padding:32px 24px}
-    .q-slide.active{display:block}
-    .q-main{overflow:visible}
+.index-item{font-size:18px;font-weight:600;padding:15px 0;border-bottom:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.35);cursor:pointer;transition:color 0.25s ease;display:flex;align-items:center;gap:16px;user-select:none}
+.index-item.active{color:var(--color-white)}
+.index-item:hover{color:rgba(255,255,255,0.75)}
+.index-number{font-size:14px;opacity:0.4;font-weight:700;letter-spacing:0;min-width:20px}
+.q-sidebar-footer{font-size:12px;color:rgba(255,255,255,0.2);letter-spacing:0;text-transform:uppercase}
+.q-main{flex:1;background:var(--color-white);display:flex;flex-direction:column;overflow:hidden}
+.proposal-header{width:100%;height:88px;padding:0 72px;display:flex;justify-content:flex-end;align-items:center;gap:12px;background:var(--color-white);border-bottom:1px solid rgba(0,0,0,0.06);flex-shrink:0}
+.btn-proposal{padding:18px 36px;font-size:12px;font-weight:700;letter-spacing:0;text-transform:uppercase;border-radius:0;cursor:pointer;transition:all 0.25s ease;min-width:200px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.btn-approve{background:var(--color-black);color:var(--color-white);border:none}
+.btn-approve:hover{background:#222}
+.btn-download{background:var(--color-white);color:var(--color-black);border:1.5px solid rgba(0,0,0,0.12);text-decoration:none}
+.btn-download:hover{border-color:var(--color-black)}
+.q-slider-viewport{flex:1;position:relative;width:100%;overflow:hidden}
+.q-slide{position:absolute;top:0;left:0;width:100%;height:100%;padding:80px 72px;opacity:0;visibility:hidden;transition:opacity var(--transition-speed) cubic-bezier(0.16,1,0.3,1),visibility var(--transition-speed) ease;overflow-y:auto}
+.q-slide-container{max-width:800px;margin:0 auto;width:100%}
+.q-slide.active{opacity:1;visibility:visible;z-index:2}
+.pdf-slide-header{display:none}
+.slide-eyebrow{font-size:12px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:var(--color-gray-muted);margin-bottom:20px}
+.slide-title{font-size:clamp(32px,3.5vw,52px);font-weight:300;line-height:1.1;letter-spacing:0;color:var(--color-black);margin-bottom:12px}
+.slide-body{font-size:18px;color:#555;line-height:1.7;max-width:600px}
+.slide-body p+p{margin-top:20px}
+.slide-footer-note{margin-top:32px;padding-top:32px;border-top:1px solid var(--color-gray-border);font-size:14px;color:var(--color-black);font-weight:400;line-height:1.6}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.card{border:1.5px solid rgba(0,0,0,0.08);padding:28px 28px 24px}
+.card-number{font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.25);margin-bottom:10px}
+.card-title{font-size:16px;font-weight:700;color:var(--color-black);margin-bottom:10px;letter-spacing:-0.01em}
+.card-body{font-size:14px;color:var(--color-gray-text);line-height:1.6}
+.card-body ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.card-body li{display:flex;align-items:flex-start;gap:10px}
+.card-body li::before{content:"—";opacity:0.3}
+.diagnosis-list{display:flex;flex-direction:column;gap:24px;margin-top:8px}
+.diagnosis-item{display:flex;gap:24px;padding:28px;border-left:3px solid var(--color-black);background:var(--color-gray-soft)}
+.diagnosis-label{font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-gray-muted);min-width:100px;padding-top:3px}
+.diagnosis-content strong{font-size:18px;color:var(--color-black);display:block;margin-bottom:6px}
+.diagnosis-content span{font-size:14px;color:var(--color-gray-text);line-height:1.6}
+.roadmap-v2{position:relative;padding-left:48px;margin-top:24px}
+.roadmap-v2::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--color-gray-border)}
+.roadmap-v2__item{position:relative;margin-bottom:48px}
+.roadmap-v2__item:last-child{margin-bottom:0}
+.roadmap-v2__number{position:absolute;left:-48px;top:0;width:24px;height:24px;background:var(--color-black);color:var(--color-white);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:2}
+.roadmap-v2__meta{font-size:16px;font-weight:400;color:var(--color-gray-muted)}
+.roadmap-v2__title{font-size:20px;font-weight:700;color:var(--color-black);margin-bottom:12px}
+.roadmap-v2__steps{font-size:14px;color:var(--color-gray-text);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.roadmap-v2__steps .sep{opacity:0.3;font-weight:300}
+.platform-shift{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--color-gray-border);border:1px solid var(--color-gray-border)}
+.platform-card{background:var(--color-white);padding:32px;position:relative}
+.platform-card--proposed{background:#fafafa}
+.platform-card__label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-gray-muted);margin-bottom:16px}
+.platform-card__name{font-size:20px;font-weight:700;margin-bottom:24px}
+.platform-card__specs{list-style:none;display:flex;flex-direction:column;gap:12px}
+.platform-card__specs li{display:flex;justify-content:space-between;font-size:14px;padding-bottom:8px;border-bottom:1px solid rgba(0,0,0,0.05)}
+.platform-card__specs li span:last-child{font-weight:700;color:var(--color-black)}
+.platform-card--current .platform-card__specs li span:last-child{color:#999;text-decoration:line-through}
+.compare-note{font-size:14px;color:#999;margin-top:12px}
+.deliverable-section{margin-bottom:100px}
+.deliverable-section-title{font-size:14px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.08)}
+.deliverable-list{display:flex;flex-direction:column;gap:14px}
+.deliverable-item{display:flex;gap:16px;align-items:flex-start}
+.deliverable-bullet{width:6px;height:6px;background:var(--color-black);border-radius:50%;margin-top:7px;flex-shrink:0}
+.deliverable-text strong{font-size:18px;color:var(--color-black);font-weight:700;display:block;margin-bottom:3px}
+.deliverable-text span{font-size:14px;color:#777;line-height:1.5}
+.investment-table{width:100%;border-collapse:collapse;margin-bottom:20px;border-top:1px solid var(--color-gray-border)}
+.investment-table tr{border-bottom:2px solid var(--color-gray-border)}
+.investment-table td{padding:18px 0;font-size:18px;color:#444}
+.investment-table td:last-child{text-align:right;font-weight:700;color:var(--color-black)}
+.investment-table .total-row td{border-top:2px solid var(--color-black)}
+.investment-table .u-border-black{border-bottom:2px solid var(--color-black)}
+.investment-table .optional td{color:#999;font-size:14px}
+.investment-table .optional td:last-child{color:#999}
+.investment-block{margin-bottom:80px}
+.investment-block:last-of-type{margin-bottom:0}
+.investment-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-black);margin:48px 0 20px 0;padding-bottom:12px;border-bottom:2px solid var(--color-black)}
+.next-steps-list{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:30px}
+.next-steps-list li{display:flex;gap:16px;font-size:18px;color:#444;line-height:1.5}
+.next-steps-list li::before{content:"→";font-weight:700;color:var(--color-black)}
+.q-nav{padding:28px 72px;display:flex;justify-content:space-between;align-items:center;background:var(--color-white);border-top:1px solid var(--color-gray-border);flex-shrink:0}
+.btn-nav{background:var(--color-white);color:var(--color-black);border:1.5px solid rgba(0,0,0,0.12);padding:18px 36px;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border-radius:0;cursor:pointer;transition:all 0.25s ease;min-width:180px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.btn-nav:hover{background:#f5f5f5;border-color:var(--color-black)}
+.btn-nav:disabled{opacity:0;pointer-events:none}
+.investment-note{font-size:14px;color:#aaa;margin-top:28px}
+.u-mt-32{margin-top:32px!important}
+.pdf-section-break{display:none}
+@media print{
+.q-layout{display:block!important;height:auto!important}
+.proposal-header,.q-nav,.q-sidebar{display:none!important}
+.q-main{width:100%!important;height:auto!important;overflow:visible!important;display:block!important}
+.q-slider-viewport{height:auto!important;overflow:visible!important;position:static!important;display:block!important}
+.q-slide{position:relative!important;width:100%!important;height:auto!important;min-height:297mm!important;opacity:1!important;visibility:visible!important;display:flex!important;flex-direction:column!important;break-after:page!important;padding:48px 72px 56px!important}
+.q-slide:last-child{break-after:auto!important}
+.q-slide-container{max-width:100%!important}
+.pdf-slide-header{display:flex!important;align-items:flex-start;margin-bottom:48px}
+.pdf-slide-header svg{height:28px;width:auto}
+.pdf-section-break{display:block!important;break-before:page;padding-top:48px;margin-bottom:48px}
 }
+@page{size:A4;margin:0}
 </style>
 </head>
 <body>
 <div class="q-layout">
     <aside class="q-sidebar">
         ${LOGO_WHITE}
-        <div class="q-sidebar-content">
+        <div class="q-sidebar-content" style="margin-top:32px;flex:1">
             <p class="q-h1">${proposalType}</p>
             <h2 class="client-name">${clientName}</h2>
             <ul class="proposal-index" id="proposalIndex">${indexItems}</ul>
@@ -231,7 +236,14 @@ html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;ba
     </aside>
     <main class="q-main">
         <header class="proposal-header">
-            <button class="btn-proposal btn-approve" id="btnApproveTop" onclick="approveProposal(this)">Approve Project</button>
+            <button class="btn-proposal btn-download" onclick="window.print()">
+                <span>Download PDF</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="btn-proposal btn-approve" id="btnApproveTop" onclick="approveProposal(this)">
+                <span>Approve Project</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
         </header>
         <div class="q-slider-viewport" id="sliderViewport">
 
@@ -284,7 +296,7 @@ html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;ba
                                 <div class="card-body"><ul>${pagesList}</ul></div>
                             </div>
                             ${additionalDeliverables ? `<div class="card">
-                                <div class="card-number">Tech & setup</div>
+                                <div class="card-number">Tech &amp; setup</div>
                                 <div class="card-body"><ul>${additionalDeliverables}</ul></div>
                             </div>` : ''}
                         </div>
@@ -296,7 +308,7 @@ html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;ba
             <div class="q-slide">
                 <div class="q-slide-container">
                     <div class="pdf-slide-header">${LOGO_BLACK}</div>
-                    <p class="slide-eyebrow">Investment & Next Steps</p>
+                    <p class="slide-eyebrow">Investment &amp; Next Steps</p>
                     <div class="investment-block">
                         <h2 class="slide-title">Commitment</h2>
                         <table class="investment-table">
@@ -314,7 +326,7 @@ html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;ba
                         </ul>
                     </div>
                     ${d.paymentNote ? `<p class="investment-note">${e(d.paymentNote)}</p>` : ''}
-                    <p class="investment-note" style="margin-top:8px">Moood.Studio · ${proposalDate}</p>
+                    <p class="investment-note">Moood.Studio · ${proposalDate}</p>
                 </div>
             </div>
 
@@ -324,7 +336,7 @@ html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;ba
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 12H6M6 12L11 7M6 12L11 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span>Back</span>
             </button>
-            <span class="slide-counter" id="slideCounter">01 / 05</span>
+            <span id="slideCounter" style="font-size:12px;color:var(--color-gray-muted);letter-spacing:0">01 / 05</span>
             <button class="btn-nav" id="btnNext">
                 <span>Next Chapter</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -334,7 +346,7 @@ html,body{height:100%;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;ba
 </div>
 <script>
 const slides = document.querySelectorAll('.q-slide');
-const indexItems = document.querySelectorAll('.index-item');
+const navItems = document.querySelectorAll('.index-item');
 const btnPrev = document.getElementById('btnPrev');
 const btnNext = document.getElementById('btnNext');
 const slideCounter = document.getElementById('slideCounter');
@@ -342,10 +354,10 @@ let current = 0;
 
 function goTo(n) {
     slides[current].classList.remove('active');
-    indexItems[current].classList.remove('active');
+    navItems[current].classList.remove('active');
     current = n;
     slides[current].classList.add('active');
-    indexItems[current].classList.add('active');
+    navItems[current].classList.add('active');
     btnPrev.disabled = current === 0;
     btnNext.querySelector('span').textContent = current === slides.length - 1 ? 'Approve Project' : 'Next Chapter';
     slideCounter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
@@ -353,18 +365,18 @@ function goTo(n) {
 }
 
 btnPrev.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
-btnNext.addEventListener('click', () => { if (current < slides.length - 1) goTo(current + 1); else approveProposal(); });
-indexItems.forEach(item => item.addEventListener('click', () => goTo(parseInt(item.dataset.slide))));
+btnNext.addEventListener('click', () => { if (current < slides.length - 1) goTo(current + 1); else approveProposal(document.getElementById('btnApproveTop')); });
+navItems.forEach(item => item.addEventListener('click', () => goTo(parseInt(item.dataset.slide))));
 
 const APPROVAL_PAYLOAD = ${approvalPayload};
 
 async function approveProposal(btnElement) {
     const btn = btnElement || document.getElementById('btnApproveTop');
     if (!btn) return;
-    const originalText = btn.innerText;
-    if (!confirm('Are you sure you want to approve this proposal? This will notify the Moood.Studio team.')) return;
+    const originalHTML = btn.innerHTML;
+    if (!confirm('Approve this proposal? This will notify the Moood.Studio team and kick off the project.')) return;
     try {
-        btn.innerText = 'Processing...';
+        btn.innerHTML = '<span>Processing...</span>';
         btn.disabled = true;
         const response = await fetch('/api/approve', {
             method: 'POST',
@@ -372,13 +384,12 @@ async function approveProposal(btnElement) {
             body: JSON.stringify(APPROVAL_PAYLOAD)
         });
         if (response.ok) {
-            btn.innerText = 'PROJECT APPROVED ✓';
-            btn.style.background = '#000';
+            btn.innerHTML = '<span>PROJECT APPROVED ✓</span>';
         } else {
-            throw new Error('Notification failed');
+            throw new Error('failed');
         }
     } catch (err) {
-        btn.innerText = originalText;
+        btn.innerHTML = originalHTML;
         btn.disabled = false;
         alert('Something went wrong. Please try again or contact Alberto directly.');
     }
