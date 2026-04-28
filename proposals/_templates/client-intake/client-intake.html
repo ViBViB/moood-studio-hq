@@ -3689,60 +3689,76 @@
 
     <style>
         /* ── CODE ENTRY SLIDE ───────────────────────────────── */
-        .code-entry-wrap {
+        /* ── OTP CODE ENTRY ─────────────────────────────────── */
+        .otp-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
             max-width: 480px;
-            margin: 0 auto;
         }
-        .code-input-row {
+        .otp-prefix {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            margin-bottom: 16px;
+            font-family: 'Courier New', monospace;
+        }
+        .otp-boxes {
             display: flex;
             gap: 12px;
-            align-items: flex-start;
-            margin-top: 8px;
         }
-        .code-input-row input {
-            flex: 1;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+        .otp-box {
+            width: 68px;
+            height: 76px;
+            border: 1.5px solid rgba(0,0,0,0.15);
+            border-radius: 10px;
+            font-size: 30px;
+            font-weight: 700;
+            text-align: center;
+            color: #000;
+            background: #fff;
+            outline: none;
+            caret-color: transparent;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            font-family: inherit;
+            -moz-appearance: textfield;
         }
-        .btn-code-validate {
-            background: #111;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 13px 22px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: background 0.2s;
+        .otp-box::-webkit-outer-spin-button,
+        .otp-box::-webkit-inner-spin-button { -webkit-appearance: none; }
+        .otp-box:focus {
+            border-color: #000;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.07);
         }
-        .btn-code-validate:hover { background: #333; }
-        .btn-code-validate:disabled { background: #999; cursor: not-allowed; }
+        .otp-box.filled { border-color: rgba(0,0,0,0.4); }
+        .otp-box.otp-error {
+            border-color: #cc3300;
+            box-shadow: 0 0 0 3px rgba(204,51,0,0.08);
+        }
         .code-error {
-            color: #cc0000;
-            font-size: 0.82rem;
-            margin-top: 8px;
+            color: #cc3300;
+            font-size: 12px;
+            margin-top: 14px;
             display: none;
+            font-weight: 500;
         }
         .code-error.visible { display: block; }
         .code-skip-row {
-            margin-top: 28px;
             padding-top: 20px;
-            border-top: 1px solid #e8e8e8;
-            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.08);
         }
         .btn-code-skip {
             background: none;
             border: none;
-            color: #888;
-            font-size: 0.82rem;
+            color: rgba(0,0,0,0.35);
+            font-size: 12px;
             cursor: pointer;
             text-decoration: underline;
             padding: 0;
+            font-family: inherit;
         }
-        .btn-code-skip:hover { color: #333; }
+        .btn-code-skip:hover { color: #000; }
 
         /* ── PAGES CONFIRM SLIDE ────────────────────────────── */
         .pages-confirm-list {
@@ -4004,17 +4020,19 @@
                     <!-- ══ SLIDE CODE — PROJECT CODE ENTRY ═════════ -->
                     <div class="q-slide active" id="slide-code" data-index="-2">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">Welcome.</h2>
-                            <p class="q-section-intro">If you received a project code from us, enter it below — we'll pick up right where the proposal left off.</p>
+                            <h2 class="q-section-title">Enter your code.</h2>
+                            <p class="q-section-intro">You received a 4-digit code in your approval email. Enter it below and we'll pick up right where the proposal left off.</p>
                         </div>
-                        <div class="code-entry-wrap">
-                            <div class="form-group">
-                                <label>Project code</label>
-                                <div class="code-input-row">
-                                    <input type="text" id="codeInput" placeholder="MSD-2026-XXXX" maxlength="14" autocomplete="off" spellcheck="false">
-                                    <button class="btn-code-validate" id="btnValidateCode" onclick="validateAndActivateCode()">Activate</button>
+                        <div class="otp-wrap">
+                            <div>
+                                <p class="otp-prefix" id="otpPrefix">MSD · 2026 ·</p>
+                                <div class="otp-boxes">
+                                    <input class="otp-box" id="otp-0" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                    <input class="otp-box" id="otp-1" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                    <input class="otp-box" id="otp-2" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                    <input class="otp-box" id="otp-3" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
                                 </div>
-                                <div class="code-error" id="codeError">Code not found. Double-check the format or skip below.</div>
+                                <div class="code-error" id="codeError">Code not found. Check the digits in your email and try again.</div>
                             </div>
                             <div class="code-skip-row">
                                 <button class="btn-code-skip" onclick="skipCodeEntry()">I don't have a code — start from scratch</button>
@@ -5283,28 +5301,78 @@
         let currentPath = ['slide-code'];
         let currentIdx = 0;
 
+        /* ── OTP SETUP ────────────────────────────────────────── */
+        (function initOTP() {
+            const prefix = document.getElementById('otpPrefix');
+            if (prefix) prefix.textContent = `MSD · ${new Date().getFullYear()} ·`;
+
+            const boxes = Array.from(document.querySelectorAll('.otp-box'));
+
+            boxes.forEach((box, i) => {
+                box.addEventListener('input', () => {
+                    const val = box.value.replace(/[^0-9]/g, '');
+                    box.value = val ? val[val.length - 1] : '';
+                    box.classList.toggle('filled', !!box.value);
+                    box.classList.remove('otp-error');
+                    document.getElementById('codeError').classList.remove('visible');
+
+                    if (box.value && i < boxes.length - 1) boxes[i + 1].focus();
+                    if (boxes.every(b => b.value)) validateAndActivateCode();
+                });
+
+                box.addEventListener('keydown', e => {
+                    if (e.key === 'Backspace' && !box.value && i > 0) {
+                        boxes[i - 1].value = '';
+                        boxes[i - 1].classList.remove('filled');
+                        boxes[i - 1].focus();
+                    }
+                    if (e.key === 'ArrowLeft'  && i > 0)              boxes[i - 1].focus();
+                    if (e.key === 'ArrowRight' && i < boxes.length-1) boxes[i + 1].focus();
+                });
+
+                box.addEventListener('paste', e => {
+                    e.preventDefault();
+                    const digits = (e.clipboardData.getData('text') || '').replace(/[^0-9]/g, '');
+                    digits.split('').slice(0, boxes.length - i).forEach((d, j) => {
+                        boxes[i + j].value = d;
+                        boxes[i + j].classList.add('filled');
+                    });
+                    const last = Math.min(i + digits.length, boxes.length - 1);
+                    boxes[last].focus();
+                    if (boxes.every(b => b.value)) validateAndActivateCode();
+                });
+
+                box.addEventListener('click', () => box.select());
+            });
+        })();
+
         /* ── CODE ACTIVATION ──────────────────────────────────── */
         async function validateAndActivateCode() {
-            const input = document.getElementById('codeInput');
-            const btn   = document.getElementById('btnValidateCode');
-            const err   = document.getElementById('codeError');
-            const code  = input.value.trim().toUpperCase();
+            const boxes  = Array.from(document.querySelectorAll('.otp-box'));
+            const digits = boxes.map(b => b.value).join('');
+            const err    = document.getElementById('codeError');
 
             err.classList.remove('visible');
-            if (!code) { err.textContent = 'Please enter a project code.'; err.classList.add('visible'); return; }
+            boxes.forEach(b => b.classList.remove('otp-error'));
 
-            btn.disabled = true;
-            btn.textContent = 'Checking…';
+            if (digits.length < 4) {
+                err.textContent = 'Please enter all 4 digits.';
+                err.classList.add('visible');
+                return;
+            }
+
+            const code = `MSD-${new Date().getFullYear()}-${digits}`;
+            boxes.forEach(b => { b.disabled = true; });
 
             try {
                 const res  = await fetch(`/api/validate-code?code=${encodeURIComponent(code)}`);
                 const data = await res.json();
 
                 if (!res.ok || !data.valid) {
-                    err.textContent = data.error || 'Code not found. Double-check the format or skip below.';
+                    err.textContent = data.error || 'Code not found. Check the digits in your email and try again.';
                     err.classList.add('visible');
-                    btn.disabled = false;
-                    btn.textContent = 'Activate';
+                    boxes.forEach(b => { b.disabled = false; b.classList.add('otp-error'); });
+                    boxes[0].focus();
                     return;
                 }
 
@@ -5313,8 +5381,7 @@
             } catch (e) {
                 err.textContent = 'Connection error. Please try again.';
                 err.classList.add('visible');
-                btn.disabled = false;
-                btn.textContent = 'Activate';
+                boxes.forEach(b => b.disabled = false);
             }
         }
 
@@ -6996,10 +7063,18 @@
         /* ── AUTO-ACTIVATE FROM URL ?code= ───────────────────── */
         (function() {
             const params = new URLSearchParams(window.location.search);
-            const code   = params.get('code');
+            const code   = (params.get('code') || '').toUpperCase();
             if (!code) return;
-            const input = document.getElementById('codeInput');
-            if (input) input.value = code.toUpperCase();
+
+            // Fill OTP boxes from last 4 digits of MSD-YYYY-NNNN
+            const match = code.match(/MSD-\d{4}-(\d{4})$/);
+            if (match) {
+                const boxes = Array.from(document.querySelectorAll('.otp-box'));
+                match[1].split('').forEach((d, i) => {
+                    if (boxes[i]) { boxes[i].value = d; boxes[i].classList.add('filled'); }
+                });
+            }
+
             fetch(`/api/validate-code?code=${encodeURIComponent(code)}`)
                 .then(r => r.json())
                 .then(data => { if (data.valid) activatePassport(data); })

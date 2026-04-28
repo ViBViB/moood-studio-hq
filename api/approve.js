@@ -149,9 +149,14 @@ module.exports = async (req, res) => {
                         <p>Hi ${clientName},</p>
                         <p>Great news — <strong>${projectName}</strong> is confirmed. We're ready to start.</p>
                         <p>The next step is a short brief so we have everything we need to build. It takes about 10–15 minutes — no decisions to make, just your raw material.</p>
-                        <div style="background:#f5f5f5;padding:24px;border-radius:4px;margin:24px 0;text-align:center;">
-                            <p style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase;letter-spacing:1.5px;">Your project code</p>
-                            <p style="margin:0;font-size:32px;font-weight:700;letter-spacing:6px;">${code}</p>
+                        <div style="background:#f5f5f5;padding:32px 24px;border-radius:4px;margin:24px 0;text-align:center;">
+                            <p style="margin:0 0 16px;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:2px;">Your 4-digit access code</p>
+                            <div style="display:inline-flex;gap:10px;justify-content:center;">
+                                ${code.slice(-4).split('').map(d =>
+                                    `<span style="display:inline-block;width:52px;height:60px;line-height:60px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;font-size:26px;font-weight:700;color:#000;text-align:center;">${d}</span>`
+                                ).join('')}
+                            </div>
+                            <p style="margin:16px 0 0;font-size:11px;color:#bbb;letter-spacing:0.05em;">Full reference: ${code}</p>
                         </div>
                         <p style="text-align:center;">
                             <a href="${intakeUrl}" style="display:inline-block;background:#000;color:#fff;padding:14px 36px;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:0.5px;border-radius:2px;">Start your brief →</a>
