@@ -65,6 +65,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .btn-copy:hover,.btn-open:hover{background:#111;color:#fff}
 .divider{height:1px;background:var(--border);margin:20px 0}
 .subsection-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.tech-check{display:flex;align-items:center;gap:8px;font-size:13px;color:#333;cursor:pointer;padding:6px 0}
+.tech-check input[type="checkbox"]{width:16px;height:16px;flex-shrink:0;accent-color:#111;cursor:pointer}
 </style>
 </head>
 <body>
@@ -276,14 +278,31 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
             <div class="section-number">6</div>
             <div>
                 <div class="section-label">The Deliverables</div>
-                            </div>
-                    </div>
+            </div>
+        </div>
         <div class="section-body">
-                        <div class="dynamic-list" id="brandingList"></div>
+            <div class="dynamic-list" id="brandingList"></div>
             <button class="btn-add" onclick="addBranding()">+ Add branding item</button>
 
             <div class="divider"></div>
-                                    <div class="dynamic-list" id="additionalList"></div>
+            <div class="subsection-label">Technical scope</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 24px;margin-bottom:12px" id="techCheckboxes">
+                <label class="tech-check"><input type="checkbox" value="WordPress development"> WordPress development</label>
+                <label class="tech-check"><input type="checkbox" value="Headless CMS (Astro / Next.js / Nuxt)"> Headless CMS</label>
+                <label class="tech-check"><input type="checkbox" value="Framer development"> Framer development</label>
+                <label class="tech-check"><input type="checkbox" value="Shopify integration"> Shopify integration</label>
+                <label class="tech-check"><input type="checkbox" value="HubSpot integration"> HubSpot integration</label>
+                <label class="tech-check"><input type="checkbox" value="Webflow development"> Webflow development</label>
+                <label class="tech-check"><input type="checkbox" value="Content migration"> Content migration</label>
+                <label class="tech-check"><input type="checkbox" value="SEO setup & redirects"> SEO setup &amp; redirects</label>
+                <label class="tech-check"><input type="checkbox" value="Analytics setup (GA4 / GTM)"> Analytics setup (GA4 / GTM)</label>
+                <label class="tech-check"><input type="checkbox" value="Form &amp; CRM integration"> Form &amp; CRM integration</label>
+                <label class="tech-check"><input type="checkbox" value="Staging environment"> Staging environment</label>
+                <label class="tech-check"><input type="checkbox" value="GitHub handoff"> GitHub handoff</label>
+            </div>
+
+            <div class="divider"></div>
+            <div class="dynamic-list" id="additionalList"></div>
             <button class="btn-add" onclick="addAdditional()">+ Add item</button>
         </div>
     </div>
@@ -317,10 +336,21 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
             <button class="btn-add" onclick="addOptionalRow()">+ Add optional</button>
 
             <div class="divider"></div>
-            <div class="field">
-                <label>Next step 2 (custom)</label>
-                <input type="text" id="nextStepTwo" placeholder="We send a short intake form — references, competitors, and technical requirements" value="We send a short intake form — references, competitors, and technical requirements">
-                            </div>
+            <div class="field-group cols-2">
+                <div class="field">
+                    <label>Payment structure</label>
+                    <select id="paymentStructure">
+                        <option value="50-50">50% upfront · 50% on final delivery</option>
+                        <option value="100">100% upfront</option>
+                        <option value="33-33-33">33% upfront · 33% midpoint · 33% on delivery</option>
+                        <option value="custom">Custom (specify in payment note)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Next step 2 (custom)</label>
+                    <input type="text" id="nextStepTwo" placeholder="We send a short intake form — references, competitors, and technical requirements" value="We send a short intake form — references, competitors, and technical requirements">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -341,7 +371,7 @@ function togglePlatform(show) {
 }
 
 // ── PAGES ────────────────────────────────────────────────────
-const PAGE_TYPES = ['homepage','product','about','services','contact','landing','blog','pillar','social','comms','case-study','custom'];
+const PAGE_TYPES = ['homepage','portfolio','projects','product','about','services','contact','landing','blog','pillar','social','comms','case-study','custom'];
 function addPage(name='', type='') {
     const list = document.getElementById('pagesList');
     const row = document.createElement('div');
@@ -549,6 +579,8 @@ function collectData() {
             return sum > 0 ? '$' + sum.toLocaleString('en-US') : '';
         })(),
         investmentOptionals, paymentNote: v('paymentNote'),
+        paymentStructure: document.getElementById('paymentStructure').value,
+        techDeliverables: [...document.querySelectorAll('#techCheckboxes input[type="checkbox"]:checked')].map(cb => cb.value),
         nextStepTwo: v('nextStepTwo')
     };
 }

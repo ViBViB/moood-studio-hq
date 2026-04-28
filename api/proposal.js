@@ -240,6 +240,10 @@ body{height:100vh;overflow:hidden;background:var(--color-white);display:flex;fle
                 <span>Download PDF</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
+            <button class="btn-proposal btn-approve" id="btnApproveTop" onclick="approveProposal(this)">
+                <span>Approve Project</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
         </header>
         <div class="q-slider-viewport" id="sliderViewport">
 
