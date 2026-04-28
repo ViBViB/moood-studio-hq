@@ -1,0 +1,253 @@
+{
+  "code": "REPLACE_WITH_REAL_CODE",
+  "projectName": "Snøhetta — Digital Presence Redesign",
+  "clientName": "Snøhetta",
+  "pages": [
+    {
+      "id": "home",
+      "name": "Home",
+      "type": "homepage",
+      "narrative": {
+        "headline": "Where architecture meets the world it belongs to.",
+        "intro": "Snøhetta designs buildings, landscapes, and experiences that begin with a single question: what should this place feel like to be alive inside? For thirty-five years, the answer has taken the form of concert halls, opera houses, public squares, and national memorials — each one shaped by the belief that great design does not separate people from nature, culture, or each other. It brings them closer.",
+        "sections": [
+          {
+            "name": "What we do",
+            "blocks": [
+              "We are an interdisciplinary practice working at the intersection of architecture, interior design, landscape, brand strategy, and product design. Our teams are built for complexity — not in spite of it, but because of it.",
+              "Every project begins in conversation. With the land, with the community, with the institutions that will inhabit the work for generations. That conversation never really ends."
+            ]
+          },
+          {
+            "name": "Why Snøhetta",
+            "blocks": [
+              "Most firms specialize. We integrate. The Oslo Opera House is not just a building — it is a landscape you can climb, a public square suspended above a fjord, a symbol of cultural access. That kind of thinking does not happen in a single discipline.",
+              "Our clients come to us when the stakes are too high for conventional answers."
+            ]
+          },
+          {
+            "name": "Entry CTA",
+            "blocks": [
+              "Explore our work. Or start a conversation."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "projects",
+      "name": "Projects",
+      "type": "portfolio",
+      "narrative": {
+        "headline": "Work that changes what a place means.",
+        "intro": "From the rewilding of Times Square to the underground expansion of the Louvre Abu Dhabi, each project in our portfolio begins with a question no brief could fully contain. We select the work we show here not for its scale, but for what it taught us — and what it gave to the people who now inhabit it.",
+        "sections": [
+          {
+            "name": "Portfolio intro",
+            "blocks": [
+              "Filter by discipline, region, or typology. Or begin anywhere — every project here is a complete argument for a different way of thinking about the places we share."
+            ]
+          },
+          {
+            "name": "Featured work callout",
+            "blocks": [
+              "Selected projects represent the full range of Snøhetta's practice: civic institutions, cultural landmarks, private residences, urban interventions, and brand identities that have shaped how entire industries present themselves to the world."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "services",
+      "name": "Services",
+      "type": "services",
+      "narrative": {
+        "headline": "Five disciplines. One way of thinking.",
+        "intro": "Snøhetta operates across architecture, interior design, landscape architecture, brand strategy, and product design — not as parallel services, but as an integrated intelligence. The result is work that cannot be attributed to a single lens, and cannot be replicated by any firm that operates in only one.",
+        "sections": [
+          {
+            "name": "Architecture",
+            "blocks": [
+              "We design buildings that respond to their moment in culture — civic institutions, cultural centers, educational facilities, mixed-use developments, and private residences that are built to outlast the generation that commissioned them.",
+              "Our architecture is not a style. It is a methodology: start with the site, the light, the climate, the people who will inhabit the space. The form follows from that — not from a signature."
+            ]
+          },
+          {
+            "name": "Interior Design",
+            "blocks": [
+              "Interiors at Snøhetta begin where the building ends and the human scale begins. We design the atmospheres that architecture promises but cannot fully deliver on its own — the textures, the light, the sequence of movement through a space."
+            ]
+          },
+          {
+            "name": "Landscape Architecture",
+            "blocks": [
+              "We design public spaces as living systems: parks, plazas, waterfronts, and urban corridors that absorb water, support biodiversity, and give cities the breathing room they are losing everywhere else.",
+              "Our landscape work often begins before the building does. The ground is not a backdrop. It is the argument."
+            ]
+          },
+          {
+            "name": "Brand Strategy",
+            "blocks": [
+              "Snøhetta's brand practice applies the same interdisciplinary thinking that shapes our buildings to the identities of institutions, companies, and places. We have shaped the visual language of cultural organizations, technology companies, and entire districts.",
+              "A brand, like a building, is inhabited. We design both with that in mind."
+            ]
+          },
+          {
+            "name": "Product Design",
+            "blocks": [
+              "From furniture to lighting to public infrastructure, our product work is driven by a single question: what would this object have to be to deserve to exist? The answer is always more rigorous than expected — and longer-lasting."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "type": "about",
+      "narrative": {
+        "headline": "Built in 1989. Still asking the same question.",
+        "intro": "Snøhetta was founded in Oslo by a group of architects who believed that buildings and landscapes are not separate problems. Thirty-five years later, that belief has produced work on six continents, a practice of 250 people, and a growing conviction that the most important projects are the ones that no single discipline could solve alone.",
+        "sections": [
+          {
+            "name": "Origin",
+            "blocks": [
+              "The name comes from a mountain in Norway — not as a metaphor for height, but for groundedness. Snøhetta is a peak you reach by traversing a plateau. The journey is horizontal before it is vertical. The view, when it comes, is earned.",
+              "We have always thought of our practice that way."
+            ]
+          },
+          {
+            "name": "Philosophy",
+            "blocks": [
+              "We believe that the best design is the product of genuine collaboration — between disciplines, between client and architect, between the project and the communities that will inherit it.",
+              "We do not have a signature style. We have a signature process: slow, listening, generative, and deeply rooted in the specific conditions of each place and each brief."
+            ]
+          },
+          {
+            "name": "Scale & reach",
+            "blocks": [
+              "Four offices. Oslo, New York, San Francisco, Paris. A practice large enough to take on landmark commissions, small enough that every project is overseen by the same people who designed it."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "people",
+      "name": "People",
+      "type": "team",
+      "narrative": {
+        "headline": "A practice is its people, or it is nothing.",
+        "intro": "Snøhetta has never operated as a single-author firm. There is no house style imposed from the top. Instead, there is a culture of shared authorship — a studio where the best idea wins, regardless of who holds the title on the door. That culture begins with the people who work here.",
+        "sections": [
+          {
+            "name": "How we work together",
+            "blocks": [
+              "Every project at Snøhetta is led by a team, not an individual. Junior designers contribute to the same decisions as partners. Landscape architects sit in the same rooms as brand strategists. The friction is productive by design.",
+              "We hire people who are uncomfortable with easy answers. They tend to stay."
+            ]
+          },
+          {
+            "name": "Leadership",
+            "blocks": [
+              "Our partners and principals bring decades of experience across architecture, landscape, interior design, and brand strategy. What they share is not a background but a disposition: an insistence that every project deserves more thinking than the brief asks for."
+            ]
+          },
+          {
+            "name": "Working at Snøhetta",
+            "blocks": [
+              "We are always looking for people who want to build something that will outlast them. If that sounds right, we'd like to meet you."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "journal",
+      "name": "Journal",
+      "type": "blog",
+      "narrative": {
+        "headline": "Thinking in public.",
+        "intro": "The Journal is where Snøhetta thinks out loud — essays on the projects underway, reflections on cities changing faster than anyone planned for, and conversations with the clients, communities, and collaborators who shape our work. It is not a press release. It is a record of a practice in motion.",
+        "sections": [
+          {
+            "name": "What you'll find here",
+            "blocks": [
+              "Long-form project essays. Conversations with the people we build for. Observations on the cities, landscapes, and institutions we move through every day.",
+              "We write when we have something to say. Which is often."
+            ]
+          },
+          {
+            "name": "Editorial stance",
+            "blocks": [
+              "Snøhetta's Journal does not chase news cycles. It documents a way of seeing — attentive, rigorous, occasionally polemical, always grounded in the specific over the general."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "responsibility",
+      "name": "Responsibility",
+      "type": "about",
+      "narrative": {
+        "headline": "Every project is a climate decision.",
+        "intro": "Architecture is one of the largest contributors to global carbon emissions. We have known this for decades. What we do about it — project by project, material by material, client conversation by client conversation — is the most important design problem of our era. Snøhetta treats it as such.",
+        "sections": [
+          {
+            "name": "Our commitment",
+            "blocks": [
+              "We have committed to designing all new buildings to net-zero carbon by 2030. That commitment shapes our material specifications, our energy modeling, our structural choices, and — critically — our conversations with clients before a single line is drawn.",
+              "We do not believe sustainability is a constraint. We believe it is the brief."
+            ]
+          },
+          {
+            "name": "In practice",
+            "blocks": [
+              "Snøhetta's Powerhouse Brattørkaia in Trondheim is the northernmost energy-positive building in the world — it produces more energy than it consumes over its lifetime. That is not a feature. It is proof of concept.",
+              "We apply the same standard to every scale of work: a public plaza that cools the surrounding urban heat island, a brand identity built on materials that can be returned to the supply chain, a product designed to be repaired, not replaced."
+            ]
+          },
+          {
+            "name": "The longer view",
+            "blocks": [
+              "Architecture lasts. The decisions we make today will shape how cities respond to climate change for the next hundred years. We design with that timeline in mind — not because it is asked of us, but because it is the only honest way to work."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "type": "contact",
+      "narrative": {
+        "headline": "Start here.",
+        "intro": "Every significant project begins with a conversation before it becomes a brief. If you have a commission in mind — or simply a question you haven't been able to answer — we'd like to hear it.",
+        "sections": [
+          {
+            "name": "New commissions",
+            "blocks": [
+              "For new project inquiries, tell us as much or as little as you know. We respond to every message. We are particularly interested in projects at the intersection of disciplines — the ones that are difficult to categorize are often the ones worth doing."
+            ]
+          },
+          {
+            "name": "Offices",
+            "blocks": [
+              "Oslo — Skur 39, Vippetangen, 0150 Oslo, Norway",
+              "New York — 110 William Street, New York, NY 10038",
+              "San Francisco — 318 Leavenworth Street, San Francisco, CA 94102",
+              "Paris — 54 rue du Faubourg Saint-Antoine, 75012 Paris"
+            ]
+          },
+          {
+            "name": "Press & media",
+            "blocks": [
+              "For press inquiries, image requests, and media partnerships, please contact our communications team directly."
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

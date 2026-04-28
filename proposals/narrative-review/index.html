@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narrative Review | Moood.Studio</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        :root {
+            --sidebar-width: 30%;
+            --font-main: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --gray-light: #f5f5f5;
+            --gray-mid: #e0e0e0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: #fff;
+            color: #000;
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── LAYOUT ───────────────────────────────────────── */
+        .nr-layout {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* ── SIDEBAR ──────────────────────────────────────── */
+        .nr-sidebar {
+            width: var(--sidebar-width);
+            min-width: 340px;
+            max-width: 420px;
+            background: #000;
+            color: #fff;
+            padding: 56px 52px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .nr-logo {
+            width: 52px;
+            height: 52px;
+            display: block;
+            margin-bottom: 56px;
+        }
+
+        .nr-sidebar-tag {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 16px;
+        }
+
+        .nr-sidebar-title {
+            font-size: clamp(32px, 3.5vw, 52px);
+            font-weight: 300;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .nr-sidebar-desc {
+            font-size: 15px;
+            line-height: 1.65;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 48px;
+        }
+
+        .nr-project-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .nr-project-row {
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+        }
+
+        .nr-project-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            flex-shrink: 0;
+            width: 60px;
+        }
+
+        .nr-project-value {
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.4;
+        }
+
+        /* Progress pill */
+        .nr-progress-wrap {
+            margin-top: auto;
+        }
+
+        .nr-progress-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 12px;
+        }
+
+        .nr-progress-bar-track {
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .nr-progress-bar-fill {
+            height: 100%;
+            background: #fff;
+            border-radius: 1px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .nr-progress-text {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .nr-progress-text strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .nr-footer-note {
+            font-size: 10px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 32px;
+        }
+
+        /* ── MAIN ─────────────────────────────────────────── */
+        .nr-main {
+            flex: 1;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .nr-scroll {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 72px 72px 120px;
+            scroll-behavior: smooth;
+        }
+
+        .nr-main-header {
+            margin-bottom: 48px;
+        }
+
+        .nr-main-title {
+            font-size: clamp(24px, 2.5vw, 36px);
+            font-weight: 400;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .nr-main-subtitle {
+            font-size: 15px;
+            color: rgba(0,0,0,0.45);
+            line-height: 1.6;
+            max-width: 560px;
+        }
+
+        /* ── PAGE TREE ────────────────────────────────────── */
+        .nr-page-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nr-page-node {
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            cursor: pointer;
+        }
+
+        .nr-page-node:hover {
+            border-color: rgba(0,0,0,0.18);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .nr-page-node.is-active {
+            border-color: #000;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+        }
+
+        .nr-page-node.is-approved {
+            border-color: rgba(0,0,0,0.12);
+            background: #fafafa;
+        }
+
+        .nr-page-node.is-changes {
+            border-color: #e8870a;
+        }
+
+        .nr-node-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: transparent;
+            user-select: none;
+        }
+
+        /* Page icon */
+        .nr-node-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.25s;
+        }
+
+        .nr-node-icon svg {
+            width: 15px;
+            height: 15px;
+            stroke: rgba(0,0,0,0.4);
+            stroke-width: 1.5;
+            fill: none;
+            transition: stroke 0.25s;
+        }
+
+        .nr-page-node.is-approved .nr-node-icon {
+            background: #000;
+        }
+
+        .nr-page-node.is-approved .nr-node-icon svg {
+            stroke: #fff;
+        }
+
+        .nr-page-node.is-changes .nr-node-icon {
+            background: rgba(232,135,10,0.1);
+        }
+
+        .nr-page-node.is-changes .nr-node-icon svg {
+            stroke: #e8870a;
+        }
+
+        /* Page name */
+        .nr-node-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+            flex: 1;
+        }
+
+        /* Type badge */
+        .nr-node-type {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.05);
+            padding: 3px 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        /* Status badge */
+        .nr-node-status {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .nr-node-status.status-pending {
+            color: rgba(0,0,0,0.25);
+            background: transparent;
+        }
+
+        .nr-node-status.status-approved {
+            color: #000;
+            background: rgba(0,0,0,0.06);
+        }
+
+        .nr-node-status.status-changes {
+            color: #e8870a;
+            background: rgba(232,135,10,0.08);
+        }
+
+        /* Open indicator */
+        .nr-node-chevron {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .nr-page-node.is-active .nr-node-chevron {
+            opacity: 1;
+            transform: rotate(180deg);
+        }
+
+        .nr-node-chevron svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* ── SUBMIT BAR ───────────────────────────────────── */
+        .nr-submit-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding: 20px 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+            z-index: 10;
+        }
+
+        .nr-submit-bar.visible {
+            transform: translateY(0);
+        }
+
+        .nr-submit-bar-info {
+            font-size: 13px;
+            color: rgba(0,0,0,0.5);
+        }
+
+        .nr-submit-bar-info strong {
+            color: #000;
+        }
+
+        .nr-submit-btn {
+            padding: 14px 36px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .nr-submit-btn:hover { opacity: 0.8; }
+
+        .nr-submit-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        /* ── SUCCESS STATE ────────────────────────────────── */
+        .nr-success {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            padding: 80px;
+            gap: 24px;
+        }
+
+        .nr-success.visible { display: flex; }
+
+        .nr-success-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nr-success-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #fff;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .nr-success-title {
+            font-size: 32px;
+            font-weight: 300;
+            color: #000;
+        }
+
+        .nr-success-desc {
+            font-size: 16px;
+            color: rgba(0,0,0,0.5);
+            line-height: 1.7;
+            max-width: 480px;
+        }
+
+        /* ── LOADING / ERROR STATES ───────────────────────── */
+        .nr-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .nr-state-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #000;
+        }
+
+        .nr-state-desc {
+            font-size: 14px;
+            color: rgba(0,0,0,0.45);
+            line-height: 1.6;
+        }
+
+        .nr-spinner {
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(0,0,0,0.1);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── DRAWER ───────────────────────────────────────── */
+        .nr-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.25);
+            z-index: 400;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .nr-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nr-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 480px;
+            max-width: 100vw;
+            height: 100vh;
+            background: #fff;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: -8px 0 48px rgba(0,0,0,0.14);
+        }
+
+        .nr-drawer.open {
+            transform: translateX(0);
+        }
+
+        /* Drawer header */
+        .nr-drawer-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .nr-drawer-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+
+        .nr-drawer-close:hover { background: rgba(0,0,0,0.06); }
+
+        .nr-drawer-close svg {
+            width: 16px;
+            height: 16px;
+            stroke: rgba(0,0,0,0.5);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .nr-drawer-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #000;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nr-drawer-type {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.05);
+            padding: 3px 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Drawer body */
+        .nr-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        /* Narrative section block */
+        .nr-nar-section {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .nr-nar-section-name {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .nr-nar-headline {
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 1.25;
+            color: #000;
+            margin-bottom: 0;
+        }
+
+        .nr-nar-intro {
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(0,0,0,0.6);
+        }
+
+        .nr-nar-block {
+            font-size: 13px;
+            line-height: 1.75;
+            color: rgba(0,0,0,0.7);
+        }
+
+        /* Drawer action area */
+        .nr-drawer-actions {
+            padding: 20px 24px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nr-drawer-action-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+        }
+
+        .nr-drawer-btn-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nr-btn-approve {
+            flex: 1;
+            padding: 12px 16px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+
+        .nr-btn-approve:hover { opacity: 0.8; }
+
+        .nr-btn-approve svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .nr-btn-changes {
+            flex: 1;
+            padding: 12px 16px;
+            background: transparent;
+            color: #000;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s, border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .nr-btn-changes:hover { background: #f5f5f5; border-color: rgba(0,0,0,0.35); }
+
+        .nr-btn-changes svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Approved / changes feedback */
+        .nr-drawer-feedback {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nr-drawer-feedback.visible {
+            display: flex;
+        }
+
+        .nr-feedback-approved {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.04);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(0,0,0,0.5);
+        }
+
+        .nr-feedback-approved svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        .nr-feedback-approved.visible { display: flex; }
+
+        .nr-comment-wrap {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nr-comment-wrap.visible { display: flex; }
+
+        .nr-comment-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(232,135,10,0.8);
+        }
+
+        .nr-comment-input {
+            padding: 12px 14px;
+            border: 1px solid rgba(232,135,10,0.4);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            background: rgba(232,135,10,0.04);
+            color: #000;
+            resize: none;
+            min-height: 80px;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .nr-comment-input:focus { border-color: #e8870a; }
+
+        .nr-comment-input::placeholder { color: rgba(0,0,0,0.3); }
+
+        .nr-btn-confirm-changes {
+            padding: 11px 16px;
+            background: #e8870a;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.2s;
+            align-self: flex-start;
+        }
+
+        .nr-btn-confirm-changes:hover { opacity: 0.85; }
+
+        /* Undo link */
+        .nr-undo-link {
+            font-size: 11px;
+            color: rgba(0,0,0,0.35);
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            padding: 0;
+            align-self: flex-start;
+        }
+
+        .nr-undo-link:hover { color: #000; }
+    </style>
+</head>
+<body>
+
+<div class="nr-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="nr-sidebar">
+        <div>
+            <img src="/logo-white.svg" class="nr-logo" alt="Moood.Studio"
+                 onerror="this.style.cssText='width:44px;height:44px;background:#fff;border-radius:4px;margin-bottom:56px;display:block'">
+
+            <p class="nr-sidebar-tag">Narrative Review</p>
+            <h1 class="nr-sidebar-title" id="sidebarTitle">Review your narrative</h1>
+            <p class="nr-sidebar-desc">
+                Open each page below, read through the narrative we've written, and mark it as approved or request changes. Once all pages are reviewed, submit your feedback.
+            </p>
+
+            <div class="nr-project-info" id="projectInfo" style="display:none;">
+                <div class="nr-project-row">
+                    <span class="nr-project-label">Project</span>
+                    <span class="nr-project-value" id="infoProjectName">—</span>
+                </div>
+                <div class="nr-project-row">
+                    <span class="nr-project-label">Code</span>
+                    <span class="nr-project-value" id="infoCode" style="letter-spacing:0.1em;font-size:11px;font-weight:700;">—</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nr-progress-wrap" id="progressWrap" style="display:none;">
+            <p class="nr-progress-label">Your progress</p>
+            <div class="nr-progress-bar-track">
+                <div class="nr-progress-bar-fill" id="progressFill"></div>
+            </div>
+            <p class="nr-progress-text">
+                <strong id="progressCount">0</strong>
+                <span id="progressTotal"> of 0 pages reviewed</span>
+            </p>
+            <p class="nr-footer-note">Your feedback is saved automatically when you submit at the end.</p>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="nr-main">
+
+        <!-- Loading -->
+        <div class="nr-state" id="stateLoading">
+            <div class="nr-spinner"></div>
+            <p class="nr-state-title">Loading your narrative…</p>
+        </div>
+
+        <!-- Error -->
+        <div class="nr-state" id="stateError" style="display:none;">
+            <p class="nr-state-title" id="errorTitle">Something went wrong</p>
+            <p class="nr-state-desc" id="errorDesc">We couldn't load the narrative for this project code. Please check the link and try again.</p>
+        </div>
+
+        <!-- Review area -->
+        <div class="nr-scroll" id="reviewArea" style="display:none;">
+            <div class="nr-main-header">
+                <h2 class="nr-main-title">Your pages</h2>
+                <p class="nr-main-subtitle">Click any page to read its narrative. Approve or request changes — you can review them in any order.</p>
+            </div>
+            <div class="nr-page-list" id="pageList"></div>
+        </div>
+
+        <!-- Success -->
+        <div class="nr-success" id="stateSuccess">
+            <div class="nr-success-icon">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="nr-success-title">Feedback submitted</h2>
+            <p class="nr-success-desc">We've received your review. Our team will process your feedback and be in touch shortly.</p>
+        </div>
+
+        <!-- Submit bar -->
+        <div class="nr-submit-bar" id="submitBar">
+            <p class="nr-submit-bar-info">
+                <strong id="submitCount">0</strong><span id="submitTotal"> of 0 pages reviewed</span>
+                <span id="submitHint" style="display:none;color:rgba(0,0,0,0.4);"> — review all pages to submit</span>
+            </p>
+            <button class="nr-submit-btn" id="submitBtn" disabled onclick="submitReview()">Submit feedback</button>
+        </div>
+
+    </main>
+</div>
+
+<!-- Backdrop -->
+<div class="nr-backdrop" id="backdrop" onclick="closeDrawer()"></div>
+
+<!-- Drawer -->
+<div class="nr-drawer" id="drawer">
+    <div class="nr-drawer-head">
+        <button class="nr-drawer-close" onclick="closeDrawer()">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <span class="nr-drawer-title" id="drawerTitle">Page</span>
+        <span class="nr-drawer-type" id="drawerType">—</span>
+    </div>
+
+    <div class="nr-drawer-body" id="drawerBody"></div>
+
+    <div class="nr-drawer-actions" id="drawerActions">
+        <span class="nr-drawer-action-label">Your decision</span>
+
+        <!-- Pending state: two buttons -->
+        <div class="nr-drawer-btn-row" id="btnRow">
+            <button class="nr-btn-approve" onclick="approvePage()">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Approve
+            </button>
+            <button class="nr-btn-changes" onclick="showChangesForm()">
+                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Request changes
+            </button>
+        </div>
+
+        <!-- Approved feedback -->
+        <div class="nr-feedback-approved" id="feedbackApproved">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Approved
+            <button class="nr-undo-link" onclick="undoDecision()" style="margin-left:auto;">Undo</button>
+        </div>
+
+        <!-- Changes form -->
+        <div class="nr-comment-wrap" id="commentWrap">
+            <span class="nr-comment-label">What needs to change?</span>
+            <textarea class="nr-comment-input" id="commentInput" rows="3" placeholder="Describe what you'd like us to revise…"></textarea>
+            <button class="nr-btn-confirm-changes" onclick="confirmChanges()">Send feedback</button>
+            <button class="nr-undo-link" onclick="cancelChanges()">Cancel</button>
+        </div>
+
+        <!-- Changes confirmed -->
+        <div class="nr-feedback-approved" id="feedbackChanges" style="background:rgba(232,135,10,0.06);color:#e8870a;">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            Changes requested
+            <button class="nr-undo-link" onclick="undoDecision()" style="margin-left:auto;color:rgba(232,135,10,0.6);">Undo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ── STATE ──────────────────────────────────────────────────────────────
+    let pages       = [];
+    let reviews     = {};   // { pageId: { status, comment } }
+    let activePageId = null;
+    let projectCode  = '';
+    let projectName  = '';
+    let clientName   = '';
+
+    // ── BOOT ───────────────────────────────────────────────────────────────
+    (function init() {
+        const params = new URLSearchParams(window.location.search);
+        const code   = (params.get('code') || '').trim();
+
+        if (!code || !/^MSD-\d{4}-\d{4}$/.test(code)) {
+            showError('Invalid link', 'This link is missing or has an invalid project code. Please use the link from your email.');
+            return;
+        }
+
+        projectCode = code;
+        fetchNarratives(code);
+    })();
+
+    async function fetchNarratives(code) {
+        try {
+            const res  = await fetch(`/api/get-narratives?code=${encodeURIComponent(code)}`);
+            const data = await res.json();
+
+            if (!res.ok) {
+                showError('Project not found', data.error || 'We could not find narratives for this project code.');
+                return;
+            }
+
+            projectName = data.projectName || '';
+            clientName  = data.clientName  || '';
+            pages       = data.pages       || [];
+
+            // Restore any existing reviews from the data
+            pages.forEach(p => {
+                if (p.reviewStatus && p.reviewStatus !== 'pending') {
+                    reviews[p.id] = {
+                        status:  p.reviewStatus,
+                        comment: p.reviewComment || ''
+                    };
+                }
+            });
+
+            renderUI();
+
+        } catch (err) {
+            showError('Connection error', 'We had trouble loading your narrative. Please refresh the page.');
+        }
+    }
+
+    // ── RENDER ─────────────────────────────────────────────────────────────
+    function renderUI() {
+        // Sidebar
+        document.getElementById('sidebarTitle').textContent = projectName || 'Review your narrative';
+        document.getElementById('infoProjectName').textContent = projectName;
+        document.getElementById('infoCode').textContent = projectCode;
+        document.getElementById('projectInfo').style.display  = '';
+        document.getElementById('progressWrap').style.display = '';
+
+        // Hide loading, show review area
+        document.getElementById('stateLoading').style.display = 'none';
+        document.getElementById('reviewArea').style.display   = '';
+
+        renderPageList();
+        updateProgress();
+    }
+
+    function renderPageList() {
+        const list = document.getElementById('pageList');
+        list.innerHTML = pages.map((page, idx) => {
+            const review = reviews[page.id];
+            const status = review ? review.status : 'pending';
+            return `
+                <div class="nr-page-node ${statusClass(status)}"
+                     id="node-${page.id}"
+                     onclick="openDrawer('${page.id}')">
+                    <div class="nr-node-row">
+                        <div class="nr-node-icon">${pageIcon(page.type)}</div>
+                        <span class="nr-node-name">${page.name}</span>
+                        <span class="nr-node-type">${page.type}</span>
+                        <span class="nr-node-status ${statusBadgeClass(status)}">${statusLabel(status)}</span>
+                        <span class="nr-node-chevron">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    function updateProgress() {
+        const reviewed = Object.keys(reviews).length;
+        const total    = pages.length;
+        const pct      = total > 0 ? Math.round((reviewed / total) * 100) : 0;
+
+        document.getElementById('progressFill').style.width  = pct + '%';
+        document.getElementById('progressCount').textContent = reviewed;
+        document.getElementById('progressTotal').textContent = ` of ${total} pages reviewed`;
+        document.getElementById('submitCount').textContent   = reviewed;
+        document.getElementById('submitTotal').textContent   = ` of ${total} pages reviewed`;
+
+        const allDone = reviewed >= total && total > 0;
+        const bar     = document.getElementById('submitBar');
+        const btn     = document.getElementById('submitBtn');
+        const hint    = document.getElementById('submitHint');
+
+        bar.classList.toggle('visible', reviewed > 0);
+        btn.disabled = !allDone;
+        hint.style.display = (!allDone && reviewed > 0) ? '' : 'none';
+    }
+
+    // ── DRAWER ─────────────────────────────────────────────────────────────
+    function openDrawer(pageId) {
+        const page = pages.find(p => p.id === pageId);
+        if (!page) return;
+
+        activePageId = pageId;
+
+        // Update active node
+        document.querySelectorAll('.nr-page-node').forEach(n => n.classList.remove('is-active'));
+        document.getElementById('node-' + pageId)?.classList.add('is-active');
+
+        // Populate drawer head
+        document.getElementById('drawerTitle').textContent = page.name;
+        document.getElementById('drawerType').textContent  = page.type;
+
+        // Populate drawer body
+        const body = document.getElementById('drawerBody');
+        body.innerHTML = buildNarrativeHTML(page.narrative);
+
+        // Reset action area to current review state
+        syncActionArea(reviews[pageId]);
+
+        // Open
+        document.getElementById('backdrop').classList.add('open');
+        document.getElementById('drawer').classList.add('open');
+        body.scrollTop = 0;
+    }
+
+    function closeDrawer() {
+        activePageId = null;
+        document.getElementById('backdrop').classList.remove('open');
+        document.getElementById('drawer').classList.remove('open');
+        document.querySelectorAll('.nr-page-node').forEach(n => n.classList.remove('is-active'));
+    }
+
+    function buildNarrativeHTML(narrative) {
+        if (!narrative) return '<p style="padding:24px;color:rgba(0,0,0,0.4);font-size:13px;">No narrative content.</p>';
+
+        let html = '';
+
+        if (narrative.headline) {
+            html += `<div class="nr-nar-section">
+                <p class="nr-nar-section-name">Headline</p>
+                <p class="nr-nar-headline">${escHtml(narrative.headline)}</p>
+            </div>`;
+        }
+
+        if (narrative.intro) {
+            html += `<div class="nr-nar-section">
+                <p class="nr-nar-section-name">Intro</p>
+                <p class="nr-nar-intro">${escHtml(narrative.intro)}</p>
+            </div>`;
+        }
+
+        (narrative.sections || []).forEach(sec => {
+            const blocks = Array.isArray(sec.blocks) ? sec.blocks : [sec.blocks].filter(Boolean);
+            html += `<div class="nr-nar-section">
+                <p class="nr-nar-section-name">${escHtml(sec.name)}</p>
+                ${blocks.map(b => `<p class="nr-nar-block">${escHtml(b)}</p>`).join('')}
+            </div>`;
+        });
+
+        return html || '<p style="padding:24px;color:rgba(0,0,0,0.4);font-size:13px;">No narrative content.</p>';
+    }
+
+    // ── ACTION AREA ────────────────────────────────────────────────────────
+    function syncActionArea(review) {
+        const btnRow         = document.getElementById('btnRow');
+        const feedbackApproved = document.getElementById('feedbackApproved');
+        const feedbackChanges  = document.getElementById('feedbackChanges');
+        const commentWrap      = document.getElementById('commentWrap');
+        const commentInput     = document.getElementById('commentInput');
+
+        // Reset all
+        btnRow.style.display           = 'flex';
+        feedbackApproved.style.display = 'none';
+        feedbackChanges.style.display  = 'none';
+        commentWrap.style.display      = 'none';
+        commentInput.value             = '';
+
+        if (!review) return;
+
+        if (review.status === 'approved') {
+            btnRow.style.display           = 'none';
+            feedbackApproved.style.display = 'flex';
+        } else if (review.status === 'changes_requested') {
+            btnRow.style.display           = 'none';
+            feedbackChanges.style.display  = 'flex';
+            commentInput.value             = review.comment || '';
+        }
+    }
+
+    function approvePage() {
+        if (!activePageId) return;
+        reviews[activePageId] = { status: 'approved', comment: '' };
+        syncActionArea(reviews[activePageId]);
+        updateNodeState(activePageId);
+        updateProgress();
+    }
+
+    function showChangesForm() {
+        document.getElementById('btnRow').style.display    = 'none';
+        document.getElementById('commentWrap').style.display = 'flex';
+        document.getElementById('commentInput').focus();
+    }
+
+    function cancelChanges() {
+        const review = reviews[activePageId];
+        syncActionArea(review || null);
+    }
+
+    function confirmChanges() {
+        if (!activePageId) return;
+        const comment = document.getElementById('commentInput').value.trim();
+        reviews[activePageId] = { status: 'changes_requested', comment };
+        syncActionArea(reviews[activePageId]);
+        updateNodeState(activePageId);
+        updateProgress();
+    }
+
+    function undoDecision() {
+        if (!activePageId) return;
+        delete reviews[activePageId];
+        syncActionArea(null);
+        updateNodeState(activePageId);
+        updateProgress();
+    }
+
+    function updateNodeState(pageId) {
+        const node   = document.getElementById('node-' + pageId);
+        const review = reviews[pageId];
+        const status = review ? review.status : 'pending';
+
+        if (!node) return;
+        node.className = `nr-page-node ${statusClass(status)}`;
+
+        const badge = node.querySelector('.nr-node-status');
+        if (badge) {
+            badge.className   = `nr-node-status ${statusBadgeClass(status)}`;
+            badge.textContent = statusLabel(status);
+        }
+    }
+
+    // ── SUBMIT ─────────────────────────────────────────────────────────────
+    async function submitReview() {
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
+
+        const reviewsArray = pages.map(p => ({
+            pageId:  p.id,
+            status:  (reviews[p.id] || {}).status  || 'pending',
+            comment: (reviews[p.id] || {}).comment || ''
+        }));
+
+        try {
+            const res  = await fetch('/api/submit-narrative-review', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ code: projectCode, reviews: reviewsArray })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                btn.disabled = false;
+                btn.textContent = 'Submit feedback';
+                alert('Something went wrong: ' + (data.error || 'Please try again.'));
+                return;
+            }
+
+            closeDrawer();
+            document.getElementById('submitBar').classList.remove('visible');
+            document.getElementById('reviewArea').style.display  = 'none';
+            document.getElementById('stateSuccess').classList.add('visible');
+
+        } catch (err) {
+            btn.disabled = false;
+            btn.textContent = 'Submit feedback';
+            alert('Connection error. Please check your connection and try again.');
+        }
+    }
+
+    // ── HELPERS ────────────────────────────────────────────────────────────
+    function statusClass(status) {
+        if (status === 'approved')          return 'is-approved';
+        if (status === 'changes_requested') return 'is-changes';
+        return '';
+    }
+
+    function statusBadgeClass(status) {
+        if (status === 'approved')          return 'status-approved';
+        if (status === 'changes_requested') return 'status-changes';
+        return 'status-pending';
+    }
+
+    function statusLabel(status) {
+        if (status === 'approved')          return 'Approved';
+        if (status === 'changes_requested') return 'Changes';
+        return 'Pending';
+    }
+
+    function showError(title, desc) {
+        document.getElementById('stateLoading').style.display = 'none';
+        document.getElementById('stateError').style.display   = 'flex';
+        document.getElementById('errorTitle').textContent     = title;
+        document.getElementById('errorDesc').textContent      = desc;
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function pageIcon(type) {
+        const icons = {
+            homepage: `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+            product:  `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>`,
+            about:    `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`,
+            services: `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+            contact:  `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+            blog:     `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+            pillar:   `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+            landing:  `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>`,
+            team:     `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+        };
+        return icons[type] || `<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`;
+    }
+</script>
+
+</body>
+</html>

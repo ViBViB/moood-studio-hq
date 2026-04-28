@@ -19,6 +19,10 @@
             "destination": "/proposals/generator/index.html"
         },
         {
+            "source": "/narrative-review",
+            "destination": "/proposals/narrative-review/index.html"
+        },
+        {
             "source": "/p/:id",
             "destination": "/api/proposal?id=:id"
         },
