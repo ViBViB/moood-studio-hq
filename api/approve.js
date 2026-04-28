@@ -105,7 +105,7 @@ module.exports = async (req, res) => {
         };
 
         await put(`codes/${code}.json`, JSON.stringify(projectPassport), {
-            access: 'private',
+            access: 'public',
             contentType: 'application/json'
         });
 
