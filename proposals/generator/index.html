@@ -145,6 +145,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                     <select id="projectType">
                         <option value="website">Website</option>
                         <option value="landing">Landing page</option>
+                        <option value="blog">Blog</option>
+                        <option value="pillar">Pillar page</option>
+                        <option value="social">Social media</option>
+                        <option value="comms">Communications</option>
                         <option value="branding">Branding only</option>
                     </select>
                 </div>
@@ -336,7 +340,7 @@ function togglePlatform(show) {
 }
 
 // ── PAGES ────────────────────────────────────────────────────
-const PAGE_TYPES = ['homepage','product','about','services','contact','landing','blog','case-study','custom'];
+const PAGE_TYPES = ['homepage','product','about','services','contact','landing','blog','pillar','social','comms','case-study','custom'];
 function addPage(name='', type='') {
     const list = document.getElementById('pagesList');
     const row = document.createElement('div');
