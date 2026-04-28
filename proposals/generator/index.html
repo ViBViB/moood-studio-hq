@@ -178,13 +178,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                         <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="true" style="width:auto;margin:0;"> Client delivers copy</label>
                     </div>
                 </div>
-                <div class="field">
-                    <label>Brand</label>
-                    <div class="radio-group" style="display:flex;gap:24px;margin-top:10px;">
-                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="brandkit" value="false" checked style="width:auto;margin:0;"> Brand-Free</label>
-                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="brandkit" value="true" style="width:auto;margin:0;"> Brand-Locked</label>
-                    </div>
-                </div>
             </div>
 
             <div class="divider"></div>
@@ -527,7 +520,7 @@ function collectData() {
         tier: document.getElementById('projectTier').value,
         scenario: document.getElementById('projectScenario').value,
         hasNarrative: document.querySelector('input[name="narrative"]:checked').value === 'true',
-        hasBrandkit: document.querySelector('input[name="brandkit"]:checked').value === 'true',
+        hasBrandkit: document.getElementById('projectScenario').value !== 'A',
         pages, visionParagraphs,
         visionNote: v('visionNote').replace(/\[CLIENT_NAME\]/g, clientName),
         diagnosisItems, roadmapPhases, platformComparison,
