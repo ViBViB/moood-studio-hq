@@ -31,12 +31,16 @@ module.exports = async (req, res) => {
 
         return res.status(200).json({
             valid: true,
-            code: data.code,
-            projectName: data.projectName,
-            clientName: data.clientName,
-            tier: data.tier,
-            pages: data.pages,
-            createdAt: data.createdAt
+            code:         data.code,
+            projectName:  data.projectName,
+            clientName:   data.clientName,
+            leadName:     data.leadName     || '',
+            tier:         data.tier,
+            pages:        data.pages,
+            scenario:     data.scenario     || 'A',
+            hasNarrative: data.hasNarrative || false,
+            hasBrandkit:  data.hasBrandkit  || false,
+            createdAt:    data.createdAt
         });
 
     } catch (err) {
