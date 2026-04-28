@@ -168,10 +168,10 @@ Once the narrative is ready, push it to the Narrative Review using the API call 
 Once the Strategist has produced narratives, call this endpoint to store them:
 
 ```bash
-curl -X POST https://moood.studio/api/set-narratives \
+curl -X POST "https://moood.studio/api/narratives?action=set" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NARRATIVE_ADMIN_TOKEN" \
-  -d @PROJECTS/snohetta/narratives-payload.json
+  -d @AGENCY_CORE/test/narratives-payload.json
 ```
 
 A **sample narratives payload** is provided in `AGENCY_CORE/test/narratives-payload.json` — use it to test the full flow even before the Strategist has run.
