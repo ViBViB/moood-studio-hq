@@ -402,9 +402,11 @@ module.exports = async (req, res) => {
             return res.status(404).send('<h1>Proposal not found</h1>');
         }
 
-        const response = await fetch(blobs[0].downloadUrl);
+        const downloadUrl = blobs[0].downloadUrl;
+        const response = await fetch(downloadUrl);
         if (!response.ok) {
-            return res.status(500).send('<h1>Failed to load proposal</h1>');
+            const body = await response.text().catch(() => '');
+            return res.status(500).send(`<pre>fetch failed: ${response.status} ${response.statusText}\nurl: ${downloadUrl}\nbody: ${body}</pre>`);
         }
 
         const data = await response.json();
@@ -416,6 +418,6 @@ module.exports = async (req, res) => {
 
     } catch (err) {
         console.error('Proposal render error:', err);
-        return res.status(500).send('<h1>Internal server error</h1>');
+        return res.status(500).send(`<pre>error: ${err.message}\nstack: ${err.stack}</pre>`);
     }
 };
