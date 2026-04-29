@@ -798,6 +798,47 @@
         }
 
         .nr-undo-link:hover { color: #000; }
+
+        /* ── AGENCY BAR ──────────────────────────────────────── */
+        .nr-agency-bar {
+            display: none;
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            z-index: 200;
+        }
+
+        .nr-agency-bar.visible { display: block; }
+
+        .nr-btn-send-review {
+            padding: 10px 20px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: var(--font-main);
+            transition: opacity 0.2s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nr-btn-send-review:hover { opacity: 0.75; }
+        .nr-btn-send-review:disabled { opacity: 0.5; cursor: default; }
+
+        .nr-btn-send-review svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -843,6 +884,14 @@
 
     <!-- MAIN -->
     <main class="nr-main">
+
+        <!-- Agency bar (hidden for clients) -->
+        <div class="nr-agency-bar" id="agencyBar">
+            <button class="nr-btn-send-review" onclick="sendClientReview()">
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Send for client review
+            </button>
+        </div>
 
         <!-- Loading -->
         <div class="nr-state" id="stateLoading">
@@ -951,8 +1000,13 @@
 
     // ── BOOT ───────────────────────────────────────────────────────────────
     (function init() {
-        const params = new URLSearchParams(window.location.search);
-        const code   = (params.get('code') || '').trim();
+        const params   = new URLSearchParams(window.location.search);
+        const code     = (params.get('code') || '').trim();
+        const isAgency = params.has('agency');
+
+        if (isAgency) {
+            document.getElementById('agencyBar').classList.add('visible');
+        }
 
         if (!code || !/^MSD-\d{4}-\d{4}$/.test(code)) {
             showError('Invalid link', 'This link is missing or has an invalid project code. Please use the link from your email.');
@@ -1234,6 +1288,46 @@
             btn.disabled = false;
             btn.textContent = 'Submit feedback';
             alert('Connection error. Please check your connection and try again.');
+        }
+    }
+
+    // ── AGENCY ACTIONS ─────────────────────────────────────────────────────
+    async function sendClientReview() {
+        const btn = document.querySelector('.nr-btn-send-review');
+        const original = btn.innerHTML;
+        btn.innerHTML = 'Sending…';
+        btn.disabled = true;
+
+        const clientUrl = `${window.location.origin}${window.location.pathname}?code=${projectCode}`;
+
+        try {
+            const res = await fetch('/api/narrative-send-review', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: projectCode, projectName, clientUrl })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                btn.innerHTML = original;
+                btn.disabled = false;
+                alert('Could not send email: ' + (data.error || 'Please try again.'));
+                return;
+            }
+
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Sent to client';
+            btn.style.background = '#1a6b1a';
+            setTimeout(() => {
+                btn.innerHTML = original;
+                btn.style.background = '';
+                btn.disabled = false;
+            }, 4000);
+
+        } catch (err) {
+            btn.innerHTML = original;
+            btn.disabled = false;
+            alert('Connection error. Please try again.');
         }
     }
 
