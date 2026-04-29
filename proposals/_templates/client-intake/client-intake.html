@@ -5276,13 +5276,13 @@
 
         // Code-activated paths — welcome screen + scenario-conditional slides
         // Scenario A (Brand-Free): Sources → Visual refs → Brand assets → Competition → Audience → Conversion → Submit
-        const CODE_A_STRATEGY    = ['slide-code', 'slide-welcome', 'slide-sources', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const CODE_A_STRATEGY    = ['slide-code', 'slide-sources', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario B/C/D (Brand-Locked): Visual refs removed, Brand assets is primary
-        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-welcome', 'slide-sources', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-sources', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario A + client provides narrative
-        const CODE_A_NARRATIVE   = ['slide-code', 'slide-welcome', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
+        const CODE_A_NARRATIVE   = ['slide-code', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
         // Scenario B/C/D + client provides narrative
-        const CODE_BCD_NARRATIVE = ['slide-code', 'slide-welcome', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
+        const CODE_BCD_NARRATIVE = ['slide-code', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
 
         let projectPassport = null;
         let codeActivated   = false;
@@ -5501,10 +5501,11 @@
             const tagEl   = document.getElementById('sidebarTag');
             const h1El    = document.getElementById('sidebarH1');
             const descEl  = document.getElementById('sidebarDesc');
-            const name    = passport.clientName || passport.projectName || 'Welcome';
-            if (tagEl)  tagEl.textContent  = 'Project confirmed';
-            if (h1El)   h1El.innerHTML     = name + '.';
-            if (descEl) descEl.textContent = 'Your approved proposal is loaded. We just need a few inputs to get started.';
+            const rawName    = passport.leadName || passport.clientName || passport.projectName || '';
+            const firstName  = rawName.split(' ')[0];
+            if (tagEl)  tagEl.textContent  = passport.projectName || 'Your project';
+            if (h1El)   h1El.innerHTML     = 'Strategic<br>Intake.';
+            if (descEl) descEl.textContent = (firstName ? `Great to have you with us, ${firstName}. ` : 'Great to have you with us. ') + 'With your project officially in motion, we need to capture the core of your brand. Please complete this quick intake to help us map your visual DNA and align our build phase with your brand\'s strategic goals.';
 
             // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
             const navSlideLabels = {
