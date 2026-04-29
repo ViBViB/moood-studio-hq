@@ -93,9 +93,9 @@
         }
 
         .q-sidebar-instruction {
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 48px;
         }
 
@@ -4675,7 +4675,7 @@
                     <!-- ══ SLIDE SOURCES — STRATEGY ══════════════════ -->
                     <div class="q-slide" id="slide-sources" data-index="sources">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">06. Sources</h2>
+                            <h2 class="q-section-title">01. Sources</h2>
                             <p class="q-section-intro">Narratives aren't invented; they are extracted. Provide the raw
                                 material we need to anchor your strategy in hard evidence.</p>
                         </div>
@@ -5504,8 +5504,8 @@
             const rawName    = passport.leadName || passport.clientName || passport.projectName || '';
             const firstName  = rawName.split(' ')[0];
             if (tagEl)  tagEl.textContent  = passport.projectName || 'Your project';
-            if (h1El)   h1El.innerHTML     = 'Strategic<br>Intake.';
-            if (descEl) descEl.textContent = (firstName ? `Great to have you with us, ${firstName}. ` : 'Great to have you with us. ') + 'With your project officially in motion, we need to capture the core of your brand. Please complete this quick intake to help us map your visual DNA and align our build phase with your brand\'s strategic goals.';
+            if (h1El)   h1El.textContent   = 'Strategic Intake.';
+            if (descEl) descEl.innerHTML   = `<strong>${firstName ? `Great to have you with us, ${firstName}.` : 'Great to have you with us.'}</strong><br>With your project officially in motion, we need to capture the core of your brand. Please complete this quick intake to help us map your visual DNA and align our build phase with your brand's strategic goals.`;
 
             // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
             const navSlideLabels = {
