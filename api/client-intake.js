@@ -355,6 +355,14 @@ module.exports = async (req, res) => {
         const fields  = {};
         const files   = [];
 
+        // Buffer raw body first — vercel dev drains the stream before the function runs
+        const rawBody = await new Promise((resolve, reject) => {
+            const chunks = [];
+            req.on('data', c => chunks.push(c));
+            req.on('end', () => resolve(Buffer.concat(chunks)));
+            req.on('error', reject);
+        });
+
         await new Promise((resolve, reject) => {
             busboy.on('field', (name, val) => { fields[name] = val; });
             busboy.on('file', (name, stream, info) => {
@@ -371,7 +379,8 @@ module.exports = async (req, res) => {
             });
             busboy.on('finish', resolve);
             busboy.on('error', reject);
-            req.pipe(busboy);
+            busboy.write(rawBody);
+            busboy.end();
         });
 
         const { projectName, email, uploadNotes, scope, pageType, intakePath } = fields;
