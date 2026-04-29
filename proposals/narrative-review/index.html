@@ -1301,7 +1301,7 @@
         const clientUrl = `${window.location.origin}${window.location.pathname}?code=${projectCode}`;
 
         try {
-            const res = await fetch('/api/narrative-send-review', {
+            const res = await fetch('/api/narratives?action=send_review', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code: projectCode, projectName, clientUrl })
