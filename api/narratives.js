@@ -86,11 +86,89 @@ async function setNarratives(req, res) {
         contentType: 'application/json'
     });
 
+    const agencyUrl = `https://moood.studio/proposals/narrative-review/index.html?code=${code.trim()}&agency=1`;
+    const pageCount = narrativeDoc.pages.length;
+    const name      = projectName || code.trim();
+
+    await resend.emails.send({
+        from:    'Moood.Studio <narratives@moood.studio>',
+        to:      ['alberto.contreras@gmail.com'],
+        subject: `[NARRATIVE READY] ${name} — ${pageCount} pages · ${code.trim()}`,
+        html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:48px 24px;">
+    <tr>
+      <td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;">
+
+          <tr>
+            <td style="background:#000;padding:32px 48px;">
+              <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Moood.Studio · Strategy Director</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:48px 48px 16px;">
+              <h1 style="margin:0 0 12px;font-size:26px;font-weight:300;color:#000;line-height:1.2;">Narrative ready<br>for review.</h1>
+              <p style="margin:0 0 32px;font-size:15px;line-height:1.65;color:rgba(0,0,0,0.5);">
+                The narrative for <strong style="color:#000;">${name}</strong> is complete — ${pageCount} pages. Review it, then send it to the client directly from the review interface.
+              </p>
+
+              <table cellpadding="0" cellspacing="0" style="margin-bottom:40px;">
+                <tr>
+                  <td style="background:#000;border-radius:6px;">
+                    <a href="${agencyUrl}" style="display:inline-block;padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;text-decoration:none;">
+                      Review narrative →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+                <thead>
+                  <tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
+                    <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">#</th>
+                    <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Page</th>
+                    <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${narrativeDoc.pages.map((p, i) => `
+                  <tr style="border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <td style="padding:8px 0;font-size:11px;color:rgba(0,0,0,0.3);">${i + 1}</td>
+                    <td style="padding:8px 0;font-size:13px;font-weight:600;color:#000;">${p.name}</td>
+                    <td style="padding:8px 0;font-size:11px;color:rgba(0,0,0,0.4);text-transform:uppercase;letter-spacing:0.06em;">${p.type}</td>
+                  </tr>`).join('')}
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:24px 48px 40px;border-top:1px solid rgba(0,0,0,0.06);">
+              <p style="margin:0;font-size:11px;color:rgba(0,0,0,0.3);line-height:1.6;">
+                Project code: <strong>${code.trim()}</strong> · ${pageCount} pages<br>
+                The "Send for client review" button is available in the top-right of the review interface.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+    });
+
     return res.status(200).json({
         success:   true,
         code:      code.trim(),
         pages:     narrativeDoc.pages.length,
-        reviewUrl: `https://moood.studio/narrative-review?code=${code.trim()}`
+        agencyUrl
     });
 }
 
