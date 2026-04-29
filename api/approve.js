@@ -114,7 +114,7 @@ module.exports = async (req, res) => {
         await resend.emails.send({
             from: 'Moood Studio <notifications@moood.studio>',
             to: ['alberto.contreras@gmail.com'],
-            subject: `✅ Aprobado: ${projectName} (${clientName}) — ${code}`,
+            subject: `Project ${projectName} proposal approved`,
             html: `
                 <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:600px;line-height:1.6;">
                     <h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:16px;">PROPUESTA APROBADA</h1>
@@ -143,7 +143,7 @@ module.exports = async (req, res) => {
             await resend.emails.send({
                 from: 'Alberto at Moood.Studio <alberto@moood.studio>',
                 to: [clientEmail],
-                subject: `Your project is approved — next step inside`,
+                subject: `Welcome to Moood.Studio | Next steps for ${projectName}`,
                 html: `
                     <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:600px;line-height:1.8;">
                         <h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:10px;">Project Approved</h1>
