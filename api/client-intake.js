@@ -374,10 +374,80 @@ module.exports = async (req, res) => {
             req.pipe(busboy);
         });
 
-        const { projectName, email, uploadNotes, scope, pageType } = fields;
+        const { projectName, email, uploadNotes, scope, pageType, intakePath } = fields;
         const isSinglePage = scope === 'single';
 
         if (!email) return res.status(400).json({ error: 'Email is required' });
+
+        /* ── STRATEGY PATH (A / B / C / D) ─────────────────────── */
+        if (intakePath === 'strategy') {
+            const pageObjectives = fields.pageObjectives ? (() => { try { return JSON.parse(fields.pageObjectives); } catch { return []; } })() : [];
+            const sourceTexts = await Promise.all(files.filter(f => f.fieldname === 'sourceFiles').map(async f => ({
+                filename: f.filename,
+                text: await extractText(f.buffer, f.filename, f.mimeType)
+            })));
+            const leadName = fields.leadName || '';
+            const firstName = (leadName || '').split(' ')[0];
+
+            const objRows = pageObjectives.length > 0
+                ? pageObjectives.map(o => `<tr><td style="padding:6px 12px 6px 0;font-weight:600;color:#111;vertical-align:top;white-space:nowrap;">${o.page}</td><td style="padding:6px 0;color:#444;line-height:1.5;">${o.objective}</td></tr>`).join('')
+                : '<tr><td colspan="2" style="padding:6px 0;color:#999;">No page objectives provided.</td></tr>';
+
+            const sourceRows = sourceTexts.length > 0
+                ? sourceTexts.map(f => `<tr><td style="padding:4px 12px 4px 0;color:#555;">${f.filename}</td><td style="padding:4px 0;color:#999;font-size:12px;">${f.text.slice(0, 200).replace(/\n/g, ' ')}…</td></tr>`).join('')
+                : '<tr><td colspan="2" style="padding:6px 0;color:#999;">No source files uploaded.</td></tr>';
+
+            const fieldBlock = (label, value) => value
+                ? `<tr><td style="padding:8px 16px 8px 0;color:#666;width:140px;vertical-align:top;white-space:nowrap;">${label}</td><td style="padding:8px 0;color:#111;">${value}</td></tr>`
+                : '';
+
+            const strategyHtml = `
+            <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:640px;line-height:1.6;">
+                <h1 style="font-size:18px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:20px;">Strategy Intake — ${projectName || 'New Project'}</h1>
+                <table style="width:100%;font-size:13px;border-collapse:collapse;margin-bottom:24px;">
+                    ${fieldBlock('Project', projectName)}
+                    ${fieldBlock('Lead', leadName)}
+                    ${fieldBlock('Email', email)}
+                    ${fieldBlock('Scope', scope)}
+                </table>
+
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Page Objectives</h3>
+                <table style="width:100%;font-size:13px;border-collapse:collapse;margin-bottom:24px;">
+                    ${objRows}
+                </table>
+
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Visual References</h3>
+                <p style="font-size:13px;color:#444;">${(() => { try { return (JSON.parse(fields.visualRefs || '[]')).join('<br>') || '—'; } catch { return '—'; } })()}</p>
+
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Competitors</h3>
+                <p style="font-size:13px;color:#444;">${(() => { try { return (JSON.parse(fields.competitorsList || '[]')).join('<br>') || '—'; } catch { return '—'; } })()}</p>
+
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Audience</h3>
+                <p style="font-size:13px;color:#444;">${fields.portrait || '—'}</p>
+
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Conversion Goal</h3>
+                <p style="font-size:13px;color:#444;">${fields.cta || '—'}</p>
+
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Source Files (preview)</h3>
+                <table style="width:100%;font-size:12px;border-collapse:collapse;">
+                    ${sourceRows}
+                </table>
+            </div>`;
+
+            await resend.emails.send({
+                from: 'Moood Intake <notifications@moood.studio>',
+                to: ['alberto.contreras@gmail.com'],
+                subject: `[STRATEGY INTAKE] ${projectName || 'New Project'} — ${pageObjectives.length} page objectives`,
+                html: strategyHtml,
+                attachments: files.filter(f => f.fieldname === 'sourceFiles').map(f => ({
+                    filename: f.filename,
+                    content: f.buffer
+                }))
+            });
+
+            return res.status(200).json({ success: true, path: 'strategy' });
+        }
+
         if (files.length === 0) return res.status(400).json({ error: 'No files received' });
 
         /* 2 — Extract text from each file */

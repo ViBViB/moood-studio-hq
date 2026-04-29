@@ -4742,6 +4742,15 @@
 
                     </div>
 
+                    <!-- ══ SLIDE PAGE-OBJ — PAGE OBJECTIVES ══════════ -->
+                    <div class="q-slide" id="slide-page-obj" data-index="page-obj">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">02. Page objectives</h2>
+                            <p class="q-section-intro">For each page in your project, tell us its primary goal. What should a visitor understand, feel, or do after seeing it? Skip any page you're unsure about — we'll infer from context.</p>
+                        </div>
+                        <div id="pageObjContainer" style="display:flex;flex-direction:column;gap:24px;margin-top:8px;"></div>
+                    </div>
+
                     <!-- ══ SLIDE 7S — EVIDENCE (STRATEGY) ═══════════ -->
                     <div class="q-slide" id="slide-5s" data-index="5s">
                         <div class="q-section-header">
@@ -5273,9 +5282,9 @@
 
         // Code-activated paths — welcome screen + scenario-conditional slides
         // Scenario A (Brand-Free): Sources → Visual refs → Brand assets → Competition → Audience → Conversion → Submit
-        const CODE_A_STRATEGY    = ['slide-code', 'slide-sources', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const CODE_A_STRATEGY    = ['slide-code', 'slide-sources', 'slide-page-obj', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario B/C/D (Brand-Locked): Visual refs removed, Brand assets is primary
-        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-sources', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-sources', 'slide-page-obj', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario A + client provides narrative
         const CODE_A_NARRATIVE   = ['slide-code', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
         // Scenario B/C/D + client provides narrative
@@ -5396,6 +5405,7 @@
 
             // Populate welcome slide
             populateWelcomeSlide(passport, currentPath);
+            populatePageObjectives(passport);
 
             currentIdx = 1;
             updateSidebarForPassport(passport, currentPath); // build nav items first
@@ -5494,6 +5504,32 @@
             updateSlider();
         }
 
+        function populatePageObjectives(passport) {
+            const container = document.getElementById('pageObjContainer');
+            if (!container) return;
+            const pages = passport.pages || [];
+            container.innerHTML = pages.map((p, i) => {
+                const name = typeof p === 'object' ? p.name : p;
+                const type = typeof p === 'object' ? p.type : '';
+                return `
+                <div style="border:1px solid rgba(0,0,0,0.1);border-radius:4px;padding:20px 24px;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                        <span style="font-size:11px;font-weight:700;color:rgba(0,0,0,0.35);letter-spacing:1px;">${String(i+1).padStart(2,'0')}</span>
+                        <span style="font-size:15px;font-weight:600;color:#111;">${name}</span>
+                        ${type ? `<span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(0,0,0,0.3);background:rgba(0,0,0,0.05);padding:3px 8px;border-radius:2px;">${type}</span>` : ''}
+                        <span style="margin-left:auto;font-size:11px;color:rgba(0,0,0,0.3);">Optional</span>
+                    </div>
+                    <textarea
+                        id="pageObj_${i}"
+                        data-page="${name}"
+                        placeholder="What is the primary goal of this page?"
+                        rows="2"
+                        style="width:100%;border:none;border-bottom:1px solid rgba(0,0,0,0.12);padding:8px 0;font-size:14px;line-height:1.6;color:#111;background:transparent;resize:none;outline:none;font-family:inherit;"
+                    ></textarea>
+                </div>`;
+            }).join('');
+        }
+
         function updateSidebarForPassport(passport, path) {
             const tagEl   = document.getElementById('sidebarTag');
             const h1El    = document.getElementById('sidebarH1');
@@ -5507,11 +5543,12 @@
             // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
             const navSlideLabels = {
                 'slide-sources':        '01. Sources',
-                'slide-1':              '02. Visual references',
-                'slide-2':              '03. Brand assets',
-                'slide-st-competition': '04. Competitors',
-                'slide-st-audience':    '05. Audience',
-                'slide-st-conversion':  '06. Conversion',
+                'slide-page-obj':       '02. Page objectives',
+                'slide-1':              '03. Visual references',
+                'slide-2':              '04. Brand assets',
+                'slide-st-competition': '05. Competitors',
+                'slide-st-audience':    '06. Audience',
+                'slide-st-conversion':  '07. Conversion',
                 'slide-upload':         '01. Upload narrative',
                 'slide-7':              'Confirmation',
                 'slide-sitemap-review': 'Sitemap review'
@@ -6885,6 +6922,9 @@
 
             // Pages confirm: always valid (data is read-only)
             if (slideId === 'slide-pages-confirm') return true;
+
+            // Page objectives: always valid (all fields optional)
+            if (slideId === 'slide-page-obj') return true;
             if (slideId === 'slide-welcome') return true;
 
             // Slide 0: basics only
@@ -6962,6 +7002,31 @@
             formData.append('intakePath', selectedPath);
             formData.append('pageType', selectedPageType || '');
             formData.append('scope', selectedScope);
+
+            // Collect page objectives
+            const pageObjectives = [];
+            document.querySelectorAll('#pageObjContainer textarea[data-page]').forEach(ta => {
+                if (ta.value.trim()) {
+                    pageObjectives.push({ page: ta.dataset.page, objective: ta.value.trim() });
+                }
+            });
+            if (pageObjectives.length > 0) {
+                formData.append('pageObjectives', JSON.stringify(pageObjectives));
+            }
+
+            // Collect visual references (inputs have no name attribute)
+            const visualRefs = Array.from(document.querySelectorAll('#refLinksList input'))
+                .map(i => i.value.trim()).filter(Boolean);
+            if (visualRefs.length > 0) {
+                formData.append('visualRefs', JSON.stringify(visualRefs));
+            }
+
+            // Collect competitors (dynamic inputs)
+            const competitors = Array.from(document.querySelectorAll('#stCompetitorList input'))
+                .map(i => i.value.trim()).filter(Boolean);
+            if (competitors.length > 0) {
+                formData.append('competitorsList', JSON.stringify(competitors));
+            }
 
             const minDelay = new Promise(r => setTimeout(r, 1200));
             try {
