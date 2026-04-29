@@ -391,56 +391,68 @@ module.exports = async (req, res) => {
         /* ── STRATEGY PATH (A / B / C / D) ─────────────────────── */
         if (intakePath === 'strategy') {
             const pageObjectives = fields.pageObjectives ? (() => { try { return JSON.parse(fields.pageObjectives); } catch { return []; } })() : [];
-            const sourceTexts = await Promise.all(files.filter(f => f.fieldname === 'sourceFiles').map(async f => ({
-                filename: f.filename,
-                text: await extractText(f.buffer, f.filename, f.mimeType)
-            })));
-            const leadName = fields.leadName || '';
-            const firstName = (leadName || '').split(' ')[0];
+            const sourceFiles    = files.filter(f => f.fieldname === 'sourceFiles');
+            const leadName       = fields.leadName || '';
+            const visualRefs     = (() => { try { return JSON.parse(fields.visualRefs || '[]'); } catch { return []; } })();
+            const competitors    = (() => { try { return JSON.parse(fields.competitorsList || '[]'); } catch { return []; } })();
 
-            const objRows = pageObjectives.length > 0
-                ? pageObjectives.map(o => `<tr><td style="padding:6px 12px 6px 0;font-weight:600;color:#111;vertical-align:top;white-space:nowrap;">${o.page}</td><td style="padding:6px 0;color:#444;line-height:1.5;">${o.objective}</td></tr>`).join('')
-                : '<tr><td colspan="2" style="padding:6px 0;color:#999;">No page objectives provided.</td></tr>';
+            // ── Build the copyable SD activation prompt ──────────────
+            const pageIntentTable = pageObjectives.length > 0
+                ? [
+                    '| Page | After seeing this page, a visitor should think or feel |',
+                    '|---|---|',
+                    ...pageObjectives.map(o => `| ${o.page} | ${o.objective} |`)
+                  ].join('\n')
+                : '_(no page objectives provided)_';
 
-            const sourceRows = sourceTexts.length > 0
-                ? sourceTexts.map(f => `<tr><td style="padding:4px 12px 4px 0;color:#555;">${f.filename}</td><td style="padding:4px 0;color:#999;font-size:12px;">${f.text.slice(0, 200).replace(/\n/g, ' ')}…</td></tr>`).join('')
-                : '<tr><td colspan="2" style="padding:6px 0;color:#999;">No source files uploaded.</td></tr>';
+            const refsBlock       = visualRefs.length   > 0 ? visualRefs.join('\n')   : '_(none provided)_';
+            const adversaryBlock  = competitors.length  > 0 ? competitors.join('\n')  : '_(none provided)_';
+            const sourceBlock     = sourceFiles.length  > 0
+                ? sourceFiles.map(f => `- ${f.filename}`).join('\n') + '\n\n_(files attached to this email — upload them to Claude before activating the Director)_'
+                : '_(no files uploaded)_';
 
-            const fieldBlock = (label, value) => value
-                ? `<tr><td style="padding:8px 16px 8px 0;color:#666;width:140px;vertical-align:top;white-space:nowrap;">${label}</td><td style="padding:8px 0;color:#111;">${value}</td></tr>`
-                : '';
+            const sdPrompt = `/strategy-director
 
+# STRATEGY INTAKE: ${projectName || 'New Project'}
+**Lead:** ${leadName}${email ? ` (${email})` : ''}
+**Code:** ${fields.projectCode || '—'}
+**Scope:** ${scope === 'single' ? 'Single page' : 'Multi-page'}
+
+## [GATE 0] — MANDATORY WORKSPACE ISOLATION
+1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of this project folder.
+2. **Strict Versioning**: You MUST increment the version number by exactly +1.
+3. **Ghost Creation**: Create the new folder \`PROJECTS/[ProjectName]-V[N]\`.
+
+## Project Protocol (Phase-by-Phase)
+1. **Phase 1 (Setup)**: Generate \`01-PRD.md\`
+2. **Phase 2 (Audit)**: Execute \`02-STRATEGIC-AUDIT.md\` + \`04-TENSION_MAP.md\` — include Page Intent audit for every page below
+3. **Phase 3 (Scripting)**: Deliver \`03-NARRATIVE.md\` — one section per page listed in the Page Intent Map
+4. **Phase 4 (Validation)**: Run \`05-VISITOR_REVIEW.md\`
+
+## Page Intent Map
+${pageIntentTable}
+
+## Evidence Repository
+${refsBlock}
+
+## The Adversary
+${adversaryBlock}
+
+## Human Portrait
+${fields.portrait || '_(not provided)_'}
+
+## Singular Objective
+${fields.cta || '_(not provided)_'}
+
+## Source Files
+${sourceBlock}`;
+
+            // ── HTML email wrapping the prompt ───────────────────────
             const strategyHtml = `
-            <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:640px;line-height:1.6;">
-                <h1 style="font-size:18px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:20px;">Strategy Intake — ${projectName || 'New Project'}</h1>
-                <table style="width:100%;font-size:13px;border-collapse:collapse;margin-bottom:24px;">
-                    ${fieldBlock('Project', projectName)}
-                    ${fieldBlock('Lead', leadName)}
-                    ${fieldBlock('Email', email)}
-                    ${fieldBlock('Scope', scope)}
-                </table>
-
-                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Page Objectives</h3>
-                <table style="width:100%;font-size:13px;border-collapse:collapse;margin-bottom:24px;">
-                    ${objRows}
-                </table>
-
-                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Visual References</h3>
-                <p style="font-size:13px;color:#444;">${(() => { try { return (JSON.parse(fields.visualRefs || '[]')).join('<br>') || '—'; } catch { return '—'; } })()}</p>
-
-                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Competitors</h3>
-                <p style="font-size:13px;color:#444;">${(() => { try { return (JSON.parse(fields.competitorsList || '[]')).join('<br>') || '—'; } catch { return '—'; } })()}</p>
-
-                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Audience</h3>
-                <p style="font-size:13px;color:#444;">${fields.portrait || '—'}</p>
-
-                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Conversion Goal</h3>
-                <p style="font-size:13px;color:#444;">${fields.cta || '—'}</p>
-
-                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:24px 0 8px;">Source Files (preview)</h3>
-                <table style="width:100%;font-size:12px;border-collapse:collapse;">
-                    ${sourceRows}
-                </table>
+            <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:660px;line-height:1.6;">
+                <p style="font-size:12px;color:#999;margin:0 0 20px;text-transform:uppercase;letter-spacing:1px;">Strategy Intake · ${new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })}</p>
+                <p style="font-size:13px;color:#555;margin:0 0 16px;">Copy the block below and paste it into Claude Code to activate the Strategy Director.</p>
+                <pre style="background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:20px 24px;font-family:'SFMono-Regular',Consolas,monospace;font-size:12px;line-height:1.65;white-space:pre-wrap;word-break:break-word;color:#111;margin:0;">${sdPrompt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
             </div>`;
 
             await resend.emails.send({
