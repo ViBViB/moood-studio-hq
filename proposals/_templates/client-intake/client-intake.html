@@ -5525,8 +5525,8 @@
             const navList = document.getElementById('navList');
             if (navList) {
                 navList.style.display = '';
-                navList.innerHTML = navSlides.map((id, i) =>
-                    `<li class="q-nav-item" data-idx="${i}"><span class="bar"></span><span class="nav-label">${navSlideLabels[id]}</span></li>`
+                navList.innerHTML = navSlides.map((id) =>
+                    `<li class="q-nav-item" data-idx="${path.indexOf(id)}"><span class="bar"></span><span class="nav-label">${navSlideLabels[id]}</span></li>`
                 ).join('');
                 navItems = document.querySelectorAll('.q-nav-item');
             }
