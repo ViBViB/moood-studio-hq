@@ -147,7 +147,7 @@ module.exports = async (req, res) => {
                 html: `
                     <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:600px;line-height:1.8;">
                         <h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:10px;">Project Approved</h1>
-                        <p>Hi ${clientName},</p>
+                        <p>Hi ${(leadName || clientName).split(' ')[0]},</p>
                         <p>Great news — <strong>${projectName}</strong> is confirmed. We're ready to start.</p>
                         <p>The next step is a short brief so we have everything we need to build. It takes about 10–15 minutes — no decisions to make, just your raw material.</p>
                         <div style="background:#f5f5f5;padding:32px 24px;border-radius:4px;margin:24px 0;text-align:center;">
