@@ -98,6 +98,12 @@
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 48px;
         }
+        .q-sidebar-instruction p {
+            margin: 0;
+        }
+        .q-sidebar-instruction p + p {
+            margin-top: 12px;
+        }
 
         .q-nav-list {
             list-style: none;
@@ -3558,7 +3564,7 @@
 
         .roadmap-content strong {
             display: block;
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 700;
             color: #000;
             margin-bottom: 4px;
@@ -5143,30 +5149,19 @@
                                 <div class="roadmap-item">
                                     <div class="roadmap-point active"></div>
                                     <div class="roadmap-content"><strong>Intake Received</strong>
-                                        <p>Your business context, audience, evidence, and sources are staged for
-                                            analysis.</p>
+                                        <p>Your business context, audience, and visual references are staged for analysis.</p>
                                     </div>
                                 </div>
                                 <div class="roadmap-item">
                                     <div class="roadmap-point"></div>
-                                    <div class="roadmap-content"><strong>PRD &amp; Technical Calibration</strong>
-                                        <p>Aligning your technical requirements with our strategic baseline. Narrative
-                                            arc selected.</p>
+                                    <div class="roadmap-content"><strong>Narrative Creation</strong>
+                                        <p>We are now engineering the strategic narrative for all pages included in your project scope. This ensures a cohesive voice and a unified "Visual DNA" across your entire digital presence.</p>
                                     </div>
                                 </div>
                                 <div class="roadmap-item">
                                     <div class="roadmap-point"></div>
-                                    <div class="roadmap-content"><strong>Narrative Tension Map</strong>
-                                        <p>Identifying the friction points where your story wins against the status quo.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="roadmap-item">
-                                    <div class="roadmap-point"></div>
-                                    <div class="roadmap-content"><strong>Final Narrative</strong>
-                                        <p>The ultimate blueprint for your brand's voice and market positioning.
-                                            <strong>Delivered in 24 hours for your review and final approval.</strong>
-                                        </p>
+                                    <div class="roadmap-content"><strong>Narrative Delivery &amp; Review</strong>
+                                        <p>The complete set of narratives will be sent to you for final feedback. This serves as the strategic blueprint before we move into the high-fidelity design phase.</p>
                                     </div>
                                 </div>
                             </div>
@@ -5201,6 +5196,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <p style="font-size:13px;color:rgba(0,0,0,0.5);margin:24px 0 0 0;line-height:1.6;"><strong style="color:rgba(0,0,0,0.7);">Note:</strong> You will receive the first draft of all project narratives for your review and approval within 24 hours.</p>
 
                         <div style="margin-top:32px;">
                             <p style="font-size:15px;color:rgba(0,0,0,0.6);margin:0;">Talk soon,</p>
@@ -5400,9 +5397,9 @@
             // Populate welcome slide
             populateWelcomeSlide(passport, currentPath);
 
-            currentIdx = 1; // move to slide-welcome
-            updateSlider();
-            updateSidebarForPassport(passport, currentPath);
+            currentIdx = 1;
+            updateSidebarForPassport(passport, currentPath); // build nav items first
+            updateSlider(); // then apply active state against populated nav
         }
 
         function populateWelcomeSlide(passport, path) {
@@ -5505,7 +5502,7 @@
             const firstName  = rawName.split(' ')[0];
             if (tagEl)  tagEl.textContent  = passport.projectName || 'Your project';
             if (h1El)   h1El.textContent   = 'Strategic Intake.';
-            if (descEl) descEl.innerHTML   = `<strong>${firstName ? `Great to have you with us, ${firstName}.` : 'Great to have you with us.'}</strong><br>With your project officially in motion, we need to capture the core of your brand. Please complete this quick intake to help us map your visual DNA and align our build phase with your brand's strategic goals.`;
+            if (descEl) descEl.innerHTML   = `<p><strong>${firstName ? `Great to have you with us, ${firstName}.` : 'Great to have you with us.'}</strong></p><p>With your project active, it's time to map your brand's DNA. Use this intake to share your direction and align our execution with your vision.</p>`;
 
             // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
             const navSlideLabels = {
