@@ -175,6 +175,46 @@ async function setNarratives(req, res) {
     });
 }
 
+// ── COMMENT (save individual comment or reply immediately) ─────────────────
+async function addComment(req, res) {
+    const { code, pageId, comment, commentId, reply } = req.body || {};
+
+    if (!code || !/^MSD-\d{4}-\d{4}$/.test(code.trim())) {
+        return res.status(400).json({ error: 'Invalid project code format' });
+    }
+    if (!pageId) return res.status(400).json({ error: 'pageId is required' });
+
+    const { blobs } = await list({ prefix: `narratives/${code.trim()}.json` });
+    if (!blobs || blobs.length === 0) {
+        return res.status(404).json({ error: 'Narrative document not found' });
+    }
+
+    const fetchResp = await fetch(blobs[0].downloadUrl, {
+        headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` }
+    });
+    if (!fetchResp.ok) return res.status(500).json({ error: 'Failed to read narrative data' });
+
+    const doc  = await fetchResp.json();
+    const page = doc.pages.find(p => p.id === pageId);
+    if (!page) return res.status(404).json({ error: 'Page not found' });
+
+    if (!page.reviewComments) page.reviewComments = [];
+
+    if (commentId && reply) {
+        const c = page.reviewComments.find(c => c.id === commentId);
+        if (c) { if (!c.replies) c.replies = []; c.replies.push(reply); }
+    } else if (comment) {
+        page.reviewComments.push(comment);
+        if (page.reviewStatus !== 'approved') page.reviewStatus = 'changes_requested';
+    }
+
+    await put(`narratives/${code.trim()}.json`, JSON.stringify(doc), {
+        access: 'private', contentType: 'application/json', allowOverwrite: true
+    });
+
+    return res.status(200).json({ ok: true });
+}
+
 // ── REVIEW (client submit) ─────────────────────────────────────────────────
 async function submitReview(req, res) {
     const { code, reviews } = req.body;
@@ -207,7 +247,13 @@ async function submitReview(req, res) {
 
     doc.pages = doc.pages.map(page => {
         const r = reviewMap[page.id];
-        return r ? { ...page, reviewStatus: r.status, reviewComment: r.comment || '' } : page;
+        if (!r) return page;
+        return {
+            ...page,
+            reviewStatus:   r.status,
+            reviewComment:  r.comment  || '',
+            reviewComments: r.comments || page.reviewComments || []
+        };
     });
 
     const approvedCount = doc.pages.filter(p => p.reviewStatus === 'approved').length;
@@ -369,10 +415,11 @@ module.exports = async (req, res) => {
 
         if (req.method === 'POST') {
             const action = (req.query.action || '').trim();
-            if (action === 'set')    return await setNarratives(req, res);
-            if (action === 'review') return await submitReview(req, res);
+            if (action === 'set')         return await setNarratives(req, res);
+            if (action === 'review')      return await submitReview(req, res);
+            if (action === 'comment')     return await addComment(req, res);
             if (action === 'send_review') return await sendClientReview(req, res);
-            return res.status(400).json({ error: 'Missing action param: set | review | send_review' });
+            return res.status(400).json({ error: 'Missing action param: set | review | comment | send_review' });
         }
 
         return res.status(405).json({ error: 'Method not allowed' });
