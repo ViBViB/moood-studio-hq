@@ -228,10 +228,10 @@ async function submitReview(req, res) {
         </tr>`;
     }).join('');
 
-    await resend.emails.send({
-        from:    'Moood Studio <notifications@moood.studio>',
+    try { await resend.emails.send({
+        from:    'Moood.Studio <narratives@moood.studio>',
         to:      ['alberto.contreras@gmail.com'],
-        subject: `📋 Narrative Review: ${doc.projectName} (${code}) — ${approvedCount}/${doc.pages.length} approved`,
+        subject: `[NARRATIVE REVIEW] ${doc.projectName} — ${approvedCount}/${doc.pages.length} approved · ${code}`,
         html: `
             <div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:600px;line-height:1.6;">
                 <h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:16px;">NARRATIVE REVIEW SUBMITTED</h1>
@@ -259,7 +259,9 @@ async function submitReview(req, res) {
                 <p style="font-size:12px;color:#999;margin-top:16px;">Submitted: ${new Date(doc.reviewSubmittedAt).toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}</p>
             </div>
         `
-    });
+    }); } catch (emailErr) {
+        console.error('[submitReview] Email failed (review still saved):', emailErr.message);
+    }
 
     return res.status(200).json({
         success:          true,

@@ -749,8 +749,31 @@
             color: rgba(232,135,10,0.8);
         }
 
-        .nr-comment-input {
-            padding: 12px 14px;
+        .nr-comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nr-comment-item {
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
+        .nr-comment-item-num {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(232,135,10,0.5);
+            margin-top: 13px;
+            flex-shrink: 0;
+            width: 14px;
+            text-align: right;
+        }
+
+        .nr-comment-item-input {
+            flex: 1;
+            padding: 10px 12px;
             border: 1px solid rgba(232,135,10,0.4);
             border-radius: 6px;
             font-size: 13px;
@@ -758,14 +781,63 @@
             background: rgba(232,135,10,0.04);
             color: #000;
             resize: none;
-            min-height: 80px;
+            min-height: 56px;
             transition: border-color 0.2s;
             outline: none;
+            line-height: 1.5;
         }
 
-        .nr-comment-input:focus { border-color: #e8870a; }
+        .nr-comment-item-input:focus { border-color: #e8870a; }
+        .nr-comment-item-input::placeholder { color: rgba(0,0,0,0.3); }
 
-        .nr-comment-input::placeholder { color: rgba(0,0,0,0.3); }
+        .nr-comment-item-remove {
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: rgba(0,0,0,0.2);
+            font-size: 18px;
+            padding: 0;
+            line-height: 1;
+            margin-top: 12px;
+            flex-shrink: 0;
+            transition: color 0.15s;
+        }
+
+        .nr-comment-item-remove:hover { color: #e8870a; }
+
+        .nr-btn-add-item {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: rgba(232,135,10,0.7);
+            background: none;
+            border: 1px dashed rgba(232,135,10,0.3);
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            transition: border-color 0.2s, color 0.2s;
+            align-self: flex-start;
+        }
+
+        .nr-btn-add-item:hover { border-color: #e8870a; color: #e8870a; }
+
+        .nr-stored-comments {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .nr-stored-comment-item {
+            font-size: 12px;
+            color: rgba(232,135,10,0.85);
+            line-height: 1.5;
+            padding-left: 2px;
+        }
 
         .nr-btn-confirm-changes {
             padding: 11px 16px;
@@ -975,16 +1047,20 @@
         <!-- Changes form -->
         <div class="nr-comment-wrap" id="commentWrap">
             <span class="nr-comment-label">What needs to change?</span>
-            <textarea class="nr-comment-input" id="commentInput" rows="3" placeholder="Describe what you'd like us to revise…"></textarea>
+            <div class="nr-comment-list" id="commentList"></div>
+            <button class="nr-btn-add-item" onclick="addChangeItem()">+ Add another point</button>
             <button class="nr-btn-confirm-changes" onclick="confirmChanges()">Send feedback</button>
             <button class="nr-undo-link" onclick="cancelChanges()">Cancel</button>
         </div>
 
         <!-- Changes confirmed -->
-        <div class="nr-feedback-approved" id="feedbackChanges" style="background:rgba(232,135,10,0.06);color:#e8870a;">
-            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
-            Changes requested
-            <button class="nr-undo-link" onclick="undoDecision()" style="margin-left:auto;color:rgba(232,135,10,0.6);">Undo</button>
+        <div class="nr-feedback-approved" id="feedbackChanges" style="background:rgba(232,135,10,0.06);color:#e8870a;flex-direction:column;align-items:flex-start;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                <svg viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+                Changes requested
+                <button class="nr-undo-link" onclick="undoDecision()" style="margin-left:auto;color:rgba(232,135,10,0.6);">Undo</button>
+            </div>
+            <div class="nr-stored-comments" id="storedComments"></div>
         </div>
     </div>
 </div>
@@ -1175,18 +1251,18 @@
 
     // ── ACTION AREA ────────────────────────────────────────────────────────
     function syncActionArea(review) {
-        const btnRow         = document.getElementById('btnRow');
+        const btnRow           = document.getElementById('btnRow');
         const feedbackApproved = document.getElementById('feedbackApproved');
         const feedbackChanges  = document.getElementById('feedbackChanges');
         const commentWrap      = document.getElementById('commentWrap');
-        const commentInput     = document.getElementById('commentInput');
+        const storedComments   = document.getElementById('storedComments');
 
-        // Reset all
         btnRow.style.display           = 'flex';
         feedbackApproved.style.display = 'none';
         feedbackChanges.style.display  = 'none';
         commentWrap.style.display      = 'none';
-        commentInput.value             = '';
+        storedComments.innerHTML       = '';
+        resetCommentList();
 
         if (!review) return;
 
@@ -1194,10 +1270,51 @@
             btnRow.style.display           = 'none';
             feedbackApproved.style.display = 'flex';
         } else if (review.status === 'changes_requested') {
-            btnRow.style.display           = 'none';
-            feedbackChanges.style.display  = 'flex';
-            commentInput.value             = review.comment || '';
+            btnRow.style.display          = 'none';
+            feedbackChanges.style.display = 'flex';
+            const lines = (review.comment || '').split('\n').filter(Boolean);
+            storedComments.innerHTML = lines.map(l =>
+                `<p class="nr-stored-comment-item">${escHtml(l)}</p>`
+            ).join('');
         }
+    }
+
+    function resetCommentList(existingComment) {
+        const list = document.getElementById('commentList');
+        list.innerHTML = '';
+        const items = existingComment
+            ? existingComment.split('\n').filter(Boolean)
+            : [''];
+        items.forEach(text => _appendItem(list, text));
+    }
+
+    function _appendItem(list, text) {
+        const n    = list.children.length + 1;
+        const item = document.createElement('div');
+        item.className = 'nr-comment-item';
+        item.innerHTML = `
+            <span class="nr-comment-item-num">${n}.</span>
+            <textarea class="nr-comment-item-input" rows="2" placeholder="Describe a specific change…">${escHtml(text || '')}</textarea>
+            <button class="nr-comment-item-remove" onclick="removeChangeItem(this)" title="Remove">×</button>
+        `;
+        list.appendChild(item);
+    }
+
+    function addChangeItem() {
+        const list = document.getElementById('commentList');
+        _appendItem(list, '');
+        list.lastElementChild.querySelector('textarea').focus();
+        // re-number
+        Array.from(list.querySelectorAll('.nr-comment-item-num'))
+            .forEach((el, i) => { el.textContent = (i + 1) + '.'; });
+    }
+
+    function removeChangeItem(btn) {
+        const list = document.getElementById('commentList');
+        if (list.children.length <= 1) return;
+        btn.closest('.nr-comment-item').remove();
+        Array.from(list.querySelectorAll('.nr-comment-item-num'))
+            .forEach((el, i) => { el.textContent = (i + 1) + '.'; });
     }
 
     function approvePage() {
@@ -1209,19 +1326,23 @@
     }
 
     function showChangesForm() {
-        document.getElementById('btnRow').style.display    = 'none';
+        document.getElementById('btnRow').style.display      = 'none';
         document.getElementById('commentWrap').style.display = 'flex';
-        document.getElementById('commentInput').focus();
+        resetCommentList();
+        document.querySelector('.nr-comment-item-input')?.focus();
     }
 
     function cancelChanges() {
-        const review = reviews[activePageId];
-        syncActionArea(review || null);
+        syncActionArea(reviews[activePageId] || null);
     }
 
     function confirmChanges() {
         if (!activePageId) return;
-        const comment = document.getElementById('commentInput').value.trim();
+        const inputs   = document.querySelectorAll('.nr-comment-item-input');
+        const comments = Array.from(inputs).map(i => i.value.trim()).filter(Boolean);
+        const comment  = comments.length > 1
+            ? comments.map((c, i) => `${i + 1}. ${c}`).join('\n')
+            : (comments[0] || '');
         reviews[activePageId] = { status: 'changes_requested', comment };
         syncActionArea(reviews[activePageId]);
         updateNodeState(activePageId);
