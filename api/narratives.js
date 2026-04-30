@@ -16,8 +16,10 @@ const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
 async function redisGet(key) {
-    const res  = await fetch(`${REDIS_URL}/get/${encodeURIComponent(key)}`, {
-        headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
+    const res  = await fetch(REDIS_URL, {
+        method:  'POST',
+        headers: { Authorization: `Bearer ${REDIS_TOKEN}`, 'Content-Type': 'application/json' },
+        body:    JSON.stringify(['GET', key])
     });
     const data = await res.json();
     if (data.error) throw new Error('Redis GET error: ' + data.error);
@@ -25,10 +27,10 @@ async function redisGet(key) {
 }
 
 async function redisSet(key, value) {
-    const res  = await fetch(`${REDIS_URL}/set/${encodeURIComponent(key)}`, {
+    const res  = await fetch(REDIS_URL, {
         method:  'POST',
         headers: { Authorization: `Bearer ${REDIS_TOKEN}`, 'Content-Type': 'application/json' },
-        body:    JSON.stringify(JSON.stringify(value))
+        body:    JSON.stringify(['SET', key, JSON.stringify(value)])
     });
     const data = await res.json();
     if (data.error) throw new Error('Redis SET error: ' + data.error);
