@@ -151,6 +151,11 @@
         /* ── COMMENT THREAD */
         .nr-thread-wrap { border-top: 1px solid rgba(0,0,0,0.08); display: none; flex-direction: column; flex-shrink: 0; }
         .nr-thread-wrap.open { display: flex; }
+        .nr-thread-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px 0; flex-shrink: 0; }
+        .nr-thread-header-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.3); }
+        .nr-thread-close { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; border-radius: 4px; transition: background 0.15s; }
+        .nr-thread-close:hover { background: rgba(0,0,0,0.06); }
+        .nr-thread-close svg { width: 13px; height: 13px; stroke: rgba(0,0,0,0.4); stroke-width: 2; fill: none; }
 
         .nr-thread-list { display: flex; flex-direction: column; gap: 16px; padding: 16px 24px; max-height: 200px; overflow-y: auto; }
         .nr-thread-list:empty { padding: 0; max-height: 0; }
@@ -331,6 +336,12 @@
 
     <!-- Comment thread -->
     <div class="nr-thread-wrap" id="threadWrap">
+        <div class="nr-thread-header">
+            <span class="nr-thread-header-label">Comments</span>
+            <button class="nr-thread-close" onclick="document.getElementById('threadWrap').classList.remove('open')" title="Close">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
         <div class="nr-thread-list" id="threadList"></div>
         <div class="nr-input-bar">
             <input class="nr-input-name" id="inputName" placeholder="Your name"
