@@ -178,15 +178,65 @@ async function addComment(req, res) {
 
     if (!page.reviewComments) page.reviewComments = [];
 
+    let isNewComment = false;
+
     if (commentId && reply) {
         const c = page.reviewComments.find(c => c.id === commentId);
         if (c) { if (!c.replies) c.replies = []; c.replies.push(reply); }
     } else if (comment) {
         page.reviewComments.push(comment);
         if (page.reviewStatus !== 'approved') page.reviewStatus = 'changes_requested';
+        isNewComment = true;
     }
 
     await redisSet(`narrative:${code.trim()}`, doc);
+
+    if (isNewComment && comment.role !== 'agency') {
+        const agencyUrl    = `https://moood.studio/proposals/narrative-review/index.html?code=${code.trim()}&agency=1`;
+        const commentCount = page.reviewComments.length;
+        try { await resend.emails.send({
+            from:    'Moood.Studio <narratives@moood.studio>',
+            to:      ['alberto.contreras@gmail.com'],
+            subject: `[COMMENT] ${doc.projectName} · ${page.name} — ${comment.author}`,
+            html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:48px 24px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;">
+        <tr><td style="background:#e8870a;padding:32px 48px;">
+          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Moood.Studio · Narrative Review</p>
+        </td></tr>
+        <tr><td style="padding:48px 48px 16px;">
+          <h1 style="margin:0 0 8px;font-size:22px;font-weight:300;color:#000;line-height:1.2;">New comment on <strong style="font-weight:700;">${page.name}</strong></h1>
+          <p style="margin:0 0 32px;font-size:13px;color:rgba(0,0,0,0.4);">${doc.projectName} · ${code.trim()} · ${commentCount} comment${commentCount !== 1 ? 's' : ''} on this page</p>
+          <div style="background:#f5f5f5;border-radius:6px;padding:20px 24px;margin-bottom:32px;">
+            <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.35);">${comment.author}</p>
+            <p style="margin:0;font-size:15px;color:#000;line-height:1.6;">${comment.text}</p>
+          </div>
+          <table cellpadding="0" cellspacing="0">
+            <tr><td style="background:#000;border-radius:6px;">
+              <a href="${agencyUrl}" style="display:inline-block;padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;text-decoration:none;">
+                View &amp; reply →
+              </a>
+            </td></tr>
+          </table>
+        </td></tr>
+        <tr><td style="padding:24px 48px 40px;border-top:1px solid rgba(0,0,0,0.06);">
+          <p style="margin:0;font-size:11px;color:rgba(0,0,0,0.3);line-height:1.6;">Page: <strong>${page.name}</strong> · Project: <strong>${code.trim()}</strong></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+        }); } catch (emailErr) {
+            console.error('[addComment] Email failed:', emailErr.message);
+        }
+    }
+
     return res.status(200).json({ ok: true });
 }
 

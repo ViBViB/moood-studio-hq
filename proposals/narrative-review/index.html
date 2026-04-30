@@ -291,7 +291,6 @@
         <div class="nr-submit-bar" id="submitBar">
             <p class="nr-submit-bar-info">
                 <strong id="submitCount">0</strong><span id="submitTotal"> of 0 pages reviewed</span>
-                <span id="submitHint" style="display:none;color:rgba(0,0,0,0.4);"> — review all pages to submit</span>
             </p>
             <button class="nr-submit-btn" id="submitBtn" disabled onclick="submitReview()">Submit feedback</button>
         </div>
@@ -461,10 +460,8 @@
         document.getElementById('submitCount').textContent   = reviewed;
         document.getElementById('submitTotal').textContent   = ` of ${total} pages reviewed`;
 
-        const allDone = reviewed >= total && total > 0;
         document.getElementById('submitBar').classList.toggle('visible', reviewed > 0);
-        document.getElementById('submitBtn').disabled = !allDone;
-        document.getElementById('submitHint').style.display = (!allDone && reviewed > 0) ? '' : 'none';
+        document.getElementById('submitBtn').disabled = reviewed === 0;
     }
 
     function countReviewed() {
