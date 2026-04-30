@@ -90,7 +90,7 @@ async function setNarratives(req, res) {
     const pageCount = narrativeDoc.pages.length;
     const name      = projectName || code.trim();
 
-    await resend.emails.send({
+    try { await resend.emails.send({
         from:    'Moood.Studio <narratives@moood.studio>',
         to:      ['alberto.contreras@gmail.com'],
         subject: `[NARRATIVE READY] ${name} — ${pageCount} pages · ${code.trim()}`,
@@ -162,7 +162,9 @@ async function setNarratives(req, res) {
   </table>
 </body>
 </html>`
-    });
+    }); } catch (emailErr) {
+        console.error('[setNarratives] Email failed (data still saved):', emailErr.message);
+    }
 
     return res.status(200).json({
         success:   true,
