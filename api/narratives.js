@@ -82,8 +82,9 @@ async function setNarratives(req, res) {
     };
 
     await put(`narratives/${code.trim()}.json`, JSON.stringify(narrativeDoc), {
-        access:      'private',
-        contentType: 'application/json'
+        access:          'private',
+        contentType:     'application/json',
+        allowOverwrite:  true
     });
 
     const agencyUrl = `https://moood.studio/proposals/narrative-review/index.html?code=${code.trim()}&agency=1`;
@@ -217,7 +218,7 @@ async function submitReview(req, res) {
     doc.reviewSubmittedAt = new Date().toISOString();
 
     await put(`narratives/${code.trim()}.json`, JSON.stringify(doc), {
-        access: 'private', contentType: 'application/json'
+        access: 'private', contentType: 'application/json', allowOverwrite: true
     });
 
     const pageRows = doc.pages.map(p => {
