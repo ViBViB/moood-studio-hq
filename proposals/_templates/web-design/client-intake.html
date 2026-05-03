@@ -6478,6 +6478,7 @@
             const wrap = document.getElementById(wrapId);
             const input = document.getElementById(inputId);
             const hidden = document.getElementById(hiddenId);
+            if (!wrap || !input || !hidden) return;
             let tags = [];
             function render() {
                 wrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
@@ -6605,6 +6606,7 @@
 
         function initSectionBuilder() {
             const builder = document.getElementById('sectionBuilder');
+            if (!builder) return;
             builder.innerHTML = '';
             sectionCount = 0;
             for (let i = 0; i < MIN_SECTIONS; i++) {
@@ -6615,6 +6617,7 @@
 
         function initBlogBuilder() {
             const builder = document.getElementById('blogSectionBuilder');
+            if (!builder) return;
             builder.innerHTML = '';
             blogSectionCount = 0;
             for (let i = 0; i < MIN_SECTIONS; i++) {
@@ -6623,7 +6626,7 @@
             }
         }
 
-        document.getElementById('addSectionBtn').addEventListener('click', () => {
+        document.getElementById('addSectionBtn')?.addEventListener('click', () => {
             if (sectionCount >= MAX_SECTIONS) return;
             sectionCount++;
             document.getElementById('sectionBuilder').appendChild(createSectionRow(sectionCount, 50, 'Support the headline with specific, concrete details.'));
@@ -6633,7 +6636,7 @@
             }
         });
 
-        document.getElementById('addBlogSectionBtn').addEventListener('click', () => {
+        document.getElementById('addBlogSectionBtn')?.addEventListener('click', () => {
             if (blogSectionCount >= MAX_SECTIONS) return;
             blogSectionCount++;
             document.getElementById('blogSectionBuilder').appendChild(createBlogSectionRow(blogSectionCount));
