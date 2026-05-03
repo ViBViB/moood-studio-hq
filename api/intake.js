@@ -1,130 +1,291 @@
 const { Resend } = require('resend');
-const PDFDocument = require('pdfkit');
 const Busboy = require('busboy');
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
+const { buildEmail, dataTable } = require('./_email');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-module.exports = async (req, res) => {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
+// --- HELPERS FROM CLIENT-INTAKE ---
+async function extractText(buffer, filename, mimeType) {
+    const ext = filename.split('.').pop().toLowerCase();
+    if (['txt', 'md', 'html', 'htm', 'rtf'].includes(ext)) return buffer.toString('utf-8');
+    if (ext === 'pdf' || mimeType === 'application/pdf') { const data = await pdfParse(buffer); return data.text; }
+    if (['doc', 'docx'].includes(ext) || mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        const result = await mammoth.extractRawText({ buffer }); return result.value;
     }
+    return buffer.toString('utf-8');
+}
 
-    try {
-        const busboy = Busboy({ headers: req.headers });
-        const fields = {};
-        const attachments = [];
+async function callGemini(prompt) {
+    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GOOGLE_AI_STUDIO_KEY}`;
+    const res = await fetch(GEMINI_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.1 } })
+    });
+    const data = await res.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+}
 
-        const parseForm = new Promise((resolve, reject) => {
-            busboy.on('field', (name, val) => {
-                fields[name] = val;
-            });
-
-            busboy.on('file', (name, file, info) => {
-                const { filename, mimeType } = info;
-                const chunks = [];
-                file.on('data', chunk => chunks.push(chunk));
-                file.on('end', () => {
-                    attachments.push({
-                        filename,
-                        content: Buffer.concat(chunks),
-                        contentType: mimeType
-                    });
-                });
-            });
-
-            busboy.on('finish', resolve);
-            busboy.on('error', reject);
-            req.pipe(busboy);
-        });
-
-        await parseForm;
-
-        const { companyName, fullName, email, pageType, evidence, adversary, portrait, objective } = fields;
-
-        // DEBUG
-        console.log('INTAKE_FIELDS:', { companyName, email });
-
-        if (!email) return res.status(400).json({ error: 'Delivery email is required' });
-        
-        if (!companyName || !fullName || !evidence || !adversary || !portrait || !objective) {
-            return res.status(400).json({ 
-                error: 'Missing strategic requirements', 
-                missing: Object.entries({ companyName, fullName, evidence, adversary, portrait, objective })
-                    .filter(([k,v]) => !v).map(([k,v]) => k)
-            });
-        }
-
-        const markdownContent = `
+// --- HELPERS ---
+function generateStrategyPrompt(data) {
+    const { leadName, projectName, scenario, hasNarrative, pages, visualRefs } = data;
+    const pagesList = (pages || []).map(p => `- ${p.name || p} — ${p.type || 'landing'}`).join('\n');
+    const refsList = (Array.isArray(visualRefs) ? visualRefs : []).join('\n');
+    const scenarioLabel = scenario === 'A' ? 'A — Brand-Free' : (scenario || 'A — Brand-Free');
+    
+    if (hasNarrative) {
+        return `
 /strategy-director
 
-# STRATEGY INTAKE: ${companyName}
-**Lead:** ${fullName} (${email})
+# STRATEGY INTAKE: ${projectName}
+**Lead:** ${leadName || 'Client'}
+**Scenario:** ${scenarioLabel}
+**Mode:** NARRATIVE-PROVIDED — client copy is LOCKED. Do not write narrative.
 
 ## [GATE 0] — MANDATORY WORKSPACE ISOLATION
-1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/${companyName.replace(/\s+/g, '_')}\`.
+1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/Audi-AG\`.
 2. **Strict Versioning**: You MUST increment the version number by exactly +1.
-3. **Ghost Creation**: Create the new folder \`PROJECTS/${companyName.replace(/\s+/g, '_')}-V[N]\`.
+3. **Ghost Creation**: Create the new folder \`PROJECTS/Audi-AG-V[N]\`.
+
+## Project Protocol (Phase-by-Phase)
+1. **Phase 1 (Setup)**: Generate \`01-PRD.md\` — mark narrative as CLIENT-LOCKED.
+2. **Phase 2 (SKIP)**: Narrative provided by client. DO NOT write 03-NARRATIVE.md.
+3. **Phase 3 (SKIP)**: DO NOT run Strategic Audit or Tension Map.
+4. **HANDOFF → PROFILER**: Activate /the-profiler with the visual references below.
+
+## Pages
+${pagesList}
+
+## Visual References
+${refsList}
+        `.trim();
+    } else {
+        return `
+/strategy-director
+
+# STRATEGY INTAKE: ${projectName}
+**Lead:** ${leadName || 'Client'}
+**Scenario:** ${scenarioLabel}
+
+## [GATE 0] — MANDATORY WORKSPACE ISOLATION
+1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/Audi-AG\`.
+2. **Strict Versioning**: You MUST increment the version number by exactly +1.
+3. **Ghost Creation**: Create the new folder \`PROJECTS/Audi-AG-V[N]\`.
 
 ## Project Protocol (Phase-by-Phase)
 1. **Phase 1 (Setup)**: Generate \`01-PRD.md\`
 2. **Phase 2 (Audit)**: Execute \`02-STRATEGIC-AUDIT.md\` + \`04-TENSION_MAP.md\`.
-3. **Phase 3 (Scripting)**: Deliver \`03-NARRATIVE.md\` for **${pageType || 'Homepage'}**.
+3. **Phase 3 (Scripting)**: Deliver \`03-NARRATIVE.md\` for **Landing Page**.
 4. **Phase 4 (Validation)**: Run \`05-VISITOR_REVIEW.md\`.
+5. **Phase 5 (Handoff)**: Activate /the-profiler with visual references below.
 
-## Evidence Repository
-${evidence}
+## Pages
+${pagesList}
 
-## The Adversary
-${adversary}
-
-## Human Portrait
-${portrait}
-
-## Singular Objective
-${objective}
+## Visual References
+${refsList}
         `.trim();
+    }
+}
 
-        const { data, error } = await resend.emails.send({
-            from: 'Moood Intake <notifications@moood.studio>',
-            to: ['alberto.contreras@gmail.com'],
-            cc: [email],
-            subject: `[STRATEGY INTAKE] ${companyName}`,
-            html: `
-                <div style="font-family: sans-serif; color: #111; max-width: 600px; line-height: 1.6;">
-                    <h2 style="border-bottom: 2px solid #000; padding-bottom: 10px;">Strategic Intake: ${companyName}</h2>
-                    <p><strong>Customer:</strong> ${fullName} (${email})</p>
-                    <p><strong>Page Type:</strong> ${pageType || 'Homepage'}</p>
-                    
-                    <div style="background: #f9f9f9; padding: 20px; border: 1px solid #ddd; margin: 20px 0;">
-                        <h4 style="margin-top: 0;">Copy to Strategy Director:</h4>
-                        <pre style="white-space: pre-wrap; font-size: 12px; background: #fff; padding: 15px; border: 1px solid #eee;">${markdownContent}</pre>
-                    </div>
+// --- CONTROLLER ---
+module.exports = async (req, res) => {
+    const { mode } = req.query;
 
-                    <h3 style="margin-top: 30px;">Strategic Breakdown:</h3>
-                    <p><strong>Evidence:</strong><br>${evidence.replace(/\n/g, '<br>')}</p>
-                    <p><strong>Adversary:</strong><br>${adversary.replace(/\n/g, '<br>')}</p>
-                    <p><strong>Portrait:</strong><br>${portrait}</p>
-                    <p><strong>Objective:</strong><br>${objective}</p>
-                </div>
-            `,
-            attachments: attachments
-        });
-
-        if (error) {
-            console.error('RESEND_ERROR:', error);
-            return res.status(500).json({ error: 'Email failed', details: error });
+    try {
+        // 1. LEGACY STRATEGIC INTAKE (mode=strategic)
+        if (mode === 'strategic') {
+            // Already handled in unified flow, but kept for safety
         }
 
-        return res.status(200).json({ success: true, id: data.id });
+        // 2. CLIENT INTAKE APPROVAL (mode=approve)
+        if (mode === 'approve' && req.method === 'POST') {
+            const data = req.body || {};
+            const { projectName } = data;
+            
+            const prompt = generateStrategyPrompt(data);
 
+            // Notify Alberto
+            await resend.emails.send({
+                from: 'Moood Intake <notifications@moood.studio>',
+                to: ['alberto.contreras@gmail.com'],
+                subject: `[STRATEGY ACTIVATION] ${projectName}`,
+                html: buildEmail({ 
+                    projectName, 
+                    context: 'Activation', 
+                    headline: 'Strategy Ready.', 
+                    body: `<pre style="white-space:pre-wrap; font-family:monospace; font-size:13px; background:#f7f7f7; padding:20px; border-radius:8px; border:1px solid #eee;">${prompt}</pre>` 
+                })
+            });
+            return res.status(200).json({ success: true });
+        }
+
+        // 3. MAIN CLIENT INTAKE SUBMISSION (Default / mode=submit)
+        if (req.method === 'POST') {
+            const busboy = Busboy({ headers: req.headers });
+            const fields = {};
+            const files = [];
+
+            const rawBody = await new Promise((resolve, reject) => {
+                const chunks = [];
+                req.on('data', c => chunks.push(c));
+                req.on('end', () => resolve(Buffer.concat(chunks)));
+                req.on('error', reject);
+            });
+
+            await new Promise((resolve, reject) => {
+                busboy.on('field', (name, val) => { fields[name] = val; });
+                busboy.on('file', (name, stream, info) => {
+                    const chunks = [];
+                    stream.on('data', c => chunks.push(c));
+                    stream.on('end', () => {
+                        files.push({ fieldname: name, filename: info.filename, mimeType: info.mimeType, buffer: Buffer.concat(chunks) });
+                    });
+                });
+                busboy.on('finish', resolve);
+                busboy.on('error', reject);
+                busboy.write(rawBody);
+                busboy.end();
+            });
+
+            const { projectName, leadName, intakePath, scenario, scope, visualRefs: visualRefsRaw } = fields;
+            const hasNarrative = intakePath === 'narrative';
+            const visualRefs = visualRefsRaw ? JSON.parse(visualRefsRaw) : [];
+
+            // STRATEGY PATH (Legacy prompt generation)
+            if (intakePath === 'strategy') {
+                const prompt = generateStrategyPrompt({ 
+                    projectName, 
+                    leadName, 
+                    scenario: scenario || 'A', 
+                    hasNarrative: false, 
+                    visualRefs,
+                    pages: scope === 'single' ? ['Landing Page'] : ['Homepage', 'About', 'Services'] // Fallback if no pages list
+                });
+
+                await resend.emails.send({
+                    from: 'Moood Intake <notifications@moood.studio>',
+                    to: ['alberto.contreras@gmail.com'],
+                    subject: `[STRATEGY INTAKE] ${projectName}`,
+                    html: buildEmail({ 
+                        projectName, 
+                        context: 'Strategy', 
+                        headline: 'Intake Received.', 
+                        body: `<pre style="white-space:pre-wrap; font-family:monospace; font-size:13px; background:#f7f7f7; padding:20px; border-radius:8px; border:1px solid #eee;">${prompt}</pre>` 
+                    })
+                });
+                return res.status(200).json({ success: true, path: 'strategy' });
+            }
+
+            // GEMINI PATH — extract narrative structure for preview
+            const filesContent = await Promise.all(files.map(async f => ({
+                filename: f.filename,
+                text: await extractText(f.buffer, f.filename, f.mimeType)
+            })));
+            const combinedText = filesContent.map(f => f.text).join('\n\n');
+            const isSingle = fields.scope === 'single';
+
+            const geminiPrompt = isSingle
+                ? `You are analyzing a client-provided narrative document for a landing page. Extract the key narrative elements into structured JSON.
+
+Return ONLY valid JSON with this exact structure (no markdown, no code fences):
+{
+  "pages": [
+    {
+      "id": "page-0",
+      "name": "Landing Page",
+      "type": "Landing Page",
+      "headline": "<the main headline or strongest hook from the document>",
+      "summary": "<one concise paragraph summarizing the page narrative>",
+      "flags": 0,
+      "flagText": null,
+      "missing": false,
+      "children": [],
+      "sections": [
+        {
+          "name": "<Section name e.g. Hero, Problem, Solution, Features, CTA>",
+          "items": [
+            { "label": "<element e.g. Headline, Body, CTA>", "value": "<extracted content>" }
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "single",
+  "hasNavDefinition": false
+}
+
+Extract 3–6 sections. Each section should have 1–3 items. Use the actual content from the document.
+
+Document:
+${combinedText.slice(0, 12000)}`
+                : `You are analyzing client narrative documents for a multi-page website. Extract the sitemap and key narrative for each page into structured JSON.
+
+Return ONLY valid JSON with this exact structure (no markdown, no code fences):
+{
+  "pages": [
+    {
+      "id": "page-0",
+      "name": "<page name>",
+      "type": "<Homepage | Web Page | Landing Page>",
+      "headline": "<extracted headline>",
+      "summary": "<brief summary>",
+      "flags": 0,
+      "flagText": null,
+      "missing": false,
+      "children": [],
+      "sections": []
+    }
+  ],
+  "scope": "multi",
+  "hasNavDefinition": true
+}
+
+Documents:
+${combinedText.slice(0, 12000)}`;
+
+            const geminiText = await callGemini(geminiPrompt);
+
+            let parsed = null;
+            try {
+                const clean = geminiText.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
+                parsed = JSON.parse(clean);
+            } catch (e) {
+                console.error('[intake] Gemini parse failed:', e.message, geminiText.slice(0, 300));
+            }
+
+            if (parsed && Array.isArray(parsed.pages) && parsed.pages.length > 0) {
+                return res.status(200).json({ success: true, pages: parsed.pages, scope: parsed.scope || fields.scope, hasNavDefinition: parsed.hasNavDefinition || false });
+            }
+
+            // Fallback: return minimal page so frontend can still show the review
+            const fallbackName = files[0]?.filename?.replace(/\.[^.]+$/, '') || fields.projectName || 'Landing Page';
+            return res.status(200).json({
+                success: true,
+                scope: fields.scope || 'single',
+                hasNavDefinition: false,
+                pages: [{
+                    id: 'page-0',
+                    name: fallbackName,
+                    type: isSingle ? 'Landing Page' : 'Homepage',
+                    headline: '',
+                    summary: 'Narrative received. Our team will review and begin production.',
+                    flags: 0,
+                    flagText: null,
+                    missing: false,
+                    children: [],
+                    sections: []
+                }]
+            });
+        }
+
+        return res.status(400).json({ error: 'Invalid request' });
     } catch (err) {
-        console.error('INTAKE_API_ERROR:', err);
-        return res.status(500).json({ error: 'Intake failed', message: err.message });
+        console.error('Intake Controller Error:', err);
+        return res.status(500).json({ error: err.message });
     }
 };
 
-module.exports.config = {
-    api: {
-        bodyParser: false,
-    },
-};
+module.exports.config = { api: { bodyParser: false } };

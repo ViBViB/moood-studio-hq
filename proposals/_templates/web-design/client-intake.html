@@ -800,6 +800,93 @@
             display: block;
         }
 
+        /* ── PAGE OBJECTIVES ────────────────────────────── */
+        .page-obj-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .page-obj-card {
+            background: #F7F7F7;
+            border-radius: 8px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .page-obj-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 16px;
+        }
+
+        .page-obj-num {
+            font-size: 10px;
+            font-weight: 700;
+            color: #BCBCBC;
+            letter-spacing: 0.1em;
+        }
+
+        .page-obj-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .page-obj-type {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #BCBCBC;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .page-obj-optional {
+            margin-left: auto;
+            font-size: 10px;
+            color: #BCBCBC;
+            font-weight: 400;
+        }
+
+        .page-obj-label-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .page-obj-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #BCBCBC;
+        }
+
+        .page-obj-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+            color: #000;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .page-obj-input:focus {
+            outline: none;
+            background: #efefef;
+        }
+
         .narrative-dropzone-title {
             font-size: 22px;
             font-weight: 300;
@@ -4208,7 +4295,7 @@
                     <!-- ══ SLIDE 2 — VISUAL REFERENCES ══════════════ -->
                     <div class="q-slide" id="slide-1" data-index="1">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">02. Visual references</h2>
+                            <h2 class="q-section-title">03. Visual references</h2>
                             <p class="q-section-intro">Define your direction by sharing at least one visual reference.
                                 You can provide a URL or simply mention a brand that aligns with your vision; these will
                                 serve as the foundation for your design identity.</p>
@@ -4236,7 +4323,7 @@
                     <!-- ══ SLIDE 3 — BRAND ASSETS ════════════════════ -->
                     <div class="q-slide" id="slide-2" data-index="2">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">03. Brand assets</h2>
+                            <h2 class="q-section-title">04. Brand assets</h2>
                             <p class="q-section-intro">Provide your existing materials so we can extract your brand’s
                                 Visual DNA. If you’re starting from scratch, we will engineer a custom identity based on
                                 your industry standards.</p>
@@ -4473,10 +4560,10 @@
                                         with your homepage.</div>
                                 </div>
                             </div>
-                            <div style="margin-top:8px;text-align:left;width:100%;max-width:520px;">
-                                <p style="font-size:15px;color:rgba(0,0,0,0.5);margin:0;">Talk soon,</p>
-                                <p style="font-size:18px;font-weight:600;color:#000;margin:4px 0 0 0;">Alberto</p>
-                                <p style="font-size:13px;color:rgba(0,0,0,0.4);margin:2px 0 0 0;">Moood.Studio</p>
+                            <div class="q-signature">
+                                <p class="q-signature-greeting">Talk soon,</p>
+                                <p class="q-signature-name">Alberto</p>
+                                <p class="q-signature-company">Moood.Studio</p>
                             </div>
                         </div>
                     </div>
@@ -4511,13 +4598,13 @@
                                     <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                             <polyline points="20 6 9 17 4 12" />
                                         </svg></div>
-                                    <span>Mapping pages and hierarchy</span>
+                                    <span id="procLabel2">Mapping pages and hierarchy</span>
                                 </div>
                                 <div class="processing-step" data-step="3">
                                     <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                             <polyline points="20 6 9 17 4 12" />
                                         </svg></div>
-                                    <span>Preparing your sitemap</span>
+                                    <span id="procLabel3">Preparing your sitemap</span>
                                 </div>
                             </div>
                         </div>
@@ -4617,10 +4704,10 @@
                             <h2 class="q-section-title" style="margin:0;">All set!</h2>
                             <p class="q-section-intro" style="margin:4px 0 0 0;">We’re diving into the design phase now.
                                 <br>You can expect a notification for review within the next 24 hours.</p>
-                            <div style="margin-top:40px;text-align:left;">
-                                <p style="font-size:15px;color:rgba(0,0,0,0.5);margin:0;">Talk soon,</p>
-                                <p style="font-size:18px;font-weight:600;color:#000;margin:6px 0 0 0;">Alberto</p>
-                                <p style="font-size:13px;color:rgba(0,0,0,0.4);margin:2px 0 0 0;">Moood.Studio</p>
+                            <div class="q-signature">
+                                <p class="q-signature-greeting">Talk soon,</p>
+                                <p class="q-signature-name">Alberto</p>
+                                <p class="q-signature-company">Moood.Studio</p>
                             </div>
                         </div>
                     </div>
@@ -4630,62 +4717,13 @@
                         <div id="pageReviewContent"></div>
                     </div>
 
-                    <!-- ══ SLIDE 5S — YOUR BUSINESS (STRATEGY) ══════ -->
-                    <div class="q-slide" id="slide-4s" data-index="4s">
-                        <div class="q-section-header">
-                            <h2 class="q-section-title">05. Your business</h2>
-                            <p class="q-section-intro">Raw facts only — no marketing language. The Strategy Director
-                                extracts the wound and the weapon from this.</p>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>What does your product or service do?</label>
-                            <textarea name="productDesc" id="productDesc" rows="3"
-                                placeholder="State it in functional terms. What specific capability does it provide?"
-                                required></textarea>
-                            <div class="word-counter" id="productDescCounter">0 / 40 words</div>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>Who is your primary audience?</label>
-                            <textarea name="audience" id="audience" rows="3"
-                                placeholder="One person, not a list. e.g., Sustainability Leads at top-tier architecture firms navigating the RICS mandate."
-                                required></textarea>
-                            <div class="word-counter" id="audienceCounter">0 / 40 words</div>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>What is the core problem you solve?</label>
-                            <textarea name="coreProblem" id="coreProblem" rows="3"
-                                placeholder="The specific pain point — before they found you." required></textarea>
-                            <div class="word-counter" id="coreProblemCounter">0 / 40 words</div>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>What happens if they don't solve it?</label>
-                            <textarea name="costOfInaction" id="costOfInaction" rows="2"
-                                placeholder="The stakes. What is the cost of staying where they are?"
-                                required></textarea>
-                            <div class="word-counter" id="costOfInactionCounter">0 / 30 words</div>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>What is the primary action you want users to take?</label>
-                            <input type="text" name="ctaObjective" id="ctaObjective"
-                                placeholder="e.g., Book a demo, Contact sales, Download the manual, Purchase the product"
-                                required>
-                            <div class="word-counter" id="ctaObjectiveCounter">0 / 20 words</div>
-                        </div>
-                    </div>
-
                     <!-- ══ SLIDE SOURCES — STRATEGY ══════════════════ -->
                     <div class="q-slide" id="slide-sources" data-index="sources">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">01. Sources</h2>
+                            <h2 class="q-section-title">Sources</h2>
                             <p class="q-section-intro">Narratives aren't invented; they are extracted. Provide the raw
                                 material we need to anchor your strategy in hard evidence.</p>
                         </div>
-
 
                         <div class="form-group" style="margin-top:0;">
                             <div class="modern-upload" id="sourcesDropZone"
@@ -4739,359 +4777,21 @@
                                 </button>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- ══ SLIDE PAGE-OBJ — PAGE OBJECTIVES ══════════ -->
                     <div class="q-slide" id="slide-page-obj" data-index="page-obj">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">02. Page objectives</h2>
+                            <h2 class="q-section-title">Page objectives</h2>
                             <p class="q-section-intro">For each page in your project, tell us its primary goal. What should a visitor understand, feel, or do after seeing it? Skip any page you're unsure about — we'll infer from context.</p>
                         </div>
-                        <div id="pageObjContainer" style="display:flex;flex-direction:column;gap:24px;margin-top:8px;"></div>
-                    </div>
-
-                    <!-- ══ SLIDE 7S — EVIDENCE (STRATEGY) ═══════════ -->
-                    <div class="q-slide" id="slide-5s" data-index="5s">
-                        <div class="q-section-header">
-                            <h2 class="q-section-title">07. Evidence</h2>
-                            <p class="q-section-intro">Numbers, case studies, and validation. The Strategy Director uses
-                                this to build the proof layer — claims without proof don't survive the Visitor Review.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p
-                                style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#000;margin-bottom:20px;">
-                                Key stats — up to 3</p>
-                            <div class="evidence-row">
-                                <div class="evidence-label">Stat 01</div>
-                                <div style="display:flex;gap:16px;">
-                                    <div class="form-group" style="flex:0 0 130px;"><input type="text"
-                                            name="stat1Number" placeholder="e.g., 2,221"></div>
-                                    <div class="form-group" style="flex:1;"><input type="text" name="stat1Label"
-                                            placeholder="tCO2e avoided in one project"></div>
-                                </div>
-                            </div>
-                            <div class="evidence-row">
-                                <div class="evidence-label">Stat 02 <span class="optional-marker">— optional</span>
-                                </div>
-                                <div style="display:flex;gap:16px;">
-                                    <div class="form-group" style="flex:0 0 130px;"><input type="text"
-                                            name="stat2Number" placeholder="e.g., 80%"></div>
-                                    <div class="form-group" style="flex:1;"><input type="text" name="stat2Label"
-                                            placeholder="of carbon locked by Stage 3"></div>
-                                </div>
-                            </div>
-                            <div class="evidence-row">
-                                <div class="evidence-label">Stat 03 <span class="optional-marker">— optional</span>
-                                </div>
-                                <div style="display:flex;gap:16px;">
-                                    <div class="form-group" style="flex:0 0 130px;"><input type="text"
-                                            name="stat3Number" placeholder="e.g., 1–2 hrs"></div>
-                                    <div class="form-group" style="flex:1;"><input type="text" name="stat3Label"
-                                            placeholder="assessment revision turnaround"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group optional">
-                            <label>Case study</label>
-                            <input type="text" name="caseStudy"
-                                placeholder="Client name + one-line result. e.g., Group14 Engineering — 2,221 tCO2e avoided in 1 week">
-                        </div>
-
-                        <div class="form-group optional">
-                            <label>Case study URL</label>
-                            <input type="url" name="caseStudyUrl" placeholder="Link to full case study if available">
-                        </div>
-
-                        <div class="form-group optional">
-                            <label>Testimonial (exact quote)</label>
-                            <textarea name="testimonialText" rows="2"
-                                placeholder="The exact words — no paraphrasing. Attribution will be in the next field."></textarea>
-                        </div>
-
-                        <div class="form-group optional">
-                            <label>Testimonial attribution</label>
-                            <input type="text" name="testimonialAttrib"
-                                placeholder="e.g., Kristina Farrell, Group14 Engineering PBC">
-                        </div>
-                    </div>
-
-                    <!-- ══ SLIDE 8S — MARKET CONTEXT (STRATEGY) ═════ -->
-                    <div class="q-slide" id="slide-6s" data-index="6s">
-                        <div class="q-section-header">
-                            <h2 class="q-section-title">08. Market context</h2>
-                            <p class="q-section-intro">To position you correctly, we need to know who else is in the
-                                room and what makes you different. Then: tone — the fingerprint of how you speak.</p>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Main competitors</label>
-                            <div id="competitorList"></div>
-                            <div class="link-trigger-wrap">
-                                <button type="button" class="btn-permanent-add" id="addCompetitorBtn">
-                                    <span class="trigger-label">Add competitor</span>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                        <line x1="12" y1="5" x2="12" y2="19" />
-                                        <line x1="5" y1="12" x2="19" y2="12" />
-                                    </svg>
-                                    <span class="plus-indicator">+</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Your differentiator</label>
-                            <input type="text" name="differentiator"
-                                placeholder="The one thing you do that they fundamentally cannot." required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Three words that describe your voice</label>
-                            <div class="tag-input-wrap" id="tonePositiveTags">
-                                <input type="text" class="tag-input-field" id="tonePositiveInput"
-                                    placeholder="Type a word and press Enter">
-                            </div>
-                            <input type="hidden" id="tonePositiveValue" name="tonePositive">
-                            <p class="tag-hint">e.g., Precise, Urgent, Authoritative</p>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Three words that describe what you are NOT</label>
-                            <div class="tag-input-wrap" id="toneNegativeTags">
-                                <input type="text" class="tag-input-field" id="toneNegativeInput"
-                                    placeholder="Type a word and press Enter">
-                            </div>
-                            <input type="hidden" id="toneNegativeValue" name="toneNegative">
-                            <p class="tag-hint">e.g., Generic, Casual, Eco-preachy</p>
-                        </div>
-                    </div>
-
-                    <!-- ══ SLIDE 5N — HERO (NARRATIVE) ══════════════ -->
-                    <div class="q-slide" id="slide-4n" data-index="4n">
-                        <div class="q-section-header">
-                            <h2 class="q-section-title">05. Hero</h2>
-                            <p class="q-section-intro">The first thing the user reads. The headline must stand alone —
-                                strip the page of everything else and it still communicates the core promise.</p>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>Headline <span style="font-weight:400;opacity:.4;font-size:10px;">— max 10
-                                    words</span></label>
-                            <input type="text" name="heroH1" id="heroH1"
-                                placeholder="The single most powerful sentence about your product or position."
-                                required>
-                            <div class="word-counter" id="heroH1Counter">0 / 10 words</div>
-                        </div>
-
-                        <div class="form-group field-with-counter">
-                            <label>Subheadline <span style="font-weight:400;opacity:.4;font-size:10px;">— max 20
-                                    words</span></label>
-                            <input type="text" name="heroSubhead" id="heroSubhead"
-                                placeholder="One clinical sentence that expands the headline without repeating it."
-                                required>
-                            <div class="word-counter" id="heroSubheadCounter">0 / 20 words</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Primary CTA text</label>
-                            <input type="text" name="heroCta"
-                                placeholder="e.g., Book a Demo, Start Free Trial, Join the Workshop" required>
-                        </div>
-
-                        <div class="form-group optional">
-                            <label>Supporting CTA text</label>
-                            <input type="text" name="heroCtaSecondary"
-                                placeholder="e.g., View Case Studies, Learn How It Works">
-                        </div>
-                    </div>
-
-                    <!-- ══ SLIDE 6N — CONTENT (NARRATIVE) ══════════ -->
-                    <div class="q-slide" id="slide-5n" data-index="5n">
-
-                        <!-- WEB PAGE: Section Builder -->
-                        <div class="conditional-group" id="slide5n-web">
-                            <div class="q-section-header">
-                                <h2 class="q-section-title">06. Content sections</h2>
-                                <p class="q-section-intro">Each section is a discrete content block. Headline ≤ 8 words.
-                                    Body ≤ 50 words. Add between 3 and 5 sections.</p>
-                            </div>
-                            <div class="section-builder" id="sectionBuilder"></div>
-                            <button type="button" class="btn-add-section" id="addSectionBtn">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                                Add section
-                            </button>
-                            <p class="sections-limit-note" id="sectionsLimitNote">Maximum 5 sections reached.</p>
-                        </div>
-
-                        <!-- LANDING PAGE: Solution + Evidence -->
-                        <div class="conditional-group" id="slide5n-landing">
-                            <div class="q-section-header">
-                                <h2 class="q-section-title">06. Solution</h2>
-                                <p class="q-section-intro">Your answer to the problem. Then the proof — three specific,
-                                    verifiable evidence points.</p>
-                            </div>
-                            <div class="form-group field-with-counter">
-                                <label>Solution headline <span style="font-weight:400;opacity:.4;font-size:10px;">— max
-                                        8 words</span></label>
-                                <input type="text" name="solutionH2" id="solutionH2"
-                                    placeholder="Name the solution in one precise statement." required>
-                                <div class="word-counter" id="solutionH2Counter">0 / 8 words</div>
-                            </div>
-                            <div class="form-group field-with-counter">
-                                <label>Solution body <span style="font-weight:400;opacity:.4;font-size:10px;">— max 40
-                                        words</span></label>
-                                <textarea name="solutionBody" id="solutionBody" rows="3"
-                                    placeholder="Explain how it works in one focused paragraph. No filler."
-                                    required></textarea>
-                                <div class="word-counter" id="solutionBodyCounter">0 / 40 words</div>
-                            </div>
-                            <div style="margin-top:8px;">
-                                <p
-                                    style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#000;margin-bottom:16px;">
-                                    Evidence points — 3 required</p>
-                                <div class="evidence-row">
-                                    <div class="evidence-label">Evidence 01</div>
-                                    <div class="form-group field-with-counter" style="margin-top:0;"><input type="text"
-                                            name="evidence1" id="evidence1"
-                                            placeholder="One specific, verifiable proof point. Numbers preferred."
-                                            required>
-                                        <div class="word-counter" id="evidence1Counter">0 / 20 words</div>
-                                    </div>
-                                </div>
-                                <div class="evidence-row">
-                                    <div class="evidence-label">Evidence 02</div>
-                                    <div class="form-group field-with-counter" style="margin-top:0;"><input type="text"
-                                            name="evidence2" id="evidence2" placeholder="Second proof point." required>
-                                        <div class="word-counter" id="evidence2Counter">0 / 20 words</div>
-                                    </div>
-                                </div>
-                                <div class="evidence-row">
-                                    <div class="evidence-label">Evidence 03</div>
-                                    <div class="form-group field-with-counter" style="margin-top:0;"><input type="text"
-                                            name="evidence3" id="evidence3" placeholder="Third proof point." required>
-                                        <div class="word-counter" id="evidence3Counter">0 / 20 words</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group"><label>Final CTA text</label><input type="text"
-                                    name="landingFinalCta" placeholder="The one action this page drives the user to."
-                                    required></div>
-                        </div>
-
-                        <!-- BLOG: Argument Sections -->
-                        <div class="conditional-group" id="slide5n-blog">
-                            <div class="q-section-header">
-                                <h2 class="q-section-title">06. Arguments</h2>
-                                <p class="q-section-intro">Structure your editorial body as discrete argument blocks.
-                                    Each block is a standalone point supporting the central thesis. Add 3 to 5 blocks.
-                                </p>
-                            </div>
-                            <div class="section-builder" id="blogSectionBuilder"></div>
-                            <button type="button" class="btn-add-section" id="addBlogSectionBtn">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                                Add argument
-                            </button>
-                            <p class="sections-limit-note" id="blogSectionsLimitNote">Maximum 5 arguments reached.</p>
-                        </div>
-                    </div>
-
-                    <!-- ══ SLIDE 7N — SOCIAL PROOF (NARRATIVE) ══════ -->
-                    <div class="q-slide" id="slide-6n" data-index="6n">
-                        <div class="q-section-header">
-                            <h2 class="q-section-title">07. Social proof</h2>
-                            <p class="q-section-intro">The validation layer. Choose the format that reflects your actual
-                                available assets — not what you wish you had.</p>
-                        </div>
-                        <div>
-                            <div class="proof-toggle" id="proofToggle">
-                                <button type="button" class="proof-tab active" data-proof="quote">Quote</button>
-                                <button type="button" class="proof-tab" data-proof="logos">Logo bank</button>
-                                <button type="button" class="proof-tab" data-proof="stats">Stats</button>
-                                <button type="button" class="proof-tab" data-proof="none">None yet</button>
-                            </div>
-                            <input type="hidden" name="proofType" id="proofTypeInput" value="quote">
-                            <div class="proof-fields active" id="proof-quote">
-                                <div class="form-group field-with-counter"><label>The quote</label><textarea
-                                        name="quoteText" id="quoteText" rows="3"
-                                        placeholder="The exact words of your client or partner. No paraphrasing."
-                                        required></textarea>
-                                    <div class="word-counter" id="quoteTextCounter">0 / 50 words</div>
-                                </div>
-                                <div class="form-group"><label>Name</label><input type="text" name="quoteName"
-                                        placeholder="Full name of the person quoted" required></div>
-                                <div class="form-group"><label>Title and company</label><input type="text"
-                                        name="quoteAttribution"
-                                        placeholder="e.g., Head of Sustainability, Foster + Partners" required></div>
-                            </div>
-                            <div class="proof-fields" id="proof-logos">
-                                <div class="form-group"><label>Company names</label><textarea name="logoCompanies"
-                                        rows="3"
-                                        placeholder="Companies whose logos you have rights to use, one per line.&#10;e.g., Foster + Partners, Westminster City Council, Arup"></textarea>
-                                </div>
-                                <div class="form-group optional"><label>Logo files or brand asset URL</label><input
-                                        type="url" name="logosUrl"
-                                        placeholder="Figma, Google Drive, Dropbox, or brand portal URL"></div>
-                            </div>
-                            <div class="proof-fields" id="proof-stats">
-                                <p
-                                    style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#000;margin-bottom:20px;">
-                                    Up to 3 stats</p>
-                                <div class="evidence-row">
-                                    <div class="evidence-label">Stat 01</div>
-                                    <div style="display:flex;gap:16px;margin-top:8px;">
-                                        <div class="form-group" style="flex:0 0 120px;"><input type="text"
-                                                name="proofStat1Number" placeholder="e.g., 2,221"></div>
-                                        <div class="form-group" style="flex:1;"><input type="text"
-                                                name="proofStat1Label" placeholder="tCO2e avoided in one project"></div>
-                                    </div>
-                                </div>
-                                <div class="evidence-row">
-                                    <div class="evidence-label">Stat 02</div>
-                                    <div style="display:flex;gap:16px;margin-top:8px;">
-                                        <div class="form-group" style="flex:0 0 120px;"><input type="text"
-                                                name="proofStat2Number" placeholder="e.g., 1–2 hrs"></div>
-                                        <div class="form-group" style="flex:1;"><input type="text"
-                                                name="proofStat2Label" placeholder="Revision turnaround time"></div>
-                                    </div>
-                                </div>
-                                <div class="evidence-row">
-                                    <div class="evidence-label">Stat 03 <span class="optional-marker">— optional</span>
-                                    </div>
-                                    <div style="display:flex;gap:16px;margin-top:8px;">
-                                        <div class="form-group" style="flex:0 0 120px;"><input type="text"
-                                                name="proofStat3Number" placeholder="e.g., 80%"></div>
-                                        <div class="form-group" style="flex:1;"><input type="text"
-                                                name="proofStat3Label" placeholder="Of carbon locked by Stage 3"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="proof-fields" id="proof-none">
-                                <div
-                                    style="padding:32px;background:#fafafa;border:1px solid rgba(0,0,0,0.08);border-radius:4px;">
-                                    <p style="font-size:15px;font-weight:600;color:#000;margin-bottom:8px;">Noted. We'll
-                                        flag this block.</p>
-                                    <p style="font-size:14px;color:rgba(0,0,0,0.5);line-height:1.7;">The Builder will
-                                        include a Social Proof placeholder in the skeleton. You'll need to provide an
-                                        asset before the mockup phase — a page without social proof has a structural
-                                        authority gap.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="pageObjContainer" class="page-obj-container"></div>
                     </div>
 
                     <!-- ══ SLIDE ST-COMPETITION — STRATEGY ══════════ -->
                     <div class="q-slide" id="slide-st-competition" data-index="st-competition">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">07. Competition</h2>
+                            <h2 class="q-section-title">Competition</h2>
                             <p class="q-section-intro">To define your advantage, we need to know who we are fighting
                                 against. Name your main competitors or paste links to their websites.</p>
                         </div>
@@ -5115,7 +4815,7 @@
                     <!-- ══ SLIDE ST-AUDIENCE — STRATEGY ══════════════ -->
                     <div class="q-slide" id="slide-st-audience" data-index="st-audience">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">08. Audience</h2>
+                            <h2 class="q-section-title">Audience</h2>
                             <p class="q-section-intro">Every narrative is built for a specific person. To build the
                                 right message, we need to know exactly who they are, what they do, and the specific
                                 problem we are solving for them.</p>
@@ -5131,7 +4831,7 @@
                     <!-- ══ SLIDE ST-CONVERSION — STRATEGY ════════════ -->
                     <div class="q-slide" id="slide-st-conversion" data-index="st-conversion">
                         <div class="q-section-header">
-                            <h2 class="q-section-title">09. Conversion</h2>
+                            <h2 class="q-section-title">Conversion</h2>
                             <p class="q-section-intro">Every narrative must lead to a clear outcome. Define the primary
                                 action you want the user to take after reading the message.</p>
                         </div>
@@ -5208,10 +4908,10 @@
 
                         <p style="font-size:13px;color:rgba(0,0,0,0.5);margin:24px 0 0 0;line-height:1.6;"><strong style="color:rgba(0,0,0,0.7);">Note:</strong> You will receive the first draft of all project narratives for your review and approval within 24 hours.</p>
 
-                        <div style="margin-top:32px;">
-                            <p style="font-size:15px;color:rgba(0,0,0,0.6);margin:0;">Talk soon,</p>
-                            <p style="font-size:18px;font-weight:600;color:#000;margin:4px 0 0 0;">Alberto</p>
-                            <p style="font-size:13px;color:rgba(0,0,0,0.4);margin:2px 0 0 0;">Moood.Studio</p>
+                        <div class="q-signature">
+                            <p class="q-signature-greeting">Talk soon,</p>
+                            <p class="q-signature-name">Alberto</p>
+                            <p class="q-signature-company">Moood.Studio</p>
                         </div>
                     </div>
 
@@ -5275,10 +4975,10 @@
         const MIN_SECTIONS = 3;
 
         // Path arrays — index → slide element ID
-        const STRATEGY_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
-        const NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
-        const SINGLE_NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-upload', 'slide-processing', 'slide-page-review'];
-        const DEFAULT_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const STRATEGY_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-page-obj', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-upload', 'slide-1', 'slide-2', 'slide-3', 'slide-processing', 'slide-sitemap-review'];
+        const SINGLE_NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-upload', 'slide-1', 'slide-2', 'slide-3', 'slide-processing', 'slide-page-review'];
+        const DEFAULT_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-page-obj', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
 
         // Code-activated paths — welcome screen + scenario-conditional slides
         // Scenario A (Brand-Free): Sources → Visual refs → Brand assets → Competition → Audience → Conversion → Submit
@@ -5286,9 +4986,9 @@
         // Scenario B/C/D (Brand-Locked): Visual refs removed, Brand assets is primary
         const CODE_BCD_STRATEGY  = ['slide-code', 'slide-sources', 'slide-page-obj', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario A + client provides narrative
-        const CODE_A_NARRATIVE   = ['slide-code', 'slide-1', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
+        const CODE_A_NARRATIVE   = ['slide-code', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-upload', 'slide-processing', 'slide-page-review'];
         // Scenario B/C/D + client provides narrative
-        const CODE_BCD_NARRATIVE = ['slide-code', 'slide-2', 'slide-upload', 'slide-processing', 'slide-sitemap-review'];
+        const CODE_BCD_NARRATIVE = ['slide-code', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-upload', 'slide-processing', 'slide-page-review'];
 
         let projectPassport = null;
         let codeActivated   = false;
@@ -5387,6 +5087,12 @@
             // Pre-fill slide-0 fields in case user reaches it via non-code path
             const pnInput = document.querySelector('[name="projectName"]');
             if (pnInput && passport.projectName) pnInput.value = passport.projectName;
+            
+            const emailInput = document.querySelector('[name="email"]');
+            if (emailInput && passport.clientEmail) emailInput.value = passport.clientEmail;
+            
+            const leadInput = document.querySelector('[name="leadName"]');
+            if (leadInput && passport.leadName) leadInput.value = passport.leadName;
 
             // Set scope state so downstream validation passes
             const pages        = passport.pages || [];
@@ -5397,7 +5103,10 @@
             // Determine path by scenario + narrative flag
             if (passport.hasNarrative) {
                 selectedPath = pages.length === 1 ? 'single' : 'multi';
-                currentPath  = scenarioBCD ? CODE_BCD_NARRATIVE : CODE_A_NARRATIVE;
+                currentPath  = scenarioBCD ? [...CODE_BCD_NARRATIVE] : [...CODE_A_NARRATIVE];
+                if (selectedPath !== 'single') {
+                    currentPath[currentPath.length - 1] = 'slide-sitemap-review';
+                }
             } else {
                 selectedPath = 'strategy';
                 currentPath  = scenarioBCD ? CODE_BCD_STRATEGY : CODE_A_STRATEGY;
@@ -5512,21 +5221,16 @@
                 const name = typeof p === 'object' ? p.name : p;
                 const type = typeof p === 'object' ? p.type : '';
                 return `
-                <div style="border:1px solid rgba(0,0,0,0.1);border-radius:4px;padding:20px 24px;">
-                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-                        <span style="font-size:11px;font-weight:700;color:rgba(0,0,0,0.35);letter-spacing:1px;">${String(i+1).padStart(2,'0')}</span>
-                        <span style="font-size:15px;font-weight:600;color:#111;">${name}</span>
-                        ${type ? `<span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(0,0,0,0.3);background:rgba(0,0,0,0.05);padding:3px 8px;border-radius:2px;">${type}</span>` : ''}
-                        <span style="margin-left:auto;font-size:11px;color:rgba(0,0,0,0.3);">Optional</span>
+                <div class="page-obj-card">
+                    <div class="page-obj-header">
+                        <span class="page-obj-num">${String(i+1).padStart(2,'0')}</span>
+                        <span class="page-obj-name">${name}</span>
+                        ${type ? `<span class="page-obj-type">${type}</span>` : ''}
+                        <span class="page-obj-optional">Optional</span>
                     </div>
-                    <div style="display:flex;align-items:baseline;gap:0;">
-                        <label style="font-size:13px;color:rgba(0,0,0,0.45);white-space:nowrap;flex-shrink:0;">After seeing this page, a visitor should think or feel:</label>
-                        <input
-                            type="text"
-                            id="pageObj_${i}"
-                            data-page="${name}"
-                            style="flex:1;border:none;border-bottom:1px solid rgba(0,0,0,0.15);margin-left:8px;padding:2px 0 4px;font-size:13px;color:#111;background:transparent;outline:none;font-family:inherit;min-width:0;"
-                        >
+                    <div class="page-obj-label-row">
+                        <label class="page-obj-label">After seeing this page, a visitor should think or feel:</label>
+                        <input type="text" class="page-obj-input" id="pageObj_${i}" data-page="${name}">
                     </div>
                 </div>`;
             }).join('');
@@ -5544,16 +5248,17 @@
 
             // Rebuild nav to reflect actual upcoming slides (skip terminal/system slides)
             const navSlideLabels = {
-                'slide-sources':        '01. Sources',
-                'slide-page-obj':       '02. Page objectives',
-                'slide-1':              '03. Visual references',
-                'slide-2':              '04. Brand assets',
-                'slide-st-competition': '05. Competitors',
-                'slide-st-audience':    '06. Audience',
-                'slide-st-conversion':  '07. Conversion',
-                'slide-upload':         '01. Upload narrative',
+                'slide-sources':        'Sources',
+                'slide-page-obj':       'Page objectives',
+                'slide-1':              'Visual references',
+                'slide-2':              'Brand assets',
+                'slide-st-competition': 'Competitors',
+                'slide-st-audience':    'Audience',
+                'slide-st-conversion':  'Conversion',
+                'slide-upload':         'Upload narrative',
                 'slide-7':              'Confirmation',
-                'slide-sitemap-review': 'Sitemap review'
+                'slide-sitemap-review': 'Sitemap review',
+                'slide-page-review':    'Page review'
             };
             const skip = new Set(['slide-code', 'slide-welcome', 'slide-processing', 'slide-page-review']);
             const navSlides = path.filter(id => !skip.has(id) && navSlideLabels[id]);
@@ -5561,9 +5266,11 @@
             const navList = document.getElementById('navList');
             if (navList) {
                 navList.style.display = '';
-                navList.innerHTML = navSlides.map((id) =>
-                    `<li class="q-nav-item" data-idx="${path.indexOf(id)}"><span class="bar"></span><span class="nav-label">${navSlideLabels[id]}</span></li>`
-                ).join('');
+                navList.innerHTML = navSlides.map((id, i) => {
+                    const label = navSlideLabels[id];
+                    const num = String(i + 1).padStart(2, '0');
+                    return `<li class="q-nav-item" data-idx="${path.indexOf(id)}"><span class="bar"></span><span class="nav-label">${num}. ${label}</span></li>`;
+                }).join('');
                 navItems = document.querySelectorAll('.q-nav-item');
             }
         }
@@ -5827,6 +5534,15 @@
                     return { _error: true, detail: e.message };
                 });
 
+            // Adjust processing labels for Single Page context
+            if (selectedScope === 'single') {
+                document.getElementById('procLabel2').textContent = 'Analyzing content depth';
+                document.getElementById('procLabel3').textContent = 'Preparing your page review';
+            } else {
+                document.getElementById('procLabel2').textContent = 'Mapping pages and hierarchy';
+                document.getElementById('procLabel3').textContent = 'Preparing your sitemap';
+            }
+
             // Navigate to processing slide immediately — don't wait for API
             currentIdx = currentPath.indexOf('slide-processing');
             updateSlider();
@@ -5862,7 +5578,7 @@
                     return;
                 }
 
-                document.getElementById('processingTitle').textContent = 'Sitemap ready.';
+                document.getElementById('processingTitle').textContent = selectedScope === 'single' ? 'Narrative ready.' : 'Sitemap ready.';
                 document.getElementById('processingSub').textContent = 'Opening your review now.';
                 document.getElementById('processingRing').style.display = 'none';
                 document.getElementById('processingDoneCheck').classList.add('visible');
@@ -5929,7 +5645,12 @@
             }
 
             indexAllPages(sitemapPages);
-            renderSitemapTree();
+            if (selectedScope === 'single') {
+                currentIdx = currentPath.indexOf('slide-page-review');
+                renderPageReview(sitemapPages[0]);
+            } else {
+                renderSitemapTree();
+            }
         }
 
         const pageIcon = `<svg class="svt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
@@ -6252,10 +5973,22 @@
 
             document.getElementById('reviewComplete').classList.add('visible');
             document.getElementById('slide-sitemap-review').scrollTop = 0;
-            fetch('/api/client-intake/approve', {
+            const projectName = document.querySelector('input[name="projectName"]')?.value || '';
+            const leadName    = document.querySelector('input[name="leadName"]')?.value  || (projectPassport?.leadName   || '');
+            const companyName = document.querySelector('input[name="companyName"]')?.value || (projectPassport?.clientName || '');
+            const visualRefs  = Array.from(document.querySelectorAll('#refLinksList input')).map(i => i.value.trim()).filter(Boolean);
+            fetch('/api/client-intake-approve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    email,
+                    leadName,
+                    companyName,
+                    projectName,
+                    hasNarrative: selectedPath === 'narrative',
+                    isSinglePage: selectedScope === 'single',
+                    scenario:     projectPassport?.scenario || 'A',
+                    visualRefs,
                     pages: flattenAll(sitemapPages).map(p => ({
                         id: p.id,
                         name: p.name,
@@ -6274,6 +6007,31 @@
             const scrollArea = viewport.parentElement;
 
             scrollArea.style.display = 'flex';
+            
+            const email       = document.querySelector('input[name="email"]')?.value      || (projectPassport?.clientEmail || '');
+            const projectName  = document.querySelector('input[name="projectName"]')?.value  || (projectPassport?.projectName || '');
+            const leadName     = document.querySelector('input[name="leadName"]')?.value     || (projectPassport?.leadName    || '');
+            const companyName  = document.querySelector('input[name="companyName"]')?.value  || (projectPassport?.clientName  || '');
+            const visualRefs   = Array.from(document.querySelectorAll('#refLinksList input')).map(i => i.value.trim()).filter(Boolean);
+            fetch('/api/client-intake-approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email,
+                    leadName,
+                    companyName,
+                    projectName,
+                    hasNarrative: true,
+                    isSinglePage: selectedScope === 'single',
+                    scenario:     projectPassport?.scenario || 'A',
+                    visualRefs,
+                    pages: sitemapPages.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        comment: pageComments[p.id] || ''
+                    }))
+                })
+            }).catch(() => { });
             scrollArea.style.flexDirection = 'column';
             scrollArea.style.height = '100%';
             viewport.style.display = 'flex';
@@ -6520,7 +6278,7 @@
             </div>
             <div class="agent-feedback">
                 <div class="loading-pulse"></div>
-                <div class="agent-msg" style="font-style:italic;opacity:.6;font-size:11px;margin-left:8px;">Analyzing source...</div>
+                <div class="agent-msg">Analyzing source...</div>
             </div>`;
             const input = wrapper.querySelector('input[name="sourceLinks[]"]');
             const typeInput = wrapper.querySelector('.source-type-input');
@@ -6582,7 +6340,7 @@
             </div>
             <div class="agent-feedback">
                 <div class="loading-pulse"></div>
-                <div class="agent-msg" style="font-style:italic;opacity:.6;font-size:11px;margin-left:8px;">Analyzing link...</div>
+                <div class="agent-msg">Analyzing link...</div>
             </div>`;
             const input = wrapper.querySelector('input[name="narrativeLinks[]"]');
             const deleteBtn = wrapper.querySelector('.btn-delete');
@@ -6645,7 +6403,7 @@
             </div>
             <div class="agent-feedback">
                 <div class="loading-pulse"></div>
-                <div class="agent-msg" style="font-style:italic;opacity:.6;font-size:11px;margin-left:8px;">Analyzing competitor...</div>
+                <div class="agent-msg">Analyzing competitor...</div>
             </div>`;
             const input = wrapper.querySelector('input[name="stCompetitors[]"]');
             const typeInput = wrapper.querySelector('.st-comp-type-input');
@@ -6788,12 +6546,12 @@
                 <input type="text" name="sections[][name]" placeholder="e.g., The Problem, Our Process, Results, Testimonial" required>
             </div>
             <div class="form-group field-with-counter">
-                <label>Headline <span style="font-weight:400;opacity:.4;font-size:10px;">— max 8 words</span></label>
+                <label>Headline <span class="field-limit">— max 8 words</span></label>
                 <input type="text" name="sections[][headline]" placeholder="The core statement of this section." required>
                 <div class="word-counter" id="wc-h-${count}">0 / 8 words</div>
             </div>
             <div class="form-group field-with-counter">
-                <label>Body <span style="font-weight:400;opacity:.4;font-size:10px;">— max ${bodyMax} words</span></label>
+                <label>Body <span class="field-limit">— max ${bodyMax} words</span></label>
                 <textarea name="sections[][body]" id="${countId}" rows="3" placeholder="${bodyPlaceholder}" required></textarea>
                 <div class="word-counter" id="wc-b-${count}">0 / ${bodyMax} words</div>
             </div>`;
@@ -6820,12 +6578,12 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
             <div class="form-group field-with-counter">
-                <label>Argument headline <span style="font-weight:400;opacity:.4;font-size:10px;">— max 10 words</span></label>
+                <label>Argument headline <span class="field-limit">— max 10 words</span></label>
                 <input type="text" name="blogArgs[][headline]" placeholder="State the argument as a declaration." required>
                 <div class="word-counter" id="bwc-h-${count}">0 / 10 words</div>
             </div>
             <div class="form-group field-with-counter">
-                <label>Development <span style="font-weight:400;opacity:.4;font-size:10px;">— max 80 words</span></label>
+                <label>Development <span class="field-limit">— max 80 words</span></label>
                 <textarea name="blogArgs[][body]" rows="4" placeholder="Develop the argument with evidence or reasoning." required></textarea>
                 <div class="word-counter" id="bwc-b-${count}">0 / 80 words</div>
             </div>`;
@@ -7011,6 +6769,7 @@
                 formData.append('leadName',    projectPassport.leadName     || '');
                 formData.append('projectName', projectPassport.projectName  || '');
                 formData.append('projectCode', projectPassport.code         || '');
+                formData.append('scenario',    projectPassport.scenario     || 'A');
             }
 
             // Collect page objectives

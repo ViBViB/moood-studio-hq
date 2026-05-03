@@ -9,7 +9,9 @@
  */
 
 const { Resend } = require('resend');
-const resend     = new Resend(process.env.RESEND_API_KEY);
+const { buildEmail, dataTable } = require('./_email');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ── UPSTASH REDIS ──────────────────────────────────────────────────────────
 const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL;
@@ -100,60 +102,37 @@ async function setNarratives(req, res) {
     const pageCount = narrativeDoc.pages.length;
     const name      = projectName || code.trim();
 
+    const pagesTableHtml = `
+        <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+          <thead><tr style="border-bottom:1px solid rgba(0,0,0,0.1);">
+            <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;width:24px;">#</th>
+            <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Page</th>
+            <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Type</th>
+          </tr></thead>
+          <tbody>
+            ${narrativeDoc.pages.map((p, i) => `
+            <tr style="border-bottom:1px solid rgba(0,0,0,0.05);">
+              <td style="padding:8px 0;font-size:11px;color:rgba(0,0,0,0.3);">${i + 1}</td>
+              <td style="padding:8px 0;font-size:13px;font-weight:600;color:#000;">${p.name}</td>
+              <td style="padding:8px 0;font-size:11px;color:rgba(0,0,0,0.4);text-transform:uppercase;letter-spacing:0.06em;">${p.type}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+
     try { await resend.emails.send({
         from:    'Moood.Studio <narratives@moood.studio>',
         to:      ['alberto.contreras@gmail.com'],
         subject: `[NARRATIVE READY] ${name} — ${pageCount} pages · ${code.trim()}`,
-        html: `
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="padding:48px 24px;">
-    <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;">
-        <tr><td style="background:#000;padding:32px 48px;">
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Moood.Studio · Strategy Director</p>
-        </td></tr>
-        <tr><td style="padding:48px 48px 16px;">
-          <h1 style="margin:0 0 12px;font-size:26px;font-weight:300;color:#000;line-height:1.2;">Narrative ready<br>for review.</h1>
-          <p style="margin:0 0 32px;font-size:15px;line-height:1.65;color:rgba(0,0,0,0.5);">
-            The narrative for <strong style="color:#000;">${name}</strong> is complete — ${pageCount} pages.
-          </p>
-          <table cellpadding="0" cellspacing="0" style="margin-bottom:40px;">
-            <tr><td style="background:#000;border-radius:6px;">
-              <a href="${agencyUrl}" style="display:inline-block;padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;text-decoration:none;">
-                Review narrative →
-              </a>
-            </td></tr>
-          </table>
-          <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
-            <thead><tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
-              <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">#</th>
-              <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Page</th>
-              <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Type</th>
-            </tr></thead>
-            <tbody>
-              ${narrativeDoc.pages.map((p, i) => `
-              <tr style="border-bottom:1px solid rgba(0,0,0,0.05);">
-                <td style="padding:8px 0;font-size:11px;color:rgba(0,0,0,0.3);">${i + 1}</td>
-                <td style="padding:8px 0;font-size:13px;font-weight:600;color:#000;">${p.name}</td>
-                <td style="padding:8px 0;font-size:11px;color:rgba(0,0,0,0.4);text-transform:uppercase;letter-spacing:0.06em;">${p.type}</td>
-              </tr>`).join('')}
-            </tbody>
-          </table>
-        </td></tr>
-        <tr><td style="padding:24px 48px 40px;border-top:1px solid rgba(0,0,0,0.06);">
-          <p style="margin:0;font-size:11px;color:rgba(0,0,0,0.3);line-height:1.6;">
-            Project code: <strong>${code.trim()}</strong> · ${pageCount} pages<br>
-            The "Send for client review" button is available in the top-right of the review interface.
-          </p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`
+        html: buildEmail({
+            projectName: name,
+            context:     'Strategy Director',
+            headline:    `Narrative ready<br>for review.`,
+            body:        `The narrative for <strong style="color:#000;">${name}</strong> is complete — ${pageCount} pages.`,
+            highlight:   pagesTableHtml,
+            cta:         { href: agencyUrl, label: 'Review narrative →' },
+            signature:   false,
+            footer:      `Project code: ${code.trim()} · ${pageCount} pages · The "Send for client review" button is in the top-right of the review interface.`,
+        }),
     }); } catch (emailErr) {
         console.error('[setNarratives] Email failed (data still saved):', emailErr.message);
     }
@@ -194,44 +173,24 @@ async function addComment(req, res) {
     if (isNewComment && comment.role !== 'agency') {
         const agencyUrl    = `https://moood.studio/proposals/narrative-review/index.html?code=${code.trim()}&agency=1`;
         const commentCount = page.reviewComments.length;
+        const commentHtml = `
+            <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.35);">${comment.author}</p>
+            <p style="margin:0;font-size:15px;color:#000;line-height:1.6;">${comment.text}</p>`;
+
         try { await resend.emails.send({
             from:    'Moood.Studio <narratives@moood.studio>',
             to:      ['alberto.contreras@gmail.com'],
             subject: `[COMMENT] ${doc.projectName} · ${page.name} — ${comment.author}`,
-            html: `
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="padding:48px 24px;">
-    <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;">
-        <tr><td style="background:#e8870a;padding:32px 48px;">
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Moood.Studio · Narrative Review</p>
-        </td></tr>
-        <tr><td style="padding:48px 48px 16px;">
-          <h1 style="margin:0 0 8px;font-size:22px;font-weight:300;color:#000;line-height:1.2;">New comment on <strong style="font-weight:700;">${page.name}</strong></h1>
-          <p style="margin:0 0 32px;font-size:13px;color:rgba(0,0,0,0.4);">${doc.projectName} · ${code.trim()} · ${commentCount} comment${commentCount !== 1 ? 's' : ''} on this page</p>
-          <div style="background:#f5f5f5;border-radius:6px;padding:20px 24px;margin-bottom:32px;">
-            <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.35);">${comment.author}</p>
-            <p style="margin:0;font-size:15px;color:#000;line-height:1.6;">${comment.text}</p>
-          </div>
-          <table cellpadding="0" cellspacing="0">
-            <tr><td style="background:#000;border-radius:6px;">
-              <a href="${agencyUrl}" style="display:inline-block;padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;text-decoration:none;">
-                View &amp; reply →
-              </a>
-            </td></tr>
-          </table>
-        </td></tr>
-        <tr><td style="padding:24px 48px 40px;border-top:1px solid rgba(0,0,0,0.06);">
-          <p style="margin:0;font-size:11px;color:rgba(0,0,0,0.3);line-height:1.6;">Page: <strong>${page.name}</strong> · Project: <strong>${code.trim()}</strong></p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`
+            html: buildEmail({
+                projectName: doc.projectName,
+                context:     'Narrative Review',
+                headline:    `New comment on<br>${page.name}.`,
+                body:        `${doc.projectName} · ${code.trim()} · ${commentCount} comment${commentCount !== 1 ? 's' : ''} on this page`,
+                highlight:   commentHtml,
+                cta:         { href: agencyUrl, label: 'View & reply →' },
+                signature:   false,
+                footer:      `Page: ${page.name} · Project: ${code.trim()}`,
+            }),
         }); } catch (emailErr) {
             console.error('[addComment] Email failed:', emailErr.message);
         }
@@ -290,34 +249,39 @@ async function submitReview(req, res) {
         </tr>`;
     }).join('');
 
+    const reviewHighlight = `
+        ${dataTable([
+            ['Project', doc.projectName],
+            ['Client',  doc.clientName],
+            ['Code',    `<strong style="letter-spacing:2px;">${code}</strong>`],
+            ['Result',  `${approvedCount} approved · ${changesCount} need changes`],
+            ['Status',  `<strong>${allApproved ? '✅ All approved — ready for build' : '⚠️ Revisions needed'}</strong>`],
+        ])}
+        <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+          <thead><tr style="border-bottom:1px solid rgba(0,0,0,0.1);">
+            <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Page</th>
+            <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Type</th>
+            <th style="text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:rgba(0,0,0,0.3);padding-bottom:8px;">Status</th>
+          </tr></thead>
+          <tbody>${pageRows}</tbody>
+        </table>
+        ${allApproved
+            ? `<p style="margin:16px 0 0;font-size:13px;color:rgba(0,0,0,0.55);">All narratives approved. Activate <strong style="color:#000;">The Builder</strong> to begin skeleton construction.</p>`
+            : `<p style="margin:16px 0 0;padding:14px 18px;background:#fff;border-left:3px solid #000;font-size:13px;color:#111;line-height:1.6;">Some pages need revisions. Address client comments and re-send the review link.</p>`
+        }`;
+
     try { await resend.emails.send({
         from:    'Moood.Studio <narratives@moood.studio>',
         to:      ['alberto.contreras@gmail.com'],
         subject: `[NARRATIVE REVIEW] ${doc.projectName} — ${approvedCount}/${doc.pages.length} approved · ${code}`,
-        html: `
-<div style="font-family:'Helvetica Neue',sans-serif;color:#111;max-width:600px;line-height:1.6;">
-    <h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:16px;">NARRATIVE REVIEW SUBMITTED</h1>
-    <table style="width:100%;font-size:13px;border-collapse:collapse;margin-bottom:20px;">
-        <tr><td style="padding:4px 0;color:#666;width:120px;">Project</td><td><strong>${doc.projectName}</strong></td></tr>
-        <tr><td style="padding:4px 0;color:#666;">Client</td><td>${doc.clientName}</td></tr>
-        <tr><td style="padding:4px 0;color:#666;">Code</td><td><strong style="letter-spacing:2px;">${code}</strong></td></tr>
-        <tr><td style="padding:4px 0;color:#666;">Result</td><td>${approvedCount} approved · ${changesCount} need changes</td></tr>
-        <tr><td style="padding:4px 0;color:#666;">Status</td><td><strong>${allApproved ? '✅ All approved — ready for build' : '⚠️ Revisions needed'}</strong></td></tr>
-    </table>
-    <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
-        <thead><tr style="border-bottom:1px solid #e0e0e0;">
-            <th style="text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#999;padding-bottom:8px;">Page</th>
-            <th style="text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#999;padding-bottom:8px;">Type</th>
-            <th style="text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#999;padding-bottom:8px;">Status</th>
-        </tr></thead>
-        <tbody>${pageRows}</tbody>
-    </table>
-    ${allApproved
-        ? '<p style="background:#f5f5f5;padding:16px;font-size:13px;">All narratives approved. Activate <strong>The Builder</strong> to begin skeleton construction.</p>'
-        : '<p style="background:#fff8e1;padding:16px;font-size:13px;border-left:3px solid #e8870a;">Some pages need revisions. Address client comments and re-send the review link.</p>'
-    }
-    <p style="font-size:12px;color:#999;margin-top:16px;">Submitted: ${new Date(doc.reviewSubmittedAt).toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}</p>
-</div>`
+        html: buildEmail({
+            projectName: doc.projectName,
+            context:     'Narrative Review',
+            headline:    `${approvedCount}/${doc.pages.length}<br>pages reviewed.`,
+            highlight:   reviewHighlight,
+            signature:   false,
+            footer:      `Submitted: ${new Date(doc.reviewSubmittedAt).toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}`,
+        }),
     }); } catch (emailErr) {
         console.error('[submitReview] Email failed (review still saved):', emailErr.message);
     }
@@ -341,45 +305,15 @@ async function sendClientReview(req, res) {
             from:    'Moood.Studio <narratives@moood.studio>',
             to:      ['alberto.contreras@gmail.com'],
             subject: `Your narrative is ready for review — ${name}`,
-            html: `
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="padding:48px 24px;">
-    <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;">
-        <tr><td style="background:#000;padding:40px 48px;">
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Moood.Studio</p>
-        </td></tr>
-        <tr><td style="padding:48px 48px 40px;">
-          <h1 style="margin:0 0 16px;font-size:28px;font-weight:300;color:#000;line-height:1.2;">Your narrative<br>is ready.</h1>
-          <p style="margin:0 0 32px;font-size:15px;line-height:1.65;color:rgba(0,0,0,0.55);">
-            We've written the narrative for <strong style="color:#000;">${name}</strong>. Open each page, read through what we've written, and mark it as approved or request changes.
-          </p>
-          <table cellpadding="0" cellspacing="0">
-            <tr><td style="background:#000;border-radius:6px;">
-              <a href="${clientUrl}" style="display:inline-block;padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;text-decoration:none;">
-                Review your narrative →
-              </a>
-            </td></tr>
-          </table>
-          <p style="margin:32px 0 0;font-size:13px;color:rgba(0,0,0,0.35);line-height:1.6;">
-            Or copy this link into your browser:<br>
-            <span style="color:rgba(0,0,0,0.55);word-break:break-all;">${clientUrl}</span>
-          </p>
-        </td></tr>
-        <tr><td style="padding:24px 48px 40px;border-top:1px solid rgba(0,0,0,0.06);">
-          <p style="margin:0;font-size:11px;color:rgba(0,0,0,0.3);line-height:1.6;">
-            This review was prepared by Moood.Studio · Project code: ${code}<br>
-            Reply to this email if you have questions before reviewing.
-          </p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`
+            html: buildEmail({
+                projectName: name,
+                context:     'Narrative Review',
+                headline:    `Your narrative<br>is ready.`,
+                body:        `We've written the narrative for <strong style="color:#000;">${name}</strong>. Open each page, read through what we've written, and mark it as approved or request changes.`,
+                cta:         { href: clientUrl, label: 'Review your narrative →' },
+                linkFallback: clientUrl,
+                footer:      `This review was prepared by Moood.Studio · Project code: ${code} · Reply to this email if you have questions before reviewing.`,
+            }),
         });
         return res.status(200).json({ success: true });
     } catch (err) {

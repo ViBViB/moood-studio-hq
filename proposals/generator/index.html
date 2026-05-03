@@ -65,8 +65,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .btn-copy:hover,.btn-open:hover{background:#111;color:#fff}
 .divider{height:1px;background:var(--border);margin:20px 0}
 .subsection-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.tech-check{display:flex;align-items:center;gap:8px;font-size:13px;color:#333;cursor:pointer;padding:6px 0}
 .tech-check input[type="checkbox"]{width:16px;height:16px;flex-shrink:0;accent-color:#111;cursor:pointer}
+
+/* AI Magic Intake */
+.magic-intake-wrapper{background:#f9f9f9;border:1px dashed #ccc;padding:24px;border-radius:8px;margin-bottom:40px;display:none}
+.magic-intake-wrapper.active{display:block}
+.magic-btn{background:#111;color:#fff;padding:8px 16px;border:none;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.magic-btn:hover{background:#333}
+.magic-btn svg{width:14px;height:14px;fill:currentColor}
 </style>
 </head>
 <body>
@@ -85,6 +91,25 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 <div class="gen-body">
     <h1 class="gen-page-title">Proposal Generator</h1>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 24px;">
+        <button class="magic-btn" onclick="toggleMagicIntake()">
+            <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9L22 11.5L14.5 14L12 21L9.5 14L2 11.5L9.5 9L12 2Z"/></svg>
+            AI Magic Intake
+        </button>
+    </div>
+
+    <div class="magic-intake-wrapper" id="magicIntake">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #666;">Paste Meeting Transcript</h4>
+            <button class="btn-remove" onclick="toggleMagicIntake()">×</button>
+        </div>
+        <textarea id="aiTranscript" rows="8" placeholder="Paste your meeting transcript here..."></textarea>
+        <div style="margin-top: 16px; display: flex; gap: 12px; align-items: center;">
+            <button class="btn-generate" id="btnMagicExtract" style="padding: 10px 24px;" onclick="extractTranscript()">Extract Data ✨</button>
+            <span id="magicStatus" style="font-size: 12px; color: #999;"></span>
+        </div>
+    </div>
 
     <!-- RESULT BOX (shown after generation) -->
     <div class="result-box" id="resultBox">
@@ -128,11 +153,11 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
             <div class="field-group cols-2">
                 <div class="field">
                     <label>Proposal date</label>
-                    <input type="text" id="proposalDate" placeholder="April 2026">
+                    <input type="text" id="proposalDate" placeholder="DD/MM/AA">
                 </div>
             <div class="field">
                 <label>Proposal type label</label>
-                <input type="text" id="proposalType" placeholder="Brand & Website Proposal" value="Brand & Website Proposal">
+                <input type="text" id="proposalType" placeholder="e.g. Website proposal">
                             </div>
         </div>
     </div>
@@ -149,14 +174,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
             <div class="field-group cols-3">
                 <div class="field">
                     <label>Project type</label>
-                    <select id="projectType">
+                    <select id="projectType" onchange="handleProjectTypeChange()">
+                        <option value="single">Single page</option>
                         <option value="website">Website</option>
                         <option value="landing">Landing page</option>
                         <option value="blog">Blog</option>
                         <option value="pillar">Pillar page</option>
                         <option value="social">Social media</option>
                         <option value="comms">Communications</option>
-                        <option value="branding">Branding only</option>
+                        <option value="branding">Branding</option>
+                        <option value="figma">Figma fidelity</option>
+                        <option value="migration">Migration</option>
                     </select>
                 </div>
                 <div class="field">
@@ -170,10 +198,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                 <div class="field">
                     <label>Scenario</label>
                     <select id="projectScenario">
-                        <option value="A">A — Brand-Free</option>
-                        <option value="B">B — Figma Fidelity</option>
-                        <option value="C">C — Component-Locked</option>
-                        <option value="D">D — Figma + Components</option>
+                        <option value="A">Brand-Free</option>
+                        <option value="B">Brand-Locked</option>
                     </select>
                 </div>
             </div>
@@ -187,9 +213,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                 </div>
             </div>
 
-            <div class="divider"></div>
-                        <div class="dynamic-list" id="pagesList"></div>
-            <button class="btn-add" onclick="addPage()">+ Add page</button>
+            <div class="divider" id="pagesDivider"></div>
+            <div class="dynamic-list" id="pagesList"></div>
+            <button class="btn-add" id="btnAddPage" onclick="addPage()">+ Add page</button>
         </div>
     </div>
 
@@ -204,7 +230,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
         <div class="section-body">
                         <div class="field">
                 <label>Vision body *</label>
-                <textarea id="visionBody" rows="6" placeholder="What's the core ambition of this project? What should the client's digital presence feel, communicate, and achieve?&#10;&#10;Use [CLIENT_NAME] anywhere you want the client's name to appear automatically."></textarea>
+                <textarea id="visionBody" rows="6" placeholder="What's the core ambition of this project?"></textarea>
                             </div>
             <div class="field" style="margin-top:12px">
                 <label>Footer note (optional)</label>
@@ -286,19 +312,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
             <div class="divider"></div>
             <div class="subsection-label">Technical scope</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 24px;margin-bottom:12px" id="techCheckboxes">
-                <label class="tech-check"><input type="checkbox" value="WordPress development"> WordPress development</label>
-                <label class="tech-check"><input type="checkbox" value="Headless CMS (Astro / Next.js / Nuxt)"> Headless CMS</label>
-                <label class="tech-check"><input type="checkbox" value="Framer development"> Framer development</label>
-                <label class="tech-check"><input type="checkbox" value="Shopify integration"> Shopify integration</label>
-                <label class="tech-check"><input type="checkbox" value="HubSpot integration"> HubSpot integration</label>
-                <label class="tech-check"><input type="checkbox" value="Webflow development"> Webflow development</label>
-                <label class="tech-check"><input type="checkbox" value="Content migration"> Content migration</label>
-                <label class="tech-check"><input type="checkbox" value="SEO setup & redirects"> SEO setup &amp; redirects</label>
-                <label class="tech-check"><input type="checkbox" value="Analytics setup (GA4 / GTM)"> Analytics setup (GA4 / GTM)</label>
-                <label class="tech-check"><input type="checkbox" value="Form &amp; CRM integration"> Form &amp; CRM integration</label>
-                <label class="tech-check"><input type="checkbox" value="Staging environment"> Staging environment</label>
-                <label class="tech-check"><input type="checkbox" value="GitHub handoff"> GitHub handoff</label>
+            <div class="field">
+                <input type="text" id="techScope" placeholder="e.g. Framer development, HubSpot integration, SEO setup">
             </div>
 
             <div class="divider"></div>
@@ -316,14 +331,22 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                             </div>
                     </div>
         <div class="section-body">
-                        <div class="dynamic-list" id="investmentRows"></div>
+            <div class="field" style="max-width: 200px; margin-bottom: 24px;">
+                <label>Currency</label>
+                <select id="currencySelector" onchange="updateInvestmentTotal()">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                </select>
+            </div>
+
+            <div class="dynamic-list" id="investmentRows"></div>
             <button class="btn-add" onclick="addInvestmentRow()">+ Add line item</button>
 
             <div class="divider"></div>
             <div class="field-group cols-2">
                 <div class="field">
                     <label>Total *</label>
-                    <input type="text" id="investmentTotal" placeholder="$5,200">
+                    <input type="text" id="investmentTotal" placeholder="$0" readonly style="background:#eee; cursor:not-allowed">
                 </div>
                 <div class="field">
                     <label>Payment note</label>
@@ -340,9 +363,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                 <div class="field">
                     <label>Payment structure</label>
                     <select id="paymentStructure">
-                        <option value="50-50">50% upfront · 50% on final delivery</option>
-                        <option value="100">100% upfront</option>
-                        <option value="33-33-33">33% upfront · 33% midpoint · 33% on delivery</option>
+                        <option value="50% upfront, 50% on delivery/launch">50% upfront, 50% on delivery/launch</option>
+                        <option value="100% upfront">100% upfront</option>
+                        <option value="33% upfront, 33% midpoint, 33% on delivery">33% upfront, 33% midpoint, 33% on delivery</option>
                         <option value="custom">Custom (specify in payment note)</option>
                     </select>
                 </div>
@@ -370,15 +393,117 @@ function togglePlatform(show) {
     document.getElementById('platformEditor').style.display = show ? 'block' : 'none';
 }
 
+function toggleMagicIntake() {
+    document.getElementById('magicIntake').classList.toggle('active');
+}
+
+async function extractTranscript() {
+    const transcript = document.getElementById('aiTranscript').value.trim();
+    if (!transcript) return alert('Please paste a transcript first.');
+
+    const btn = document.getElementById('btnMagicExtract');
+    const status = document.getElementById('magicStatus');
+    
+    btn.disabled = true;
+    btn.textContent = 'Analyzing...';
+    status.textContent = 'AI is reading the transcript...';
+
+    try {
+        const res = await fetch('/api/magic', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ transcript })
+        });
+        
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || errData.error || 'AI Magic Intake endpoint not yet active.');
+        }
+        const data = await res.json();
+
+        // 1. Populate Basic Info
+        if (data.clientName) document.getElementById('clientName').value = data.clientName;
+        if (data.projectName) document.getElementById('projectName').value = data.projectName;
+        if (data.projectType) document.getElementById('projectType').value = data.projectType;
+        if (data.projectTier) document.getElementById('projectTier').value = data.projectTier;
+        if (data.projectScenario) document.getElementById('projectScenario').value = data.projectScenario;
+        
+        if (data.vision) document.getElementById('visionBody').value = data.vision;
+        
+        // 2. Pages
+        const pagesList = document.getElementById('pagesList');
+        pagesList.innerHTML = '';
+        if (data.pages && data.pages.length) {
+            data.pages.forEach(p => addPage(p.name, p.type));
+        } else {
+            addPage('Home', 'homepage');
+        }
+        
+        // 3. Diagnosis
+        const diagList = document.getElementById('diagnosisList');
+        diagList.innerHTML = '';
+        if (data.diagnosis) {
+            data.diagnosis.forEach(d => addDiagnosis(d.title, d.body));
+        }
+        
+        // 4. Roadmap
+        const roadmapPhases = document.getElementById('roadmapPhases');
+        roadmapPhases.innerHTML = '';
+        phaseCount = 0;
+        if (data.roadmap) {
+            data.roadmap.forEach(p => addPhase(p.title, p.meta, p.steps));
+        }
+        
+        // 5. Investment
+        const invRows = document.getElementById('investmentRows');
+        invRows.innerHTML = '';
+        if (data.investment && data.investment.length) {
+            data.investment.forEach(r => addInvestmentRow(r.label, r.amount));
+        } else {
+            addInvestmentRow('', '');
+        }
+
+        // 6. Refresh UI logic
+        handleProjectTypeChange();
+        updateInvestmentTotal();
+        
+        status.textContent = '✨ Done! Fields populated.';
+        setTimeout(() => {
+            status.textContent = '';
+            toggleMagicIntake();
+        }, 2000);
+
+    } catch (err) {
+        console.error(err);
+        status.textContent = '❌ Error: ' + err.message;
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Extract Data ✨';
+    }
+}
+
 // ── PAGES ────────────────────────────────────────────────────
-const PAGE_TYPES = ['homepage','portfolio','projects','product','about','services','contact','landing','blog','pillar','social','comms','case-study','custom'];
+
+function getPageTypes(pt) {
+    if (pt === 'blog') return ['blog-index','blog-post','blog-category','blog-author','search-results','custom'];
+    if (pt === 'social') return ['social','custom'];
+    if (pt === 'comms') return ['comms','custom'];
+    if (pt === 'pillar') return ['pillar','custom'];
+    
+    // Default set (excludes social and comms for standard web projects)
+    return ['homepage','portfolio','projects','product','about','services','contact','landing','blog','pillar','case-study','custom'];
+}
+
 function addPage(name='', type='') {
     const list = document.getElementById('pagesList');
+    const pt = document.getElementById('projectType').value;
+    const types = getPageTypes(pt);
+    
     const row = document.createElement('div');
     row.className = 'dynamic-row pages-row';
     row.innerHTML = `
         <input type="text" placeholder="Page name" value="${name}" class="page-name">
-        <select class="page-type">${PAGE_TYPES.map(t=>`<option value="${t}"${t===type?' selected':''}>${t}</option>`).join('')}</select>
+        <select class="page-type">${types.map(t=>`<option value="${t}"${t===type?' selected':''}>${t}</option>`).join('')}</select>
         <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
     list.appendChild(row);
 }
@@ -423,7 +548,6 @@ function addPhase(title='', meta='', steps=[]) {
     container.appendChild(div);
     const stepsList = div.querySelector('.phase-steps-list');
     if (steps.length) steps.forEach(s => addStepToList(stepsList, s));
-    else { addStepToList(stepsList); addStepToList(stepsList); }
 }
 
 function addStep(btn) { addStepToList(btn.previousElementSibling); }
@@ -472,24 +596,64 @@ function addAdditional(value='') {
 }
 
 // ── INVESTMENT ROWS ──────────────────────────────────────────
+function updateInvestmentTotal() {
+    const currency = document.getElementById('currencySelector').value;
+    const symbol = currency === 'EUR' ? '€' : '$';
+    
+    // Update placeholders for all existing rows
+    document.querySelectorAll('.inv-amount').forEach(el => el.placeholder = symbol + "0,000");
+    document.querySelectorAll('.opt-amount').forEach(el => el.placeholder = "+" + symbol + "000");
+    
+    // Calculate regular investment sum
+    const invRows = document.querySelectorAll('#investmentRows .inv-amount');
+    let total = 0;
+    invRows.forEach(row => {
+        const val = row.value.replace(/[^0-9.]/g, '');
+        total += parseFloat(val) || 0;
+    });
+
+    const formatted = symbol + total.toLocaleString('en-US');
+    document.getElementById('investmentTotal').value = total > 0 ? formatted : '';
+    document.getElementById('investmentTotal').placeholder = symbol + "0";
+
+    // Update payment note based on currency
+    const paymentNote = document.getElementById('paymentNote');
+    if (currency === 'EUR') {
+        paymentNote.placeholder = "Prices in EUR. USD / GBP equivalent available on request.";
+        if (!paymentNote.value || paymentNote.value.includes("USD")) {
+            paymentNote.value = "Prices in EUR. USD / GBP equivalent available on request.";
+        }
+    } else {
+        paymentNote.placeholder = "Prices in USD. GBP / EUR equivalent available on request.";
+        if (!paymentNote.value || paymentNote.value.includes("EUR")) {
+            paymentNote.value = "Prices in USD. GBP / EUR equivalent available on request.";
+        }
+    }
+}
+
 function addInvestmentRow(label='', amount='', border=false) {
     const list = document.getElementById('investmentRows');
     const row = document.createElement('div');
     row.className = 'dynamic-row investment-row';
+    const currency = document.getElementById('currencySelector').value;
+    const symbol = currency === 'EUR' ? '€' : '$';
     row.innerHTML = `
         <input type="text" placeholder="Line item description" value="${label}" class="inv-label">
-        <input type="text" placeholder="$0,000" value="${amount}" class="inv-amount">
-        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+        <input type="text" placeholder="${symbol}0,000" value="${amount}" class="inv-amount" oninput="updateInvestmentTotal()">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove(); updateInvestmentTotal();">×</button>`;
     list.appendChild(row);
+    if (amount) updateInvestmentTotal();
 }
 function addOptionalRow(label='', amount='') {
     const list = document.getElementById('optionalRows');
     const row = document.createElement('div');
     row.className = 'dynamic-row investment-row';
+    const currency = document.getElementById('currencySelector').value;
+    const symbol = currency === 'EUR' ? '€' : '$';
     row.innerHTML = `
         <input type="text" placeholder="+ Optional add-on" value="${label}" class="opt-label">
-        <input type="text" placeholder="+$000" value="${amount}" class="opt-amount">
-        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove()">×</button>`;
+        <input type="text" placeholder="+${symbol}000" value="${amount}" class="opt-amount" oninput="updateInvestmentTotal()">
+        <button class="btn-remove" onclick="this.closest('.dynamic-row').remove(); updateInvestmentTotal();">×</button>`;
     list.appendChild(row);
 }
 
@@ -576,11 +740,13 @@ function collectData() {
             const sum = investmentRows.reduce((acc, r) => {
                 return acc + (parseFloat(r.amount.replace(/[^0-9.]/g, '')) || 0);
             }, 0);
-            return sum > 0 ? '$' + sum.toLocaleString('en-US') : '';
+            const currency = document.getElementById('currencySelector').value;
+            const symbol = currency === 'EUR' ? '€' : '$';
+            return sum > 0 ? symbol + sum.toLocaleString('en-US') : '';
         })(),
         investmentOptionals, paymentNote: v('paymentNote'),
         paymentStructure: document.getElementById('paymentStructure').value,
-        techDeliverables: [...document.querySelectorAll('#techCheckboxes input[type="checkbox"]:checked')].map(cb => cb.value),
+        techDeliverables: v('techScope').split(',').map(s => s.trim()).filter(Boolean),
         nextStepTwo: v('nextStepTwo')
     };
 }
@@ -606,11 +772,11 @@ async function generateProposal() {
         const json = await res.json();
         if (!res.ok) throw new Error(json.error || 'Failed');
 
-        generatedUrl = json.url;
+        generatedUrl = json.adminUrl || json.url;
         document.getElementById('resultUrl').textContent = generatedUrl;
         document.getElementById('resultBox').classList.add('show');
         document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
-        status.textContent = `✓ Proposal created — ${json.id}`;
+        status.textContent = `✓ Draft created — ${json.id} (Review required)`;
         btn.textContent = 'Generate New →';
         btn.disabled = false;
     } catch (err) {
@@ -631,18 +797,98 @@ function openUrl() { window.open(generatedUrl, '_blank'); }
 
 // ── INIT DEFAULTS ────────────────────────────────────────────
 addPage('Home', 'homepage');
-addPage('About', 'about');
-addPage('Contact', 'contact');
-
 addDiagnosis('', '');
-addDiagnosis('', '');
-addDiagnosis('', '');
-
-addPhase('Phase 1 — Brand Identity', '(Weeks 1–2 · 10–12 days)', ['Logo concepts', 'Review', 'Refinement', 'Final Handoff']);
-
+addPhase();
 addInvestmentRow('', '');
 
-document.getElementById('proposalDate').value = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+function handleProjectTypeChange() {
+    const pt = document.getElementById('projectType').value;
+    const tier = document.getElementById('projectTier');
+    const pagesList = document.getElementById('pagesList');
+    const btnAddPage = document.getElementById('btnAddPage');
+    const pagesDivider = document.getElementById('pagesDivider');
+    
+    tier.disabled = false;
+
+    // Show/Hide Add Page button and divider
+    const showAddPage = ['website', 'blog', 'migration'].includes(pt);
+    btnAddPage.style.display = showAddPage ? 'inline-flex' : 'none';
+    pagesDivider.style.display = showAddPage ? 'block' : 'none';
+    
+    if (pt === 'landing' || pt === 'single' || pt === 'pillar') {
+        tier.innerHTML = '<option value="single" selected>Single page</option>';
+        tier.disabled = true;
+    } else if (pt === 'blog') {
+        tier.innerHTML = '<option value="small" selected>Small (3–5 pages)</option>';
+        tier.disabled = true;
+    } else if (pt === 'social') {
+        tier.innerHTML = `
+            <option value="instagram">Instagram post</option>
+            <option value="twitter">Twitter post</option>
+            <option value="linkedin">LinkedIn Carousel</option>
+            <option value="social-pack">Social Media Pack</option>
+        `;
+    } else if (pt === 'branding') {
+        tier.innerHTML = `
+            <option value="logo">Logo only</option>
+            <option value="brandkit">Brand kit</option>
+            <option value="full-guide">Full style guide</option>
+        `;
+    } else if (pt === 'figma') {
+        tier.innerHTML = `
+            <option value="single">Single page</option>
+            <option value="multi">Multi-page</option>
+        `;
+    } else if (pt === 'website' || pt === 'migration' || pt === 'comms') {
+        tier.innerHTML = `
+            <option value="small" selected>Small (3–5 pages)</option>
+            <option value="medium">Medium (6–8 pages)</option>
+            <option value="large">Large (9+ pages)</option>
+        `;
+    }
+
+    // Update page type options for all existing rows
+    const types = getPageTypes(pt);
+    document.querySelectorAll('.page-type').forEach(select => {
+        const currentVal = select.value;
+        select.innerHTML = types.map(t => `<option value="${t}"${t === currentVal ? ' selected' : ''}>${t}</option>`).join('');
+    });
+
+    // Logic for limiting pages for single-page types
+    if (['landing', 'single', 'pillar', 'branding', 'social', 'figma'].includes(pt)) {
+        while (pagesList.children.length > 1) {
+            pagesList.removeChild(pagesList.lastChild);
+        }
+        if (pagesList.children.length === 0) {
+            let defaultName = 'Home';
+            if (pt === 'landing') defaultName = 'Landing Page';
+            if (pt === 'pillar') defaultName = 'Pillar Page';
+            if (pt === 'branding') defaultName = 'Brand Identity';
+            if (pt === 'social') defaultName = 'Social Asset';
+            addPage(defaultName, pt === 'landing' ? 'landing' : (pt === 'pillar' ? 'pillar' : 'homepage'));
+        }
+    } else if (pt === 'blog' && pagesList.children.length === 0) {
+        addPage('Blog Home', 'blog-index');
+        addPage('Example Post', 'blog-post');
+    }
+}
+
+// ── INITIALIZATION ──────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    // Set current date
+    const now = new Date();
+    const dateInput = document.getElementById('proposalDate');
+    if (dateInput && !dateInput.value) {
+        const d = now.getDate().toString().padStart(2, '0');
+        const m = (now.getMonth() + 1).toString().padStart(2, '0');
+        const y = now.getFullYear().toString().slice(-2);
+        dateInput.value = `${d}/${m}/${y}`;
+    }
+    
+    // Initial call to set up UI
+    handleProjectTypeChange();
+});
 </script>
 </body>
 </html>
