@@ -28,6 +28,20 @@ async function callGemini(prompt) {
     return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
 }
 
+async function callGeminiJson(prompt) {
+    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GOOGLE_AI_STUDIO_KEY}`;
+    const res = await fetch(GEMINI_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.1, responseMimeType: 'application/json' }
+        })
+    });
+    const data = await res.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+}
+
 // --- HELPERS ---
 function generateStrategyPrompt(data) {
     const { leadName, projectName, scenario, hasNarrative, pages, visualRefs } = data;
@@ -188,9 +202,9 @@ module.exports = async (req, res) => {
             const isSingle = fields.scope === 'single';
 
             const geminiPrompt = isSingle
-                ? `You are analyzing a client-provided narrative document for a landing page. Extract the key narrative elements into structured JSON.
+                ? `Analyze this landing page narrative document and extract the key content into structured JSON.
 
-Return ONLY valid JSON with this exact structure (no markdown, no code fences):
+The JSON must follow this exact schema:
 {
   "pages": [
     {
@@ -217,13 +231,13 @@ Return ONLY valid JSON with this exact structure (no markdown, no code fences):
   "hasNavDefinition": false
 }
 
-Extract 3–6 sections. Each section should have 1–3 items. Use the actual content from the document.
+Extract 3 to 6 sections. Each section should have 1 to 3 items. Use actual content from the document, not placeholders.
 
 Document:
 ${combinedText.slice(0, 12000)}`
-                : `You are analyzing client narrative documents for a multi-page website. Extract the sitemap and key narrative for each page into structured JSON.
+                : `Analyze these website narrative documents and extract the page structure into structured JSON.
 
-Return ONLY valid JSON with this exact structure (no markdown, no code fences):
+The JSON must follow this exact schema:
 {
   "pages": [
     {
@@ -246,12 +260,11 @@ Return ONLY valid JSON with this exact structure (no markdown, no code fences):
 Documents:
 ${combinedText.slice(0, 12000)}`;
 
-            const geminiText = await callGemini(geminiPrompt);
+            const geminiText = await callGeminiJson(geminiPrompt);
 
             let parsed = null;
             try {
-                const clean = geminiText.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
-                parsed = JSON.parse(clean);
+                parsed = JSON.parse(geminiText);
             } catch (e) {
                 console.error('[intake] Gemini parse failed:', e.message, geminiText.slice(0, 300));
             }
