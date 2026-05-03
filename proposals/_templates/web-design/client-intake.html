@@ -6133,8 +6133,8 @@
                 document.getElementById('brandStatusError').classList.remove('visible');
                 const assetsGroup = document.getElementById('brandAssetsGroup');
                 const partialGroup = document.getElementById('partialAssetsGroup');
-                assetsGroup.classList.toggle('visible', selectedBrandStatus === 'full' || selectedBrandStatus === 'partial');
-                partialGroup.classList.toggle('visible', selectedBrandStatus === 'partial');
+                if (assetsGroup) assetsGroup.classList.toggle('visible', selectedBrandStatus === 'full' || selectedBrandStatus === 'partial');
+                if (partialGroup) partialGroup.classList.toggle('visible', selectedBrandStatus === 'partial');
             });
         });
 
@@ -6464,12 +6464,14 @@
             return row;
         }
         const compList = document.getElementById('competitorList');
-        compList.appendChild(createCompetitorRow());
-        document.getElementById('addCompetitorBtn').addEventListener('click', () => {
-            document.getElementById('addCompetitorBtn').classList.add('has-links');
+        if (compList) {
             compList.appendChild(createCompetitorRow());
-            compList.lastElementChild.querySelector('input').focus();
-        });
+            document.getElementById('addCompetitorBtn')?.addEventListener('click', () => {
+                document.getElementById('addCompetitorBtn').classList.add('has-links');
+                compList.appendChild(createCompetitorRow());
+                compList.lastElementChild.querySelector('input').focus();
+            });
+        }
 
         /* ── TAG INPUT (TONE) ────────────────────────────────────── */
         function initTagInput(wrapId, inputId, hiddenId, max) {
