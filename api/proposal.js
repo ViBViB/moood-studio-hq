@@ -223,7 +223,9 @@ module.exports = async (req, res) => {
                 const text = aiData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
                 const jsonMatch = text.match(/\{[\s\S]*\}/);
                 if (!jsonMatch) throw new Error('AI failed to return valid JSON');
-                return res.status(200).json(JSON.parse(jsonMatch[0]));
+                const extracted = JSON.parse(jsonMatch[0]);
+                console.log('[extract] leadName:', extracted.leadName, '| clientEmail:', extracted.clientEmail, '| projectType:', extracted.projectType, '| hasNarrative:', extracted.hasNarrative);
+                return res.status(200).json(extracted);
             }
 
             // 4. PREVIEW (from preview-proposal.js)
