@@ -301,6 +301,7 @@ ${combinedText.slice(0, 12000)}`;
             }
 
             if (parsed && Array.isArray(parsed.pages) && parsed.pages.length > 0) {
+                console.log('[intake] metadata extracted:', JSON.stringify(parsed.metadata));
                 return res.status(200).json({ success: true, pages: parsed.pages, scope: parsed.scope || fields.scope, hasNavDefinition: parsed.hasNavDefinition || false, metadata: parsed.metadata || null });
             }
 

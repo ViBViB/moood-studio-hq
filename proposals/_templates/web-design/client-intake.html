@@ -1850,9 +1850,11 @@
 
                 // Pre-fill form fields from extracted metadata (only if field is currently empty)
                 const meta = apiData.metadata || {};
+                console.log('[intake] metadata from API:', JSON.stringify(meta));
                 const fill = (selector, value) => {
                     if (!value) return;
                     const el = document.querySelector(selector);
+                    console.log('[intake] fill', selector, '→', value, '| found el:', !!el, '| empty:', el ? !el.value.trim() : 'n/a');
                     if (el && !el.value.trim()) el.value = value;
                 };
                 fill('input[name="projectName"]', meta.projectName);

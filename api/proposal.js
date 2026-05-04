@@ -192,6 +192,8 @@ module.exports = async (req, res) => {
                     {
                       "clientName": "...",
                       "projectName": "...",
+                      "leadName": "<full name of the main contact person, or null if not found>",
+                      "clientEmail": "<email address of the contact person, or null if not found>",
                       "projectType": "...",
                       "projectTier": "...",
                       "projectScenario": "...",
