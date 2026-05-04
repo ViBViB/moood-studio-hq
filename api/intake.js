@@ -209,6 +209,12 @@ module.exports = async (req, res) => {
 
 The JSON must follow this exact schema:
 {
+  "metadata": {
+    "projectName": "<project or product name if explicitly mentioned, else null>",
+    "companyName": "<client company or brand name if explicitly mentioned, else null>",
+    "leadName": "<full name of the main contact person if explicitly mentioned, else null>",
+    "clientEmail": "<email address of the contact person if explicitly mentioned, else null>"
+  },
   "pages": [
     {
       "id": "page-0",
@@ -234,7 +240,7 @@ The JSON must follow this exact schema:
   "hasNavDefinition": false
 }
 
-Extract 3 to 6 sections. Each section should have 1 to 3 items. Use actual content from the document, not placeholders.
+Extract 3 to 6 sections. Each section should have 1 to 3 items. Use actual content from the document, not placeholders. For metadata, only include values that are explicitly stated in the document — use null for anything not found.
 
 Document:
 ${combinedText.slice(0, 12000)}`
@@ -242,6 +248,12 @@ ${combinedText.slice(0, 12000)}`
 
 The JSON must follow this exact schema:
 {
+  "metadata": {
+    "projectName": "<project or product name if explicitly mentioned, else null>",
+    "companyName": "<client company or brand name if explicitly mentioned, else null>",
+    "leadName": "<full name of the main contact person if explicitly mentioned, else null>",
+    "clientEmail": "<email address of the contact person if explicitly mentioned, else null>"
+  },
   "pages": [
     {
       "id": "page-0",
@@ -259,6 +271,8 @@ The JSON must follow this exact schema:
   "scope": "multi",
   "hasNavDefinition": true
 }
+
+For metadata, only include values that are explicitly stated in the documents — use null for anything not found.
 
 Documents:
 ${combinedText.slice(0, 12000)}`;
@@ -287,7 +301,7 @@ ${combinedText.slice(0, 12000)}`;
             }
 
             if (parsed && Array.isArray(parsed.pages) && parsed.pages.length > 0) {
-                return res.status(200).json({ success: true, pages: parsed.pages, scope: parsed.scope || fields.scope, hasNavDefinition: parsed.hasNavDefinition || false });
+                return res.status(200).json({ success: true, pages: parsed.pages, scope: parsed.scope || fields.scope, hasNavDefinition: parsed.hasNavDefinition || false, metadata: parsed.metadata || null });
             }
 
             // Fallback: return minimal page so frontend can still show the review

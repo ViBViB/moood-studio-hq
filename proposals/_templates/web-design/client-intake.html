@@ -1847,6 +1847,19 @@
                 sitemapPages = apiData.pages;
                 sitemapHasNavDef = !!apiData.hasNavDefinition;
                 indexAllPages(sitemapPages);
+
+                // Pre-fill form fields from extracted metadata (only if field is currently empty)
+                const meta = apiData.metadata || {};
+                const fill = (selector, value) => {
+                    if (!value) return;
+                    const el = document.querySelector(selector);
+                    if (el && !el.value.trim()) el.value = value;
+                };
+                fill('input[name="projectName"]', meta.projectName);
+                fill('input[name="leadName"]',    meta.leadName);
+                fill('input[name="email"]',        meta.clientEmail);
+                fill('input[name="companyName"]',  meta.companyName);
+
                 // Route to correct review based on scope
                 if (selectedScope === 'single' || apiData.scope === 'single') {
                     currentIdx = currentPath.indexOf('slide-page-review');
