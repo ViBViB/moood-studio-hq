@@ -359,10 +359,15 @@ async function extractTranscript() {
         if (data.projectName) document.getElementById('projectName').value = data.projectName;
         if (data.leadName) document.getElementById('leadName').value = data.leadName;
         if (data.clientEmail) document.getElementById('clientEmail').value = data.clientEmail;
-        if (data.projectType) document.getElementById('projectType').value = data.projectType;
+        if (data.projectType) { document.getElementById('projectType').value = data.projectType; handleProjectTypeChange(); }
         if (data.projectTier) document.getElementById('projectTier').value = data.projectTier;
         if (data.projectScenario) document.getElementById('projectScenario').value = data.projectScenario;
-        
+        if (data.hasNarrative != null) {
+            const narrativeVal = data.hasNarrative ? 'true' : 'false';
+            const radio = document.querySelector(`input[name="narrative"][value="${narrativeVal}"]`);
+            if (radio) radio.checked = true;
+        }
+
         if (data.vision) document.getElementById('visionBody').value = data.vision;
         
         // 2. Pages

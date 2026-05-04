@@ -183,11 +183,12 @@ module.exports = async (req, res) => {
                     
                     RULES:
                     1. Return ONLY valid JSON. No markdown fences, no explanation.
-                    2. Mapping for projectType: "website", "landing", "blog", "pillar", "social", "comms", "branding", "figma", "migration".
-                    3. Mapping for projectTier: "small", "medium", "large".
-                    4. Mapping for projectScenario: "A", "B", "C", "D".
-                    5. Vision should be a concise summary of the core ambition.
-                    
+                    2. Mapping for projectType: "single" (one long-scroll page or campaign page), "website" (multi-page site), "landing" (standalone lead-gen page), "blog", "pillar", "social", "comms", "branding", "figma", "migration". Use "single" when the transcript explicitly says "single page", "one page", or "one long-scroll experience".
+                    3. Mapping for projectTier: "small", "medium", "large". Use "single" for single-page projects regardless of complexity.
+                    4. Mapping for projectScenario: "A" (Brand-Free), "B" (Brand-Locked), "C", "D".
+                    5. hasNarrative: true if the client explicitly says they have copy/content ready and will provide it. false if the strategist/agency will write it.
+                    6. Vision should be a concise summary of the core ambition.
+
                     SCHEMA:
                     {
                       "clientName": "...",
@@ -197,6 +198,7 @@ module.exports = async (req, res) => {
                       "projectType": "...",
                       "projectTier": "...",
                       "projectScenario": "...",
+                      "hasNarrative": true,
                       "vision": "...",
                       "pages": [{ "name": "...", "type": "homepage|product|about|contact|etc" }],
                       "diagnosis": [{ "title": "...", "body": "..." }],
