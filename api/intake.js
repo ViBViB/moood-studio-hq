@@ -30,36 +30,18 @@ async function callGemini(prompt) {
 
 async function callGeminiJson(prompt) {
     const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GOOGLE_AI_STUDIO_KEY}`;
-
-    // Try with JSON mode first
     const res = await fetch(GEMINI_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.1, responseMimeType: 'application/json' }
+            generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
         })
     });
     const data = await res.json();
-
-    if (data.error) {
-        console.error('[gemini-json] API error:', JSON.stringify(data.error));
-        // Fall back to plain text mode
-        const res2 = await fetch(GEMINI_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { temperature: 0.1 }
-            })
-        });
-        const data2 = await res2.json();
-        if (data2.error) console.error('[gemini-text] API error:', JSON.stringify(data2.error));
-        return data2.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-    }
-
+    if (data.error) console.error('[gemini] API error:', JSON.stringify(data.error));
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-    if (!text) console.error('[gemini-json] Empty response. Full data:', JSON.stringify(data).slice(0, 500));
+    if (!text) console.error('[gemini] Empty. finishReason:', data.candidates?.[0]?.finishReason, 'full:', JSON.stringify(data).slice(0, 400));
     return text;
 }
 
