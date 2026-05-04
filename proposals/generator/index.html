@@ -207,7 +207,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
                 <div class="field">
                     <label>Narrative</label>
                     <div class="radio-group" style="display:flex;gap:24px;margin-top:10px;">
-                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="false" checked style="width:auto;margin:0;"> Strategist writes</label>
+                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="false" style="width:auto;margin:0;"> Strategist writes</label>
                         <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="true" style="width:auto;margin:0;"> Client delivers copy</label>
                     </div>
                 </div>
@@ -664,6 +664,10 @@ function collectData() {
     const projectName = v('projectName');
     if (!clientName || !projectName) {
         alert('Client name and Project name are required.');
+        return null;
+    }
+    if (!document.querySelector('input[name="narrative"]:checked')) {
+        alert('Please select who delivers the copy: Strategist writes or Client delivers copy.');
         return null;
     }
 
