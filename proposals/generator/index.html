@@ -11,7 +11,8 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#111;min-heig
 .gen-header{background:transparent;color:#111;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .gen-header-left{display:flex;align-items:center;gap:16px}
 .gen-logo img{height:60px;width:auto;display:block}
-.gen-page-title{font-size:clamp(32px,4vw,42px);font-weight:400;color:#111;letter-spacing:-0.02em;margin-bottom:32px}
+.gen-page-title{font-size:clamp(32px,4vw,42px);font-weight:400;color:#111;letter-spacing:-0.02em;margin-bottom:0}
+.gen-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
 .gen-body{max-width:1000px;margin:0 auto;padding:40px 24px}
 .section{margin-bottom:60px}
 .section-header{padding:20px 24px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
@@ -53,7 +54,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .spec-row{display:grid;grid-template-columns:1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:center}
 .gen-header-right{display:flex;align-items:center;gap:24px}
 .gen-header-status{font-size:12px;font-weight:500;color:#999}
-.btn-generate{padding:14px 40px;background:#111;color:#fff;border:none;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;cursor:pointer;border-radius:var(--radius);transition:all .2s}
+.btn-generate{padding:14px 40px;background:#111;color:#fff;border:none;font-size:16px;font-weight:600;cursor:pointer;border-radius:var(--radius);transition:all .2s}
 .btn-generate:hover{background:#333}
 .btn-generate:disabled{background:#999;cursor:wait}
 .result-box{background:#f0f0f0;border:1px solid var(--border);padding:20px 24px;margin-top:24px;display:none}
@@ -70,9 +71,13 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 /* AI Magic Intake */
 .magic-intake-wrapper{background:#f9f9f9;border:1px dashed #ccc;padding:24px;border-radius:8px;margin-bottom:40px;display:none}
 .magic-intake-wrapper.active{display:block}
-.magic-btn{background:#111;color:#fff;padding:8px 16px;border:none;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
-.magic-btn:hover{background:#333}
-.magic-btn svg{width:14px;height:14px;fill:currentColor}
+.magic-btn{background:transparent;color:#111;padding:8px 16px;border:1px solid #111;border-radius:4px;font-size:16px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.magic-btn:hover{background:#111;color:#fff}
+.magic-btn svg{width:18px;height:18px;fill:currentColor}
+.magic-intake-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.magic-intake-title{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#666}
+.magic-intake-footer{margin-top:16px;display:flex;gap:12px;align-items:center}
+.magic-status{font-size:12px;color:#999}
 </style>
 </head>
 <body>
@@ -90,24 +95,26 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 </header>
 
 <div class="gen-body">
-    <h1 class="gen-page-title">Proposal Generator</h1>
-
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 24px;">
+    <div class="gen-title-row">
+        <h1 class="gen-page-title">Proposal Generator</h1>
         <button class="magic-btn" onclick="toggleMagicIntake()">
-            <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9L22 11.5L14.5 14L12 21L9.5 14L2 11.5L9.5 9L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2L14.85 8.15L21 11L14.85 13.85L12 20L9.15 13.85L3 11L9.15 8.15L12 2Z" /><path d="M6 3L7.15 5.85L10 7L7.15 8.15L6 11L4.85 8.15L2 7L4.85 5.85L6 3Z" /><path d="M18 13L19.15 15.85L22 17L19.15 18.15L18 21L16.85 18.15L14 17L16.85 15.85L18 13Z" /></svg>
             AI Magic Intake
         </button>
     </div>
 
     <div class="magic-intake-wrapper" id="magicIntake">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #666;">Paste Meeting Transcript</h4>
+        <div class="magic-intake-header">
+            <h4 class="magic-intake-title">Paste Meeting Transcript</h4>
             <button class="btn-remove" onclick="toggleMagicIntake()">×</button>
         </div>
         <textarea id="aiTranscript" rows="8" placeholder="Paste your meeting transcript here..."></textarea>
-        <div style="margin-top: 16px; display: flex; gap: 12px; align-items: center;">
-            <button class="btn-generate" id="btnMagicExtract" style="padding: 10px 24px;" onclick="extractTranscript()">Extract Data ✨</button>
-            <span id="magicStatus" style="font-size: 12px; color: #999;"></span>
+        <div class="magic-intake-footer">
+            <button class="magic-btn" id="btnMagicExtract" onclick="extractTranscript()">
+                <svg viewBox="0 0 24 24"><path d="M12 2L14.85 8.15L21 11L14.85 13.85L12 20L9.15 13.85L3 11L9.15 8.15L12 2Z" /><path d="M6 3L7.15 5.85L10 7L7.15 8.15L6 11L4.85 8.15L2 7L4.85 5.85L6 3Z" /><path d="M18 13L19.15 15.85L22 17L19.15 18.15L18 21L16.85 18.15L14 17L16.85 15.85L18 13Z" /></svg>
+                Extract Data
+            </button>
+            <span id="magicStatus" class="magic-status"></span>
         </div>
     </div>
 
