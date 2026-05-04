@@ -132,8 +132,9 @@ module.exports = async (req, res) => {
             // 2. APPROVE (from approve.js)
             if (mode === 'approve') {
                 const code = `MSD-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+                const shortCode = code.split('-').pop();
                 await redis.set(`codes/${code}`, { ...data, code, createdAt: new Date().toISOString() });
-                
+
                 // Notify Alberto
                 await resend.emails.send({
                     from: 'Moood Studio <notifications@moood.studio>',
@@ -143,14 +144,16 @@ module.exports = async (req, res) => {
                         projectName: data.projectName,
                         context: 'Proposal Approved',
                         headline: `${data.projectName}<br>is confirmed.`,
-                        body: `Proposal approved by ${data.clientName}. Project Code: ${code}`,
+                        body: `Proposal approved by ${data.clientName}.`,
+                        highlight: codeBlock(code),
+                        cta: { href: `https://moood.studio/client-intake?code=${shortCode}`, label: 'Open Intake Form →' },
+                        linkFallback: `https://moood.studio/client-intake?code=${shortCode}`,
                         signature: false,
                     }),
                 });
 
                 // Notify Client
                 if (data.clientEmail) {
-                    const shortCode = code.split('-').pop();
                     await resend.emails.send({
                         from: 'Alberto at Moood.Studio <alberto@moood.studio>',
                         to: [data.clientEmail],
