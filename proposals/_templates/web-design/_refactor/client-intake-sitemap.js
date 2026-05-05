@@ -394,6 +394,8 @@
 
             slide.classList.add('is-complete');
 
+            const descEl = document.getElementById('reviewCompleteDesc');
+            if (descEl) descEl.textContent = 'We\'ve received your sitemap approval and the build phase begins now. We\'ll send you updates as the work progresses.';
             document.getElementById('reviewComplete').classList.add('visible');
             document.getElementById('slide-sitemap-review').scrollTop = 0;
             const projectName = document.querySelector('input[name="projectName"]')?.value || '';
@@ -465,6 +467,8 @@
 
             // Reuse the existing reviewComplete element — move it into this slide
             const reviewComplete = document.getElementById('reviewComplete');
+            const descEl = document.getElementById('reviewCompleteDesc');
+            if (descEl) descEl.textContent = 'We\'ve received your narrative and will begin building your page. You\'ll receive a review link within 24 hours.';
             slide.appendChild(reviewComplete);
             reviewComplete.classList.add('visible');
             slide.scrollTop = 0;
