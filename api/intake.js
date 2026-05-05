@@ -17,6 +17,35 @@ async function extractText(buffer, filename, mimeType) {
     return buffer.toString('utf-8');
 }
 
+async function fetchLinkContent(url) {
+    try {
+        // Google Drive file: drive.google.com/file/d/{ID}/view
+        const driveMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (driveMatch) {
+            const downloadUrl = `https://drive.google.com/uc?export=download&id=${driveMatch[1]}`;
+            const res = await fetch(downloadUrl, { redirect: 'follow' });
+            if (!res.ok) { console.error('[intake] Drive fetch failed:', res.status, url); return null; }
+            const ct = res.headers.get('content-type') || '';
+            const buffer = Buffer.from(await res.arrayBuffer());
+            if (ct.includes('pdf')) { const d = await pdfParse(buffer); return d.text; }
+            if (ct.includes('wordprocessingml') || ct.includes('docx')) { const r = await mammoth.extractRawText({ buffer }); return r.value; }
+            return buffer.toString('utf-8');
+        }
+        // Google Docs: docs.google.com/document/d/{ID}/
+        const docsMatch = url.match(/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/);
+        if (docsMatch) {
+            const res = await fetch(`https://docs.google.com/document/d/${docsMatch[1]}/export?format=txt`, { redirect: 'follow' });
+            if (!res.ok) { console.error('[intake] Docs fetch failed:', res.status, url); return null; }
+            return await res.text();
+        }
+        console.warn('[intake] Unrecognized link type, skipping:', url);
+        return null;
+    } catch (e) {
+        console.error('[intake] fetchLinkContent error:', url, e.message);
+        return null;
+    }
+}
+
 async function callGemini(prompt) {
     const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GOOGLE_AI_STUDIO_KEY}`;
     const res = await fetch(GEMINI_URL, {
@@ -153,7 +182,14 @@ module.exports = async (req, res) => {
             });
 
             await new Promise((resolve, reject) => {
-                busboy.on('field', (name, val) => { fields[name] = val; });
+                busboy.on('field', (name, val) => {
+                    if (name.endsWith('[]')) {
+                        if (!fields[name]) fields[name] = [];
+                        fields[name].push(val);
+                    } else {
+                        fields[name] = val;
+                    }
+                });
                 busboy.on('file', (name, stream, info) => {
                     const chunks = [];
                     stream.on('data', c => chunks.push(c));
@@ -201,7 +237,14 @@ module.exports = async (req, res) => {
                 filename: f.filename,
                 text: await extractText(f.buffer, f.filename, f.mimeType)
             })));
-            const combinedText = filesContent.map(f => f.text).join('\n\n');
+
+            const narrativeLinks = [].concat(fields['narrativeLinks[]'] || []).filter(Boolean);
+            console.log('[intake] narrativeLinks received:', narrativeLinks);
+            const linkTexts = await Promise.all(narrativeLinks.map(fetchLinkContent));
+            const validLinkTexts = linkTexts.filter(Boolean);
+            console.log('[intake] link texts fetched:', validLinkTexts.length, '/', narrativeLinks.length);
+
+            const combinedText = [...filesContent.map(f => f.text), ...validLinkTexts].join('\n\n');
             const isSingle = fields.scope === 'single';
 
             const geminiPrompt = isSingle
