@@ -624,14 +624,9 @@
 
                 if (apiData && apiData.isFallback) {
                     document.getElementById('processingTitle').textContent = 'Files received.';
-                    document.getElementById('processingSub').textContent = 'We\'ll be in touch shortly.';
+                    document.getElementById('processingSub').textContent = 'We\'ll review your narrative and send you a production link within 24 hours.';
                     document.getElementById('processingRing').style.display = 'none';
                     document.getElementById('processingDoneCheck').classList.add('visible');
-                    setTimeout(() => {
-                        currentIdx = currentPath.indexOf('slide-upload');
-                        updateSlider();
-                        document.getElementById('uploadSent').classList.add('visible');
-                    }, 800);
                     return;
                 }
 
