@@ -622,6 +622,19 @@
                     return;
                 }
 
+                if (apiData && apiData.isFallback) {
+                    document.getElementById('processingTitle').textContent = 'Files received.';
+                    document.getElementById('processingSub').textContent = 'We\'ll be in touch shortly.';
+                    document.getElementById('processingRing').style.display = 'none';
+                    document.getElementById('processingDoneCheck').classList.add('visible');
+                    setTimeout(() => {
+                        currentIdx = currentPath.indexOf('slide-upload');
+                        updateSlider();
+                        document.getElementById('uploadSent').classList.add('visible');
+                    }, 800);
+                    return;
+                }
+
                 document.getElementById('processingTitle').textContent = selectedScope === 'single' ? 'Narrative ready.' : 'Sitemap ready.';
                 document.getElementById('processingSub').textContent = 'Opening your review now.';
                 document.getElementById('processingRing').style.display = 'none';

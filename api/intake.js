@@ -305,24 +305,12 @@ ${combinedText.slice(0, 12000)}`;
                 return res.status(200).json({ success: true, pages: parsed.pages, scope: parsed.scope || fields.scope, hasNavDefinition: parsed.hasNavDefinition || false, metadata: parsed.metadata || null });
             }
 
-            // Fallback: return minimal page so frontend can still show the review
-            const fallbackName = files[0]?.filename?.replace(/\.[^.]+$/, '') || fields.projectName || 'Landing Page';
+            // Fallback: Gemini parse failed — signal the frontend to show confirmation screen
             return res.status(200).json({
                 success: true,
+                isFallback: true,
                 scope: fields.scope || 'single',
-                hasNavDefinition: false,
-                pages: [{
-                    id: 'page-0',
-                    name: fallbackName,
-                    type: isSingle ? 'Landing Page' : 'Homepage',
-                    headline: '',
-                    summary: 'Narrative received. Our team will review and begin production.',
-                    flags: 0,
-                    flagText: null,
-                    missing: false,
-                    children: [],
-                    sections: []
-                }]
+                pages: []
             });
         }
 
