@@ -8,6 +8,11 @@
             "source": "/club-pilates-remix",
             "destination": "/club-pilates-remix/",
             "permanent": false
+        },
+        {
+            "source": "/treinos",
+            "destination": "/treinos/",
+            "permanent": false
         }
     ],
     "rewrites": [
@@ -27,10 +32,12 @@
         { "source": "/api/validate-code", "destination": "/api/utils?mode=validate-code" },
         { "source": "/api/sitemap-feedback", "destination": "/api/utils?mode=feedback" },
 
-        { "source": "/client-intake", "destination": "/proposals/_templates/web-design/client-intake.html" },
+        { "source": "/client-intake", "destination": "/proposals/_templates/web-design/_refactor/client-intake.html" },
         { "source": "/admin/generate", "destination": "/proposals/generator/index.html" },
         { "source": "/narrative-review", "destination": "/proposals/narrative-review/index.html" },
         { "source": "/p/:id", "destination": "/api/proposal?id=:id" },
+        { "source": "/treinos/", "destination": "https://treinosbuild.vercel.app/treinos/" },
+        { "source": "/treinos/:path*", "destination": "https://treinosbuild.vercel.app/treinos/:path*" },
         { "source": "/club-pilates-remix/", "destination": "https://club-pilates-remix.vercel.app/" },
         { "source": "/club-pilates-remix/:path*", "destination": "https://club-pilates-remix.vercel.app/:path*" }
     ]

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Intake | Moood.Studio</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/proposals/_ui/moood-client-ui.css">
+    <link rel="stylesheet" href="/proposals/_ui/narrative-review.css">
+    <link rel="stylesheet" href="/proposals/_templates/web-design/_refactor/client-intake.css">
+</head>
+
+<body>
+    <div class="q-layout">
+
+        <!-- ── SIDEBAR ──────────────────────────────────────── -->
+        <aside class="q-sidebar">
+            <div class="logo-wrap">
+                <svg width="60" height="60" viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="logo-img">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z"
+                        fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z"
+                        fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.3 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.453 465.3 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z"
+                        fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M603.756 728.254H588.557V712.254C580.157 724.654 568.356 730.654 553.156 730.654C538.556 730.654 526.956 725.854 518.356 715.854C509.556 706.054 505.156 693.054 505.156 676.654C505.156 660.254 509.557 647.054 518.356 637.254C526.756 627.654 538.356 622.654 553.156 622.654C567.956 622.654 579.356 628.454 587.756 639.854V585.854H603.756V728.254ZM555.156 637.054C545.156 637.054 536.956 640.854 530.956 648.054C524.956 655.254 521.956 665.054 521.956 677.453C521.956 689.853 524.956 699.254 530.956 706.054C536.956 712.854 544.956 716.254 555.156 716.254C565.156 716.254 573.356 712.854 579.356 705.654C585.356 698.854 588.356 689.054 588.356 676.654C588.356 664.454 585.356 654.854 579.356 647.654C573.356 640.654 565.156 637.054 555.156 637.054Z"
+                        fill="white" />
+                    <path
+                        d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z"
+                        fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z"
+                        fill="white" />
+                </svg>
+            </div>
+
+            <div class="q-sidebar-content">
+                <p class="q-sidebar-tag" id="sidebarTag">Client Intake</p>
+                <h1 class="q-h1" id="sidebarH1">Client<br>verification.</h1>
+                <p class="q-sidebar-instruction" id="sidebarDesc">Enter the 4-digit code from your approval email to load your project.</p>
+
+                <ul class="q-nav-list" id="navList" style="display:none"></ul>
+            </div>
+
+            <!-- ── WORKSPACE SIDEBAR (Area 2) ─────────────────── -->
+            <div class="ws-sidebar" id="wsSidebar" style="display:none;">
+                <div class="ws-sidebar-header">
+                    <p class="q-sidebar-tag" id="wsSidebarTag">Content Workspace</p>
+                    <h1 class="q-h1" id="wsSidebarTitle">Map your<br>pages.</h1>
+                    <p class="q-sidebar-instruction" id="wsSidebarDesc">Declare every page. Then we fill each one.</p>
+                </div>
+                <ul class="ws-page-list" id="wsPageList"></ul>
+                <div class="ws-sidebar-footer" id="wsSidebarFooter" style="display:none;">
+                    <div class="ws-progress" id="wsProgress">0 / 0 pages complete</div>
+                    <button class="btn-ws-submit" id="btnWsSubmit" disabled>Submit all pages</button>
+                </div>
+            </div>
+
+            <p class="privacy-note">All data is encrypted and used exclusively for your project. No third-party sharing.
+            </p>
+        </aside>
+
+        <!-- ── MAIN ──────────────────────────────────────────── -->
+        <main class="q-main">
+            <div class="q-scroll-area">
+                <div class="q-slider-viewport" id="sliderViewport">
+
+                    <!-- ══ SLIDE CODE — PROJECT CODE ENTRY ═════════ -->
+                    <div class="q-slide active" id="slide-code" data-index="-2">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Enter your code.</h2>
+                            <p class="q-section-intro">You received a 4-digit code in your approval email. Enter it below and we'll pick up right where the proposal left off.</p>
+                        </div>
+                        <div class="otp-wrap">
+                            <div>
+                                <p class="otp-prefix" id="otpPrefix">MSD · 2026 ·</p>
+                                <div class="otp-boxes">
+                                    <input class="otp-box" id="otp-0" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                    <input class="otp-box" id="otp-1" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                    <input class="otp-box" id="otp-2" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                    <input class="otp-box" id="otp-3" type="text" inputmode="numeric" maxlength="1" autocomplete="off" spellcheck="false">
+                                </div>
+                                <div class="code-error" id="codeError">Code not found. Check the digits in your email and try again.</div>
+                            </div>
+                            <div class="code-skip-row">
+                                <button class="btn-code-skip" onclick="skipCodeEntry()">I don't have a code — start from scratch</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE WELCOME — CODE-ACTIVATED ════════════ -->
+                    <div class="q-slide" id="slide-welcome" data-index="welcome">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title" id="welcomeTitle">Great to have you with us.</h2>
+                            <p class="q-section-intro">With your proposal approved, we are ready to build.</p>
+                            <p class="q-section-intro" style="margin-top:12px">Please review the committed deliverables below. When you are ready to begin, hit "Next step" to begin the intake process where we will capture your brand's visual DNA.</p>
+                        </div>
+
+                        <div class="welcome-card">
+                            <h3 class="welcome-project-name" id="welcomeProjectName">—</h3>
+                            <div class="welcome-meta" id="welcomeMeta"></div>
+                            <div class="welcome-divider"></div>
+                            <div>
+                                <p class="welcome-pages-label">Pages confirmed</p>
+                                <div class="welcome-pages-grid" id="welcomePagesGrid"></div>
+                            </div>
+                        </div>
+
+                        <div class="welcome-next-block">
+                            <p class="welcome-next-label">What we'll cover next</p>
+                            <div class="welcome-next-steps" id="welcomeNextSteps"></div>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE 1 — PROJECT SCOPE ══════════════════ -->
+                    <div class="q-slide" id="slide-0" data-index="0">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">About you</h2>
+                            <p class="q-section-intro">Three things. That's all we need to get started.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Project name</label>
+                            <input type="text" name="projectName" placeholder="Company or product name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Project lead</label>
+                            <input type="text" name="leadName" placeholder="Person responsible for this project"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact email</label>
+                            <input type="email" name="email" placeholder="Where we send deliverables and updates"
+                                required>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE SCOPE — SITE SCOPE ══════════════════════ -->
+                    <div class="q-slide" id="slide-scope" data-index="1">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Site scope</h2>
+                            <p class="q-section-intro">How many pages are we building, and what type are they?</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Site scope</label>
+                            <div class="scope-grid" id="scopeGrid">
+                                <div class="scope-card" data-scope="single">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                                        <line x1="8" y1="21" x2="16" y2="21" />
+                                        <line x1="12" y1="17" x2="12" y2="21" />
+                                    </svg>
+                                    <span class="scope-card-title">Single page</span>
+                                    <span class="scope-card-desc">One focused page — homepage, landing, about, or
+                                        blog.</span>
+                                </div>
+                                <div class="scope-card" data-scope="multi">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                                        <line x1="8" y1="21" x2="16" y2="21" />
+                                        <line x1="12" y1="17" x2="12" y2="21" />
+                                        <rect x="6" y="7" width="5" height="4" rx="1" opacity=".4" />
+                                        <rect x="13" y="7" width="5" height="4" rx="1" opacity=".4" />
+                                    </svg>
+                                    <span class="scope-card-title">Website</span>
+                                    <span class="scope-card-desc">A set of pages — we'll define the architecture from
+                                        your materials.</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="scopeInput" value="">
+                            <p class="validation-msg" id="scopeError">Please select your project scope.</p>
+                        </div>
+
+                        <!-- Single page: page type -->
+                        <div class="conditional-group inline" id="singlePageGroup">
+                            <div class="form-group">
+                                <label>Page type</label>
+                                <div class="page-type-list" id="pageTypeGrid">
+                                    <div class="page-type-card" data-type="web">
+                                        <div class="pt-radio">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <div class="pt-content">
+                                            <span class="pt-title">Web Page</span>
+                                            <span class="pt-desc">Homepage, about us, services, product, team.</span>
+                                        </div>
+                                    </div>
+                                    <div class="page-type-card" data-type="landing">
+                                        <div class="pt-radio">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <div class="pt-content">
+                                            <span class="pt-title">Landing Page</span>
+                                            <span class="pt-desc">Campaign or sign-up with a single conversion
+                                                goal.</span>
+                                        </div>
+                                    </div>
+                                    <div class="page-type-card" data-type="blog">
+                                        <div class="pt-radio">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <div class="pt-content">
+                                            <span class="pt-title">Blog</span>
+                                            <span class="pt-desc">Editorial content — articles, posts, and recurring publishing.</span>
+                                        </div>
+                                    </div>
+                                    <div class="page-type-card" data-type="pillar">
+                                        <div class="pt-radio">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <div class="pt-content">
+                                            <span class="pt-title">Pillar page</span>
+                                            <span class="pt-desc">Long-form authority content built around a single core topic.</span>
+                                        </div>
+                                    </div>
+                                    <div class="page-type-card" data-type="social">
+                                        <div class="pt-radio">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <div class="pt-content">
+                                            <span class="pt-title">Social Media</span>
+                                            <span class="pt-desc">Strategic angles and hooks for social platform
+                                                content.</span>
+                                        </div>
+                                    </div>
+                                    <div class="page-type-card" data-type="comms">
+                                        <div class="pt-radio">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <div class="pt-content">
+                                            <span class="pt-title">Communications</span>
+                                            <span class="pt-desc">Emails, announcements, or press releases requiring a
+                                                unified message.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="pageTypeInput" value="">
+                                <p class="validation-msg" id="pageTypeError">Please select a page type.</p>
+                            </div>
+
+                        </div>
+
+                        <!-- Multi-page: no additional fields — architecture defined from uploaded materials -->
+                        <div class="conditional-group inline" id="multiPageGroup"></div>
+                    </div>
+
+                    <!-- ══ SLIDE 2 — VISUAL REFERENCES ══════════════ -->
+                    <div class="q-slide" id="slide-1" data-index="1">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Visual references</h2>
+                            <p class="q-section-intro">Define your direction by sharing at least one visual reference.
+                                You can provide a URL or simply mention a brand that aligns with your vision; these will
+                                serve as the foundation for your design identity.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <div id="refLinksList"></div>
+                            <div class="link-trigger-wrap">
+                                <p class="returning-client-skip" style="margin: 0; margin-right: auto;">Returning
+                                    client? <button type="button" class="skip-step-btn" onclick="skipVisualRefs()">Skip
+                                        this step</button></p>
+                                <button type="button" class="btn-permanent-add" id="addRefLinkBtn">
+                                    <span class="trigger-label">Add visual reference</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    <span class="plus-indicator">+</span>
+                                </button>
+                            </div>
+                            <p class="validation-msg" id="refLinksError">At least one visual reference is required.</p>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE 3 — BRAND ASSETS ════════════════════ -->
+                    <div class="q-slide" id="slide-2" data-index="2">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Brand assets</h2>
+                            <p class="q-section-intro">Provide your existing materials so we can extract your brand’s
+                                Visual DNA. If you’re starting from scratch, we will engineer a custom identity based on
+                                your industry standards.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Brand kit status</label>
+                            <div class="brand-status-grid" id="brandStatusGrid">
+                                <div class="brand-status-card" data-status="full">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path
+                                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                    </svg>
+                                    <span class="brand-status-title">Full kit</span>
+                                    <span class="brand-status-desc">Logo, colors, typography, guidelines</span>
+                                </div>
+                                <div class="brand-status-card" data-status="partial">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="8" x2="12" y2="12" />
+                                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                                    </svg>
+                                    <span class="brand-status-title">Partial</span>
+                                    <span class="brand-status-desc">Some assets available, not all</span>
+                                </div>
+                                <div class="brand-status-card" data-status="none">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="8" y1="12" x2="16" y2="12" />
+                                    </svg>
+                                    <span class="brand-status-title">None yet</span>
+                                    <span class="brand-status-desc">We build from scratch using your references</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="brandStatusInput" value="">
+                            <p class="validation-msg" id="brandStatusError">Please select your brand kit status.</p>
+                        </div>
+
+                        <p class="returning-client-skip">Returning client? <button type="button" class="skip-step-btn"
+                                onclick="skipBrandAssets()">Skip this step</button></p>
+
+                        <!-- Full or Partial: upload + guidelines -->
+                        <div class="conditional-group" id="brandAssetsGroup">
+                            <div class="form-group">
+                                <label>Brand assets upload</label>
+                                <div class="modern-upload" id="logoDropZone"
+                                    onclick="document.getElementById('logoFileInput').click()">
+                                    <div class="upload-icon-group">
+                                        <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                                <polyline points="21 15 16 10 5 21" />
+                                            </svg></div>
+                                        <div class="upload-icon-card"><svg viewBox="0 0 24 24" stroke="currentColor"
+                                                stroke-width="2" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                                <line x1="7" y1="2" x2="7" y2="22"></line>
+                                                <line x1="17" y1="2" x2="17" y2="22"></line>
+                                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                                <line x1="2" y1="7" x2="22" y2="7"></line>
+                                                <line x1="2" y1="17" x2="22" y2="17"></line>
+                                            </svg></div>
+                                        <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M9 18V5l12-2v13" />
+                                                <circle cx="6" cy="18" r="3" />
+                                                <circle cx="18" cy="16" r="3" />
+                                            </svg></div>
+                                    </div>
+                                    <div class="upload-title">Click to upload or <span>drag & drop</span> your brand kit
+                                        elements</div>
+                                    <div class="upload-subtitle">SVG, PNG or PDF <span>(Max 10MB)</span></div>
+                                </div>
+
+                                <input type="file" id="logoFileInput" style="display:none;"
+                                    accept=".svg,.png,.pdf,.jpg,.jpeg,.webp,.ai,.eps">
+                                <div class="q-file-list" id="logoFileList"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Brand guidelines URL</label>
+                                <input type="url" name="brandGuidelinesUrl"
+                                    placeholder="Notion, Figma, Google Drive, or brand portal link">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- ══ SLIDE 4 — THE SPLIT ═══════════════════════ -->
+                    <div class="q-slide" id="slide-3" data-index="3">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Your situation</h2>
+                            <p class="q-section-intro">Where are you starting from?</p>
+                        </div>
+
+                        <div class="path-options" id="pathGrid">
+                            <div class="path-option" data-path="strategy">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                                    <path d="M18 13l-1.5-7.5L4 2l3.5 12.5L15 16l3-3z" />
+                                    <path d="M2 22l5-5" />
+                                    <path d="M11 7l4.5 4.5" />
+                                </svg>
+                                <span class="path-option-title">I don't have narrative built</span>
+                                <span class="path-option-desc">You know your product and audience. We turn that into a
+                                    structured, conversion-ready story.</span>
+                            </div>
+                            <div class="path-option" data-path="narrative">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                    <polyline points="10 9 9 9 8 9" />
+                                </svg>
+                                <span class="path-option-title">I have my narrative ready</span>
+                                <span class="path-option-desc">Your copy is ready or close to ready. Hand it over and we
+                                    structure it into a build-ready architecture.</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="pathInput" value="">
+                        <p class="validation-msg" id="pathError">Please select a path to continue.</p>
+                    </div>
+
+                    <!-- ══ SLIDE UPLOAD — PATH B ═════════════════════ -->
+                    <div class="q-slide" id="slide-upload" data-index="upload">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Upload your narrative.</h2>
+                            <p class="q-section-intro">Upload the content files you already have — one per page, or
+                                everything together. We extract the structure, map your pages, and send you a complete
+                                sitemap for review.</p>
+                        </div>
+
+                        <div id="uploadFormArea">
+                            <div class="modern-upload" id="narrativeDropzone"
+                                onclick="document.getElementById('narrativeFileInput').click()">
+                                <div class="upload-icon-group">
+                                    <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                            <circle cx="8.5" cy="8.5" r="1.5" />
+                                            <polyline points="21 15 16 10 5 21" />
+                                        </svg></div>
+                                    <div class="upload-icon-card"><svg viewBox="0 0 24 24" stroke="currentColor"
+                                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                            <line x1="7" y1="2" x2="7" y2="22"></line>
+                                            <line x1="17" y1="2" x2="17" y2="22"></line>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                            <line x1="2" y1="7" x2="22" y2="7"></line>
+                                            <line x1="2" y1="17" x2="22" y2="17"></line>
+                                        </svg></div>
+                                    <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M9 18V5l12-2v13" />
+                                            <circle cx="6" cy="18" r="3" />
+                                            <circle cx="18" cy="16" r="3" />
+                                        </svg></div>
+                                </div>
+                                <div class="upload-title">Drop all narratives you have ready for processing.</div>
+                                <div class="upload-subtitle">PDF, DOCX, MD, TXT. <span>(Or paste your Notion/Google Docs
+                                        links below)</span></div>
+
+                            </div>
+                            <input type="file" id="narrativeFileInput" multiple style="display:none;"
+                                accept=".pdf,.doc,.docx,.txt,.md,.html,.htm,.rtf,.pages,.odt,.pptx">
+
+                            <div class="narrative-file-list" id="narrativeFileList"></div>
+
+                            <div class="form-group" style="margin-top:24px;">
+                                <div id="narrativeLinksList"></div>
+                                <div class="link-trigger-wrap">
+                                    <button type="button" class="btn-permanent-add" id="addNarrativeLinkBtn">
+                                        <span class="trigger-label">Add a link</span>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <line x1="12" y1="5" x2="12" y2="19" />
+                                            <line x1="5" y1="12" x2="19" y2="12" />
+                                        </svg>
+                                        <span class="plus-indicator">+</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:24px;">
+                                <label>Notes for our team</label>
+                                <textarea name="uploadNotes" id="uploadNotes"
+                                    placeholder="Site goals, audience, pages to prioritize, anything we should know before we start."
+                                    rows="3"></textarea>
+                            </div>
+
+                            <p class="validation-msg" id="uploadFilesError" style="margin-top:10px;">Please upload at
+                                least one file before sending.</p>
+                        </div>
+
+                        <div class="upload-sent" id="uploadSent">
+                            <div class="upload-illustration">
+                                <svg width="296" height="256" viewBox="0 0 296 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M122.351 25.9434C124.257 25.6994 126.009 25.7097 127.654 26.8357C134.413 31.4612 143.692 65.5817 145.665 74.9164C147.325 71.1487 149.618 67.5357 152.161 64.3097C158.164 56.6702 163.392 48.3944 169.383 40.7532C170.553 39.2609 172.712 37.4014 174.321 36.5934C177.109 35.1939 180.851 36.2857 182.488 38.8857C182.748 39.2982 182.733 39.3979 183.206 39.5982C188.846 36.1094 193.071 34.6327 195.814 42.3562C202.346 38.6494 206.153 42.1046 205.921 49.1084C206.526 48.4651 207.076 47.9637 207.723 47.3949C212.341 43.5142 219.114 46.8457 216.344 53.1334C215.021 56.2099 212.903 58.8877 211.048 61.6672C203.528 72.9307 195.841 84.0477 189.981 96.3019C187.488 101.516 186.711 106.875 185.751 112.507C191.581 109.773 207.661 98.0697 211.416 97.4597C212.663 97.2569 213.951 97.4724 214.939 98.2939C215.719 98.9406 216.151 99.8879 216.236 100.886C216.358 102.296 215.831 103.703 215.103 104.887C212.168 109.669 207.171 113.731 203.193 117.682C201.016 119.842 198.978 122.159 196.981 124.483C192.996 129.119 189.913 134.877 190.446 141.183C190.893 146.473 194.046 152.043 198.128 155.39C202.533 159.001 215.083 164.766 220.881 164.649C223.278 164.599 225.511 163.074 227.893 162.889C232.453 162.531 237.121 162.811 241.691 162.889L259.846 163.099L277.866 163.531C281.971 163.616 286.468 163.584 290.541 164.056C292.666 164.301 293.678 165.021 295.238 166.334C294.606 168.229 293.406 170.489 293.016 172.054C293.441 172.364 294.411 173.089 294.378 173.586C294.273 175.219 293.784 177.496 293.561 179.131C293.211 181.686 293.238 184.246 292.913 186.739C292.363 189.999 291.968 191.851 291.316 195.204C290.078 201.539 290.786 223.734 283.426 225.766C280.546 226.561 267.909 224.709 264.031 224.541C256.076 224.164 248.243 223.024 240.336 222.224C236.731 222.021 232.993 221.744 229.386 221.754C224.966 221.764 221.191 219.814 216.971 218.706C213.691 217.846 210.333 217.024 207.068 216.076C201.996 214.604 197.203 212.629 192.416 210.416C187.708 208.321 183.439 206.501 179.064 203.739C172.705 199.606 164.003 195.559 157.875 190.551C150.61 184.614 141.349 176.911 137.437 168.201C136.271 165.604 135.801 161.569 135.481 158.74C132.289 160.9 126.79 161.52 124.776 163.484C121.943 166.249 118.924 173.766 116.978 177.359C112.444 185.729 100.36 204.744 93.3583 210.359C95.9585 218.909 92.3048 221.974 85.8375 226.831C83.9315 228.264 81.9625 229.644 80.0003 230.999C60.2648 244.674 37.3345 253.024 13.427 255.244C10.3905 255.504 6.62275 255.886 3.618 255.754L1.411 254.334C1.39175 251.961 2.024 246.684 2.26625 244.136C2.9385 237.069 3.5325 229.984 4.17375 222.924C5.4615 208.746 2.74475 196.401 0 182.584C20.5333 183.179 40.0818 167.026 54.4668 154.118C55.5683 153.13 56.6995 152.183 57.842 151.244C58.3458 153.106 59.198 154.787 60.0107 156.535C60.6042 156.022 61.189 155.499 61.7647 154.965C73.899 143.715 80.0965 134.307 84.944 118.381C85.7322 115.791 87.8045 112.612 88.548 109.595C91.8605 96.1527 90.347 81.5277 85.3675 68.6854C82.7593 61.6527 75.0373 54.7009 75.2703 46.9387C75.4763 40.0809 79.6848 38.1382 85.795 38.5719C86.1758 37.6782 86.2775 36.5162 86.5645 35.5802C87.6585 32.0127 90.3357 28.8987 94.4007 29.4982C98.5917 30.1162 100.49 32.6429 102.868 35.6882C104.171 32.0177 105.94 28.5679 110.85 29.8497C115.028 30.9402 116.412 36.3241 118.373 39.7144C117.18 35.0024 116.451 27.8709 122.351 25.9434Z" fill="black"/>
+                                    <path d="M123.846 30.0459C127.911 31.3714 135.545 51.1536 136.637 56.1104C139.234 67.8934 143.4 81.3721 143.896 93.5009C143.987 95.7216 145.841 97.9479 144.467 99.6864C144.639 103.755 144.73 109.133 145.012 112.466C145.403 117.094 142.264 126.685 148.879 125.042C148.524 125.13 149.555 125.647 149.595 125.659C152.943 123.924 158.963 113.467 161.164 109.914C163.959 105.4 164.69 100.442 169.429 97.1641C169.529 99.8094 169.048 101.646 170.178 103.999C169.779 107.525 169.113 112.249 168.096 115.581C166.922 119.32 165.185 122.858 162.946 126.073C159.555 130.941 154.257 135.594 150.228 140.115C147.315 143.383 144.215 147.286 140.838 150.12C139.293 151.417 137.786 150.463 136.363 151.22C135.76 152.007 135.704 152.894 135.508 153.895C133.534 155.085 132.338 155.74 130.269 156.607C128.756 157.383 123.189 158.42 122.183 159.653C118.295 164.417 115.928 170.489 112.8 175.834C109.359 181.717 106.18 187.974 102.096 193.462C98.5719 198.197 95.1324 202.824 91.3701 207.367C89.8349 204.909 87.9124 202.529 86.3094 200.087C78.1894 187.714 69.4276 175.324 62.8916 161.989C65.2506 159.47 68.5016 157.02 70.9476 154.305C80.2124 144.023 84.8416 135.55 89.2081 122.728C90.9908 116.445 94.1639 111.901 94.8099 105.035C95.5114 101.516 95.2136 98.1374 95.3304 94.6009C95.8651 78.3949 89.5164 62.0564 79.8414 49.0609C80.7549 45.0024 81.0026 43.7516 85.4381 42.5941C88.3421 44.2611 95.4898 64.4316 97.1046 68.5041L104.14 85.9896C106.082 85.3209 107.754 84.5654 109.624 83.7384C108.604 80.7869 106.321 76.2106 104.992 73.1579L95.1344 50.4322C93.7031 47.1077 90.8321 41.8741 90.4763 38.3866C90.3096 36.7544 91.9541 35.0814 93.0944 34.0061C101.221 38.4144 109.813 62.2604 113.56 71.0369C114.648 73.5866 116.01 76.8089 116.837 79.4709C118.43 78.9724 120.026 78.4849 121.626 78.0086C121.015 75.7031 120.07 73.2749 119.304 70.9894C117.326 65.0252 115.236 59.0984 113.037 53.2122C111.172 48.1402 109.587 42.0646 106.763 37.6564C107.416 36.2554 108.116 34.9181 108.827 33.5459C113.784 37.8389 116.978 49.7179 120.065 55.9586C121.318 58.4921 124.982 72.6379 124.734 75.0964C126.789 74.6741 128.879 74.1469 130.923 73.6571C129.649 68.4676 128.715 63.1199 127.472 57.8979C125.56 49.8646 123.187 40.6949 122.116 32.5419C122.732 31.4451 122.953 30.9781 123.846 30.0459Z" fill="white"/>
+                                    <path d="M176.621 41.4951L177.439 41.5956C177.816 41.9824 177.976 42.1229 178.074 42.6826C178.736 46.4591 163.547 64.8121 160.717 69.2831L160.512 69.6109C162.115 71.0484 163.335 71.8651 165.167 72.9659C171.151 63.1419 179.024 54.1696 185.581 44.7374C187.206 42.4031 189.836 42.0991 192.394 41.9141C187.926 52.1659 176.577 64.7441 169.541 73.3584C171.164 74.9601 172.333 75.7459 174.223 77.0294C181.279 66.6901 189.474 57.2079 197.209 47.3916C198.046 46.3276 198.786 45.6224 200.159 45.5184C200.959 46.0444 200.699 45.8349 201.171 46.7909C201.004 49.5964 188.886 63.9286 186.754 67.6726C185.209 70.3861 181.041 75.6241 179.029 78.1436C180.266 78.9221 182.404 80.7111 183.624 81.6734C185.184 79.4204 188.526 75.8844 190.466 73.7131C194.509 69.2394 198.474 64.6966 202.359 60.0866C204.059 58.0901 205.836 56.1701 207.566 54.2426C207.951 53.8156 209.859 50.6689 210.266 50.0149C211.044 49.9806 211.784 50.4216 212.564 50.7491C210.086 55.0564 207.216 58.7204 204.546 62.8466C202.151 66.5531 200.314 70.2924 197.684 73.9849C195.331 77.2879 192.921 80.8631 190.704 84.2589C183.029 96.0094 181.064 107.354 180.654 121.145C185.351 118.568 190.291 115.461 194.786 112.613C197.761 110.727 208.306 103.016 210.866 102.153L211.189 102.47C210.469 103.688 207.844 106.196 206.706 107.453L199.104 115.99C195.636 119.819 194.114 120.987 191.101 125.398C184.849 134.726 184.324 144.046 191.081 153.35C194.276 157.747 199.531 162.857 204.731 164.637C210.309 166.544 216.669 168.552 222.469 169.489C224.349 168.622 225.714 168.029 227.666 167.332C227.676 170.562 227.701 177.409 227.209 180.454C225.244 192.607 225.716 204.112 225.339 216.304C205.381 212.384 186.371 204.639 169.355 193.499C166.812 191.814 164.075 189.524 161.601 187.672C159.245 185.909 156.865 184.264 154.507 182.527C146.092 176.337 140.453 167.079 138.811 156.761C154.015 145.393 169.85 129.01 173.74 109.734C174.49 106.017 175.661 92.8384 169.53 93.2686C161.08 93.8619 157.112 109.83 152.833 115.855C151.23 118.113 151.01 118.664 148.864 120.636C149.515 112.052 148.947 104.134 148.383 95.5894C148.278 94.0049 147.557 87.8939 147.859 86.6644C150.698 75.0949 158.713 65.4589 165.534 55.9591C168.606 51.6811 172.548 44.5196 176.621 41.4951Z" fill="white"/>
+                                    <path d="M233.609 188.404C234.596 188.239 237.216 188.322 238.374 188.244C245.041 187.809 251.531 188.987 258.109 189.144C268.279 189.389 278.086 189.482 288.246 190.467C287.549 193.879 287.419 197.764 287.069 201.224L286.746 201.304C282.921 201.527 276.601 200.639 272.556 200.352C268.169 200.039 262.994 200.164 258.796 199.657C249.309 198.509 240.181 197.224 230.576 196.992C230.611 195.042 230.556 190.482 231.089 188.799C231.756 188.414 232.801 188.452 233.609 188.404Z" fill="white"/>
+                                    <path d="M236.909 175.904C243.824 175.189 251.544 176.177 258.444 176.762C266.509 177.444 274.562 177.284 282.594 178.519C284.812 178.859 287.247 179.199 289.472 179.299C289.424 181.822 289.202 185.044 288.964 187.552C287.457 187.519 285.639 187.344 284.112 187.239C271.614 186.249 258.989 186.312 246.469 184.934C242.052 184.449 235.739 184.794 231.187 184.792C231.137 182.009 231.309 179.064 231.452 176.274L236.909 175.904Z" fill="white"/>
+                                    <path d="M232.417 200.899C239.932 200.184 251.427 202.376 259.199 202.881C262.852 203.119 266.254 202.956 269.879 203.139C275.509 203.424 281.299 204.241 286.924 204.329C286.672 206.211 286.622 211.896 285.849 213.181L285.199 213.304C276.272 212.449 267.737 211.956 258.772 211.651C254.652 211.514 250.149 210.746 246.009 210.359C240.544 209.844 235.129 209.631 229.642 209.531C229.927 206.814 229.874 204.044 230.324 201.359C230.819 200.904 231.694 200.954 232.417 200.899Z" fill="white"/>
+                                    <path d="M234.466 165.639C244.111 165.649 253.881 165.996 263.629 166.039L279.264 166.231C282.076 166.276 289.376 165.999 291.536 167.529C291.901 169.194 290.196 174.394 289.639 176.479C287.299 176.699 281.161 175.141 278.291 174.976C268.286 174.409 258.336 173.596 248.389 172.396C245.594 172.059 241.969 172.359 239.076 172.294C233.116 172.161 231.126 173.319 232.724 166.264C233.396 165.599 233.294 165.809 234.466 165.639Z" fill="white"/>
+                                    <path d="M229.436 213.344C241.744 212.837 252.994 214.742 265.216 214.969C271.541 215.087 278.989 215.262 285.196 216.272C284.836 218.599 284.851 219.097 283.944 221.239C283.434 222.079 283.399 222.144 282.674 222.789C281.384 223.164 277.011 222.154 275.409 222.162C267.926 222.189 260.656 220.699 253.309 220.024C245.351 219.292 237.246 219.319 229.269 218.392C229.416 216.887 229.404 214.892 229.436 213.344Z" fill="white"/>
+                                    <path d="M242.406 113.682L243.458 113.874C245.023 115.486 241.146 120.888 243.191 124.786C245.791 126.953 252.396 122.448 253.473 125.398C253.008 125.955 249.503 126.524 248.258 127.184C246.058 128.351 244.798 129.421 242.921 131.033C245.696 133.536 247.866 134.012 251.476 134.869L250.321 137.24C248.531 136.564 246.778 135.866 244.856 135.742C239.396 135.388 238.751 142.717 237.213 144.128C233.673 144.653 236.403 139.238 236.048 136.306L236.006 135.996C232.221 133.324 227.026 137.896 224.241 137.371C223.558 136.706 223.781 137.098 223.586 136.133C224.678 134.572 229.116 134.394 230.151 133.295C232.838 130.435 224.013 127.254 223.733 124.897C225.353 123.015 228.791 127.61 231.216 127.048C234.673 126.247 230.346 118.073 231.588 115.97L232.253 115.89C234.831 116.677 234.531 121.474 237.691 121.912C240.098 120.975 241.061 116.359 242.406 113.682Z" fill="black"/>
+                                    <path d="M240.622 123.128C240.837 123.268 240.954 123.652 240.999 123.894C241.354 125.741 242.189 126.646 243.512 127.86C240.614 129.734 240.767 130.308 241.774 133.54C240.417 134.548 239.519 135.377 238.272 136.532C237.837 135.399 237.744 135.047 236.947 134.103C235.297 133.157 234.842 133.152 232.979 132.83C232.927 131.229 232.449 130.584 232.074 129.022C233.024 128.036 233.252 128.571 234.719 126.758L234.942 126.48L234.957 124.489C235.774 123.254 238.147 123.715 240.622 123.128Z" fill="white"/>
+                                    <path d="M231.059 0L232.431 0.360504C233.561 2.1495 230.571 5.92175 231.771 10.708C233.956 12.77 238.709 10.3198 242.196 11.2455C241.404 12.642 237.371 13.1315 235.611 14.3738C233.989 15.5183 233.249 16.1988 231.801 17.5818C235.069 20.3118 237.031 19.59 239.879 21.831C240.094 21.9988 239.784 22.5335 239.649 22.8863C237.946 23.9963 234.921 21.1428 231.659 22.3048C227.799 23.6805 227.704 29.915 225.211 30.726C223.229 29.668 225.939 24.2703 224.386 22.0335L223.974 21.9078C220.589 20.8605 216.499 22.8925 213.304 24.1925C212.731 23.6403 212.566 22.7328 212.326 21.9425C214.466 21.3328 218.401 20.593 219.494 18.84C219.716 15.2213 211.414 13.0818 212.714 10.8013C215.289 10.3208 218.066 14.8008 221.024 12.7563C222.496 10.528 220.289 6.28401 220.084 3.73251C220.009 2.80676 220.234 2.784 220.809 2.18975C223.261 1.7525 224.229 11.0755 228.029 7.17075C228.974 6.198 230.454 1.5805 231.059 0Z" fill="black"/>
+                                    <path d="M229.756 9.3623C229.911 10.7153 230.089 12.6131 231.429 13.3598C231.794 13.5636 231.986 13.6988 232.239 14.0428C229.016 17.2038 229.809 16.0978 230.521 19.6246C230.149 20.5331 230.014 20.3831 229.024 21.0563C228.346 21.7738 228.076 22.0293 227.289 22.6228C227.004 22.1783 225.809 20.3153 225.564 20.2361C220.921 18.7268 222.659 19.2633 220.514 15.5456C223.559 13.9856 224.061 12.9268 223.866 9.51256L225.649 10.3643L229.756 9.3623Z" fill="white"/>
+                                    <path d="M181.122 220.651L182.177 221.106C183.029 222.526 180.382 229.019 181.412 231.216C182.689 233.946 188.899 230.886 191.914 232.256C191.804 232.914 190.627 233.279 190.099 233.369C186.357 234.021 184.422 235.759 181.487 238.266C184.264 240.631 185.679 240.791 189.184 241.901C189.709 242.526 189.529 242.456 189.562 243.501C188.207 244.661 182.972 242.186 181.389 242.896C178.559 244.164 177.264 250.351 174.75 251.531C173.21 250.536 175.288 245.469 174.407 242.949C169.461 240.606 163.702 246.539 162.265 244.161C162.54 241.124 166.665 242.299 169.188 240.151C170.546 237.166 163.075 234.626 162.213 232.046C163.342 230.079 167.719 235.039 170.179 234.056C173.235 232.831 169.037 225.841 170.206 223.334C170.993 222.899 170.57 222.994 171.537 223.144C172.418 224.266 174.105 227.616 175.178 229.241C177.779 228.549 178.299 228.134 179.232 225.364C179.797 223.681 180.337 222.244 181.122 220.651Z" fill="black"/>
+                                    <path d="M178.819 230.329L179.126 230.259L179.499 230.519C179.844 233.061 180.254 232.879 182.026 234.946C181.146 235.756 180.519 236.274 179.826 237.269C179.634 238.276 180.071 239.456 180.301 240.554C180.059 241.119 177.796 243.469 177.096 243.469C176.56 242.456 176.321 242.184 175.576 241.301C173.036 239.431 171.826 241.446 170.56 236.624C171.025 235.301 172.405 235.854 173.316 234.021C173.91 232.824 173.283 231.271 173.906 230.621C175.876 231.446 176.66 230.921 178.819 230.329Z" fill="white"/>
+                                    <path d="M41.4221 75.9658C41.8466 75.9981 42.2841 76.0673 42.7078 76.1246C42.8311 76.2853 42.9543 76.4461 43.0776 76.6068C42.6748 80.5861 41.0963 82.4853 42.1308 86.7096C43.9446 88.3706 49.1648 86.3456 52.2886 87.1673L52.3508 87.4786C50.9446 88.4181 48.7483 88.8151 47.2153 89.4998C45.6393 90.2036 43.3883 92.0323 42.0933 93.1816C44.2626 95.2586 46.8721 96.4453 49.8458 96.8351L50.1251 96.8688L50.3881 97.2681L49.6256 99.3566C40.6938 96.3961 39.6298 98.2533 36.5656 106.811C35.9831 106.548 35.5118 106.269 34.9608 105.954C34.3556 104.926 34.6441 103.514 34.9423 102.404C35.4001 100.7 35.3253 100.059 35.2673 98.3056C32.4046 95.1688 25.3718 100.134 23.4546 99.8526C22.8318 99.1563 22.7873 99.3191 22.6328 98.5358C23.8921 96.5368 27.4421 97.1946 29.6116 95.1606C30.9651 91.6668 23.4873 89.9146 22.9716 86.8993C24.7623 86.2118 29.1076 90.0956 31.4906 88.7523C32.8641 86.4393 30.4496 81.7641 30.3216 79.1341C30.2933 78.5518 30.6516 78.4008 31.0718 78.0558C32.8901 78.0553 33.2251 80.1991 34.0831 81.6771C37.9446 88.3303 40.3306 78.8521 41.4221 75.9658Z" fill="black"/>
+                                    <path d="M34.1364 85.506C36.4602 86.4405 37.4279 85.9538 39.8994 85.416C40.5717 87.6208 40.6744 88.5908 42.7142 89.8528C41.8932 91.056 40.9427 91.3953 40.1797 92.9163C40.1302 94.0453 40.4299 94.0173 41.0452 95.1965C40.7424 96.1868 40.7032 95.9585 39.7227 96.7498C39.1147 97.287 38.6664 97.6788 38.0147 98.1585L37.5057 98.0608C35.6159 94.924 33.2297 95.7843 32.0739 94.7848C31.9734 92.7445 30.9047 92.347 31.4617 90.859C34.0322 89.7283 34.3052 88.6505 34.1557 85.8393L34.1364 85.506Z" fill="white"/>
+                                    <path d="M136.715 205.914L137.085 206.109C138.284 209.332 138.437 213.727 139.197 217.172C141.534 227.764 143.35 238.627 145.869 249.162C144.277 249.472 142.591 249.724 140.984 249.989C140.468 250.007 140.668 250.024 140.163 249.809C139.737 248.922 138.314 241.069 138.021 239.599L132.673 212.617C131.558 206.789 130.906 206.727 136.715 205.914Z" fill="black"/>
+                                    <path d="M243.374 44.7217C244.847 46.0207 244.857 46.8682 246.724 48.1589L247.067 48.3929L247.059 48.7619C245.049 51.6527 237.527 59.7929 234.769 62.7712C230.094 67.8187 223.374 76.0157 218.587 80.4867C216.782 79.6792 215.674 78.4537 214.329 77.0507C216.324 74.1192 222.294 68.2294 225.052 65.1477L236.152 52.7059C238.374 50.1822 240.974 46.9707 243.374 44.7217Z" fill="black"/>
+                                    <path d="M18.4575 45.7988C20.0947 46.1476 21.9782 46.0473 23.6542 46.1313C27.3132 46.3148 59.1697 47.9488 59.7395 48.7943C60.4752 49.8863 59.9757 52.7381 59.8892 54.0676C56.2455 54.0926 51.9747 53.4308 48.258 53.2318C38.1107 52.6888 28.2517 51.8763 18.0742 51.7361C18.2862 49.5918 18.4097 47.9723 18.4575 45.7988Z" fill="black"/>
+                                    <path d="M121.473 210.194C123.417 210.574 125.368 210.917 127.326 211.224C126.569 218.237 125.669 225.232 124.625 232.207C124.14 235.549 123.344 239.739 123.075 243.019L117.297 242.454C117.648 239.104 118.564 235.677 118.966 232.319C119.84 225.002 121.289 217.557 121.473 210.194Z" fill="black"/>
+                                    <path d="M32.2084 21.1191C34.5809 22.3441 37.1043 24.2029 39.4288 25.2996C45.8903 28.3476 53.4611 33.4821 60.1651 35.6166C59.1498 37.2524 58.2561 39.2071 57.4036 40.9521C56.9049 40.7786 51.2989 37.9556 50.5596 37.5371C44.4734 34.0911 35.0376 29.9914 29.5898 26.1064C30.1103 24.8576 31.5216 22.4019 32.2084 21.1191Z" fill="black"/>
+                                    <path d="M251.022 68.5361L251.422 68.6809C252.357 70.1311 253.059 71.7734 253.784 73.3446C251.352 74.8269 248.569 75.7666 246.267 77.0399C240.684 80.1266 231.632 84.1181 226.662 87.7451C226.064 86.9149 224.482 83.7126 223.722 82.4646C232.729 78.1831 241.524 72.4996 251.022 68.5361Z" fill="black"/>
+                                </svg>
+                            </div>
+                            <h2 class="upload-sent-title">We've got your files.</h2>
+                            <p class="upload-sent-desc">We'll process your narrative and send you a sitemap for review.</p>
+                            <p class="upload-sent-email">Confirmation sent to <strong id="uploadConfirmEmail"></strong></p>
+
+                            <div class="upload-sent-steps">
+                                <div class="upload-sent-steps-label">What happens next</div>
+                                <div class="upload-sent-step">
+                                    <svg class="upload-sent-step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <div class="upload-sent-step-text">We extract structure and narrative from your documents.</div>
+                                </div>
+                                <div class="upload-sent-step">
+                                    <svg class="upload-sent-step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <div class="upload-sent-step-text">We map pages, hierarchy, and flag gaps or improvement opportunities.</div>
+                                </div>
+                                <div class="upload-sent-step">
+                                    <svg class="upload-sent-step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <div class="upload-sent-step-text">You receive a sitemap link for content review and approval.</div>
+                                </div>
+                                <div class="upload-sent-step">
+                                    <svg class="upload-sent-step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <div class="upload-sent-step-text">Build phase begins. Skeleton → Mockup. Starting with your homepage.</div>
+                                </div>
+                            </div>
+
+                            <div class="q-signature">
+                                <p class="q-signature-greeting">Talk soon,</p>
+                                <p class="q-signature-name">Alberto</p>
+                                <p class="q-signature-company">Moood.Studio</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE PROCESSING — PATH B ════════════════ -->
+                    <div class="q-slide" id="slide-processing" data-index="processing">
+                        <div class="processing-wrap">
+                            <div id="processingRing" class="processing-ring"></div>
+                            <div id="processingDoneCheck" class="processing-done-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="processing-title" id="processingTitle">Processing your narrative.</h2>
+                                <p class="processing-sub" id="processingSub">This takes about 30 seconds.</p>
+                            </div>
+                            <div class="processing-steps" id="processingSteps">
+                                <div class="processing-step" data-step="0">
+                                    <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg></div>
+                                    <span>Reading your files</span>
+                                </div>
+                                <div class="processing-step" data-step="1">
+                                    <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg></div>
+                                    <span>Extracting narrative structure</span>
+                                </div>
+                                <div class="processing-step" data-step="2">
+                                    <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg></div>
+                                    <span id="procLabel2">Mapping pages and hierarchy</span>
+                                </div>
+                                <div class="processing-step" data-step="3">
+                                    <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg></div>
+                                    <span id="procLabel3">Preparing your sitemap</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE SITEMAP REVIEW — PATH B ════════════ -->
+                    <div class="q-slide" id="slide-sitemap-review" data-index="sitemap-review" style="display:none;">
+                        <div class="q-section-header svt-section-header" id="sitemapReviewHeader">
+                            <h2 class="q-section-title">Your sitemap is ready.</h2>
+                            <p class="q-section-intro">We’ve put together this sitemap based on your documents. Take a
+                                look and let us know if it looks good to go!</p>
+                        </div>
+
+                        <div id="sitemapVisualTree" class="sitemap-visual-tree" style="display:none;"></div>
+                        <div class="sitemap-tree" id="sitemapTree"></div>
+
+                        <div class="svt-bottom-note">
+                            <strong>Quick note:</strong> a few pages are marked because we’re missing their narratives.
+                            Please provide those as soon as possible so we can finish building out the full structure.
+                        </div>
+
+
+
+                        <div class="nr-success" id="reviewComplete">
+                            <div class="nr-success-icon">
+                                <svg width="296" height="256" viewBox="0 0 296 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M122.351 25.9434C124.257 25.6994 126.009 25.7097 127.654 26.8357C134.413 31.4612 143.692 65.5817 145.665 74.9164C147.325 71.1487 149.618 67.5357 152.161 64.3097C158.164 56.6702 163.392 48.3944 169.383 40.7532C170.553 39.2609 172.712 37.4014 174.321 36.5934C177.109 35.1939 180.851 36.2857 182.488 38.8857C182.748 39.2982 182.733 39.3979 183.206 39.5982C188.846 36.1094 193.071 34.6327 195.814 42.3562C202.346 38.6494 206.153 42.1046 205.921 49.1084C206.526 48.4651 207.076 47.9637 207.723 47.3949C212.341 43.5142 219.114 46.8457 216.344 53.1334C215.021 56.2099 212.903 58.8877 211.048 61.6672C203.528 72.9307 195.841 84.0477 189.981 96.3019C187.488 101.516 186.711 106.875 185.751 112.507C191.581 109.773 207.661 98.0697 211.416 97.4597C212.663 97.2569 213.951 97.4724 214.939 98.2939C215.719 98.9406 216.151 99.8879 216.236 100.886C216.358 102.296 215.831 103.703 215.103 104.887C212.168 109.669 207.171 113.731 203.193 117.682C201.016 119.842 198.978 122.159 196.981 124.483C192.996 129.119 189.913 134.877 190.446 141.183C190.893 146.473 194.046 152.043 198.128 155.39C202.533 159.001 215.083 164.766 220.881 164.649C223.278 164.599 225.511 163.074 227.893 162.889C232.453 162.531 237.121 162.811 241.691 162.889L259.846 163.099L277.866 163.531C281.971 163.616 286.468 163.584 290.541 164.056C292.666 164.301 293.678 165.021 295.238 166.334C294.606 168.229 293.406 170.489 293.016 172.054C293.441 172.364 294.411 173.089 294.378 173.586C294.273 175.219 293.784 177.496 293.561 179.131C293.211 181.686 293.238 184.246 292.913 186.739C292.363 189.999 291.968 191.851 291.316 195.204C290.078 201.539 290.786 223.734 283.426 225.766C280.546 226.561 267.909 224.709 264.031 224.541C256.076 224.164 248.243 223.024 240.336 222.224C236.731 222.021 232.993 221.744 229.386 221.754C224.966 221.764 221.191 219.814 216.971 218.706C213.691 217.846 210.333 217.024 207.068 216.076C201.996 214.604 197.203 212.629 192.416 210.416C187.708 208.321 183.439 206.501 179.064 203.739C172.705 199.606 164.003 195.559 157.875 190.551C150.61 184.614 141.349 176.911 137.437 168.201C136.271 165.604 135.801 161.569 135.481 158.74C132.289 160.9 126.79 161.52 124.776 163.484C121.943 166.249 118.924 173.766 116.978 177.359C112.444 185.729 100.36 204.744 93.3583 210.359C95.9585 218.909 92.3048 221.974 85.8375 226.831C83.9315 228.264 81.9625 229.644 80.0003 230.999C60.2648 244.674 37.3345 253.024 13.427 255.244C10.3905 255.504 6.62275 255.886 3.618 255.754L1.411 254.334C1.39175 251.961 2.024 246.684 2.26625 244.136C2.9385 237.069 3.5325 229.984 4.17375 222.924C5.4615 208.746 2.74475 196.401 0 182.584C20.5333 183.179 40.0818 167.026 54.4668 154.118C55.5683 153.13 56.6995 152.183 57.842 151.244C58.3458 153.106 59.198 154.787 60.0107 156.535C60.6042 156.022 61.189 155.499 61.7647 154.965C73.899 143.715 80.0965 134.307 84.944 118.381C85.7322 115.791 87.8045 112.612 88.548 109.595C91.8605 96.1527 90.347 81.5277 85.3675 68.6854C82.7593 61.6527 75.0373 54.7009 75.2703 46.9387C75.4763 40.0809 79.6848 38.1382 85.795 38.5719C86.1758 37.6782 86.2775 36.5162 86.5645 35.5802C87.6585 32.0127 90.3357 28.8987 94.4007 29.4982C98.5917 30.1162 100.49 32.6429 102.868 35.6882C104.171 32.0177 105.94 28.5679 110.85 29.8497C115.028 30.9402 116.412 36.3241 118.373 39.7144C117.18 35.0024 116.451 27.8709 122.351 25.9434Z" fill="black"/>
+                                    <path d="M123.846 30.0459C127.911 31.3714 135.545 51.1536 136.637 56.1104C139.234 67.8934 143.4 81.3721 143.896 93.5009C143.987 95.7216 145.841 97.9479 144.467 99.6864C144.639 103.755 144.73 109.133 145.012 112.466C145.403 117.094 142.264 126.685 148.879 125.042C148.524 125.13 149.555 125.647 149.595 125.659C152.943 123.924 158.963 113.467 161.164 109.914C163.959 105.4 164.69 100.442 169.429 97.1641C169.529 99.8094 169.048 101.646 170.178 103.999C169.779 107.525 169.113 112.249 168.096 115.581C166.922 119.32 165.185 122.858 162.946 126.073C159.555 130.941 154.257 135.594 150.228 140.115C147.315 143.383 144.215 147.286 140.838 150.12C139.293 151.417 137.786 150.463 136.363 151.22C135.76 152.007 135.704 152.894 135.508 153.895C133.534 155.085 132.338 155.74 130.269 156.607C128.756 157.383 123.189 158.42 122.183 159.653C118.295 164.417 115.928 170.489 112.8 175.834C109.359 181.717 106.18 187.974 102.096 193.462C98.5719 198.197 95.1324 202.824 91.3701 207.367C89.8349 204.909 87.9124 202.529 86.3094 200.087C78.1894 187.714 69.4276 175.324 62.8916 161.989C65.2506 159.47 68.5016 157.02 70.9476 154.305C80.2124 144.023 84.8416 135.55 89.2081 122.728C90.9908 116.445 94.1639 111.901 94.8099 105.035C95.5114 101.516 95.2136 98.1374 95.3304 94.6009C95.8651 78.3949 89.5164 62.0564 79.8414 49.0609C80.7549 45.0024 81.0026 43.7516 85.4381 42.5941C88.3421 44.2611 95.4898 64.4316 97.1046 68.5041L104.14 85.9896C106.082 85.3209 107.754 84.5654 109.624 83.7384C108.604 80.7869 106.321 76.2106 104.992 73.1579L95.1344 50.4322C93.7031 47.1077 90.8321 41.8741 90.4763 38.3866C90.3096 36.7544 91.9541 35.0814 93.0944 34.0061C101.221 38.4144 109.813 62.2604 113.56 71.0369C114.648 73.5866 116.01 76.8089 116.837 79.4709C118.43 78.9724 120.026 78.4849 121.626 78.0086C121.015 75.7031 120.07 73.2749 119.304 70.9894C117.326 65.0252 115.236 59.0984 113.037 53.2122C111.172 48.1402 109.587 42.0646 106.763 37.6564C107.416 36.2554 108.116 34.9181 108.827 33.5459C113.784 37.8389 116.978 49.7179 120.065 55.9586C121.318 58.4921 124.982 72.6379 124.734 75.0964C126.789 74.6741 128.879 74.1469 130.923 73.6571C129.649 68.4676 128.715 63.1199 127.472 57.8979C125.56 49.8646 123.187 40.6949 122.116 32.5419C122.732 31.4451 122.953 30.9781 123.846 30.0459Z" fill="white"/>
+                                    <path d="M176.621 41.4951L177.439 41.5956C177.816 41.9824 177.976 42.1229 178.074 42.6826C178.736 46.4591 163.547 64.8121 160.717 69.2831L160.512 69.6109C162.115 71.0484 163.335 71.8651 165.167 72.9659C171.151 63.1419 179.024 54.1696 185.581 44.7374C187.206 42.4031 189.836 42.0991 192.394 41.9141C187.926 52.1659 176.577 64.7441 169.541 73.3584C171.164 74.9601 172.333 75.7459 174.223 77.0294C181.279 66.6901 189.474 57.2079 197.209 47.3916C198.046 46.3276 198.786 45.6224 200.159 45.5184C200.959 46.0444 200.699 45.8349 201.171 46.7909C201.004 49.5964 188.886 63.9286 186.754 67.6726C185.209 70.3861 181.041 75.6241 179.029 78.1436C180.266 78.9221 182.404 80.7111 183.624 81.6734C185.184 79.4204 188.526 75.8844 190.466 73.7131C194.509 69.2394 198.474 64.6966 202.359 60.0866C204.059 58.0901 205.836 56.1701 207.566 54.2426C207.951 53.8156 209.859 50.6689 210.266 50.0149C211.044 49.9806 211.784 50.4216 212.564 50.7491C210.086 55.0564 207.216 58.7204 204.546 62.8466C202.151 66.5531 200.314 70.2924 197.684 73.9849C195.331 77.2879 192.921 80.8631 190.704 84.2589C183.029 96.0094 181.064 107.354 180.654 121.145C185.351 118.568 190.291 115.461 194.786 112.613C197.761 110.727 208.306 103.016 210.866 102.153L211.189 102.47C210.469 103.688 207.844 106.196 206.706 107.453L199.104 115.99C195.636 119.819 194.114 120.987 191.101 125.398C184.849 134.726 184.324 144.046 191.081 153.35C194.276 157.747 199.531 162.857 204.731 164.637C210.309 166.544 216.669 168.552 222.469 169.489C224.349 168.622 225.714 168.029 227.666 167.332C227.676 170.562 227.701 177.409 227.209 180.454C225.244 192.607 225.716 204.112 225.339 216.304C205.381 212.384 186.371 204.639 169.355 193.499C166.812 191.814 164.075 189.524 161.601 187.672C159.245 185.909 156.865 184.264 154.507 182.527C146.092 176.337 140.453 167.079 138.811 156.761C154.015 145.393 169.85 129.01 173.74 109.734C174.49 106.017 175.661 92.8384 169.53 93.2686C161.08 93.8619 157.112 109.83 152.833 115.855C151.23 118.113 151.01 118.664 148.864 120.636C149.515 112.052 148.947 104.134 148.383 95.5894C148.278 94.0049 147.557 87.8939 147.859 86.6644C150.698 75.0949 158.713 65.4589 165.534 55.9591C168.606 51.6811 172.548 44.5196 176.621 41.4951Z" fill="white"/>
+                                    <path d="M233.609 188.404C234.596 188.239 237.216 188.322 238.374 188.244C245.041 187.809 251.531 188.987 258.109 189.144C268.279 189.389 278.086 189.482 288.246 190.467C287.549 193.879 287.419 197.764 287.069 201.224L286.746 201.304C282.921 201.527 276.601 200.639 272.556 200.352C268.169 200.039 262.994 200.164 258.796 199.657C249.309 198.509 240.181 197.224 230.576 196.992C230.611 195.042 230.556 190.482 231.089 188.799C231.756 188.414 232.801 188.452 233.609 188.404Z" fill="white"/>
+                                    <path d="M236.909 175.904C243.824 175.189 251.544 176.177 258.444 176.762C266.509 177.444 274.562 177.284 282.594 178.519C284.812 178.859 287.247 179.199 289.472 179.299C289.424 181.822 289.202 185.044 288.964 187.552C287.457 187.519 285.639 187.344 284.112 187.239C271.614 186.249 258.989 186.312 246.469 184.934C242.052 184.449 235.739 184.794 231.187 184.792C231.137 182.009 231.309 179.064 231.452 176.274L236.909 175.904Z" fill="white"/>
+                                    <path d="M232.417 200.899C239.932 200.184 251.427 202.376 259.199 202.881C262.852 203.119 266.254 202.956 269.879 203.139C275.509 203.424 281.299 204.241 286.924 204.329C286.672 206.211 286.622 211.896 285.849 213.181L285.199 213.304C276.272 212.449 267.737 211.956 258.772 211.651C254.652 211.514 250.149 210.746 246.009 210.359C240.544 209.844 235.129 209.631 229.642 209.531C229.927 206.814 229.874 204.044 230.324 201.359C230.819 200.904 231.694 200.954 232.417 200.899Z" fill="white"/>
+                                    <path d="M234.466 165.639C244.111 165.649 253.881 165.996 263.629 166.039L279.264 166.231C282.076 166.276 289.376 165.999 291.536 167.529C291.901 169.194 290.196 174.394 289.639 176.479C287.299 176.699 281.161 175.141 278.291 174.976C268.286 174.409 258.336 173.596 248.389 172.396C245.594 172.059 241.969 172.359 239.076 172.294C233.116 172.161 231.126 173.319 232.724 166.264C233.396 165.599 233.294 165.809 234.466 165.639Z" fill="white"/>
+                                    <path d="M229.269 218.392C229.416 216.887 229.404 214.892 229.436 213.344C241.744 212.837 252.994 214.742 265.216 214.969C271.541 215.087 278.989 215.262 285.196 216.272C284.836 218.599 284.851 219.097 283.944 221.239C283.434 222.079 283.399 222.144 282.674 222.789C281.384 223.164 277.011 222.154 275.409 222.162C267.926 222.189 260.656 220.699 253.309 220.024C245.351 219.292 237.246 219.319 229.269 218.392Z" fill="white"/>
+                                    <path d="M242.406 113.682L243.458 113.874C245.023 115.486 241.146 120.888 243.191 124.786C245.791 126.953 252.396 122.448 253.473 125.398C253.008 125.955 249.503 126.524 248.258 127.184C246.058 128.351 244.798 129.421 242.921 131.033C245.696 133.536 247.866 134.012 251.476 134.869L250.321 137.24C248.531 136.564 246.778 135.866 244.856 135.742C239.396 135.388 238.751 142.717 237.213 144.128C233.673 144.653 236.403 139.238 236.048 136.306L236.006 135.996C232.221 133.324 227.026 137.896 224.241 137.371C223.558 136.706 223.781 137.098 223.586 136.133C224.678 134.572 229.116 134.394 230.151 133.295C232.838 130.435 224.013 127.254 223.733 124.897C225.353 123.015 228.791 127.61 231.216 127.048C234.673 126.247 230.346 118.073 231.588 115.97L232.253 115.89C234.831 116.677 234.531 121.474 237.691 121.912C240.098 120.975 241.061 116.359 242.406 113.682Z" fill="black"/>
+                                    <path d="M240.622 123.128C240.837 123.268 240.954 123.652 240.999 123.894C241.354 125.741 242.189 126.646 243.512 127.86C240.614 129.734 240.767 130.308 241.774 133.54C240.417 134.548 239.519 135.377 238.272 136.532C237.837 135.399 237.744 135.047 236.947 134.103C235.297 133.157 234.842 133.152 232.979 132.83C232.927 131.229 232.449 130.584 232.074 129.022C233.024 128.036 233.252 128.571 234.719 126.758L234.942 126.48L234.957 124.489C235.774 123.254 238.147 123.715 240.622 123.128Z" fill="white"/>
+                                    <path d="M231.059 0L232.431 0.360504C233.561 2.1495 230.571 5.92175 231.771 10.708C233.956 12.77 238.709 10.3198 242.196 11.2455C241.404 12.642 237.371 13.1315 235.611 14.3738C233.989 15.5183 233.249 16.1988 231.801 17.5818C235.069 20.3118 237.031 19.59 239.879 21.831C240.094 21.9988 239.784 22.5335 239.649 22.8863C237.946 23.9963 234.921 21.1428 231.659 22.3048C227.799 23.6805 227.704 29.915 225.211 30.726C223.229 29.668 225.939 24.2703 224.386 22.0335L223.974 21.9078C220.589 20.8605 216.499 22.8925 213.304 24.1925C212.731 23.6403 212.566 22.7328 212.326 21.9425C214.466 21.3328 218.401 20.593 219.494 18.84C219.716 15.2213 211.414 13.0818 212.714 10.8013C215.289 10.3208 218.066 14.8008 221.024 12.7563C222.496 10.528 220.289 6.28401 220.084 3.73251C220.009 2.80676 220.234 2.784 220.809 2.18975C223.261 1.7525 224.229 11.0755 228.029 7.17075C228.974 6.198 230.454 1.5805 231.059 0Z" fill="black"/>
+                                    <path d="M229.756 9.3623C229.911 10.7153 230.089 12.6131 231.429 13.3598C231.794 13.5636 231.986 13.6988 232.239 14.0428C229.016 17.2038 229.809 16.0978 230.521 19.6246C230.149 20.5331 230.014 20.3831 229.024 21.0563C228.346 21.7738 228.076 22.0293 227.289 22.6228C227.004 22.1783 225.809 20.3153 225.564 20.2361C220.921 18.7268 222.659 19.2633 220.514 15.5456C223.559 13.9856 224.061 12.9268 223.866 9.51256L225.649 10.3643L229.756 9.3623Z" fill="white"/>
+                                    <path d="M181.122 220.651L182.177 221.106C183.029 222.526 180.382 229.019 181.412 231.216C182.689 233.946 188.899 230.886 191.914 232.256C191.804 232.914 190.627 233.369C190.099 233.369C186.357 234.021 184.422 235.759 181.487 238.266C184.264 240.631 185.679 240.791 189.184 241.901C189.709 242.526 189.529 242.456 189.562 243.501C188.207 244.661 182.972 242.186 181.389 242.896C178.559 244.164 177.264 250.351 174.75 251.531C173.21 250.536 175.288 245.469 174.407 242.949C169.461 240.606 163.702 246.539 162.265 244.161C162.54 241.124 166.665 242.299 169.188 240.151C170.546 237.166 163.075 234.626 162.213 232.046C163.342 230.079 167.719 235.039 170.179 234.056C173.235 232.831 169.037 225.841 170.206 223.334C170.993 222.899 170.57 222.994 171.537 223.144C172.418 224.266 174.105 227.616 175.178 229.241C177.779 228.549 178.299 228.134 179.232 225.364C179.797 223.681 180.337 222.244 181.122 220.651Z" fill="black"/>
+                                    <path d="M178.819 230.329L179.126 230.259L179.499 230.519C179.844 233.061 180.254 232.879 182.026 234.946C181.146 235.756 180.519 236.274 179.826 237.269C179.634 238.276 180.071 239.456 180.301 240.554C180.059 241.119 177.796 242.841 177.096 243.469C176.56 242.456 176.321 242.184 175.576 241.301C173.036 239.431 171.826 241.446 170.56 236.624C171.025 235.301 172.405 235.854 173.316 234.021C173.91 232.824 173.283 231.271 173.906 230.621C175.876 231.446 176.66 230.921 178.819 230.329Z" fill="white"/>
+                                </svg>
+                            </div>
+                            <h2 class="nr-success-title">All set!</h2>
+                            <p class="nr-success-desc">We’ve received your feedback. Our team will process it and update the sitemap shortly.</p>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE PAGE REVIEW (Scenario C) ══════════ -->
+                    <div class="q-slide" id="slide-page-review" data-index="page-review" style="display:none;">
+                        <div id="pageReviewContent"></div>
+                    </div>
+
+                    <!-- ══ SLIDE SOURCES — STRATEGY ══════════════════ -->
+                    <div class="q-slide" id="slide-sources" data-index="sources">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Sources</h2>
+                            <p class="q-section-intro">Narratives aren't invented; they are extracted. Provide the raw
+                                material we need to anchor your strategy in hard evidence.</p>
+                        </div>
+
+                        <div class="form-group" style="margin-top:0;">
+                            <div class="modern-upload" id="sourcesDropZone"
+                                onclick="document.getElementById('sourcesFileInput').click()">
+                                <div class="upload-icon-group">
+                                    <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                            <circle cx="8.5" cy="8.5" r="1.5" />
+                                            <polyline points="21 15 16 10 5 21" />
+                                        </svg></div>
+                                    <div class="upload-icon-card"><svg viewBox="0 0 24 24" stroke="currentColor"
+                                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                            <line x1="7" y1="2" x2="7" y2="22"></line>
+                                            <line x1="17" y1="2" x2="17" y2="22"></line>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                            <line x1="2" y1="7" x2="22" y2="7"></line>
+                                            <line x1="2" y1="17" x2="22" y2="17"></line>
+                                        </svg></div>
+                                    <div class="upload-icon-card"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M9 18V5l12-2v13" />
+                                            <circle cx="6" cy="18" r="3" />
+                                            <circle cx="18" cy="16" r="3" />
+                                        </svg></div>
+                                </div>
+                                <div class="upload-title">Click to upload or <span>drag & drop</span> project files
+                                </div>
+                                <div class="upload-subtitle">Manuals, decks, research, or recordings, links to Notion,
+                                    Slack threads, competitor sites, or any strategic references you love <span>(Max
+                                        10MB)</span></div>
+                            </div>
+
+                            <input type="file" id="sourcesFileInput" style="display:none;" multiple>
+                            <div class="q-file-list" id="sourcesFileList"></div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:0;">
+                            <div id="sourceLinksList"></div>
+                            <div class="link-trigger-wrap">
+                                <button type="button" class="btn-permanent-add" id="addSourceLinkBtn">
+                                    <span class="trigger-label">Add a link</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    <span class="plus-indicator">+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE PAGE-OBJ — PAGE OBJECTIVES ══════════ -->
+                    <div class="q-slide" id="slide-page-obj" data-index="page-obj">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Page objectives</h2>
+                            <p class="q-section-intro">For each page in your project, tell us its primary goal. What should a visitor understand, feel, or do after seeing it? Skip any page you're unsure about — we'll infer from context.</p>
+                        </div>
+                        <div id="pageObjContainer" class="page-obj-container"></div>
+                    </div>
+
+                    <!-- ══ SLIDE ST-COMPETITION — STRATEGY ══════════ -->
+                    <div class="q-slide" id="slide-st-competition" data-index="st-competition">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Competition</h2>
+                            <p class="q-section-intro">To define your advantage, we need to know who we are fighting
+                                against. Name your main competitors or paste links to their websites.</p>
+                        </div>
+                        <div class="form-group" style="margin-top:40px;position:relative;">
+                            <label>Your competitors</label>
+                            <div id="stCompetitorList" style="margin-top:24px;"></div>
+                            <div class="link-trigger-wrap">
+                                <button type="button" class="btn-permanent-add" id="addStCompetitorBtn">
+                                    <span class="trigger-label">Add another competitor</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    <span class="plus-indicator">+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE ST-AUDIENCE — STRATEGY ══════════════ -->
+                    <div class="q-slide" id="slide-st-audience" data-index="st-audience">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Audience</h2>
+                            <p class="q-section-intro">Every narrative is built for a specific person. To build the
+                                right message, we need to know exactly who they are, what they do, and the specific
+                                problem we are solving for them.</p>
+                        </div>
+                        <div class="form-group" style="margin-top:40px;">
+                            <label>Your ideal customer</label>
+                            <textarea name="portrait" rows="8"
+                                placeholder="Be specific. e.g., 'CTOs at Series A startups struggling with technical debt' or 'Retired veterans looking for ergonomic support that respects their mobility...'"
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE ST-CONVERSION — STRATEGY ════════════ -->
+                    <div class="q-slide" id="slide-st-conversion" data-index="st-conversion">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title">Conversion</h2>
+                            <p class="q-section-intro">Every narrative must lead to a clear outcome. Define the primary
+                                action you want the user to take after reading the message.</p>
+                        </div>
+                        <div class="form-group" style="margin-top:40px;">
+                            <label>The main action</label>
+                            <input type="text" name="cta"
+                                placeholder="e.g., 'Book a demo', 'Contact sales', 'Download the technical manual', or 'Purchase the product'..."
+                                required>
+                        </div>
+                    </div>
+
+                    <!-- ══ SLIDE 8 — CONFIRMATION ════════════════════ -->
+                    <div class="q-slide" id="slide-7" data-index="7">
+                        <div class="q-section-header">
+                            <h2 class="q-section-title" id="confirmTitle">You're in the pipeline.</h2>
+                            <p class="q-section-intro" id="confirmIntro">Your intake is complete. Here's what happens
+                                next:</p>
+                        </div>
+
+                        <div
+                            style="border-top:1px solid rgba(0,0,0,0.08);border-bottom:1px solid rgba(0,0,0,0.08);padding:32px 0;">
+                            <!-- Strategy roadmap -->
+                            <div id="strategyRoadmap" class="roadmap-container" style="display:none;">
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point active"></div>
+                                    <div class="roadmap-content"><strong>Intake Received</strong>
+                                        <p>Your business context, audience, and visual references are staged for analysis.</p>
+                                    </div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point"></div>
+                                    <div class="roadmap-content"><strong>Narrative Creation</strong>
+                                        <p>We are now engineering the strategic narrative for all pages included in your project scope. This ensures a cohesive voice and a unified "Visual DNA" across your entire digital presence.</p>
+                                    </div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point"></div>
+                                    <div class="roadmap-content"><strong>Narrative Delivery &amp; Review</strong>
+                                        <p>The complete set of narratives will be sent to you for final feedback. This serves as the strategic blueprint before we move into the high-fidelity design phase.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Narrative roadmap -->
+                            <div id="narrativeRoadmap" class="roadmap-container" style="display:none;">
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point active"></div>
+                                    <div class="roadmap-content"><strong>Intake Received</strong>
+                                        <p>Your narrative content is logged and staged for the build pipeline.</p>
+                                    </div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point"></div>
+                                    <div class="roadmap-content"><strong>DNA Extraction — The Profiler</strong>
+                                        <p>Visual identity extracted from your references. REFERENCE_DNA.md produced.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point"></div>
+                                    <div class="roadmap-content"><strong>Readiness Gate</strong>
+                                        <p>Our team verifies structural completeness. Any gaps are flagged back to you
+                                            with specific instructions.</p>
+                                    </div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-point"></div>
+                                    <div class="roadmap-content"><strong>Build Phase — The Builder</strong>
+                                        <p>Skeleton HTML and CSS produced within 24 hours of gate approval. <strong>No
+                                                creative decisions made without your content.</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="font-size:13px;color:rgba(0,0,0,0.5);margin:24px 0 0 0;line-height:1.6;"><strong style="color:rgba(0,0,0,0.7);">Note:</strong> You will receive the first draft of all project narratives for your review and approval within 24 hours.</p>
+
+                        <div class="q-signature">
+                            <p class="q-signature-greeting">Talk soon,</p>
+                            <p class="q-signature-name">Alberto</p>
+                            <p class="q-signature-company">Moood.Studio</p>
+                        </div>
+                    </div>
+
+                </div><!-- /slider-viewport -->
+            </div><!-- /scroll-area -->
+
+            <nav class="q-nav" id="qNav">
+                <button class="btn-prev" id="btnPrev" disabled onclick="prevSlide()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" />
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <button class="btn-next" id="btnNext" onclick="nextSlide()">
+                    <span id="nextBtnText">Next step</span>
+                    <div class="spinner"></div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </nav>
+
+            <div class="sitemap-review-footer" id="sitemapReviewFooter" style="display:none;">
+                <div class="svt-review-actions" style="margin-top:0;">
+                    <button type="button" class="svt-btn-changes" onclick="openFeedbackDialog()">Request
+                        changes</button>
+                    <button type="button" class="svt-btn-approve" id="btnApproveAll" onclick="approveAllAndStart()">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Approve sitemap
+                    </button>
+                </div>
+            </div>
+
+            <div class="pr-review-footer" id="pageReviewFooter" style="display:none;">
+                <div class="svt-review-actions" style="margin-top:0;">
+                    <button type="button" class="svt-btn-changes"
+                        onclick="openFeedbackDialog()">Request changes</button>
+                    <button type="button" class="svt-btn-approve" onclick="approvePageAndStart()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Approve narrative
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script src="/proposals/_templates/web-design/_refactor/client-intake-core.js"></script>
+    <script src="/proposals/_templates/web-design/_refactor/client-intake-sitemap.js"></script>
+
+    <script>
+        /* ── INIT ────────────────────────────────────────────────── */
+        updateSlider();
+        updateContentSlide();
+
+        /* ── DEMO MODE (?demo or ?demo=single — skip to review) ── */
+        const _demoParam = new URLSearchParams(window.location.search).get('demo');
+        if (_demoParam === 'single') {
+            // Scenario C demo — single page review
+            const demoSingle = {
+                scope: 'single',
+                pages: [{
+                    id: 'page-0', name: 'Growth Solutions', type: 'Landing Page', flags: 1, missing: false,
+                    headline: '"Accelerate what\'s already working."',
+                    summary: 'Hero with headline, sub-headline, and primary CTA. Three-column service breakdown with stats. Case study highlight with client logo and result metric. Final CTA to book a call.',
+                    flagText: 'No social proof or testimonials found — page lacks third-party validation.',
+                    sections: [
+                        { name: 'Hero', items: [{ label: 'Headline', value: 'Accelerate what\'s already working.' }, { label: 'Sub-headline', value: 'Data-led growth strategy for ambitious brands.' }, { label: 'CTA', value: 'Book a strategy call' }] },
+                        { name: 'Services', items: [{ label: 'List item', value: 'Paid Media & Performance' }, { label: 'List item', value: 'Conversion Rate Optimization' }, { label: 'List item', value: 'Growth Analytics' }] },
+                        { name: 'Results', items: [{ label: 'Stat', value: '+340% ROAS in 90 days' }, { label: 'Stat', value: '2.8× LTV improvement' }] },
+                        { name: 'CTA', items: [{ label: 'Headline', value: 'Ready to scale?' }, { label: 'CTA', value: 'Let\'s talk' }] }
+                    ],
+                    children: []
+                }]
+            };
+            selectedScope = 'single';
+            currentPath = SINGLE_NARRATIVE_PATH;
+            buildSitemapFromFiles(demoSingle);
+            updateSlider();
+        } else if (_demoParam !== null) {
+            const demoData = {
+                hasNavDefinition: true,
+                pages: [{
+                    id: 'page-0', name: 'Homepage', type: 'Homepage', flags: 0, missing: false,
+                    headline: '"We help brands grow faster, smarter."',
+                    summary: 'Hero with headline, sub-headline, and primary CTA. Value proposition section with three proof points. Client logos strip.',
+                    flagText: null, sections: [
+                        { name: 'Hero', items: [{ label: 'Headline', value: 'We help brands grow faster, smarter.' }, { label: 'CTA', value: 'See our work' }] },
+                        { name: 'Value Proposition', items: [{ label: 'Body', value: 'From strategy to execution, we close the gap between ambition and results.' }] }
+                    ],
+                    children: [
+                        {
+                            id: 'page-0-0', name: 'What We Do', type: 'Category', flags: 0, missing: false,
+                            headline: '"Services built for scale."', summary: 'Overview of agency capabilities. Three service pillars with supporting copy.',
+                            flagText: null, sections: [], children: [
+                                { id: 'page-0-0-0', name: 'Growth Solutions', type: 'Web Page', flags: 0, missing: false, headline: '"Accelerate what\'s already working."', summary: 'Growth strategy, paid media, and conversion optimization services. Includes a case study highlight and CTA to book a call.', flagText: null, sections: [{ name: 'Hero', items: [{ label: 'Headline', value: 'Accelerate what\'s already working.' }, { label: 'Sub-headline', value: 'Data-led growth strategy for ambitious brands.' }] }], children: [] },
+                                { id: 'page-0-0-1', name: 'Marketing Solutions', type: 'Web Page', flags: 1, missing: false, headline: null, summary: 'Campaign strategy and channel management. Missing a clear CTA and proof section.', flagText: 'No CTA or proof points found — page risks low conversion.', sections: [], children: [] },
+                                { id: 'page-0-0-2', name: 'Services', type: 'Web Page', flags: 0, missing: true, headline: null, summary: null, flagText: null, sections: [], children: [] }
+                            ]
+                        },
+                        {
+                            id: 'page-0-1', name: 'Work', type: 'Category', flags: 0, missing: false,
+                            headline: '"Work that speaks."', summary: 'Portfolio overview with filterable case studies. Intro copy + grid of recent projects.',
+                            flagText: null, sections: [], children: [
+                                { id: 'page-0-1-0', name: 'Case Studies', type: 'Web Page', flags: 0, missing: true, headline: null, summary: null, flagText: null, sections: [], children: [] },
+                                { id: 'page-0-1-1', name: 'Testimonials', type: 'Web Page', flags: 0, missing: true, headline: null, summary: null, flagText: null, sections: [], children: [] }
+                            ]
+                        },
+                        {
+                            id: 'page-0-2', name: 'About', type: 'Web Page', flags: 0, missing: false,
+                            headline: '"Built by practitioners, not theorists."', summary: 'Company story, team bios, and culture section. Ends with an open roles CTA.',
+                            flagText: null, sections: [{ name: 'Hero', items: [{ label: 'Headline', value: 'Built by practitioners, not theorists.' }] }, { name: 'Team', items: [{ label: 'Body', value: 'A team of strategists, creatives, and engineers who have done this before.' }] }],
+                            children: [
+                                { id: 'page-0-2-0', name: 'Leadership', type: 'Web Page', flags: 0, missing: false, headline: '"The people behind the work."', summary: 'Full leadership team with photos and bios.', flagText: null, sections: [], children: [] },
+                                { id: 'page-0-2-1', name: 'Culture', type: 'Web Page', flags: 0, missing: true, headline: null, summary: null, flagText: null, sections: [], children: [] },
+                                { id: 'page-0-2-2', name: 'Careers', type: 'Web Page', flags: 0, missing: true, headline: null, summary: null, flagText: null, sections: [], children: [] }
+                            ]
+                        },
+                        {
+                            id: 'page-0-3', name: 'Thinking', type: 'Blog', flags: 0, missing: false,
+                            headline: '"Ideas worth acting on."', summary: 'Editorial hub with articles on growth, brand, and culture. Featured article + filterable grid.',
+                            flagText: null, sections: [], children: [
+                                { id: 'page-0-3-0', name: 'All Uncommon Thinking Posts', type: 'Web Page', flags: 0, missing: false, headline: '"Read the thinking behind the work."', summary: 'Full article index with category filters.', flagText: null, sections: [], children: [] },
+                                { id: 'page-0-3-1', name: 'Aaker', type: 'Web Page', flags: 0, missing: true, headline: null, summary: null, flagText: null, sections: [], children: [] },
+                                { id: 'page-0-3-2', name: 'The 2026 AI-Powered Consumer Report', type: 'Web Page', flags: 0, missing: false, headline: '"The AI-Powered Consumer Report 2026."', summary: 'Long-form research report with key findings, data visualizations, and download CTA.', flagText: null, sections: [], children: [] }
+                            ]
+                        },
+                        {
+                            id: 'page-0-4', name: 'Connect', type: 'Web Page', flags: 0, missing: false,
+                            headline: '"Let\'s build something worth remembering."', summary: 'Contact page with brief intro, contact form, and direct email. Includes office location.',
+                            flagText: null, sections: [{ name: 'Hero', items: [{ label: 'Headline', value: 'Let\'s build something worth remembering.' }, { label: 'CTA', value: 'Send a message' }] }],
+                            children: [
+                                { id: 'page-0-4-0', name: 'Contact', type: 'Contact', flags: 0, missing: false, headline: '"Get in touch."', summary: 'Contact form + direct email + social links.', flagText: null, sections: [], children: [] }
+                            ]
+                        }
+                    ]
+                }]
+            };
+            currentPath = NARRATIVE_PATH;
+            buildSitemapFromFiles(demoData);
+            updateSlider();
+        }
+
+    </script>
+
+    <!-- ── CHIP DROPDOWN ──────────────────────────────────────── -->
+    <div id="chipDropdown" class="chip-dropdown">
+        <button class="chip-dd-item" id="ddPreviewBtn" onclick="previewFromDropdown()">
+            <svg viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+            Preview
+        </button>
+        <button class="chip-dd-item" id="ddApproveBtn" onclick="approveFromDropdown()">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Approve
+        </button>
+    </div>
+
+    <!-- ── NARRATIVE DRAWER ────────────────────────────────────── -->
+    <div id="ndBackdrop" class="nd-backdrop" onclick="closeDrawer()"></div>
+    <div id="narrativeDrawer" class="nd-drawer">
+        <div class="nd-drawer-header">
+            <h2 class="nd-drawer-title" id="ndTitle">Narrative preview</h2>
+            <button type="button" class="nd-drawer-approve" id="ndApproveBtn" onclick="approveFromDrawer()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+                Approve page
+            </button>
+        </div>
+        <div class="nd-body" id="ndBody"></div>
+        <div class="nd-footer">
+            <textarea class="nd-comment" id="ndComment" rows="3" placeholder="Got comments?"></textarea>
+            <div class="nd-feedback-row">
+                <button type="button" class="nd-feedback-btn" id="ndFeedbackBtn" onclick="sendFeedback()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    Send feedback
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SITEMAP FEEDBACK DIALOG ─────────────────────────── -->
+    <div class="svt-feedback-overlay" id="svtFeedbackOverlay" onclick="closeFeedbackDialog()"></div>
+    <div class="svt-feedback-panel" id="svtFeedbackPanel">
+        <h3>What needs to change?</h3>
+        <p>Describe the pages, sections, or structure you'd like us to revise before we start building.</p>
+        <textarea id="svtFeedbackText"
+            placeholder="e.g. The About page needs a team section. Remove the Blog entirely. Add a Pricing page under Services."></textarea>
+        <div class="svt-feedback-btns">
+            <button class="svt-feedback-cancel" onclick="closeFeedbackDialog()">Cancel</button>
+            <button class="svt-feedback-send" id="svtFeedbackSend" onclick="submitSitemapFeedback()">Send
+                feedback</button>
+        </div>
+    </div>
+</body>
+
+</html>
