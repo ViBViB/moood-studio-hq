@@ -32,7 +32,7 @@
         { "source": "/api/validate-code", "destination": "/api/utils?mode=validate-code" },
         { "source": "/api/sitemap-feedback", "destination": "/api/utils?mode=feedback" },
 
-        { "source": "/client-intake", "destination": "/proposals/_templates/web-design/_refactor/client-intake.html" },
+        { "source": "/client-intake", "destination": "/proposals/_templates/web-design/client-intake.html" },
         { "source": "/admin/generate", "destination": "/proposals/generator/index.html" },
         { "source": "/narrative-review", "destination": "/proposals/narrative-review/index.html" },
         { "source": "/p/:id", "destination": "/api/proposal?id=:id" },
