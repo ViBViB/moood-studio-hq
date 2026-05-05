@@ -363,9 +363,11 @@
 
                 if (activeId === 'slide-upload') {
                     const hasFiles = narrativeFiles.length > 0;
-                    nextBtnText.textContent = hasFiles ? 'Send' : 'Next step';
-                    btnNext.className = 'btn-next' + (hasFiles ? ' btn-finish' : '');
-                    btnNext.disabled = !hasFiles;
+                    const hasLinks = Array.from(document.querySelectorAll('input[name="narrativeLinks[]"]')).some(el => el.value.trim());
+                    const hasContent = hasFiles || hasLinks;
+                    nextBtnText.textContent = hasContent ? 'Send' : 'Next step';
+                    btnNext.className = 'btn-next' + (hasContent ? ' btn-finish' : '');
+                    btnNext.disabled = !hasContent;
                     btnPrev.disabled = false; // Always show back on slide-upload
                 } else {
                     nextBtnText.textContent = isPreLast ? 'Submit intake' : 'Next step';
@@ -531,9 +533,11 @@
                     : 'Drop all narratives you have ready for processing.';
             }
             if (currentPath && currentPath[currentIdx] === 'slide-upload') {
-                nextBtnText.textContent = hasFiles ? 'Send' : 'Next step';
-                btnNext.classList.toggle('btn-finish', hasFiles);
-                btnNext.disabled = !hasFiles;
+                const hasLinks = Array.from(document.querySelectorAll('input[name="narrativeLinks[]"]')).some(el => el.value.trim());
+                const hasContent = hasFiles || hasLinks;
+                nextBtnText.textContent = hasContent ? 'Send' : 'Next step';
+                btnNext.classList.toggle('btn-finish', hasContent);
+                btnNext.disabled = !hasContent;
             }
         }
 
@@ -541,7 +545,8 @@
         let apiPromise = null; // holds the in-flight Claude request
 
         async function sendNarrativeIntake() {
-            if (narrativeFiles.length === 0) {
+            const hasLinks = Array.from(document.querySelectorAll('input[name="narrativeLinks[]"]')).some(el => el.value.trim());
+            if (narrativeFiles.length === 0 && !hasLinks) {
                 document.getElementById('uploadFilesError').classList.add('visible');
                 return;
             }
