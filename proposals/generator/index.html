@@ -108,16 +108,21 @@
                 <div class="field">
                     <label>Project type</label>
                     <select id="projectType" onchange="handleProjectTypeChange()">
-                        <option value="single">Single page</option>
-                        <option value="website">Website</option>
-                        <option value="landing">Landing page</option>
-                        <option value="blog">Blog</option>
-                        <option value="pillar">Pillar page</option>
-                        <option value="social">Social media</option>
-                        <option value="comms">Communications</option>
-                        <option value="branding">Branding</option>
-                        <option value="figma">Figma fidelity</option>
-                        <option value="migration">Migration</option>
+                        <optgroup label="Design & Content">
+                            <option value="single">Single page</option>
+                            <option value="website">Website</option>
+                            <option value="landing">Landing page</option>
+                            <option value="blog">Blog</option>
+                            <option value="pillar">Pillar page</option>
+                            <option value="social">Social media</option>
+                            <option value="comms">Communications</option>
+                            <option value="branding">Branding</option>
+                            <option value="figma">Figma fidelity</option>
+                            <option value="migration">Migration</option>
+                        </optgroup>
+                        <optgroup label="Technical / Systems">
+                            <option value="technical">Technical / Systems</option>
+                        </optgroup>
                     </select>
                 </div>
                 <div class="field">
@@ -136,12 +141,12 @@
                     </select>
                 </div>
             </div>
-            <div class="field-group cols-2">
+            <div class="field-group cols-2" id="narrativeFieldGroup">
                 <div class="field">
                     <label>Narrative</label>
-                    <div class="radio-group" style="display:flex;gap:24px;margin-top:10px;">
-                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="false" style="width:auto;margin:0;"> Strategist writes</label>
-                        <label style="flex-direction:row;font-size:15px;color:#000;text-transform:none;letter-spacing:normal;font-weight:400;margin:0;"><input type="radio" name="narrative" value="true" style="width:auto;margin:0;"> Client delivers copy</label>
+                    <div class="narrative-radio-group">
+                        <label class="radio-label"><input type="radio" name="narrative" value="false" class="radio-input"> Strategist writes</label>
+                        <label class="radio-label"><input type="radio" name="narrative" value="true" class="radio-input"> Client delivers copy</label>
                     </div>
                 </div>
             </div>
@@ -165,7 +170,7 @@
                 <label>Vision body *</label>
                 <textarea id="visionBody" rows="6" placeholder="What's the core ambition of this project?"></textarea>
                             </div>
-            <div class="field" style="margin-top:12px">
+            <div class="field u-mt-12">
                 <label>Footer note (optional)</label>
                 <input type="text" id="visionNote" placeholder="Optional footnote — e.g. 'This is a two-phase project: Brand Identity first, Website second.'">
                             </div>
@@ -196,34 +201,34 @@
                     </div>
         <div class="section-body">
             <div id="roadmapPhases"></div>
-            <div style="display:flex; gap:8px;">
+            <div class="u-flex-gap-8">
                 <button class="btn-add" onclick="addPhase()">+ Add phase</button>
-                <button class="btn-add" style="color:#999; border-color:transparent;" onclick="removeLastPhase()">- Remove phase</button>
+                <button class="btn-remove-phase" onclick="removeLastPhase()">- Remove phase</button>
             </div>
 
             <div class="divider"></div>
-                        <div class="field" style="margin-bottom:12px">
+                        <div class="field u-mb-12">
                 <div class="toggle-group">
                     <button class="toggle-btn active" data-group="platform" data-value="false" onclick="setToggle(this,togglePlatform)">No comparison</button>
                     <button class="toggle-btn" data-group="platform" data-value="true" onclick="setToggle(this,togglePlatform)">Show comparison</button>
                 </div>
             </div>
-            <div id="platformEditor" style="display:none">
+            <div id="platformEditor" class="u-hide">
                 <div class="platform-cards">
                     <div class="platform-card-editor">
                         <h4>Current stack</h4>
-                        <div class="field" style="margin-bottom:10px"><label>Name</label><input type="text" id="platformCurrentName" placeholder="HubSpot Starter"></div>
+                        <div class="field u-mb-10"><label>Name</label><input type="text" id="platformCurrentName" placeholder="HubSpot Starter"></div>
                         <div id="platformCurrentSpecs"></div>
                         <button class="btn-add" onclick="addSpec('currentSpecs')">+ Add spec</button>
                     </div>
                     <div class="platform-card-editor">
                         <h4>Proposed</h4>
-                        <div class="field" style="margin-bottom:10px"><label>Name</label><input type="text" id="platformProposedName" placeholder="Framer"></div>
+                        <div class="field u-mb-10"><label>Name</label><input type="text" id="platformProposedName" placeholder="Framer"></div>
                         <div id="platformProposedSpecs"></div>
                         <button class="btn-add" onclick="addSpec('proposedSpecs')">+ Add spec</button>
                     </div>
                 </div>
-                <div class="field" style="margin-top:12px">
+                <div class="field u-mt-12">
                     <label>Comparison note</label>
                     <input type="text" id="platformNote" placeholder="HubSpot stays as your CRM. Framer replaces HubSpot as the website layer.">
                 </div>
@@ -264,7 +269,7 @@
                             </div>
                     </div>
         <div class="section-body">
-            <div class="field" style="max-width: 200px; margin-bottom: 24px;">
+            <div class="field currency-field">
                 <label>Currency</label>
                 <select id="currencySelector" onchange="updateInvestmentTotal()">
                     <option value="USD">USD ($)</option>
@@ -279,7 +284,7 @@
             <div class="field-group cols-2">
                 <div class="field">
                     <label>Total *</label>
-                    <input type="text" id="investmentTotal" placeholder="$0" readonly style="background:#eee; cursor:not-allowed">
+                    <input type="text" id="investmentTotal" placeholder="$0" readonly class="input-readonly">
                 </div>
                 <div class="field">
                     <label>Payment note</label>
@@ -479,7 +484,7 @@ function addPhase(title='', meta='', steps=[]) {
         <div class="roadmap-phase-header">
             <span class="roadmap-phase-title">Phase ${phaseCount}</span>
         </div>
-        <div class="field-group cols-2" style="margin-bottom:12px">
+        <div class="field-group cols-2 u-mb-12">
             <div class="field"><label>Title</label><input type="text" placeholder="Phase 1 — Brand Identity" value="${title}" class="phase-title"></div>
             <div class="field"><label>Timeline</label><input type="text" placeholder="(Weeks 1–2 · 10–12 days)" value="${meta}" class="phase-meta"></div>
         </div>
@@ -749,17 +754,56 @@ addInvestmentRow('', '');
 function handleProjectTypeChange() {
     const pt = document.getElementById('projectType').value;
     const tier = document.getElementById('projectTier');
+    const scenario = document.getElementById('projectScenario');
     const pagesList = document.getElementById('pagesList');
     const btnAddPage = document.getElementById('btnAddPage');
     const pagesDivider = document.getElementById('pagesDivider');
-    
-    tier.disabled = false;
+    const narrativeGroup = document.getElementById('narrativeFieldGroup');
 
-    // Show/Hide Add Page button and divider
-    const showAddPage = ['website', 'blog', 'migration'].includes(pt);
+    tier.disabled = false;
+    const isTechnical = pt === 'technical';
+
+    // ── NARRATIVE — hide for technical types ─────────────────
+    if (narrativeGroup) narrativeGroup.style.display = isTechnical ? 'none' : '';
+
+    // ── SCENARIO options ──────────────────────────────────────
+    if (isTechnical) {
+        scenario.innerHTML = `
+            <option value="standalone">Standalone</option>
+            <option value="phase0-A">Phase 0 → Scenario A</option>
+            <option value="phase0-B">Phase 0 → Scenario B</option>
+            <option value="full-system">Full System (A + B)</option>
+        `;
+    } else {
+        if (scenario.querySelector('option[value="standalone"]')) {
+            scenario.innerHTML = `
+                <option value="A">Brand-Free</option>
+                <option value="B">Brand-Locked</option>
+            `;
+        }
+    }
+
+    // ── PAGES — hide for technical types ─────────────────────
+    const showAddPage = !isTechnical && ['website', 'blog', 'migration'].includes(pt);
     btnAddPage.style.display = showAddPage ? 'inline-flex' : 'none';
-    pagesDivider.style.display = showAddPage ? 'block' : 'none';
-    
+    pagesDivider.style.display = (showAddPage || (!isTechnical && !['landing','single','pillar','branding','social','figma'].includes(pt))) ? 'block' : 'none';
+
+    // ── TIER options ──────────────────────────────────────────
+    if (isTechnical) {
+        tier.innerHTML = `
+            <option value="catalogue">Catalogue Discovery</option>
+            <option value="design-system">Design System</option>
+            <option value="claude-optimization">Claude Optimization</option>
+            <option value="figma-library">Figma Library</option>
+            <option value="full-system">Full System (A + B)</option>
+        `;
+        // Clear pages — not relevant for technical
+        pagesDivider.style.display = 'none';
+        btnAddPage.style.display = 'none';
+        while (pagesList.children.length > 0) pagesList.removeChild(pagesList.lastChild);
+        return;
+    }
+
     if (pt === 'landing' || pt === 'single' || pt === 'pillar') {
         tier.innerHTML = '<option value="single" selected>Single page</option>';
         tier.disabled = true;

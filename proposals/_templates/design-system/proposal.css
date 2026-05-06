@@ -1,0 +1,357 @@
+/* ── DESIGN SYSTEM PROPOSAL — Moood.Studio ──────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #000000;
+  --paper: #FFFFFF;
+  --ivory: #F0ECE6;
+  --sky: #05C9F5;
+  --neutral-100: #F3F3F3;
+  --neutral-200: #E8E8E8;
+  --neutral-600: #6B6B6B;
+
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --max-width: 760px;
+  --section-pad: 96px 40px;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ── COVER ───────────────────────────────────────────────────────── */
+.cover {
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 100vh;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cover__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--paper);
+  opacity: 0.7;
+}
+
+.cover__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.cover__eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sky);
+  margin-bottom: 24px;
+}
+
+.cover__title {
+  font-size: clamp(56px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.cover__date {
+  margin-top: 32px;
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.cover__for {
+  font-size: 13px;
+  opacity: 0.5;
+  line-height: 1.6;
+}
+
+.cover__contact {
+  font-weight: 600;
+  opacity: 1;
+  color: var(--paper);
+}
+
+/* ── BLOCKS ──────────────────────────────────────────────────────── */
+.block {
+  padding: var(--section-pad);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.block--dark {
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: none;
+}
+
+.block--scenario {
+  background: var(--paper);
+}
+
+.block--alt {
+  background: var(--ivory);
+}
+
+.block--closing {
+  background: var(--neutral-100);
+  text-align: center;
+}
+
+.block__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ── TYPOGRAPHY ──────────────────────────────────────────────────── */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--neutral-600);
+  margin-bottom: 20px;
+}
+
+.eyebrow--light { color: rgba(255,255,255,0.45); }
+
+.block__title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.block__title--light { color: var(--paper); }
+
+.block__body {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #333;
+  max-width: 640px;
+}
+
+.block__body--light { color: rgba(255,255,255,0.75); }
+
+/* ── PAIN GRID ───────────────────────────────────────────────────── */
+.pain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.pain-item {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+  background: var(--neutral-100);
+  border-radius: 8px;
+}
+
+.pain-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  color: var(--sky);
+  margin-top: 2px;
+}
+
+.pain-item p { font-size: 14px; line-height: 1.5; color: #444; }
+
+/* ── FILES GRID ──────────────────────────────────────────────────── */
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.file-card {
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+}
+
+.file-name {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--sky);
+  margin-bottom: 10px;
+}
+
+.file-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+/* ── DELIVERABLES ────────────────────────────────────────────────── */
+.deliverables {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 120px;
+  gap: 24px;
+  padding: 32px;
+  background: var(--neutral-100);
+  border-radius: 12px;
+}
+
+.deliverable-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neutral-600);
+  margin-bottom: 8px;
+}
+
+.deliverable-item p { font-size: 14px; line-height: 1.5; }
+
+.investment { font-size: 28px; font-weight: 800; color: var(--ink); }
+
+/* ── DELIVERABLE LIST ────────────────────────────────────────────── */
+.deliverable-list {
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.deliverable-list li {
+  font-size: 15px;
+  padding: 12px 16px;
+  background: var(--neutral-100);
+  border-radius: 6px;
+  border-left: 3px solid var(--sky);
+}
+
+.block--alt .deliverable-list li { background: rgba(255,255,255,0.6); }
+
+code {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: rgba(0,0,0,0.07);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ── SCENARIO META ───────────────────────────────────────────────── */
+.scenario-meta {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--neutral-200);
+}
+
+.block--alt .scenario-meta { border-top-color: rgba(0,0,0,0.1); }
+
+.meta-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neutral-600);
+  margin-bottom: 6px;
+}
+
+.meta-value { font-size: 36px; font-weight: 800; line-height: 1; }
+
+.meta-value--small { font-size: 14px; line-height: 1.55; color: #444; margin-top: 4px; }
+
+/* ── INVESTMENT TABLE ────────────────────────────────────────────── */
+.investment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 48px 0 24px;
+  color: var(--paper);
+}
+
+.investment-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  padding: 0 0 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.investment-table td {
+  padding: 16px 0;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.investment-table td:last-child { font-weight: 700; text-align: right; }
+.investment-table th:last-child { text-align: right; }
+
+.scenario-row td { opacity: 0.7; }
+
+.investment-table tfoot td {
+  padding-top: 24px;
+  font-size: 18px;
+  font-weight: 800;
+  border-bottom: none;
+  color: var(--sky);
+}
+
+.investment-note {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.6;
+  max-width: 560px;
+}
+
+/* ── EFFICIENCY BAR ──────────────────────────────────────────────── */
+.efficiency-bar {
+  margin-top: 40px;
+  padding: 20px 24px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.efficiency-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── CLOSING ─────────────────────────────────────────────────────── */
+.block--closing .block__title { text-align: center; }
+.block--closing .block__body { margin: 20px auto 32px; text-align: center; }
+
+.cta-contact {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ── PRINT ───────────────────────────────────────────────────────── */
+@media print {
+  .cover { min-height: auto; page-break-after: always; }
+  .block { page-break-inside: avoid; }
+}
