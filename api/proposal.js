@@ -53,7 +53,7 @@ function renderProposal(d, opts = {}) {
         : `<li>Approve this proposal</li><li>${e(d.nextStepTwo) || 'We send a short intake form'}</li><li>Work begins</li>`;
     const investmentRows = (d.investmentRows || []).map(row => `<tr${row.border ? ' class="u-border-black"' : ''}><td>${e(row.label)}</td><td>${e(row.amount)}</td></tr>`).join('');
     const optionalRows = (d.investmentOptionals || []).map(row => `<tr class="optional"><td>${e(row.label)}</td><td>${e(row.amount)}</td></tr>`).join('');
-    const paymentStructureRow = d.paymentStructure ? `<tr class="optional"><td>Payment</td><td>${e(d.paymentStructure)}</td></tr>` : '';
+    const paymentStructureRow = (d.paymentStructure && d.paymentStructure !== 'custom') ? `<tr class="optional"><td>Payment</td><td>${e(d.paymentStructure)}</td></tr>` : '';
     const paymentNoteBlock = d.paymentNote ? `<p class="investment-note">${e(d.paymentNote)}</p>` : '';
     const indexItems = ['The Vision', 'The Diagnosis', 'The Roadmap', 'The Deliverables', 'Investment & Next Steps'].map((label, i) => `<li class="index-item${i === 0 ? ' active' : ''}" data-slide="${i}"><span class="index-number">${String(i + 1).padStart(2, '0')}</span> ${label}</li>`).join('');
     const approvalPayload = JSON.stringify({ clientName: d.clientName, clientEmail: d.clientEmail || '', leadName: d.leadName || '', projectName: d.projectName, projectType: d.projectType || 'website', tier: d.tier || 'medium', pages: d.pages || [], hasNarrative: d.hasNarrative || false, hasBrandkit: d.hasBrandkit || false, scenario: d.scenario || 'A', status: 'Approved' });
