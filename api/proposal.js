@@ -50,9 +50,11 @@ function renderProposal(d, opts = {}) {
         : `${brandingPhase}<div class="deliverable-section"><div class="deliverable-section-title">Website — ${pages.length} pages</div><div class="card-grid"><div class="card"><div class="card-number">Pages included</div><div class="card-body"><ul>${pagesList}</ul></div></div></div></div>`;
     const nextStepsItems = isTechnical
         ? `<li>Approve this proposal</li><li>We'll be in touch within 24 hours to align on kickoff</li><li>Work begins</li>`
-        : `<li>Approve this proposal</li><li>Receive intake form</li><li>Work begins</li>`;
+        : `<li>Approve this proposal</li><li>${e(d.nextStepTwo) || 'We send a short intake form'}</li><li>Work begins</li>`;
     const investmentRows = (d.investmentRows || []).map(row => `<tr${row.border ? ' class="u-border-black"' : ''}><td>${e(row.label)}</td><td>${e(row.amount)}</td></tr>`).join('');
     const optionalRows = (d.investmentOptionals || []).map(row => `<tr class="optional"><td>${e(row.label)}</td><td>${e(row.amount)}</td></tr>`).join('');
+    const paymentStructureRow = d.paymentStructure ? `<tr class="optional"><td>Payment</td><td>${e(d.paymentStructure)}</td></tr>` : '';
+    const paymentNoteBlock = d.paymentNote ? `<p class="investment-note">${e(d.paymentNote)}</p>` : '';
     const indexItems = ['The Vision', 'The Diagnosis', 'The Roadmap', 'The Deliverables', 'Investment & Next Steps'].map((label, i) => `<li class="index-item${i === 0 ? ' active' : ''}" data-slide="${i}"><span class="index-number">${String(i + 1).padStart(2, '0')}</span> ${label}</li>`).join('');
     const approvalPayload = JSON.stringify({ clientName: d.clientName, clientEmail: d.clientEmail || '', leadName: d.leadName || '', projectName: d.projectName, projectType: d.projectType || 'website', tier: d.tier || 'medium', pages: d.pages || [], hasNarrative: d.hasNarrative || false, hasBrandkit: d.hasBrandkit || false, scenario: d.scenario || 'A', status: 'Approved' });
     const overlayConfirmMsg = isTechnical
@@ -66,7 +68,7 @@ function renderProposal(d, opts = {}) {
 <div class="q-slide"><div class="q-slide-container"><p class="slide-eyebrow">The Problem</p><h2 class="slide-title">The Diagnosis</h2><div class="diagnosis-list">${diagnosisItems}</div></div></div>
 <div class="q-slide"><div class="q-slide-container"><p class="slide-eyebrow">Process & Platform</p><h2 class="slide-title">The Roadmap</h2><div class="roadmap-v2">${roadmapPhases}</div>${platformBlock}</div></div>
 <div class="q-slide"><div class="q-slide-container"><p class="slide-eyebrow">What You Receive</p><h2 class="slide-title">The Deliverables</h2>${deliverablesContent}</div></div>
-<div class="q-slide"><div class="q-slide-container"><p class="slide-eyebrow">Investment &amp; Next Steps</p><div class="investment-block"><h2 class="slide-title">Commitment</h2><table class="investment-table">${investmentRows}<tr class="total-row"><td>Total</td><td>${e(d.investmentTotal)}</td></tr></table></div><div class="investment-block"><h2 class="slide-title">Next Steps</h2><ul class="next-steps-list">${nextStepsItems}</ul></div></div></div>
+<div class="q-slide"><div class="q-slide-container"><p class="slide-eyebrow">Investment &amp; Next Steps</p><div class="investment-block"><h2 class="slide-title">Commitment</h2><table class="investment-table">${investmentRows}<tr class="total-row"><td>Total</td><td>${e(d.investmentTotal)}</td></tr>${paymentStructureRow}</table>${paymentNoteBlock}</div><div class="investment-block"><h2 class="slide-title">Next Steps</h2><ul class="next-steps-list">${nextStepsItems}</ul></div></div></div>
 </div><nav class="q-nav"><button class="btn-nav" id="btnPrev" disabled><span>Back</span></button><span id="slideCounter" style="font-size:12px;color:var(--color-gray-muted);letter-spacing:0">01 / 05</span><button class="btn-nav" id="btnNext"><span>Next Chapter</span></button></nav></main></div>
 <script>
 const slides = document.querySelectorAll('.q-slide'); const navItems = document.querySelectorAll('.index-item'); const btnPrev = document.getElementById('btnPrev'); const btnNext = document.getElementById('btnNext'); const slideCounter = document.getElementById('slideCounter'); let current = 0; const PREVIEW_MODE = ${previewMode};
