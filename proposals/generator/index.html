@@ -611,7 +611,8 @@ function collectData() {
         alert('Client name and Project name are required.');
         return null;
     }
-    if (!document.querySelector('input[name="narrative"]:checked')) {
+    const isTechnicalType = document.getElementById('projectType').value === 'technical';
+    if (!isTechnicalType && !document.querySelector('input[name="narrative"]:checked')) {
         alert('Please select who delivers the copy: Strategist writes or Client delivers copy.');
         return null;
     }
@@ -676,7 +677,7 @@ function collectData() {
         projectType: document.getElementById('projectType').value,
         tier: document.getElementById('projectTier').value,
         scenario: document.getElementById('projectScenario').value,
-        hasNarrative: document.querySelector('input[name="narrative"]:checked').value === 'true',
+        hasNarrative: document.querySelector('input[name="narrative"]:checked')?.value === 'true',
         hasBrandkit: document.getElementById('projectScenario').value !== 'A',
         pages, visionParagraphs,
         visionNote: v('visionNote').replace(/\[CLIENT_NAME\]/g, clientName),
