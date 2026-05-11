@@ -13,6 +13,11 @@
             "source": "/treinos",
             "destination": "/treinos/",
             "permanent": false
+        },
+        {
+            "source": "/anthros/catalog",
+            "destination": "/anthros/catalog/",
+            "permanent": false
         }
     ],
     "rewrites": [
@@ -36,9 +41,13 @@
         { "source": "/admin/generate", "destination": "/proposals/generator/index.html" },
         { "source": "/narrative-review", "destination": "/proposals/narrative-review/index.html" },
         { "source": "/p/:id", "destination": "/api/proposal?id=:id" },
-        { "source": "/treinos/", "destination": "https://treinosbuild.vercel.app/treinos/" },
-        { "source": "/treinos/:path*", "destination": "https://treinosbuild.vercel.app/treinos/:path*" },
+        { "source": "/treinos/", "destination": "https://dani-treinos.vercel.app/" },
+        { "source": "/treinos/:path*", "destination": "https://dani-treinos.vercel.app/:path*" },
         { "source": "/club-pilates-remix/", "destination": "https://club-pilates-remix.vercel.app/" },
-        { "source": "/club-pilates-remix/:path*", "destination": "https://club-pilates-remix.vercel.app/:path*" }
+        { "source": "/club-pilates-remix/:path*", "destination": "https://club-pilates-remix.vercel.app/:path*" },
+
+        { "source": "/anthros/catalog", "destination": "https://anthros-catalog.vercel.app/" },
+        { "source": "/anthros/catalog/", "destination": "https://anthros-catalog.vercel.app/" },
+        { "source": "/anthros/catalog/:path*", "destination": "https://anthros-catalog.vercel.app/:path*" }
     ]
 }

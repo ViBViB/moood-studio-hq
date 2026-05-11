@@ -11,16 +11,17 @@
         const MIN_SECTIONS = 3;
 
         // Path arrays — index → slide element ID
-        const STRATEGY_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-page-obj', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const STRATEGY_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         const NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-upload', 'slide-1', 'slide-2', 'slide-3', 'slide-processing', 'slide-sitemap-review'];
         const SINGLE_NARRATIVE_PATH = ['slide-0', 'slide-scope', 'slide-upload', 'slide-1', 'slide-2', 'slide-3', 'slide-processing', 'slide-page-review'];
-        const DEFAULT_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-page-obj', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const DEFAULT_PATH = ['slide-0', 'slide-scope', 'slide-1', 'slide-2', 'slide-3', 'slide-sources', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
 
         // Code-activated paths — welcome screen + scenario-conditional slides
         // Scenario A (Brand-Free): Sources → Visual refs → Brand assets → Competition → Audience → Conversion → Submit
-        const CODE_A_STRATEGY    = ['slide-code', 'slide-sources', 'slide-page-obj', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        // NOTE: slide-page-obj removed from all paths — feature deferred until sitemap population is solved for no-code path
+        const CODE_A_STRATEGY    = ['slide-code', 'slide-sources', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario B/C/D (Brand-Locked): Visual refs removed, Brand assets is primary
-        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-sources', 'slide-page-obj', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
+        const CODE_BCD_STRATEGY  = ['slide-code', 'slide-sources', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-7'];
         // Scenario A + client provides narrative
         const CODE_A_NARRATIVE   = ['slide-code', 'slide-1', 'slide-2', 'slide-st-competition', 'slide-st-audience', 'slide-st-conversion', 'slide-upload', 'slide-processing', 'slide-page-review'];
         // Scenario B/C/D + client provides narrative
