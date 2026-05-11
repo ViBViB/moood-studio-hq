@@ -231,16 +231,23 @@ module.exports = async (req, res) => {
                     sourcesContent
                 });
 
+                const attachments = sourceFilesList.map(f => ({
+                    filename: f.filename,
+                    content: f.buffer,
+                    contentType: f.mimeType
+                }));
+
                 await resend.emails.send({
                     from: 'Moood Intake <notifications@moood.studio>',
                     to: ['alberto.contreras@gmail.com'],
                     subject: `[STRATEGY INTAKE] ${projectName}`,
-                    html: buildEmail({ 
-                        projectName, 
-                        context: 'Strategy', 
-                        headline: 'Intake Received.', 
-                        body: `<pre style="white-space:pre-wrap; font-family:monospace; font-size:13px; background:#f7f7f7; padding:20px; border-radius:8px; border:1px solid #eee;">${prompt}</pre>` 
-                    })
+                    html: buildEmail({
+                        projectName,
+                        context: 'Strategy',
+                        headline: 'Intake Received.',
+                        body: `<pre style="white-space:pre-wrap; font-family:monospace; font-size:13px; background:#f7f7f7; padding:20px; border-radius:8px; border:1px solid #eee;">${prompt}</pre>`
+                    }),
+                    attachments
                 });
                 return res.status(200).json({ success: true, path: 'strategy' });
             }
