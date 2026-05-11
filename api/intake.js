@@ -76,11 +76,14 @@ async function callGeminiJson(prompt) {
 
 // --- HELPERS ---
 function generateStrategyPrompt(data) {
-    const { leadName, projectName, scenario, hasNarrative, pages, visualRefs } = data;
+    const { leadName, projectName, scenario, hasNarrative, pages, visualRefs, sourcesContent } = data;
     const pagesList = (pages || []).map(p => `- ${p.name || p} — ${p.type || 'landing'}`).join('\n');
     const refsList = (Array.isArray(visualRefs) ? visualRefs : []).join('\n');
     const scenarioLabel = scenario === 'A' ? 'A — Brand-Free' : (scenario || 'A — Brand-Free');
-    
+    const sourcesBlock = sourcesContent
+        ? `\n## Sources & Evidence (Client-Provided)\n${sourcesContent}\n`
+        : '';
+
     if (hasNarrative) {
         return `
 /strategy-director
@@ -91,9 +94,9 @@ function generateStrategyPrompt(data) {
 **Mode:** NARRATIVE-PROVIDED — client copy is LOCKED. Do not write narrative.
 
 ## [GATE 0] — MANDATORY WORKSPACE ISOLATION
-1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/Audi-AG\`.
+1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/${projectName}\`.
 2. **Strict Versioning**: You MUST increment the version number by exactly +1.
-3. **Ghost Creation**: Create the new folder \`PROJECTS/Audi-AG-V[N]\`.
+3. **Ghost Creation**: Create the new folder \`PROJECTS/${projectName}-V[N]\`.
 
 ## Project Protocol (Phase-by-Phase)
 1. **Phase 1 (Setup)**: Generate \`01-PRD.md\` — mark narrative as CLIENT-LOCKED.
@@ -103,7 +106,7 @@ function generateStrategyPrompt(data) {
 
 ## Pages
 ${pagesList}
-
+${sourcesBlock}
 ## Visual References
 ${refsList}
         `.trim();
@@ -116,9 +119,9 @@ ${refsList}
 **Scenario:** ${scenarioLabel}
 
 ## [GATE 0] — MANDATORY WORKSPACE ISOLATION
-1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/Audi-AG\`.
+1. **Research Requirement**: Run \`ls PROJECTS/\` to identify the highest existing version of \`PROJECTS/${projectName}\`.
 2. **Strict Versioning**: You MUST increment the version number by exactly +1.
-3. **Ghost Creation**: Create the new folder \`PROJECTS/Audi-AG-V[N]\`.
+3. **Ghost Creation**: Create the new folder \`PROJECTS/${projectName}-V[N]\`.
 
 ## Project Protocol (Phase-by-Phase)
 1. **Phase 1 (Setup)**: Generate \`01-PRD.md\`
@@ -129,7 +132,7 @@ ${refsList}
 
 ## Pages
 ${pagesList}
-
+${sourcesBlock}
 ## Visual References
 ${refsList}
         `.trim();
@@ -209,13 +212,23 @@ module.exports = async (req, res) => {
 
             // STRATEGY PATH (Legacy prompt generation)
             if (intakePath === 'strategy') {
-                const prompt = generateStrategyPrompt({ 
-                    projectName, 
-                    leadName, 
-                    scenario: scenario || 'A', 
-                    hasNarrative: false, 
+                const sourceFilesList = files.filter(f => f.fieldname === 'sourceFiles');
+                const extractedSources = await Promise.all(
+                    sourceFilesList.map(async f => {
+                        const text = await extractText(f.buffer, f.filename, f.mimeType);
+                        return `### ${f.filename}\n${text.slice(0, 3000)}`;
+                    })
+                );
+                const sourcesContent = extractedSources.length > 0 ? extractedSources.join('\n\n') : null;
+
+                const prompt = generateStrategyPrompt({
+                    projectName,
+                    leadName,
+                    scenario: scenario || 'A',
+                    hasNarrative: false,
                     visualRefs,
-                    pages: scope === 'single' ? ['Landing Page'] : ['Homepage', 'About', 'Services'] // Fallback if no pages list
+                    pages: scope === 'single' ? ['Landing Page'] : ['Homepage', 'About', 'Services'],
+                    sourcesContent
                 });
 
                 await resend.emails.send({
