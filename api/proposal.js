@@ -198,7 +198,7 @@ module.exports = async (req, res) => {
                 await resend.emails.send({
                     from: 'Moood Studio <notifications@moood.studio>',
                     to: ['alberto.contreras@gmail.com'],
-                    subject: `[APPROVED] ${data.clientName} — ${data.investmentTotal || data.projectName}`,
+                    subject: `[APPROVED] ${data.clientName} — ${data.scenario || data.projectName} — ${data.investmentTotal || '—'}`,
                     html: buildEmail({
                         projectName: data.projectName,
                         context: 'New Approval',
