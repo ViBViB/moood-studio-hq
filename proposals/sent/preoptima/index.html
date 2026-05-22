@@ -506,12 +506,9 @@ body {
 }
 
 .deliverable-section-title {
-    font-size: 14px;
-    /* User Request: Min 14px (was 10px) */
+    font-size: 22px;
     font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.35);
+    color: #111;
     margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -551,6 +548,15 @@ body {
     font-size: 14px;
     /* User Request: Min 14px (was 12px) */
     color: #777;
+    line-height: 1.5;
+}
+
+.deliverable-note {
+    font-size: 13px;
+    color: #888;
+    border-left: 2px solid rgba(0,0,0,0.12);
+    padding-left: 12px;
+    margin-top: 20px;
     line-height: 1.5;
 }
 
@@ -700,6 +706,146 @@ body {
 
 .u-text-black {
     color: var(--color-black) !important;
+}
+
+/* ── SCENARIO BLOCKS ── */
+.scenario-block {
+    border: 1.5px solid rgba(0,0,0,0.08);
+    padding: 40px 40px 32px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.scenario-block--recommended {
+    border-color: var(--color-black);
+    border-width: 2px;
+}
+
+.scenario-badge {
+    position: absolute;
+    top: -1px;
+    left: 40px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: 4px 10px;
+    transform: translateY(-100%);
+}
+
+.scenario-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gray-muted);
+    margin-bottom: 8px;
+}
+
+.scenario-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+
+.scenario-desc {
+    font-size: 14px;
+    color: var(--color-gray-text);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    max-width: 520px;
+}
+
+.btn-scenario-approve {
+    width: 100%;
+    margin-top: 24px;
+    padding: 18px 32px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--color-black);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.btn-scenario-approve:hover {
+    background: #222;
+}
+
+.btn-scenario-approve:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* ── NARRATIVE ROW ── */
+.narrative-row td {
+    color: #ccc;
+    font-size: 16px !important;
+    transition: color 0.25s;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+.narrative-row.narrative-active td {
+    color: var(--color-black);
+}
+
+.narrative-row td:last-child {
+    font-weight: 400 !important;
+    color: #ccc;
+}
+
+.narrative-row.narrative-active td:last-child {
+    color: var(--color-black);
+    font-weight: 700 !important;
+}
+
+.narrative-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.narrative-check input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid rgba(0,0,0,0.2);
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+    margin: 0;
+}
+
+.narrative-check input[type="checkbox"]:checked {
+    background: var(--color-black);
+    border-color: var(--color-black);
+}
+
+.narrative-check input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: 2px solid white;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
 }
 
 /* ── COMPONENT NOTES ── */
@@ -1117,7 +1263,7 @@ body {
 </svg>
         <div class="pdf-cover__meta">
             Brand &amp; Website Proposal<br>
-            April 2026
+            May 2026
         </div>
     </div>
     <div class="pdf-cover__body">
@@ -1127,7 +1273,7 @@ body {
     </div>
     <div class="pdf-cover__bottom">
         <span>Moood.Studio — Strategic Creative Agency</span>
-        <span>Confidential · April 2026</span>
+        <span>Confidential · May 2026</span>
     </div>
 </div>
 
@@ -1169,10 +1315,6 @@ body {
                 <span>Download PDF</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <button class="btn-proposal btn-approve" id="btnApprove" onclick="approveProposal(this)">
-                <span>Approve Proposal</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
         </header>
 
         <div class="q-slider-viewport" id="sliderViewport">
@@ -1257,17 +1399,17 @@ body {
                         <div class="roadmap-v2__item">
                             <div class="roadmap-v2__number">02</div>
                             <div class="roadmap-v2__content">
-                                <h3 class="roadmap-v2__title">Phase 2 — Website Design & Build <span class="roadmap-v2__meta">(Weeks 3–4 &nbsp;·&nbsp; 2 weeks)</span></h3>
+                                <h3 class="roadmap-v2__title">Phase 2 — Website Design &amp; Build <span class="roadmap-v2__meta">(Weeks 3–6 &nbsp;·&nbsp; 3–4 weeks)</span></h3>
                                 <div class="roadmap-v2__steps">
                                     <span>Structure</span>
                                     <span class="sep">→</span>
                                     <span>Visual Design</span>
                                     <span class="sep">→</span>
-                                    <span>Framer Build</span>
+                                    <span>HTML/CSS Build</span>
                                     <span class="sep">→</span>
-                                    <span>Content Migration</span>
+                                    <span>Accessibility QA</span>
                                     <span class="sep">→</span>
-                                    <span>QA & Launch</span>
+                                    <span>Dev Handoff</span>
                                 </div>
                             </div>
                         </div>
@@ -1275,26 +1417,26 @@ body {
 
                     <div class="platform-shift u-mt-32">
                         <div class="platform-card platform-card--current">
-                            <div class="platform-card__label">Current Tech Stack</div>
-                            <h4 class="platform-card__name">HubSpot Starter</h4>
+                            <div class="platform-card__label">Current Constraint</div>
+                            <h4 class="platform-card__name">HubSpot Lock-in</h4>
                             <ul class="platform-card__specs">
                                 <li><span>Cost</span> <span>~$500/mo</span></li>
                                 <li><span>Design</span> <span>Restricted</span></li>
-                                <li><span>Autonomy</span> <span>Low</span></li>
+                                <li><span>Dev access</span> <span>None</span></li>
                             </ul>
                         </div>
                         <div class="platform-card platform-card--proposed">
-                            <div class="platform-card__label">Proposed Efficiency</div>
-                            <h4 class="platform-card__name">Framer</h4>
+                            <div class="platform-card__label">What We Deliver</div>
+                            <h4 class="platform-card__name">Stack-agnostic</h4>
                             <ul class="platform-card__specs">
-                                <li><span>Cost</span> <span>~$30/mo</span></li>
+                                <li><span>Cost</span> <span>Your stack</span></li>
                                 <li><span>Design</span> <span>Full Custom</span></li>
-                                <li><span>Autonomy</span> <span>High</span></li>
+                                <li><span>Dev access</span> <span>Full</span></li>
                             </ul>
-                            <div class="platform-card__badge">Recommended</div>
+                            <div class="platform-card__badge">Clean handoff</div>
                         </div>
                     </div>
-                    <p class="compare-note">HubSpot stays as your CRM. Framer replaces HubSpot as the website layer only. Nothing in your sales workflow changes.</p>
+                    <p class="compare-note">We deliver production-ready HTML/CSS components. Your team integrates them into your chosen stack — Astro, Sanity, or any other. No platform dependency, no lock-in.</p>
                 </div>
             </div>
 
@@ -1309,7 +1451,7 @@ body {
                     <h2 class="slide-title">The Deliverables</h2>
 
                     <div class="deliverable-section">
-                        <div class="deliverable-section-title">Phase 1 — Brand Identity</div>
+                        <h3 class="deliverable-section-title">Brand Identity</h3>
                         <div class="deliverable-list">
                             <div class="deliverable-item">
                                 <div class="deliverable-bullet"></div>
@@ -1354,59 +1496,62 @@ body {
                     </div>
 
                     <div class="deliverable-section">
-                        <div class="deliverable-section-title">Phase 2 — Website (8 pages)</div>
+                        <h3 class="deliverable-section-title">Website Design</h3>
                         <div class="card-grid">
                             <div class="card">
-                                <div class="card-number">Pages included</div>
+                                <div class="card-number">Pages designed</div>
                                 <div class="card-body">
                                     <ul>
                                         <li>Home</li>
                                         <li>CONCEPT</li>
                                         <li>PACER</li>
                                         <li>About</li>
-                                        <li>Contact / Book a Demo</li>
                                         <li>Blog Index — The Carbon Source</li>
                                         <li>Blog Post Template</li>
-                                        <li>+ 1 page of your choice</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-number">Technical</div>
+                                <div class="card-number">Design system</div>
                                 <div class="card-body">
                                     <ul>
-                                        <li>Framer CMS configured</li>
-                                        <li>Blog CMS — editorial pipeline</li>
-                                        <li>Forms integrated</li>
-                                        <li>SEO setup</li>
-                                        <li>Mobile responsive</li>
+                                        <li>Component library</li>
+                                        <li>Design tokens</li>
+                                        <li>Desktop &amp; mobile breakpoints</li>
+                                        <li>WCAG accessible</li>
+                                        <li>SEO-ready markup</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="deliverable-list u-mt-16">
+                    </div>
+
+                    <div class="deliverable-section">
+                        <h3 class="deliverable-section-title">HTML/CSS Production Build</h3>
+                        <div class="deliverable-list">
                             <div class="deliverable-item">
                                 <div class="deliverable-bullet"></div>
                                 <div class="deliverable-text">
-                                    <strong>Framer project — yours to own</strong>
-                                    <span>Full ownership of the project file. Update copy, swap images, publish new posts independently — no coding required.</span>
+                                    <strong>Semantic HTML structure</strong>
+                                    <span>Clean, accessible markup — headings, landmarks, ARIA where needed.</span>
                                 </div>
                             </div>
                             <div class="deliverable-item">
                                 <div class="deliverable-bullet"></div>
                                 <div class="deliverable-text">
-                                    <strong>Content migration from HubSpot</strong>
-                                    <span>All existing Carbon Source posts migrated into Framer CMS — formatted, tagged, and SEO-ready. HubSpot blog sunsetted cleanly, no broken links.</span>
+                                    <strong>CSS component library</strong>
+                                    <span>Fully documented, mobile responsive. Your team owns the code — no platform dependency, no lock-in.</span>
                                 </div>
                             </div>
                             <div class="deliverable-item">
                                 <div class="deliverable-bullet"></div>
                                 <div class="deliverable-text">
-                                    <strong>Handoff session</strong>
-                                    <span>30-minute walkthrough so your team can publish posts, update pages, and manage the full site from day one without needing to call us.</span>
+                                    <strong>Dev handoff session</strong>
+                                    <span>60-minute technical walkthrough — component structure, token architecture, and integration guide for your chosen stack (Astro, Sanity, Next.js).</span>
                                 </div>
                             </div>
                         </div>
+                        <p class="deliverable-note">Option B delivers this layer as a Figma Design System instead — component library, design tokens, interactive prototype, and annotation layer for devs.</p>
                     </div>
                 </div>
             </div>
@@ -1419,42 +1564,79 @@ body {
                 </div>
                 
                     <p class="slide-eyebrow">Investment & Next Steps</p>
+                    <h2 class="slide-title">Choose Your Path</h2>
 
-                    <!-- BLOCK 1: COMMITMENT -->
-                    <div class="investment-block">
-                        <h2 class="slide-title">Commitment</h2>
+                    <!-- OPTION A: FULL REDESIGN -->
+                    <div class="scenario-block scenario-block--recommended">
+                        <div class="scenario-badge">Recommended</div>
+                        <div class="scenario-eyebrow">Option A</div>
+                        <h3 class="scenario-title">HTML/CSS Delivery</h3>
+                        <p class="scenario-desc">Brand Identity + Website Design + HTML/CSS Production Build. We handle every layer — your developers integrate on day one.</p>
                         <table class="investment-table">
                             <tr>
-                                <td>Brand Identity + Website Redesign <span class="u-text-small">(8 pages)</span></td>
-                                <td>$4,800</td>
+                                <td>Phase 1 — Brand Identity</td>
+                                <td>$2,500</td>
                             </tr>
-                            <tr class="u-border-black">
-                                <td>Content Migration — The Carbon Source <span class="u-text-small">(up to 15 posts from HubSpot to Framer)</span></td>
-                                <td>$400</td>
+                            <tr>
+                                <td>Phase 2 — Website Design + HTML/CSS Build <span class="u-text-small">(5 pages + Blog)</span></td>
+                                <td>$2,700</td>
+                            </tr>
+                            <tr class="narrative-row" id="narrative-row-a">
+                                <td>
+                                    <label class="narrative-check">
+                                        <input type="checkbox" id="narrative-check-a" onchange="toggleNarrative('a')">
+                                        <span>+ Narrative Strategy <span class="u-text-small">(Moood Studio writes all copy — starting at $900)</span></span>
+                                    </label>
+                                </td>
+                                <td id="narrative-price-a">+$900</td>
                             </tr>
                             <tr class="total-row">
                                 <td>Total</td>
-                                <td>$5,200</td>
-                            </tr>
-                            <tr class="optional">
-                                <td>+ Narrative Strategy <span class="u-text-small">(optional — we write all copy)</span></td>
-                                <td>+$900</td>
+                                <td id="total-a">$5,200</td>
                             </tr>
                         </table>
+                        <button class="btn-scenario-approve" onclick="approveScenario(this, 'a', 'Option A — HTML/CSS Delivery', 5200)">
+                            <span>Approve HTML/CSS Delivery</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
                     </div>
 
-                    <!-- BLOCK 2: NEXT STEPS -->
-                    <div class="investment-block">
-                        <h2 class="slide-title">Next Steps</h2>
-                        <ul class="next-steps-list">
-                            <li>Approve this proposal — button above or reply to this email</li>
-                            <li>We send a short brand intake form — references, competitors, and technical requirements</li>
-                            <li>Work begins within 3 business days of intake completion</li>
-                        </ul>
+                    <!-- OPTION B: FIGMA DELIVERY -->
+                    <div class="scenario-block">
+                        <div class="scenario-eyebrow">Option B</div>
+                        <h3 class="scenario-title">Figma Delivery</h3>
+                        <p class="scenario-desc">Same design depth as Option A — Brand Identity + complete Design System — delivered as a production-ready Figma library. Your developers build directly from it. Ideal if you have a strong in-house front-end team.</p>
+                        <table class="investment-table">
+                            <tr>
+                                <td>Phase 1 — Brand Identity</td>
+                                <td>$2,500</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 2 — Website Design System <span class="u-text-small">(Figma — 5 pages + Blog)</span></td>
+                                <td>$2,400</td>
+                            </tr>
+                            <tr class="narrative-row" id="narrative-row-b">
+                                <td>
+                                    <label class="narrative-check">
+                                        <input type="checkbox" id="narrative-check-b" onchange="toggleNarrative('b')">
+                                        <span>+ Narrative Strategy <span class="u-text-small">(Moood Studio writes all copy — starting at $900)</span></span>
+                                    </label>
+                                </td>
+                                <td id="narrative-price-b">+$900</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>Total</td>
+                                <td id="total-b">$4,900</td>
+                            </tr>
+                        </table>
+                        <button class="btn-scenario-approve" onclick="approveScenario(this, 'b', 'Option B — Figma Delivery', 4900)">
+                            <span>Approve Figma Delivery</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
                     </div>
 
-                    <p class="investment-note">Prices in USD. GBP / EUR equivalent available on request.</p>
-                    <p class="investment-note" style="margin-top:8px">Moood.Studio · April 2026</p>
+                    <p class="investment-note">Prices in USD. GBP equivalent on request. Payment terms: 50% on kick-off, 50% on final delivery.</p>
+                    <p class="investment-note" style="margin-top:8px">Moood.Studio · May 2026</p>
                 </div>
             </div>
 
@@ -1491,7 +1673,7 @@ body {
         slides[current].classList.add('active');
         indexItems[current].classList.add('active');
         btnPrev.disabled = current === 0;
-        btnNext.querySelector('span').textContent = current === slides.length - 1 ? 'Approve Project' : 'Next Chapter';
+        btnNext.style.visibility = current === slides.length - 1 ? 'hidden' : 'visible';
         slideCounter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
         slides[current].scrollTop = 0;
     }
@@ -1499,53 +1681,71 @@ body {
     btnPrev.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
     btnNext.addEventListener('click', () => {
         if (current < slides.length - 1) goTo(current + 1);
-        else approveProposal();
     });
 
     indexItems.forEach(item => {
         item.addEventListener('click', () => goTo(parseInt(item.dataset.slide)));
     });
 
-    // Data Recovery: Extract client info from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const clientEmail = urlParams.get('client_email');
-    const clientNameInUrl = urlParams.get('client_name');
+    const NARRATIVE_PRICE = 900;
+    const BASE_PRICES = { a: 5200, b: 4900 };
 
-    async function approveProposal(btnElement) {
-        const btn = btnElement || document.getElementById('btnApprove');
-        if (!btn) return;
-        const originalText = btn.innerText;
+    function toggleNarrative(optionKey) {
+        const checkbox = document.getElementById('narrative-check-' + optionKey);
+        const row = document.getElementById('narrative-row-' + optionKey);
+        const totalEl = document.getElementById('total-' + optionKey);
+        const base = BASE_PRICES[optionKey];
 
-        if (!confirm("Are you sure you want to approve this proposal? This will notify the Moood.Studio team.")) return;
+        if (checkbox.checked) {
+            row.classList.add('narrative-active');
+            totalEl.textContent = '$' + (base + NARRATIVE_PRICE).toLocaleString();
+        } else {
+            row.classList.remove('narrative-active');
+            totalEl.textContent = '$' + base.toLocaleString();
+        }
+    }
+
+    async function approveScenario(btnElement, optionKey, optionLabel, basePrice) {
+        const btn = btnElement;
+        if (!btn || btn.disabled) return;
+
+        const narrativeCheckbox = document.getElementById('narrative-check-' + optionKey);
+        const withNarrative = narrativeCheckbox && narrativeCheckbox.checked;
+        const totalPrice = withNarrative ? basePrice + NARRATIVE_PRICE : basePrice;
+        const fullLabel = optionLabel + (withNarrative ? ' + Narrative' : '');
+
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.querySelector('span').textContent = 'Processing...';
 
         try {
-            btn.innerText = "Processing...";
-            btn.disabled = true;
-
             const response = await fetch('/api/approve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    clientName: clientNameInUrl || 'Preoptima',
-                    clientEmail: clientEmail || 'Not Provided',
-                    projectName: 'Preoptima Proposal',
+                    clientName: 'Preoptima',
+                    clientEmail: 'alex@preoptima.com',
+                    projectName: 'Brand & Website Redesign — ' + fullLabel,
+                    projectType: 'website',
+                    scenario: fullLabel,
+                    investmentTotal: '$' + totalPrice.toLocaleString(),
                     status: 'Approved'
                 })
             });
 
             if (response.ok) {
-                btn.innerText = "PROJECT APPROVED";
-                btn.style.background = "#000";
-                btn.style.color = "#fff";
-                window.location.href = 'thank-you.html';
+                btn.querySelector('span').textContent = '✓ Approved — We\'ll be in touch shortly';
+                btn.style.background = '#111';
+                document.querySelectorAll('.btn-scenario-approve').forEach(b => b.disabled = true);
+                setTimeout(() => { window.location.href = 'thank-you.html'; }, 1800);
             } else {
-                throw new Error('Notification failed');
+                throw new Error('API error');
             }
         } catch (err) {
             console.error(err);
-            btn.innerText = originalText;
+            btn.innerHTML = originalHTML;
             btn.disabled = false;
-            alert("Something went wrong. Please try again or contact Alberto directly.");
+            alert('Something went wrong. Please try again or email alberto@moood.studio directly.');
         }
     }
 </script>
