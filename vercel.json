@@ -5,6 +5,16 @@
     },
     "redirects": [
         {
+            "source": "/proposals/preoptima",
+            "destination": "/proposals/sent/preoptima/",
+            "permanent": false
+        },
+        {
+            "source": "/proposals/preoptima/",
+            "destination": "/proposals/sent/preoptima/",
+            "permanent": false
+        },
+        {
             "source": "/club-pilates-remix",
             "destination": "/club-pilates-remix/",
             "permanent": false
