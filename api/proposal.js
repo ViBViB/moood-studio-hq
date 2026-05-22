@@ -191,15 +191,23 @@ module.exports = async (req, res) => {
                 await redis.set(`codes/${code}`, { ...data, code, createdAt: new Date().toISOString() });
 
                 // Notify Alberto
+                const narrativeIncluded = (data.scenario || data.projectName || '').includes('+ Narrative');
+                const narrativeNote = narrativeIncluded
+                    ? '+ Narrative Strategy included — Moood Studio writes all copy.'
+                    : 'Narrative not included — client provides copy.';
                 await resend.emails.send({
                     from: 'Moood Studio <notifications@moood.studio>',
                     to: ['alberto.contreras@gmail.com'],
-                    subject: `Project ${data.projectName} approved`,
+                    subject: `[APPROVED] ${data.clientName} — ${data.investmentTotal || data.projectName}`,
                     html: buildEmail({
                         projectName: data.projectName,
-                        context: 'Proposal Approved',
-                        headline: `${data.projectName}<br>is confirmed.`,
-                        body: `Proposal approved by ${data.clientName}.`,
+                        context: 'New Approval',
+                        headline: `${data.clientName}<br>just approved.`,
+                        body: [
+                            `<strong style="color:#000;">${data.scenario || data.projectName}</strong>`,
+                            `Total confirmed: <strong style="color:#000;">${data.investmentTotal || '—'}</strong>`,
+                            narrativeNote,
+                        ],
                         highlight: codeBlock(code),
                         cta: { href: `https://moood.studio/client-intake?code=${shortCode}`, label: 'Open Intake Form →' },
                         linkFallback: `https://moood.studio/client-intake?code=${shortCode}`,
