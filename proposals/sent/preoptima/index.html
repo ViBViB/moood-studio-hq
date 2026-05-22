@@ -888,6 +888,247 @@ body {
     display: none;
 }
 
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+    body {
+        height: 100dvh;
+        overflow: hidden;
+    }
+
+    .q-layout {
+        flex-direction: column;
+        height: 100dvh;
+    }
+
+    /* Sidebar → compact top bar */
+    .q-sidebar {
+        width: 100%;
+        height: auto;
+        padding: 14px 20px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .logo-img {
+        height: 32px;
+    }
+
+    .q-sidebar-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+    }
+
+    .q-h1 {
+        font-size: 9px;
+        margin-bottom: 0;
+    }
+
+    .client-name {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .proposal-index,
+    .q-sidebar-footer {
+        display: none;
+    }
+
+    /* Main */
+    .q-main {
+        flex: 1;
+        min-height: 0;
+    }
+
+    .proposal-header {
+        height: 52px;
+        padding: 0 20px;
+    }
+
+    .btn-proposal {
+        padding: 10px 16px;
+        font-size: 10px;
+        min-width: auto;
+    }
+
+    /* Slides */
+    .q-slide {
+        padding: 28px 20px 24px;
+    }
+
+    .q-slide-container {
+        max-width: 100%;
+    }
+
+    .slide-eyebrow {
+        margin-bottom: 10px;
+    }
+
+    .slide-title {
+        font-size: clamp(24px, 7vw, 34px);
+        margin-bottom: 20px;
+    }
+
+    .slide-body {
+        font-size: 15px;
+    }
+
+    .slide-footer-note {
+        font-size: 13px;
+        margin-top: 24px;
+        padding-top: 24px;
+    }
+
+    /* Cards */
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    /* Diagnosis */
+    .diagnosis-item {
+        padding: 20px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .diagnosis-content strong {
+        font-size: 15px;
+    }
+
+    .diagnosis-content span {
+        font-size: 13px;
+    }
+
+    /* Roadmap */
+    .roadmap-v2 {
+        padding-left: 36px;
+        margin-top: 16px;
+    }
+
+    .roadmap-v2__item {
+        margin-bottom: 32px;
+    }
+
+    .roadmap-v2__number {
+        left: -36px;
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+    }
+
+    .roadmap-v2__title {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .roadmap-v2__meta {
+        font-size: 13px;
+        display: block;
+        margin-top: 2px;
+    }
+
+    .roadmap-v2__steps {
+        font-size: 13px;
+        gap: 6px;
+    }
+
+    /* Platform shift */
+    .platform-shift {
+        grid-template-columns: 1fr;
+    }
+
+    .platform-card {
+        padding: 20px;
+    }
+
+    .platform-card__badge {
+        top: 20px;
+        right: 20px;
+    }
+
+    /* Deliverables */
+    .deliverable-section {
+        margin-bottom: 40px;
+    }
+
+    .deliverable-section-title {
+        font-size: 18px;
+    }
+
+    .deliverable-text strong {
+        font-size: 15px;
+    }
+
+    .deliverable-text span {
+        font-size: 13px;
+    }
+
+    .deliverable-note {
+        font-size: 12px;
+    }
+
+    /* Investment */
+    .scenario-block {
+        padding: 28px 20px 24px;
+    }
+
+    .scenario-badge {
+        left: 20px;
+    }
+
+    .scenario-title {
+        font-size: 18px;
+    }
+
+    .scenario-desc {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .investment-table td {
+        font-size: 14px;
+        padding: 12px 0;
+    }
+
+    .narrative-row td {
+        font-size: 13px !important;
+    }
+
+    .narrative-check {
+        gap: 8px;
+    }
+
+    .narrative-check span {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    /* Bottom nav */
+    .q-nav {
+        padding: 12px 20px;
+    }
+
+    .btn-nav {
+        padding: 12px 16px;
+        font-size: 10px;
+        min-width: auto;
+        gap: 8px;
+    }
+
+    .slide-counter {
+        font-size: 11px;
+    }
+}
+
 @media print {
     .pdf-cover {
         display: flex !important;
