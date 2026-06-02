@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anthros × Moood.Studio — Phase 2</title>
+  <style>
+    :root {
+      --sidebar-width: 25%;
+      --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --black: #000000;
+      --white: #ffffff;
+      --gray-soft: #fafafa;
+      --gray-border: rgba(0,0,0,0.06);
+      --gray-text: #666;
+      --gray-muted: rgba(0,0,0,0.3);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: var(--white);
+      display: flex;
+      font-family: var(--font-main);
+      font-size: 16px;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--black);
+      color: var(--white);
+      padding: 64px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      height: 52px;
+      width: auto;
+      filter: invert(1) brightness(10);
+      display: block;
+    }
+
+    .sidebar-mid { margin-top: 64px; }
+
+    .sidebar-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .client-name {
+      font-size: clamp(28px, 3vw, 48px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .sidebar-section {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 20px;
+    }
+
+    .sidebar-footer {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 80px 72px;
+    }
+
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: var(--gray-muted);
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 52px;
+    }
+
+    /* ── INVESTMENT TABLE ── */
+    .inv-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border-top: 1px solid var(--gray-border);
+    }
+
+    .inv-table tr {
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .inv-table td {
+      padding: 20px 0;
+      font-size: 18px;
+      color: #444;
+      vertical-align: top;
+    }
+
+    .inv-table td:last-child {
+      text-align: right;
+      font-weight: 700;
+      color: var(--black);
+      white-space: nowrap;
+      padding-left: 24px;
+    }
+
+    .inv-table .item-meta {
+      display: block;
+      font-size: 13px;
+      color: #999;
+      font-weight: 400;
+      margin-top: 4px;
+    }
+
+    .inv-table .total-row td {
+      border-top: 2px solid var(--black);
+      border-bottom: none;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--black);
+      padding-top: 24px;
+    }
+
+    .inv-table .free-row td {
+      color: #999;
+      font-size: 16px;
+    }
+
+    .inv-table .free-row td:last-child {
+      color: #999;
+      font-weight: 400;
+    }
+
+    /* ── AMOUNT DUE BLOCK ── */
+    .amount-due {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0;
+    }
+
+    .amount-due-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .amount-due-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    /* ── PAYMENT NOTE ── */
+    .payment-note {
+      font-size: 13px;
+      color: #888;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    .payment-note strong {
+      color: #555;
+    }
+
+    /* ── NEXT STEPS ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--black);
+      margin: 56px 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .next-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .next-list li {
+      display: flex;
+      gap: 16px;
+      font-size: 17px;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .next-list li::before {
+      content: "→";
+      font-weight: 700;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+
+    /* ── HEADER BUTTONS ── */
+    .proposal-header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      padding: 0 72px;
+      height: 88px;
+      border-bottom: 1px solid var(--gray-border);
+      flex-shrink: 0;
+    }
+
+    .btn-proposal {
+      padding: 18px 36px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      min-width: 200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-main);
+      text-decoration: none;
+    }
+
+    .btn-approve-header {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+    }
+
+    .btn-approve-header:hover { background: #222; }
+
+    .btn-download {
+      background: var(--white);
+      color: var(--black);
+      border: 1.5px solid rgba(0,0,0,0.12);
+    }
+
+    .btn-download:hover { border-color: var(--black); }
+
+    /* ── APPROVE BUTTON (content area) ── */
+    .btn-scenario-approve {
+      width: 100%;
+      margin-top: 24px;
+      padding: 18px 32px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+      font-family: var(--font-main);
+    }
+
+    .btn-scenario-approve:hover { background: #222; }
+    .btn-scenario-approve:disabled { opacity: 0.4; cursor: default;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQ1IiBoZWlnaHQ9IjczMSIgdmlld0JveD0iMCAwIDY0NSA3MzEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjEyLjk2OSA2MjIuNjU0QzIyNy4zNjkgNjIyLjY1NCAyMzkuMzY5IDYyNy42NTQgMjQ4Ljk2OSA2MzcuNDUzQzI1OC4xNjkgNjQ3LjI1MyAyNjIuOTY5IDY2MC4yNTQgMjYyLjk2OSA2NzYuNjU0QzI2Mi45NjkgNjkzLjA1NCAyNTguMTY5IDcwNi4yNTQgMjQ4Ljk2OSA3MTUuODU0QzIzOS4zNjkgNzI1Ljg1NCAyMjcuMzY5IDczMC42NTQgMjEyLjk2OSA3MzAuNjU0QzE5OC4zNjkgNzMwLjY1NCAxODYuMzY5IDcyNS44NTQgMTc2Ljk2OSA3MTUuODU0QzE2Ny41NjkgNzA2LjI1NCAxNjIuOTY5IDY5My4wNTQgMTYyLjk2OSA2NzYuNjU0QzE2Mi45NjkgNjYwLjI1NCAxNjcuNTY5IDY0Ny4yNTMgMTc2Ljk2OSA2MzcuNDUzQzE4Ni4zNjkgNjI3LjY1NCAxOTguMzY5IDYyMi42NTQgMjEyLjk2OSA2MjIuNjU0Wk0yMTIuOTY5IDYzNy4wNTRDMjAyLjc2OSA2MzcuMDU0IDE5NC43NjkgNjQwLjY1NCAxODguNzY5IDY0Ny40NTNDMTgyLjc2OSA2NTQuNDUzIDE3OS43NjkgNjY0LjI1NCAxNzkuNzY5IDY3Ni42NTRDMTc5Ljc2OSA2ODkuMDUzIDE4Mi43NjkgNjk4Ljg1NCAxODguNzY5IDcwNS42NTRDMTk0Ljc2OSA3MTIuODU0IDIwMi43NjkgNzE2LjI1NCAyMTIuOTY5IDcxNi4yNTRDMjIyLjk2OSA3MTYuMjU0IDIzMS4xNjkgNzEyLjg1NCAyMzcuMTY5IDcwNS42NTRDMjQzLjE2OSA2OTguODU0IDI0Ni4xNjkgNjg5LjA1MyAyNDYuMTY5IDY3Ni42NTRDMjQ2LjE2OSA2NjQuMjU0IDI0My4xNjkgNjU0LjQ1MyAyMzcuMTY5IDY0Ny40NTNDMjMxLjE2OSA2NDAuNjU0IDIyMi45NjkgNjM3LjA1NCAyMTIuOTY5IDYzNy4wNTRaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTMyNy4wMzEgNjIyLjY1NEMzNDEuNDMxIDYyMi42NTQgMzUzLjQzMSA2MjcuNjU0IDM2My4wMzEgNjM3LjQ1M0MzNzIuMjMxIDY0Ny4yNTMgMzc3LjAzMSA2NjAuMjU0IDM3Ny4wMzEgNjc2LjY1NEMzNzcuMDMxIDY5My4wNTQgMzcyLjIzMSA3MDYuMjU0IDM2My4wMzEgNzE1Ljg1NEMzNTMuNDMxIDcyNS44NTQgMzQxLjQzMSA3MzAuNjU0IDMyNy4wMzEgNzMwLjY1NEMzMTIuNDMxIDczMC42NTQgMzAwLjQzMSA3MjUuODU0IDI5MS4wMzEgNzE1Ljg1NEMyODEuNjMxIDcwNi4yNTQgMjc3LjAzMSA2OTMuMDU0IDI3Ny4wMzEgNjc2LjY1NEMyNzcuMDMxIDY2MC4yNTQgMjgxLjYzMSA2NDcuMjUzIDI5MS4wMzEgNjM3LjQ1M0MzMDAuNDMxIDYyNy42NTQgMzEyLjQzMSA2MjIuNjU0IDMyNy4wMzEgNjIyLjY1NFpNMzI3LjAzMSA2MzcuMDU0QzMxNi44MzEgNjM3LjA1NCAzMDguODMxIDY0MC42NTQgMzAyLjgzMSA2NDcuNDUzQzI5Ni44MzEgNjU0LjQ1MyAyOTMuODMxIDY2NC4yNTQgMjkzLjgzMSA2NzYuNjU0QzI5My44MzEgNjg5LjA1NCAyOTYuODMxIDY5OC44NTQgMzAyLjgzMSA3MDUuNjU0QzMwOC44MzEgNzEyLjg1NCAzMTYuODMxIDcxNi4yNTQgMzI3LjAzMSA3MTYuMjU0QzMzNy4wMzEgNzE2LjI1NCAzNDUuMjMxIDcxMi44NTQgMzUxLjIzMSA3MDUuNjU0QzM1Ny4yMzEgNjk4Ljg1NCAzNjAuMjMxIDY4OS4wNTQgMzYwLjIzMSA2NzYuNjU0QzM2MC4yMzEgNjY0LjI1NCAzNTcuMjMxIDY1NC40NTMgMzUxLjIzMSA2NDcuNDUzQzM0NS4yMzEgNjQwLjY1NCAzMzcuMDMxIDYzNy4wNTQgMzI3LjAzMSA2MzcuMDU0WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NDEuMDk0IDYyMi42NTRDNDU1LjQ5NCA2MjIuNjU0IDQ2Ny40OTQgNjI3LjY1NCA0NzcuMDk0IDYzNy40NTNDNDg2LjI5NCA2NDcuMjUzIDQ5MS4wOTQgNjYwLjI1NCA0OTEuMDk0IDY3Ni42NTRDNDkxLjA5NCA2OTMuMDU0IDQ4Ni4yOTQgNzA2LjI1NCA0NzcuMDk0IDcxNS44NTRDNDY3LjQ5NCA3MjUuODU0IDQ1NS40OTQgNzMwLjY1NCA0NDEuMDk0IDczMC42NTRDNDI2LjQ5NCA3MzAuNjU0IDQxNC40OTQgNzI1Ljg1NCA0MDUuMDk0IDcxNS44NTRDMzk1LjY5NCA3MDYuMjU0IDM5MS4wOTQgNjkzLjA1NCAzOTEuMDk0IDY3Ni42NTRDMzkxLjA5NCA2NjAuMjU0IDM5NS42OTQgNjQ3LjI1MyA0MDUuMDk0IDYzNy40NTNDNDE0LjQ5NCA2MjcuNjU0IDQyNi40OTQgNjIyLjY1NCA0NDEuMDk0IDYyMi42NTRaTTQ0MS4wOTQgNjM3LjA1NEM0MzAuODk0IDYzNy4wNTQgNDIyLjg5NCA2NDAuNjU0IDQxNi44OTQgNjQ3LjQ1M0M0MTAuODk0IDY1NC40NTMgNDA3Ljg5NCA2NjQuMjU0IDQwNy44OTQgNjc2LjY1NEM0MDcuODk0IDY4OS4wNTQgNDEwLjg5NCA2OTguODU0IDQxNi44OTQgNzA1LjY1NEM0MjIuODk0IDcxMi44NTQgNDMwLjg5NCA3MTYuMjU0IDQ0MS4wOTQgNzE2LjI1NEM0NTEuMDk0IDcxNi4yNTQgNDU5LjI5NCA3MTIuODU0IDQ2NS4yOTQgNzA1LjY1NEM0NzEuMjk0IDY5OC44NTQgNDc0LjI5NCA2ODkuMDU0IDQ3NC4yOTQgNjc2LjY1NEM0NzQuMjk0IDY2NC4yNTQgNDcxLjI5NCA2NTQuNDUzIDQ2NS4yOTQgNjQ3LjQ1M0M0NTkuMjk0IDY0MC42NTQgNDUxLjA5NCA2MzcuMDU0IDQ0MS4wOTQgNjM3LjA1NFoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNjAzLjc1NiA3MjguMjU0SDU4OC41NTdWNzEyLjI1NEM1ODAuMTU3IDcyNC42NTQgNTY4LjM1NiA3MzAuNjU0IDU1My4xNTYgNzMwLjY1NEM1MzguNTU2IDczMC42NTQgNTI2Ljk1NiA3MjUuODU0IDUxOC4zNTYgNzE1Ljg1NEM1MDkuNTU2IDcwNi4wNTQgNTA1LjE1NiA2OTMuMDU0IDUwNS4xNTYgNjc2LjY1NEM1MDUuMTU2IDY2MC4yNTQgNTA5LjU1NyA2NDcuMDU0IDUxOC4zNTYgNjM3LjI1NEM1MjYuNzU2IDYyNy42NTQgNTM4LjM1NiA2MjIuNjU0IDU1My4xNTYgNjIyLjY1NEM1NjcuOTU2IDYyMi42NTQgNTc5LjM1NiA2MjguNDU0IDU4Ny43NTYgNjM5Ljg1NFY1ODUuODU0SDYwMy43NTZWNzI4LjI1NFpNNTU1LjE1NiA2MzcuMDU0QzU0NS4xNTYgNjM3LjA1NCA1MzYuOTU2IDY0MC44NTQgNTMwLjk1NiA2NDguMDU0QzUyNC45NTYgNjU1LjI1NCA1MjEuOTU2IDY2NS4wNTQgNTIxLjk1NiA2NzcuNDUzQzUyMS45NTYgNjg5Ljg1MyA1MjQuOTU2IDY5OS4yNTQgNTMwLjk1NiA3MDYuMDU0QzUzNi45NTYgNzEyLjg1NCA1NDQuOTU2IDcxNi4yNTQgNTU1LjE1NiA3MTYuMjU0QzU2NS4xNTYgNzE2LjI1NCA1NzMuMzU2IDcxMi44NTQgNTc5LjM1NiA3MDUuNjU0QzU4NS4zNTYgNjk4Ljg1NCA1ODguMzU2IDY4OS4wNTQgNTg4LjM1NiA2NzYuNjU0QzU4OC4zNTYgNjY0LjQ1NCA1ODUuMzU2IDY1NC44NTQgNTc5LjM1NiA2NDcuNjU0QzU3My4zNTYgNjQwLjY1NCA1NjUuMTU2IDYzNy4wNTQgNTU1LjE1NiA2MzcuMDU0WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEwOC42IDYyMi42NTRDMTE5Ljc5OSA2MjIuNjU0IDEyOC40IDYyNi4wNTQgMTM0LjYgNjMyLjQ1M0MxNDAuOCA2MzguODUzIDE0NCA2NDcuNDU0IDE0NCA2NTguMjU0VjcyOC4yNTRIMTI4VjY1OS44NTRDMTI4IDY0NC42NTQgMTIwLjggNjM3LjA1NCAxMDYuNCA2MzcuMDU0Qzk4LjgwMDQgNjM3LjA1NCA5Mi40MDA0IDY0MC4yNTQgODcuNDAwNCA2NDYuMjU0QzgyLjQwMDQgNjUyLjI1NCA4MCA2NjAuODU0IDgwIDY3MS44NTRWNzI4LjI1NEg2NFY2NTkuODU0QzY0IDY0NC42NTQgNTYuODAwMSA2MzcuMDU0IDQyLjQwMDQgNjM3LjA1NEMzNC44MDA0IDYzNy4wNTQgMjguNTk5NiA2NDAuMjU0IDIzLjU5OTYgNjQ2LjI1NEMxOC4zOTk5IDY1Mi4yNTQgMTYgNjYwLjg1NCAxNiA2NzEuODU0VjcyOC4yNTRIMFY2MjUuMDU0SDE1LjIwMDJWNjQwLjI1NEMyMi4wMDAyIDYyOC42NTQgMzEuOCA2MjIuNjU0IDQ1IDYyMi42NTRDNjAuNCA2MjIuNjU0IDcwLjk5OTggNjI5LjI1NCA3Ni43OTk4IDY0Mi4wNTRDODMuOTk5NyA2MjkuMjU0IDk0LjU5OTggNjIyLjY1NCAxMDguNiA2MjIuNjU0WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTY0NC45MzUgNzI4LjI1NEg2MjQuNzM0VjcwOC4yNTRINjQ0LjkzNVY3MjguMjU0WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTY0My4zMzQgNjI1LjA1NEw2MzkuNzM0IDY5MS4wNTRINjI5LjMzNEw2MjYuNTM0IDYyNS4wNTRWNTg1Ljg1NEg2NDMuMzM0VjYyNS4wNTRaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTU1NC43NDkgMTEuOTQ0N0M1ODEuMzgzIC0xMy45MDQ4IDYyNiA0Ljk2NzY0IDYyNiA0Mi4wODMzVjM4OS4zMTdDNjI2IDQ1OC4yNDYgNTQzLjE0MSA0OTMuMjk2IDQ5My42NzcgNDQ1LjI4OUw0MzYuODE0IDM5MC4xMDJMMzk0LjY3OSA0NzkuODIzQzM2Ni44OCA1MzkuMDE0IDI4Mi45NjEgNTM5Ljc3NyAyNTQuMDkgNDgxLjEwMkwyMDguOTQ5IDM4OS4zNjFMMTUxLjMyMyA0NDUuMjg5QzEwMS44NTkgNDkzLjI5NiAxOSA0NTguMjQ2IDE5IDM4OS4zMTdWNDIuMDgzM0MxOS4wMDAzIDQuOTY3NjQgNjMuNjE2NiAtMTMuOTA0OCA5MC4yNTEgMTEuOTQ0N0wzMjIuNSAyMzcuMzVMNTU0Ljc0OSAxMS45NDQ3Wk0yMzEuNTc4IDM2Ny4zOTlMMjgxLjAwOCA0NjcuODU3QzI5OC43NzQgNTAzLjk2NSAzNTAuNDE4IDUwMy40OTYgMzY3LjUyNCA0NjcuMDcxTDQxNC4wNDcgMzY4LjAwNkwzMjIuNSAyNzkuMTU3TDIzMS41NzggMzY3LjM5OVpNNDkgMzg5LjMxN0M0OSA0MzEuNzM1IDk5Ljk5MDQgNDUzLjMwNCAxMzAuNDMgNDIzLjc2MkwxOTUuMDI3IDM2MS4wNjdMNDkgNjQuMjg2NFYzODkuMzE3Wk00NTAuMzAxIDM2MS4zODZMNTE0LjU3IDQyMy43NjJDNTQ1LjAxIDQ1My4zMDQgNTk2IDQzMS43MzUgNTk2IDM4OS4zMTdWNTEuMTQ3OEw0NTAuMzAxIDM2MS4zODZaTTM0NC4wMzggMjU4LjI1M0w0MjcuNTMzIDMzOS4yODlMNTY3LjQgNDEuNDdMMzQ0LjAzOCAyNTguMjUzWk0yMTcuNjU2IDMzOS4xMDRMMzAwLjk2MSAyNTguMjUzTDY5LjM1NzQgMzMuNDcyQzY4LjM2NzcgMzIuNTExNSA2Ny4yOTAyIDMxLjc2ODggNjYuMTY2IDMxLjIyMzlMMjE3LjY1NiAzMzkuMTA0WiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==" class="logo" alt="Moood.Studio">
+
+      <div class="sidebar-mid">
+        <p class="sidebar-eyebrow">Proposal for</p>
+        <h1 class="client-name">Anthros</h1>
+        <p style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.5); margin-bottom:32px;">Phase 2 — Production Pipeline</p>
+        <p class="sidebar-section">Investment &amp; Next Steps</p>
+      </div>
+    </div>
+    <p class="sidebar-footer">Moood.Studio · May 2026</p>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="proposal-header">
+      <button class="btn-proposal btn-download" onclick="window.print()">
+        <span>Download PDF</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3v13M7 11l5 5 5-5M5 19h14" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="btn-proposal btn-approve-header" id="btnApproveHeader" onclick="approveProposal(this)">
+        <span>Approve Proposal</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="main-scroll">
+    <div class="content">
+
+      <p class="eyebrow">Investment &amp; Next Steps</p>
+      <h2 class="title">Commitment</h2>
+
+      <table class="inv-table">
+        <tr>
+          <td>
+            Image Pipeline + §SHIP
+            <span class="item-meta">Cloudinary automation · Git PR handoff to Matt · Bugherd review layer included</span>
+          </td>
+          <td>$800</td>
+        </tr>
+        <tr>
+          <td>
+            Image Prompt Builder
+            <span class="item-meta">~95% visual accuracy for the Anthros chair across all slot types · Includes review round with Tyler</span>
+          </td>
+          <td>$1,600</td>
+        </tr>
+        <tr>
+          <td>
+            Content Review Workflow
+            <span class="item-meta">Included in Image Pipeline + §SHIP setup</span>
+          </td>
+          <td style="color:#999; font-weight:400">Included</td>
+        </tr>
+        <tr>
+          <td>
+            Narrative Cleaner
+            <span class="item-meta">Structures any raw copy into BLOCK format ready for §BUILD</span>
+          </td>
+          <td style="color:#999; font-weight:400">Delivered</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total</td>
+          <td>$2,400</td>
+        </tr>
+      </table>
+
+      <div class="amount-due">
+        <span class="amount-due-label">Amount Due</span>
+        <span class="amount-due-value">$2,400.00</span>
+      </div>
+
+      <p class="payment-note">
+        <strong>Payment:</strong> 50% on kick-off · 50% on delivery<br>
+        Prices in USD · Moood.Studio · May 2026
+      </p>
+
+      <p class="section-label">Next Steps</p>
+      <ul class="next-list">
+        <li>Share Cloudinary credentials and access to the production repo with Alberto (coordinate with Matt)</li>
+        <li>Image Pipeline + §SHIP live within 2 days of kick-off</li>
+        <li>Image Prompt Builder review round scheduled with Tyler — ~4 days</li>
+      </ul>
+
+    </div><!-- /content -->
+    </div><!-- /scroll -->
+  </main>
+
+  <!-- Approved overlay -->
+  <div id="approvedOverlay" style="position:fixed;inset:0;background:#fff;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-bottom:20px">Anthros — Phase 2</p>
+    <h1 style="font-size:clamp(36px,5vw,64px);font-weight:300;letter-spacing:-0.02em;line-height:1.1;color:#000;margin-bottom:32px">We're all set.</h1>
+    <p style="font-size:18px;color:#666;max-width:480px;line-height:1.7">We're ready to kick off. You'll hear from us within 24 hours.</p>
+    <p style="position:absolute;bottom:32px;font-size:11px;color:#ccc;letter-spacing:0.05em">© 2026 Moood.Studio</p>
+  </div>
+
+  <script>
+    const APPROVAL_PAYLOAD = {
+      clientName: 'Anthros',
+      clientEmail: 'tyler@anthros.com', // ⚠️ Verify Tyler's email before hosting
+      projectName: 'Anthros AI System — Phase 2 ($2,400)',
+      projectType: 'technical',
+      status: 'Approved'
+    };
+
+    async function approveProposal(btn) {
+      if (btn.disabled) return;
+      btn.disabled = true;
+      btn.querySelector('span').textContent = 'Processing...';
+
+      try {
+        await fetch('https://moood.studio/api/proposal?mode=approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(APPROVAL_PAYLOAD)
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      document.getElementById('approvedOverlay').style.display = 'flex';
+    }
+  </script>
+
+</body>
+</html>
