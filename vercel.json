@@ -28,6 +28,11 @@
             "source": "/anthros/catalog",
             "destination": "/anthros/catalog/",
             "permanent": false
+        },
+        {
+            "source": "/anthros-image-prompt-builder-demo",
+            "destination": "/anthros-image-prompt-builder-demo/",
+            "permanent": false
         }
     ],
     "rewrites": [
@@ -58,6 +63,10 @@
 
         { "source": "/anthros/catalog", "destination": "https://anthros-catalog.vercel.app/" },
         { "source": "/anthros/catalog/", "destination": "https://anthros-catalog.vercel.app/" },
-        { "source": "/anthros/catalog/:path*", "destination": "https://anthros-catalog.vercel.app/:path*" }
+        { "source": "/anthros/catalog/:path*", "destination": "https://anthros-catalog.vercel.app/:path*" },
+
+        { "source": "/anthros-image-prompt-builder-demo", "destination": "https://anthros-prompt-demo.vercel.app/" },
+        { "source": "/anthros-image-prompt-builder-demo/", "destination": "https://anthros-prompt-demo.vercel.app/" },
+        { "source": "/anthros-image-prompt-builder-demo/:path*", "destination": "https://anthros-prompt-demo.vercel.app/:path*" }
     ]
 }
