@@ -310,6 +310,70 @@
     .btn-scenario-approve:hover { background: #222; }
     .btn-scenario-approve:disabled { opacity: 0.4; cursor: default;
     }
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    body { height: 100dvh; overflow: hidden; flex-direction: column; }
+
+    /* Sidebar → compact top bar */
+    .sidebar {
+      width: 100%;
+      height: auto;
+      padding: 14px 20px;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo { height: 28px; }
+
+    .sidebar-mid { display: none; }
+    .sidebar-footer { display: none; }
+
+    /* Show client name inline */
+    .sidebar::after {
+      content: 'Anthros';
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* Main */
+    .main { flex: 1; min-height: 0; }
+
+    .proposal-header {
+      height: 52px;
+      padding: 0 20px;
+    }
+
+    .btn-proposal {
+      padding: 10px 16px;
+      font-size: 10px;
+      min-width: auto;
+    }
+
+    .main-scroll { padding: 28px 20px 40px; }
+
+    .content { max-width: 100%; }
+
+    .title { font-size: clamp(24px, 7vw, 34px); margin-bottom: 32px; }
+
+    /* Table */
+    .inv-table td { font-size: 14px; padding: 14px 0; }
+    .inv-table .item-meta { font-size: 12px; }
+    .inv-table .total-row td { font-size: 16px; padding-top: 18px; }
+
+    /* Amount due */
+    .amount-due { padding: 20px 24px; }
+    .amount-due-value { font-size: 22px; }
+
+    /* Payment note */
+    .payment-note { font-size: 12px; }
+
+    /* Next steps */
+    .section-label { margin: 40px 0 16px; }
+    .next-list li { font-size: 15px; }
+  }
   </style>
 </head>
 <body>
