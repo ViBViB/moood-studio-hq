@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preoptima Rebrand — Alignment Note</title>
+<style>
+  :root {
+    --font: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --ink: #0A0A0A;
+    --paper: #FFFFFF;
+    --text: #111111;
+    --muted: rgba(0, 0, 0, 0.54);
+    --dim: rgba(0, 0, 0, 0.34);
+    --faint: rgba(0, 0, 0, 0.16);
+    --hair: rgba(0, 0, 0, 0.11);
+    --label: #B4B4B4;
+    --on-ink: #FFFFFF;
+    --on-ink-mut: rgba(255, 255, 255, 0.56);
+    --on-ink-dim: rgba(255, 255, 255, 0.34);
+    --on-ink-hair: rgba(255, 255, 255, 0.14);
+    --measure: 66ch;
+    --pad: clamp(1.5rem, 6vw, 6.5rem);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  /* ── HEADER (document cover) ──────────────────────── */
+  .hero {
+    background: var(--paper);
+    color: var(--text);
+    padding: clamp(2rem, 5vw, 3rem) var(--pad) 0;
+  }
+  .hero-inner { max-width: 820px; margin: 0 auto; }
+
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: clamp(2.4rem, 7vw, 4.5rem);
+    border-bottom: 1px solid var(--hair);
+    flex-wrap: wrap;
+  }
+  .wordmark { color: var(--ink); display: block; }
+  .wordmark svg { height: 42px; width: auto; display: block; }
+  .wordmark svg path { fill: currentColor; }
+
+  .btn-pdf {
+    display: inline-flex; align-items: center; gap: 0.65rem;
+    font-family: var(--font);
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600;
+    color: var(--ink); background: transparent;
+    border: 1px solid var(--ink); border-radius: 4px;
+    padding: 0.72rem 1.1rem; cursor: pointer;
+    transition: background 0.28s var(--ease), color 0.28s var(--ease);
+  }
+  .btn-pdf svg { width: 13px; height: 13px; display: block; }
+  .btn-pdf:hover { background: var(--ink); color: var(--on-ink); }
+  .btn-pdf:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+
+  .hero-head { padding-top: clamp(2.2rem, 6vw, 4rem); }
+  .hero .kicker { color: var(--muted); margin-bottom: 1.5rem; }
+  h1 {
+    font-size: clamp(2.1rem, 5vw, 3.7rem);
+    line-height: 1.0;
+    letter-spacing: -0.032em;
+    font-weight: 500;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 .thin { font-weight: 300; color: var(--muted); }
+  .standfirst {
+    margin: 1.7rem 0 0;
+    font-size: clamp(1.02rem, 1.7vw, 1.22rem);
+    line-height: 1.5;
+    letter-spacing: -0.012em;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .hero-rule {
+    margin-top: clamp(2rem, 4.5vw, 3rem);
+    border-top: 1px solid var(--hair);
+  }
+
+  /* ── DOCUMENT BODY ────────────────────────────────── */
+  main { padding: clamp(1.8rem, 4vw, 2.6rem) var(--pad) clamp(3rem, 6vw, 5rem); }
+  .doc { max-width: 820px; margin: 0 auto; }
+
+  section { padding-block: clamp(2.6rem, 5vw, 4rem); border-top: 1px solid var(--hair); }
+  section:first-of-type { border-top: none; padding-top: 0; }
+
+  .sec-head { margin-bottom: 1.8rem; }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.15rem);
+    line-height: 1.06; letter-spacing: -0.025em; font-weight: 500;
+    margin: 0; text-wrap: balance;
+  }
+  .sec-body { margin-left: 0; }
+
+  p { margin: 0 0 1.1rem; }
+  p.lead-line { color: var(--muted); }
+  .intro p { font-size: clamp(1.05rem, 1.8vw, 1.2rem); line-height: 1.55; color: var(--muted); letter-spacing: -0.01em; }
+  strong { font-weight: 600; }
+  .ink-word { font-weight: 600; color: var(--text); }
+
+  /* labelled inline lead */
+  .lead { display: block; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--dim); margin-bottom: 0.4rem; }
+
+  /* lists */
+  ul { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.85rem; }
+  li { position: relative; padding-left: 1.7rem; }
+  li::before { content: "—"; position: absolute; left: 0; top: 0; color: var(--faint); font-weight: 400; }
+  li b { font-weight: 600; }
+
+  /* ── SCOPE BOX (the signature inversion) ──────────── */
+  .scope {
+    background: var(--ink); color: var(--on-ink);
+    border-radius: 4px;
+    padding: clamp(1.8rem, 4vw, 2.8rem);
+    margin-top: 0.5rem;
+  }
+  .scope .eyebrow { color: var(--on-ink-dim); margin-bottom: 1.1rem; }
+  .scope .lede { font-size: clamp(1.15rem, 2.2vw, 1.45rem); line-height: 1.28; letter-spacing: -0.02em; font-weight: 500; margin: 0 0 1.7rem; max-width: none; }
+  .scope-row { padding-top: 1.1rem; border-top: 1px solid var(--on-ink-hair); }
+  .scope-row + .scope-row { margin-top: 1.1rem; }
+  .scope-row .tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--on-ink); display: block; margin-bottom: 0.45rem; }
+  .scope-row.out .tag { color: var(--on-ink-mut); }
+  .scope-row p { color: var(--on-ink-mut); margin: 0 0 0.5rem; max-width: none; font-size: 15.5px; line-height: 1.55; }
+  .scope-row ul { margin-top: 0.5rem; }
+  .scope-row li { color: var(--on-ink-mut); font-size: 15.5px; line-height: 1.5; }
+  .scope-row li::before { color: var(--on-ink-dim); }
+  .scope-why { margin-top: 1.7rem; padding-top: 1.2rem; border-top: 1px solid var(--on-ink-hair); font-size: 14.5px; font-style: italic; color: var(--on-ink-mut); line-height: 1.5; }
+
+  /* decision blocks */
+  .decision { padding-top: 1.9rem; margin-top: 1.9rem; border-top: 1px solid var(--hair); }
+  .decision:first-of-type { border-top: none; margin-top: 0.4rem; padding-top: 0; }
+  .d-no { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--dim); font-variant-numeric: tabular-nums; }
+  h3 { font-size: clamp(1.15rem, 2vw, 1.42rem); line-height: 1.18; letter-spacing: -0.018em; font-weight: 500; margin: 0.4rem 0 1rem; }
+
+  /* settled chips list reuse ul */
+
+  /* next steps — real sequence */
+  ol { list-style: none; counter-reset: step; margin: 0.4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+  ol li { counter-increment: step; padding: 1.1rem 0 1.1rem 3.2rem; border-top: 1px solid var(--hair); }
+  ol li:first-child { border-top: none; }
+  ol li::before { content: counter(step, decimal-leading-zero); font-size: 13px; font-weight: 600; color: var(--dim); left: 0; top: 1.15rem; font-variant-numeric: tabular-nums; }
+
+  .timeline { margin-top: 1.7rem; }
+  .closer { margin-top: 2.6rem; padding-top: 2.2rem; border-top: 1px solid var(--hair); }
+  .closer h3 { font-size: clamp(1.2rem, 2.4vw, 1.65rem); letter-spacing: -0.025em; font-weight: 500; line-height: 1.2; color: var(--text); max-width: none; margin: 0; white-space: nowrap; }
+  @media (max-width: 620px) { .closer h3 { white-space: normal; } }
+
+  /* entrance */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(14px); animation: rise 0.9s var(--ease) forwards; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.16s; } .d3 { animation-delay: 0.27s; } .d4 { animation-delay: 0.38s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+  }
+
+  a.mail { color: inherit; text-decoration: none; border-bottom: 1px solid var(--faint); padding-bottom: 1px; }
+  a.mail:hover { border-color: currentColor; }
+  a:focus-visible, li:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+
+  .scope { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* ── PRINT / PDF ──────────────────────────────────── */
+  @media print {
+    @page { margin: 16mm 15mm; }
+    body { font-size: 10.5pt; line-height: 1.5; }
+    .btn-pdf { display: none !important; }
+    .rise { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .hero, main { padding-left: 0; padding-right: 0; }
+    .hero { padding-top: 0; }
+    h1 { font-size: 26pt; }
+    .decision, .scope, .sec-head { break-inside: avoid; }
+    h2, h3 { break-after: avoid; }
+    li { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- reusable logo -->
+<template id="logo">
+  <svg viewBox="0 0 645 731" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="moood.studio">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.294 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.853 465.294 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M603.756 728.254H588.557V712.254C580.157 724.654 568.356 730.654 553.156 730.654C538.556 730.654 526.956 725.854 518.356 715.854C509.556 706.054 505.156 693.054 505.156 676.654C505.156 660.254 509.557 647.054 518.356 637.254C526.756 627.654 538.356 622.654 553.156 622.654C567.956 622.654 579.356 628.454 587.756 639.854V585.854H603.756V728.254ZM555.156 637.054C545.156 637.054 536.956 640.854 530.956 648.054C524.956 655.254 521.956 665.054 521.956 677.453C521.956 689.853 524.956 699.254 530.956 706.054C536.956 712.854 544.956 716.254 555.156 716.254C565.156 716.254 573.356 712.854 579.356 705.654C585.356 698.854 588.356 689.054 588.356 676.654C588.356 664.454 585.356 654.854 579.356 647.654C573.356 640.654 565.156 637.054 555.156 637.054Z"/>
+    <path d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z"/>
+    <path d="M644.935 728.254H624.734V708.254H644.935V728.254Z"/>
+    <path d="M643.334 625.054L639.734 691.054H629.334L626.534 625.054V585.854H643.334V625.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z"/>
+  </svg>
+</template>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead rise">
+      <span class="wordmark" data-logo></span>
+      <button class="btn-pdf" id="pdfBtn" type="button" aria-label="Download PDF version">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 1.5v8.5"/><path d="M4.5 6.5 8 10l3.5-3.5"/><path d="M2.5 13.5h11"/>
+        </svg>
+        Download PDF version
+      </button>
+    </div>
+    <div class="hero-head">
+      <p class="eyebrow kicker rise d1">Preoptima Rebrand — Pre-design · awaiting sign-off</p>
+      <h1 class="rise d2">What we heard,<br><span class="thin">and what we need to lock.</span></h1>
+      <p class="standfirst rise d3">A play-back of your internal survey before design begins — so we confirm we're reading the brief the same way, and agree what this phase does and doesn't cover.</p>
+      <div class="hero-rule rise d4"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="doc">
+
+    <section class="intro">
+      <p>Thank you — the survey you ran is genuinely strong material. It's honest about where the team agrees and, more usefully, about where it doesn't. Below is what we heard, the boundary of this engagement, and the handful of calls only you can make before we put pen to paper.</p>
+    </section>
+
+    <!-- 01 SCOPE -->
+    <section>
+      <div class="sec-head"><h2>Scope of this engagement</h2></div>
+      <div class="sec-body">
+        <p class="lead-line">One framing keeps this project focused:</p>
+        <div class="scope">
+          <p class="eyebrow">The boundary</p>
+          <p class="lede">This is a brand-identity project for the Preoptima masterbrand.</p>
+          <div class="scope-row">
+            <span class="tag">In scope</span>
+            <p>The Preoptima brand system — logotype, colour, typography, the core visual language, and the rules for using them.</p>
+          </div>
+          <div class="scope-row">
+            <span class="tag">Directional only</span>
+            <p>How CONCEPT and PACER sit <em>beneath</em> Preoptima. Under the single-masterbrand approach you favour (Option A), we'll show how the products are expressed under the parent — as an indicative system, not two separately developed identities.</p>
+          </div>
+          <div class="scope-row out">
+            <span class="tag">Not this phase</span>
+            <ul>
+              <li>Full, standalone identities for CONCEPT, PACER (or a future BUILDING). Distinct per-product logos with their own flexibility — the Option B direction — is a larger, separate engagement.</li>
+              <li>Website design or build, and product UI. The sites and references across the survey (stormtrap, Arcol, 2050-materials, Epoch) are valuable as tone and we've absorbed them — but they inform a later web phase. Nothing web-related is a deliverable here.</li>
+            </ul>
+          </div>
+          <p class="scope-why">Why it matters: it keeps the budget and the team's energy on the one asset everything else inherits from — the parent brand.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 SETTLED -->
+    <section>
+      <div class="sec-head"><h2>What's already settled</h2></div>
+      <div class="sec-body">
+        <p class="lead-line">From the survey, these read as decided — we'll build on them.</p>
+        <ul>
+          <li><b>Keep the name, Preoptima.</b> Driven by recognition, particularly with local authorities, and the cost of rebuilding awareness from zero.</li>
+          <li><b>Architecture: Option A.</b> One Preoptima masterbrand, with CONCEPT and PACER as product names beneath it.</li>
+          <li><b>No “carbon” in the masterbrand name.</b> Products stay free to speak to their own domains.</li>
+          <li><b>Away from today's green / blue</b> — and away from pastel or “wishy-washy” colour.</li>
+          <li><b>Minimal on-site imagery register</b> — noted for the future web phase.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 03 DECISIONS -->
+    <section>
+      <div class="sec-head"><h2>Four decisions we need from you</h2></div>
+      <div class="sec-body">
+        <p class="lead-line">These are the live splits in the survey. We'll advise on every one — you'll find where we'd start under <span class="ink-word">Our recommended direction</span> — but the calls are yours, and they gate the design.</p>
+
+        <div class="decision">
+          <span class="d-no">Decision 01</span>
+          <h3>Carbon or digitalisation — what does the masterbrand lead with?</h3>
+          <p><span class="lead">The split</span>Michela wants to move away from “Sustainability / Carbon / Net Zero / Climate” as politicised terms, and lead on digitalisation, structured process and efficiency. Jay cautions that dropping the carbon framing sits at odds with CONCEPT and the Stage 3–4 tool, both envisioned as core carbon calculators.</p>
+          <p><span class="lead">Why it's first</span>This isn't a tone preference — it's the spine of the identity. It decides what Preoptima <em>means</em>, how it's described, and the words the brand owns.</p>
+        </div>
+
+        <div class="decision">
+          <span class="d-no">Decision 02</span>
+          <h3>Colour territory — navy, or warm and earthy?</h3>
+          <p><span class="lead">The split</span>A deep, trustworthy navy base with one bright accent (Michela shared a navy set with a yellow accent) versus a warm, earthy black / white / orange direction referencing Epoch Biodesign (Francesco, with Alex's strong agreement). Both agree on leaving today's green / blue behind — but these are genuinely different visual worlds.</p>
+          <p><span class="lead">How we'll resolve it</span>Rather than settle this by debate, we'll bring both to life as directions early, so you're choosing from something you can see. We only need your blessing to explore both.</p>
+        </div>
+
+        <div class="decision">
+          <span class="d-no">Decision 03</span>
+          <h3>Logo architecture — and Jay's point</h3>
+          <p><span class="lead">The split</span>The majority backs Option A (one masterbrand, products named beneath). Jay's preference is separate product logos, to keep the flexibility to rename and innovate.</p>
+          <p><span class="lead">The scope read</span>Option A is what this engagement delivers — and it's the stronger call for a small company that needs one trusted parent both an architect and a planning officer recognise. Separate, independently flexible product identities (Option B) is a larger, later project — worth its own conversation, not something to solve inside this one. We'll design Preoptima so products slot beneath it cleanly.</p>
+        </div>
+
+        <div class="decision">
+          <span class="d-no">Decision 04</span>
+          <h3>The name — keep, but redefine</h3>
+          <p><span class="lead">The nuance</span>Keeping Preoptima is settled, and the recognition argument holds. But even among those who'd keep it, several said they don't love it or find it hard to land quickly. That's not a reason to change it — it's a reason to give Preoptima a fresh meaning, deliberately, rather than carry the old carbon association forward by default. “What Preoptima stands for now” is part of the work.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 INPUTS -->
+    <section>
+      <div class="sec-head"><h2>What we still need from you</h2></div>
+      <div class="sec-body">
+        <p class="lead-line">A few things the survey didn't cover, so we can design with confidence.</p>
+        <ul>
+          <li><b>A single approver.</b> Who signs off? With a small team and some honest differences of view, we work best against one clear decision-maker — and a tie-breaker for when the team is split.</li>
+          <li><b>Current brand assets.</b> The existing logo (including the hexagon), any wordmark, fonts and colour values — so we know precisely what we're moving away from.</li>
+          <li><b>One agreed line.</b> The survey holds several versions of “who we are.” We need the single sentence the whole team will stand behind.</li>
+          <li><b>Market &amp; language.</b> UK-first, US second, British English — please confirm.</li>
+          <li><b>Stuart's input,</b> once he's able — including his read on the current brand.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 RECOMMENDATION -->
+    <section>
+      <div class="sec-head"><h2>Our recommended direction</h2></div>
+      <div class="sec-body">
+        <p class="lead-line">Where we'd start — for you to react to, not a decision made for you.</p>
+        <div class="decision">
+          <h3>On carbon</h3>
+          <p>There's a resolution that satisfies both Michela and Jay, and it's the one your own positioning research points to: a masterbrand that doesn't name carbon, and instead leads on structured, evidence-led decisions across a building's life — <em>“decide it early, prove it at planning.”</em> Carbon stays alive where it belongs, inside CONCEPT and PACER. The parent stays broad enough for an Energy Compliance or Circular Economy module to sit under it without renaming anything.</p>
+        </div>
+        <div class="decision">
+          <h3>On personality</h3>
+          <p>The survey and the research land in the same place: authority earned through evidence, with warmth. Confident but never hyped; innovative but never an “AI shill.” Trusted because it's rigorous, not because it's loud — the tightrope both a fast-moving design team and a cautious planning officer will accept.</p>
+        </div>
+        <div class="decision">
+          <h3>On colour</h3>
+          <p>We'll bring both the navy and the warm / earthy routes to life — with one honest caution on each. A navy-plus-accent system needs its contrast checked so it stays accessible and doesn't read as generic corporate; and the warm / earthy route should take from Epoch Biodesign without landing so close it reads as a copy. Seeing both, against your own words, is the fastest way to know which is right.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 NEXT -->
+    <section>
+      <div class="sec-head"><h2>Proposed next steps</h2></div>
+      <div class="sec-body">
+        <ol>
+          <li><b>Confirm scope</b> (brand only) and react to this note.</li>
+          <li><b>Make the four calls above</b> — or tell us where you'd rather we bring options first (colour especially).</li>
+          <li><b>Send the outstanding inputs</b> and current brand assets.</li>
+          <li><b>Settle the 50% deposit.</b> Half the project fee confirms the engagement — that's the point we begin.</li>
+          <li><b>We return with the brand direction</b> to sanity-check together — then into design.</li>
+        </ol>
+        <p class="timeline"><span class="lead">Timeline</span>A tight build — <b>two to three weeks at most from kickoff</b>. The clock starts once the deposit and the four decisions are settled.</p>
+        <div class="closer">
+          <h3>Once we're agreed on the above, we're ready to begin.</h3>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+  const tpl = document.getElementById('logo');
+  document.querySelectorAll('[data-logo]').forEach(function (slot) {
+    slot.appendChild(tpl.content.cloneNode(true));
+  });
+  var pdfBtn = document.getElementById('pdfBtn');
+  if (pdfBtn) pdfBtn.addEventListener('click', function () { window.print(); });
+</script>
+
+</body>
+</html>
