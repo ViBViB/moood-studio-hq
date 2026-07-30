@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preoptima — Identity Direction</title>
+<style>
+  :root {
+    --font: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --ink: #0A0A0A;
+    --paper: #FFFFFF;
+    --text: #111111;
+    --muted: rgba(0, 0, 0, 0.54);
+    --dim: rgba(0, 0, 0, 0.34);
+    --faint: rgba(0, 0, 0, 0.16);
+    --hair: rgba(0, 0, 0, 0.11);
+    --card: #F6F5F3;
+    --measure: 66ch;
+    --content-max: 1440px;
+    --pad: clamp(1.5rem, 5vw, 5rem);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; margin: 0; }
+
+  /* ── FIXED MASTHEAD ────────────────────────────────── */
+  .mast {
+    position: fixed; top: clamp(1.3rem, 3vw, 2.2rem); left: clamp(1.3rem, 3vw, 2.2rem);
+    z-index: 40; color: var(--ink);
+  }
+  .mast .wordmark svg { height: 60px; width: auto; display: block; }
+  .mast .wordmark svg path { fill: currentColor; }
+
+  /* ── DECK / SLIDES ─────────────────────────────────── */
+  .slide {
+    display: none;
+    min-height: 100vh;
+    padding: clamp(7rem, 12vw, 10rem) var(--pad) clamp(8rem, 12vw, 10rem);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+  .slide-inner { max-width: var(--content-max); margin: 0 auto; width: 100%; }
+
+  /* Intro slide */
+  .intro-inner { text-align: center; }
+  .intro-inner .eyebrow { color: var(--muted); margin: 0 auto clamp(1.2rem, 2.4vw, 1.6rem); }
+  .intro-inner h1 {
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    line-height: 0.98; letter-spacing: -0.034em; font-weight: 500;
+    margin: 0 auto; text-wrap: balance; max-width: 18ch;
+  }
+  .intro-inner p:not(.eyebrow) {
+    margin: clamp(1.6rem, 3vw, 2.3rem) auto 0;
+    font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+    line-height: 1.52; letter-spacing: -0.012em; color: var(--muted); font-weight: 400;
+    max-width: 62ch;
+  }
+  .intro-inner p + p { margin-top: 1.2rem; }
+
+  /* Slide head */
+  .slide-head { max-width: 72ch; margin-bottom: clamp(2rem, 4vw, 2.8rem); }
+  .alt-no { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--dim); font-variant-numeric: tabular-nums; }
+  h2 {
+    font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+    line-height: 1.04; letter-spacing: -0.03em; font-weight: 500;
+    margin: 0.6rem 0 0; text-wrap: balance;
+  }
+  .alt-lede {
+    margin: 1rem 0 0; font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 1.45;
+    letter-spacing: -0.012em; color: var(--muted); font-weight: 400; max-width: 56ch;
+  }
+
+  /* ── LOGO FRAMES (cropped panels) ──────────────────── */
+  .frames { display: flex; flex-direction: column; gap: clamp(0.8rem, 1.6vw, 1.2rem); margin-bottom: clamp(2.2rem, 4.5vw, 3.2rem); }
+  .frames .pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.8rem, 1.6vw, 1.2rem); }
+  @media (max-width: 720px) { .frames .pair { grid-template-columns: 1fr; } }
+
+  .frame {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-image: var(--img);
+    background-size: var(--bgsize);
+    background-position: var(--bgpos);
+    aspect-ratio: var(--ar);
+    border-radius: 8px;
+  }
+  .frame.light { border: 1px solid var(--hair); background-color: #fff; }
+  .frame.dark { background-color: var(--ink); }
+
+  /* per-direction sources */
+  .v1-pos  { --img: url('pre-v1-pos.png'); }
+  .v1-neg  { --img: url('pre-v1-neg.png'); }
+  .v11-pos { --img: url('pre-v11-pos.png'); }
+  .v11-neg { --img: url('pre-v11-neg.png'); }
+
+  /* crop regions — 202% hides the panel hairline */
+  .icon    { --bgsize: 202% 202%; --bgpos: 100% 100%; }
+  .stacked { --bgsize: 202% 202%; --bgpos: 0% 100%; }
+  .horiz   { --bgsize: 100% 202%; --bgpos: 0% 0%; }
+
+  .ar-v1-quad  { --ar: 1.250; }
+  .ar-v1-strip { --ar: 2.525; }
+  .ar-v11-quad  { --ar: 1.266; }
+  .ar-v11-strip { --ar: 2.558; }
+
+  /* ── BODY COPY ─────────────────────────────────────── */
+  .alt-body { max-width: 68ch; }
+  .alt-body p { margin: 0 0 1rem; color: var(--muted); font-size: 16.5px; }
+  .alt-body p:last-child { margin-bottom: 0; }
+  .alt-body .note { color: var(--dim); font-size: 15.5px; }
+
+  .adjectives { margin-top: 1.8rem; padding-top: 1.5rem; border-top: 1px solid var(--hair); max-width: 68ch; }
+  .adjectives .lead { display: block; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--dim); margin-bottom: 0.65rem; }
+  .adj-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .adj-list li { font-size: 13.5px; color: var(--text); background: var(--card); border-radius: 999px; padding: 0.42rem 0.95rem; }
+
+  /* ── FLOATING NAV DOCK ─────────────────────────────── */
+  .dock {
+    position: fixed; left: 50%; bottom: clamp(1.2rem, 3vw, 2rem); transform: translateX(-50%);
+    z-index: 50; display: flex; flex-wrap: nowrap; gap: 0.35rem;
+    background: rgba(255, 255, 255, 0.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid var(--hair); border-radius: 999px;
+    padding: 0.4rem; box-shadow: 0 14px 44px rgba(0, 0, 0, 0.12);
+    max-width: calc(100vw - 2rem);
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .dock::-webkit-scrollbar { display: none; }
+  .dockbtn {
+    flex: 0 0 auto;
+    font-family: var(--font); font-size: 13px; letter-spacing: -0.005em; font-weight: 500;
+    color: var(--muted); background: transparent; border: none; border-radius: 999px;
+    padding: 0.58rem 1.05rem; cursor: pointer; white-space: nowrap;
+    transition: background 0.24s var(--ease), color 0.24s var(--ease);
+  }
+  .dockbtn .n { font-variant-numeric: tabular-nums; color: var(--dim); margin-right: 0.5em; }
+  .dockbtn:hover { color: var(--text); }
+  .dockbtn.active { background: var(--ink); color: #fff; }
+  .dockbtn.active .n { color: rgba(255, 255, 255, 0.5); }
+  .dockbtn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+
+  /* ── DISCREET TRIGGER (off-dock) ───────────────────── */
+  .escape {
+    position: fixed; right: 16px; bottom: 16px; z-index: 60;
+    width: 15px; height: 15px; padding: 0;
+    border: none; border-radius: 3px; background: var(--ink);
+    opacity: 0.05; cursor: pointer;
+    transition: opacity 0.3s var(--ease);
+  }
+  .escape:hover, .escape:focus-visible { opacity: 0.45; outline: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(14px); animation: rise 0.7s var(--ease) forwards; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+  }
+
+  @media (max-width: 620px) {
+    .slide { padding-bottom: clamp(9rem, 22vw, 11rem); }
+    .mast .wordmark svg { height: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- reusable moood logo -->
+<template id="logo">
+  <svg viewBox="0 0 645 731" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="moood.studio">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.294 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.853 465.294 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M603.756 728.254H588.557V712.254C580.157 724.654 568.356 730.654 553.156 730.654C538.556 730.654 526.956 725.854 518.356 715.854C509.556 706.054 505.156 693.054 505.156 676.654C505.156 660.254 509.557 647.054 518.356 637.254C526.756 627.654 538.356 622.654 553.156 622.654C567.956 622.654 579.356 628.454 587.756 639.854V585.854H603.756V728.254ZM555.156 637.054C545.156 637.054 536.956 640.854 530.956 648.054C524.956 655.254 521.956 665.054 521.956 677.453C521.956 689.853 524.956 699.254 530.956 706.054C536.956 712.854 544.956 716.254 555.156 716.254C565.156 716.254 573.356 712.854 579.356 705.654C585.356 698.854 588.356 689.054 588.356 676.654C588.356 664.454 585.356 654.854 579.356 647.654C573.356 640.654 565.156 637.054 555.156 637.054Z"/>
+    <path d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z"/>
+    <path d="M644.935 728.254H624.734V708.254H644.935V728.254Z"/>
+    <path d="M643.334 625.054L639.734 691.054H629.334L626.534 625.054V585.854H643.334V625.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z"/>
+  </svg>
+</template>
+
+<header class="mast rise">
+  <span class="wordmark" data-logo></span>
+</header>
+
+<main class="deck">
+
+  <!-- ── INTRO ─────────────────────────────────────── -->
+  <section class="slide active" id="slide-intro">
+    <div class="slide-inner intro-inner">
+      <p class="eyebrow">Preoptima — Identity direction · Round two</p>
+      <h1>The idea you chose, without the crystal ball.</h1>
+      <p>The team converged on one thing: the meaning behind the Palantir direction — a company that looks ahead, and helps people anticipate problems before the market sees them. What didn't land was the form.</p>
+      <p>So the idea stays and the orb goes. What follows answers the clearest ask in the feedback — a standalone icon, built from the P, that works with no wordmark at all — and keeps the foresight by making that P a bifurcation: the decision, and the alternative it hasn't foreclosed, held in a single shape.</p>
+    </div>
+  </section>
+
+  <!-- ── 01 THE MARK ───────────────────────────────── -->
+  <section class="slide" id="slide-mark">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="alt-no">01 / 02</span>
+        <h2>The Preoptima P</h2>
+        <p class="alt-lede">A decision point — with the alternative still visible.</p>
+      </div>
+
+      <div class="frames">
+        <div class="pair">
+          <div class="frame light v1-pos icon ar-v1-quad" role="img" aria-label="Preoptima P symbol, black on white"></div>
+          <div class="frame dark v1-neg icon ar-v1-quad" role="img" aria-label="Preoptima P symbol, white on black"></div>
+        </div>
+      </div>
+
+      <div class="alt-body">
+        <p>A single form arrives and, at the moment it would close, it divides. One path resolves into the bowl of the P; the other stays open as the void running through the letter.</p>
+        <p>That void is the idea. In most decisions the alternative disappears the moment you choose — here it stays legible, held inside the mark. It is a fork without a road: no arrows, no paths, no diagram. The divergence is built into the anatomy of the letter itself.</p>
+        <p>Drawn as one weight in a single ink, so it can carry the brand on its own — as an avatar, a favicon, an app tile, or anywhere the name is already understood.</p>
+      </div>
+
+      <div class="adjectives">
+        <span class="lead">Adjectives:</span>
+        <ul class="adj-list"><li>Anticipatory</li><li>Deliberate</li><li>Self-contained</li><li>Exact</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 THE SYSTEM ─────────────────────────────── -->
+  <section class="slide" id="slide-system">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="alt-no">02 / 02</span>
+        <h2>One mark, three ways to use it</h2>
+        <p class="alt-lede">Horizontal, stacked, or the symbol standing alone.</p>
+      </div>
+
+      <div class="frames">
+        <div class="frame light v1-pos horiz ar-v1-strip" role="img" aria-label="Horizontal lockup, black on white"></div>
+        <div class="frame dark v1-neg horiz ar-v1-strip" role="img" aria-label="Horizontal lockup, white on black"></div>
+        <div class="pair">
+          <div class="frame light v1-pos stacked ar-v1-quad" role="img" aria-label="Stacked lockup, black on white"></div>
+          <div class="frame dark v1-neg stacked ar-v1-quad" role="img" aria-label="Stacked lockup, white on black"></div>
+        </div>
+      </div>
+
+      <div class="alt-body">
+        <p>The symbol was drawn first and the lockups follow from it, rather than the other way round — which is why it lifts out whole. Horizontal for the site header and documents; stacked where the space is square; the symbol on its own wherever the name is already obvious.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ALT (off-dock) ────────────────────────────── -->
+  <section class="slide" id="slide-alt">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="alt-no">Alternative</span>
+        <h2>The same idea, tilted forward</h2>
+        <p class="alt-lede">Direction and position, held in one form.</p>
+      </div>
+
+      <div class="frames">
+        <div class="pair">
+          <div class="frame light v11-pos icon ar-v11-quad" role="img" aria-label="Alternative P symbol, black on white"></div>
+          <div class="frame dark v11-neg icon ar-v11-quad" role="img" aria-label="Alternative P symbol, white on black"></div>
+        </div>
+        <div class="frame light v11-pos horiz ar-v11-strip" role="img" aria-label="Alternative horizontal lockup"></div>
+      </div>
+
+      <div class="alt-body">
+        <p>A P leaning into its own movement, where the counter resolves two ways at once: a flag rising, and a marker pointing down at a fixed point. The same anticipation, expressed as momentum rather than as a held-open alternative.</p>
+        <p>It reads faster than the primary mark and holds harder at very small sizes; it asks a little more of the viewer to resolve as a P. A different balance of the same ambition.</p>
+      </div>
+
+      <div class="adjectives">
+        <span class="lead">Adjectives:</span>
+        <ul class="adj-list"><li>Directional</li><li>Kinetic</li><li>Compact</li><li>Assured</li></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="dock" id="dock" aria-label="Slide navigation"></nav>
+
+<button class="escape" id="escape" type="button" aria-label="Alternative direction"></button>
+
+<script>
+  const SLIDES = [
+    { id: 'intro',  name: 'Intro' },
+    { id: 'mark',   name: 'The Preoptima P' },
+    { id: 'system', name: 'In Use' }
+  ];
+
+  const dock = document.getElementById('dock');
+
+  SLIDES.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dockbtn' + (i === 0 ? ' active' : '');
+    btn.type = 'button';
+    btn.dataset.id = s.id;
+    btn.innerHTML = s.id === 'intro' ? 'Intro' : `<span class="n">0${i}</span>${s.name}`;
+    btn.addEventListener('click', () => show(s.id));
+    dock.appendChild(btn);
+  });
+
+  function show(id) {
+    document.querySelectorAll('.dockbtn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+    document.querySelectorAll('.slide').forEach(p => p.classList.toggle('active', p.id === 'slide-' + id));
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  // off-dock trigger for the alternative direction
+  document.getElementById('escape').addEventListener('click', () => show('alt'));
+  document.addEventListener('keydown', (e) => { if (e.key === '0') show('alt'); });
+
+  const tpl = document.getElementById('logo');
+  document.querySelectorAll('[data-logo]').forEach(function (slot) {
+    slot.appendChild(tpl.content.cloneNode(true));
+  });
+</script>
+
+</body>
+</html>
