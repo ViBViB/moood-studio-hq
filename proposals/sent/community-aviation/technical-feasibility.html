@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rendered Flight Instruction — Technical Feasibility Assessment</title>
+<style>
+  :root{
+    --font-main:'Helvetica Neue',Helvetica,Arial,sans-serif;
+    --font-mono:'SF Mono',ui-monospace,Menlo,Consolas,monospace;
+    --black:#000;
+    --white:#fff;
+    --paper:#fff;
+    --soft:#fafafa;
+    --border:rgba(0,0,0,.08);
+    --border-strong:rgba(0,0,0,.16);
+    --text:#111;
+    --muted:#6b6b6b;
+    --faint:rgba(0,0,0,.32);
+    --ok:#1c6b3f;
+    --warn:#8a5a00;
+    --stop:#a51c1c;
+    --sidebar:300px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--text);
+    font-family:var(--font-main);font-size:16px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    display:flex;min-height:100vh;
+  }
+
+  /* ───────── SIDEBAR ───────── */
+  .sidebar{
+    width:var(--sidebar);flex-shrink:0;background:var(--white);color:var(--black);
+    padding:56px 40px 40px;position:sticky;top:0;height:100vh;
+    display:flex;flex-direction:column;gap:40px;overflow-y:auto;
+  }
+  .sidebar .logo{width:104px;height:auto;color:var(--black);flex-shrink:0}
+  .sidebar .logo svg{width:100%;height:auto;display:block}
+  .side-eyebrow{
+    font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:10px;
+  }
+  .side-title{font-size:19px;font-weight:400;line-height:1.28;color:var(--black)}
+
+  nav{padding-top:18px;flex:1}
+  nav ol{list-style:none;counter-reset:toc}
+  nav li{counter-increment:toc}
+  nav a{
+    display:flex;gap:10px;text-decoration:none;color:var(--muted);
+    font-size:15px;line-height:1.35;padding:7px 0;transition:color .15s;
+  }
+  nav a::before{content:counter(toc);font-size:12px;color:var(--faint);min-width:16px;padding-top:2px;font-variant-numeric:tabular-nums}
+  nav a:hover{color:var(--black)}
+  nav a.active{color:var(--black);font-weight:600}
+  nav a.active::before{color:var(--black)}
+
+  .side-foot{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);padding-top:16px;
+  }
+
+  /* ───────── MAIN ───────── */
+  main{flex:1;min-width:0}
+  .wrap{max-width:800px;margin:0 auto;padding:80px 0 140px}
+
+  .eyebrow{
+    font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:22px;
+  }
+  h1{font-size:64px;font-weight:300;line-height:1.06;margin-bottom:20px}
+  .lede{font-size:16px;font-weight:400;line-height:1.62;color:#3a3a3a}
+
+  h2{
+    font-size:32px;font-weight:400;line-height:1.2;
+    color:var(--black);margin-bottom:26px;
+  }
+  h3{font-size:21px;font-weight:600;line-height:1.35;margin:36px 0 12px}
+  h4{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:30px 0 12px}
+  section{padding-top:64px;margin-top:20px}
+  p{margin-bottom:16px}
+  p:last-child{margin-bottom:0}
+  strong{font-weight:600;color:#000}
+  em{font-style:italic}
+  a.inline{color:inherit}
+
+  ul,ol{margin:0 0 18px 0;padding-left:20px}
+  li{margin-bottom:7px}
+  ul.plain{list-style:none;padding-left:0}
+  ul.excl{list-style:none;padding-left:0}
+  ul.excl li{display:flex;gap:12px;color:#3a3a3a;font-size:16px}
+  ul.excl li::before{content:"✗";color:var(--stop);font-weight:600;flex-shrink:0}
+
+  /* emphasised statement — plain paragraph, bold */
+  p.statement{font-size:16px;font-weight:600;line-height:1.62;margin:26px 0}
+
+  /* callout */
+  .callout{background:var(--soft);border:1px solid var(--border);padding:28px 30px;margin:32px 0}
+  .callout h4{margin-top:0}
+  .callout p:last-child{margin-bottom:0}
+  .callout.stark{background:var(--black);color:#fff;border-color:var(--black)}
+  .callout.stark h4{color:rgba(255,255,255,.44)}
+  .callout.stark strong{color:#fff}
+  .callout.stark p{color:rgba(255,255,255,.86)}
+
+  /* verdict */
+  .verdict{font-size:16px;font-weight:400;line-height:1.62;margin-bottom:16px}
+  .verdict strong{font-weight:600}
+
+  /* tables */
+  .tw{overflow-x:auto;margin:26px 0}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+  thead th{
+    text-align:left;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--faint);padding:0 18px 10px 0;border-bottom:1px solid var(--border-strong);white-space:nowrap;
+  }
+  tbody td{padding:14px 18px 14px 0;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;font-size:16px}
+  tbody tr:last-child td{border-bottom:1px solid var(--border-strong)}
+  td:last-child,th:last-child{padding-right:0}
+  td strong{font-weight:600}
+
+  /* column sizing per table role */
+  table.t-status th:nth-child(1),table.t-status td:nth-child(1){width:27%}
+  table.t-status th:nth-child(2),table.t-status td:nth-child(2){width:14%}
+  table.t-opts   th:nth-child(1),table.t-opts   td:nth-child(1){width:21%}
+  table.t-opts   th:nth-child(2),table.t-opts   td:nth-child(2){width:39%}
+  table.t-verify th:nth-child(1),table.t-verify td:nth-child(1){width:34%}
+  table.t-verify th:nth-child(3),table.t-verify td:nth-child(3){width:21%}
+  table.t-def    th:nth-child(1),table.t-def    td:nth-child(1){width:21%}
+
+  /* status pills */
+  .pill{
+    display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid;white-space:nowrap;line-height:1.4;
+  }
+  .pill.ok{color:var(--ok);border-color:rgba(28,107,63,.36);background:rgba(28,107,63,.05)}
+  .pill.warn{color:var(--warn);border-color:rgba(138,90,0,.36);background:rgba(138,90,0,.05)}
+  .pill.stop{color:var(--stop);border-color:rgba(165,28,28,.36);background:rgba(165,28,28,.05)}
+
+  /* code / schema */
+  pre{
+    background:var(--soft);border:1px solid var(--border);padding:24px 26px;margin:26px 0;
+    font-family:var(--font-mono);font-size:12.5px;line-height:1.85;overflow-x:auto;color:#2a2a2a;
+  }
+  pre .k{color:#000;font-weight:600}
+  pre .c{color:#8d8d8d}
+
+  /* findings */
+  .finding{margin:44px 0}
+  .finding-head{margin-bottom:14px}
+  .finding h3{margin:0}
+
+  /* flags */
+  ol.flags{}
+  ol.flags li{margin-bottom:16px}
+
+  /* phases */
+  .phase{padding:24px 0}
+  .phase-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .phase h3{margin:0 0 10px}
+
+  .closing{font-size:16px;font-weight:400;line-height:1.62;margin-bottom:16px}
+  .closing strong{font-weight:600;color:#000}
+
+  .endmark{margin-top:64px;padding-top:22px;
+    font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+  /* ───────── RESPONSIVE ───────── */
+  @media (max-width:1040px){
+    body{flex-direction:column}
+    .sidebar{width:100%;height:auto;position:static;padding:36px 40px;gap:26px}
+    .sidebar .logo{width:84px}
+    nav{flex:none}
+    nav ol{columns:2;column-gap:32px}
+    .wrap{padding:56px 40px 100px}
+    h1{font-size:52px}
+  }
+  @media (max-width:620px){
+    .sidebar{padding:28px 22px;gap:20px}
+    .sidebar .logo{width:68px}
+    nav ol{columns:1}
+    nav a{font-size:14px;padding:5px 0}
+    .side-title{font-size:17px}
+    .wrap{padding:40px 22px 80px}
+    h1{font-size:38px}
+    h2{font-size:26px}
+    .endmark{flex-direction:column;gap:6px}
+  }
+
+  /* ───────── PRINT ───────── */
+  @media print{
+    @page{margin:16mm 14mm}
+    body{display:block;font-size:10.5pt;line-height:1.5}
+    .sidebar{position:static;width:100%;height:auto;background:#fff;color:#000;
+      padding:0 0 18pt;margin-bottom:24pt;
+      flex-direction:row;justify-content:space-between;align-items:flex-start;gap:24pt}
+    .sidebar .logo{width:70pt;color:#000}
+    .side-eyebrow{color:#666}
+    .side-title{font-size:13pt}
+    nav,.side-foot{display:none}
+    .wrap{max-width:none;padding:0}
+    h1{font-size:26pt}
+    section{page-break-inside:auto;padding-top:24pt}
+    h2,h3{page-break-after:avoid}
+    table,pre,.callout,.finding,.phase{page-break-inside:avoid}
+    .callout.stark{background:#fff;color:#000;border:1.5pt solid #000}
+    .callout.stark p,.callout.stark strong{color:#000}
+    .callout.stark h4{color:#666}
+    a{text-decoration:none;color:#000}
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo"><svg  viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.294 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.453 465.294 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M603.756 728.254H588.557V712.254C580.157 724.654 568.356 730.654 553.156 730.654C538.556 730.654 526.956 725.854 518.356 715.854C509.556 706.054 505.156 693.054 505.156 676.654C505.156 660.254 509.557 647.054 518.356 637.254C526.756 627.654 538.356 622.654 553.156 622.654C567.956 622.654 579.356 628.454 587.756 639.854V585.854H603.756V728.254ZM555.156 637.054C545.156 637.054 536.956 640.854 530.956 648.054C524.956 655.254 521.956 665.054 521.956 677.453C521.956 689.853 524.956 699.254 530.956 706.054C536.956 712.854 544.956 716.254 555.156 716.254C565.156 716.254 573.356 712.854 579.356 705.654C585.356 698.854 588.356 689.054 588.356 676.654C588.356 664.454 585.356 654.854 579.356 647.654C573.356 640.654 565.156 637.054 555.156 637.054Z" fill="currentColor"/>
+<path d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z" fill="currentColor"/>
+<path d="M644.935 728.254H624.734V708.254H644.935V728.254Z" fill="currentColor"/>
+<path d="M643.334 625.054L639.734 691.054H629.334L626.534 625.054V585.854H643.334V625.054Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z" fill="currentColor"/>
+</svg></div>
+
+  <div>
+    <div class="side-eyebrow">Technical Feasibility</div>
+    <div class="side-title">Rendered Flight&nbsp;Instruction</div>
+  </div>
+
+  <nav>
+    <ol>
+      <li><a href="#s1">Verdict</a></li>
+      <li><a href="#s2">What the system is</a></li>
+      <li><a href="#s3">Feasibility by component</a></li>
+      <li><a href="#s4">Critical findings</a></li>
+      <li><a href="#s5">Requires verification</a></li>
+      <li><a href="#s6">What a prototype should be</a></li>
+      <li><a href="#s7">Technical requirements</a></li>
+      <li><a href="#s8">Cost categories</a></li>
+      <li><a href="#s9">Red flags</a></li>
+      <li><a href="#s10">Recommended path</a></li>
+      <li><a href="#s11">What we would need</a></li>
+      <li><a href="#s12">Summary</a></li>
+    </ol>
+  </nav>
+
+  <div class="side-foot">Confidential</div>
+</aside>
+
+<main>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Technical Feasibility Assessment</div>
+    <h1>Rendered Flight Instruction</h1>
+    <p class="lede">An engineering read of the Rendered Flight Instruction concept — what is certain, what must be verified before anyone commits, and where the concept carries dependencies it does not yet declare.</p>
+  </header>
+
+  <div class="callout">
+    <h4>What this document is</h4>
+    <p>An engineering read of the concept. It states three things and nothing else:</p>
+    <ol>
+      <li><strong>What is technically certain</strong> — what can be built today, and with what.</li>
+      <li><strong>What must be verified before anyone commits</strong> — items that are cheap to resolve but currently unresolved, and which we will not assert until they are.</li>
+      <li><strong>Where the concept has undeclared dependencies</strong> — two claims in the current document rest on technical assumptions the document does not name.</li>
+    </ol>
+    <p><strong>This is not a proposal and contains no pricing.</strong> It does name every category of cost the project carries, so that none of them arrives later as a surprise. Numbers follow a scoping phase, not the other way around.</p>
+    <p style="margin-top:14px;font-size:13.5px;color:var(--muted)"><strong>Source material reviewed:</strong> <em>Rendered Flight Instruction</em> concept document; Google Meet transcript, July 27 (83 min).</p>
+  </div>
+
+  <!-- ══ 1 ══ -->
+  <section id="s1">
+    <h2>Verdict</h2>
+    <p class="verdict"><strong>The concept is buildable. The economics hold. It is engineering, not research.</strong></p>
+    <p>With three qualifications:</p>
+    <ul>
+      <li>The claim <em>“rendered from real flight data”</em> has a dependency the document does not declare. It is resolvable, but it must be resolved <strong>before the phrase is used publicly</strong> (§4.1).</li>
+      <li>The <strong>visual quality ceiling of the entire library is set by one asset</strong> — the aircraft model — and that is the single largest unquantified cost in the project (§4.2).</li>
+      <li>The <strong>AI finishing layer is not reliable today</strong> on the geometry that matters, and should be removed from the critical path. The business case survives intact without it (§4.3).</li>
+    </ul>
+    <p>Everything else in the concept document is achievable with current, licensable, commercially clear technology.</p>
+  </section>
+
+  <!-- ══ 2 ══ -->
+  <section id="s2">
+    <h2>What the system actually is</h2>
+    <p>The concept document’s strongest line is <em>“one artifact rendered three ways.”</em> That instinct is correct, and it is the entire architecture. Stated precisely:</p>
+
+    <p class="statement">The deliverable is not video. The deliverable is a scenario file. Video is one of its renderers.</p>
+
+    <p>A scenario is a declarative, version-controlled file with separated layers:</p>
+<pre><span class="k">scenario/</span>
+├── <span class="k">flight-track</span>    <span class="c">aircraft state over time — position, attitude (pitch/roll/yaw),</span>
+│                   <span class="c">AoA, airspeed, configuration, control surface deflection</span>
+├── <span class="k">camera-script</span>   <span class="c">named camera behaviours + timing ("chase-locked-stall")</span>
+├── <span class="k">overlay-track</span>   <span class="c">which vectors / cones / labels are drawn, and when</span>
+├── <span class="k">environment</span>     <span class="c">terrain (lat/lon), weather, time of day, light</span>
+├── <span class="k">narration</span>       <span class="c">instructional beats, time-synced to the track</span>
+└── <span class="k">assessment</span>      <span class="c">per-phase tolerances (drives future auto-grading)</span></pre>
+
+    <h3>Why this matters commercially, not just technically</h3>
+    <ul>
+      <li><strong>It is the moat.</strong> A competitor can copy a look in a month. A library of CFI-validated scenario files is not copyable — it is accumulated authority, and it carries Rich Stowell’s signature.</li>
+      <li><strong>It answers the open question about instructor authoring.</strong> Instructors submit <em>flight profiles</em>, not footage. They contribute pedagogy; the system guarantees house style. That is a marketplace with zero quality variance.</li>
+      <li><strong>It decouples every layer.</strong> The render engine can be replaced in 2027 without touching the library. If the schema is designed first, nothing built on top of it is ever thrown away. If it is designed last, every video is a one-off craft object.</li>
+    </ul>
+
+    <h3>Six layers, each independently replaceable</h3>
+<pre><span class="k">[1] DATA</span>       parsers (GPX / CSV / FDR / avionics logs) → normalizer → validated scenario
+<span class="k">[2] GEOMETRY</span>   track replay in a 3D engine over real terrain, scripted cameras → plates
+<span class="k">[3] FINISH</span>     optional AI restyle — <span class="c">see §4.3, currently out of scope</span>
+<span class="k">[4] OVERLAYS</span>   deterministic vector pass, generated from the scenario file
+<span class="k">[5] ASSEMBLY</span>   grade / typography / disclosure / audio / encode
+<span class="k">[6] DELIVERY</span>   web player with switchable synchronized angles</pre>
+
+    <div class="callout stark">
+      <h4>Architectural rule — non-negotiable</h4>
+      <p>Overlays are generated from the scenario data and composited <strong>over</strong> the finished plate. They are never produced or touched by a generative model. They are instructional data — a hallucinated wind vector is not an artifact, it is a credibility incident.</p>
+    </div>
+  </section>
+
+  <!-- ══ 3 ══ -->
+  <section id="s3">
+    <h2>Feasibility by component</h2>
+    <div class="tw">
+    <table class="t-status">
+      <thead><tr><th>Component</th><th>Status</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Scenario schema + validators</td><td><span class="pill ok">Certain</span></td><td>Standard data engineering</td></tr>
+        <tr><td>Data ingest &amp; normalization</td><td><span class="pill ok">Certain</span></td><td>With the caveat in §4.1</td></tr>
+        <tr><td>Geometry via simulator replay</td><td><span class="pill ok">Certain</span></td><td>Licensing to be confirmed (§5)</td></tr>
+        <tr><td>Geometry via Unreal Engine + Cesium</td><td><span class="pill ok">Certain</span></td><td>Technically routine. Unreal charges no royalty on linear video content; the 5% applies to interactive products. Cost and terrain licensing to be confirmed</td></tr>
+        <tr><td>Scripted cinematic cameras</td><td><span class="pill ok">Certain</span></td><td>Both engines expose camera control programmatically</td></tr>
+        <tr><td>Overlay design system</td><td><span class="pill ok">Certain</span></td><td>Deterministic vector rendering — core Moood competency</td></tr>
+        <tr><td>Assembly / grade / encode</td><td><span class="pill ok">Certain</span></td><td>Standard, free tooling</td></tr>
+        <tr><td>Web player, synchronized multi-angle</td><td><span class="pill ok">Certain</span></td><td>Core Moood competency, low risk</td></tr>
+        <tr><td>Instructor authoring tool</td><td><span class="pill ok">Certain</span></td><td>Later phase; depends on the schema being right</td></tr>
+        <tr><td>Automated render pipeline (CI/CD)</td><td><span class="pill ok">Certain</span></td><td>Headless rendering is documented and commonly used in production</td></tr>
+        <tr><td><strong>AI video-to-video finishing</strong></td><td><span class="pill stop">Not reliable</span></td><td>See §4.3</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ══ 4 ══ -->
+  <section id="s4">
+    <h2>Critical technical findings</h2>
+
+    <div class="finding">
+      <div class="finding-head">
+        <h3>Where the geometry comes from — and what “real flight data” actually requires</h3>
+      </div>
+      <p><strong>This is the most important finding in this document.</strong></p>
+      <p>A GPS track — from ForeFlight, a portable ADS-B receiver, or a consumer logger — records <strong>position, altitude, groundspeed and track</strong>. It does <strong>not</strong> record <strong>attitude</strong>: pitch, roll, yaw, angle of attack, or control surface deflection.</p>
+      <p>For cruise, pattern work or an approach, attitude can be approximated from the trajectory with acceptable accuracy. <strong>For a stall, a spin or an engine-out — precisely the priority maneuvers named in the concept document — attitude <em>is</em> the lesson.</strong> A spin produces a nearly vertical GPS track that contains no information about the rotation, which is the only thing worth teaching.</p>
+      <p>Compounding this: <strong>simulator flight models are weakest exactly in this part of the envelope.</strong> Post-stall behaviour and spin dynamics are approximations in every consumer simulator. Pilots detect this instantly, and this audience is the most unforgiving one that exists for this failure.</p>
+      <p>So the geometry for the priority maneuvers cannot come from a GPS track, and cannot come from default simulator physics either. There are three honest resolutions:</p>
+      <div class="tw">
+      <table class="t-opts">
+        <thead><tr><th>Option</th><th>What it requires</th><th>Effect on the claim</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A</strong> — Instrumented capture</td><td>An aircraft with attitude logging (certain Garmin units log pitch/roll), or a dedicated AHRS/IMU on a capture flight</td><td><em>“Rendered from real flight data”</em> holds literally. Highest credibility</td></tr>
+          <tr><td><strong>B</strong> — CFI-authored, physics-validated</td><td>Maneuver flown in a high-fidelity model, reviewed and signed off by Rich or a CFI panel</td><td>Claim becomes <em>“physics-accurate, CFI-validated.”</em> Still strong, but <strong>a different claim</strong></td></tr>
+          <tr><td><strong>C</strong> — Hybrid</td><td>Real data where instrumentation exists; authored and validated where it does not, disclosed per scenario</td><td>Most practical. Requires per-scenario provenance tracking in the schema</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Recommendation: C</strong>, with provenance recorded as a field in every scenario file, so the marketing claim is always exactly true for the specific clip.</p>
+      <div class="callout">
+        <h4>Flag</h4>
+        <p>The marketing line at the center of the concept document depends on a data source the document does not specify. This must be decided before the phrase is printed anywhere.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head">
+        <h3>The aircraft model sets the quality ceiling of the entire library</h3>
+      </div>
+      <p>Every shot in the product contains the same object. Its fidelity is the product’s fidelity.</p>
+      <p>Stock 3D aircraft models in the $200–500 range are game-quality: acceptable at distance, and they fall apart in exactly the shot that sells this project — a close pass on a wing, a propeller, a control surface moving through a deflection. The concept document’s entire value proposition is <em>the impossible camera</em>, which means <em>the close camera</em>.</p>
+      <p>A hero-quality model with correctly separated, animatable control surfaces, accurate proportions and film-grade materials is a <strong>commissioned asset with weeks of lead time and a cost in the four-to-five figure range.</strong> It is a one-time, fully amortized cost across the whole library — but it is real, it is large, and it is currently unquantified.</p>
+      <p><strong>This is the single largest cost risk in the project.</strong> It is resolvable with a half-day of market survey and two or three quotes.</p>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head">
+        <h3>The AI finishing layer is not reliable on the geometry that matters</h3>
+      </div>
+      <p>Video-to-video restyling maintains temporal consistency well on organic surfaces and poorly on thin, high-frequency, fast-moving geometry — propellers, control surface gaps, antennas, landing gear. These are precisely the details a pilot audience reads first.</p>
+      <p><strong>Recommendation: remove the AI layer from the critical path entirely.</strong> Treat it as an upside to be demonstrated later, never as a dependency.</p>
+      <p>Two reasons this costs nothing:</p>
+      <ol>
+        <li><strong>The business case does not need it.</strong> The value proposition is impossible camera angles, overlays on real geometry, and marginal cost per variant approaching zero. All three are properties of the <em>rendering pipeline</em>, not of the AI layer.</li>
+        <li><strong>A clean, well-lit render already carries the shot.</strong> Lighting, materials and grade deliver most of the perceived quality. AI is finishing — and the concept document already says so.</li>
+      </ol>
+      <p>The <em>“openly AI”</em> positioning remains correct and strategically valuable — the pipeline is AI-assisted in authoring, scenario generation and instruction design. It simply should not be load-bearing for on-screen geometry.</p>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head">
+        <h3>Terrain: the best-looking option may not be the licensable one</h3>
+      </div>
+      <p>Photorealistic global 3D terrain is what makes the mountain, canyon and coastal scenarios possible — a genuine pedagogical unlock that no flight school can demonstrate. The most photorealistic source carries usage terms whose applicability to commercially distributed rendered video <strong>needs to be read before it is designed around.</strong></p>
+      <p>A fallback exists (standard world terrain plus licensed imagery) and is legally straightforward. It is less spectacular, but it is fully sufficient for the instructional beat — where the concept document itself correctly calls for a flat, legible frame rather than a dramatic one.</p>
+      <div class="callout">
+        <h4>Flag</h4>
+        <p>Decide this before look development begins, not after. It sets the visual target.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 5 ══ -->
+  <section id="s5">
+    <h2>Items requiring verification before commitment</h2>
+    <p>Cheap to resolve, currently unresolved. <strong>We will not assert any of these until they are confirmed in writing.</strong></p>
+    <div class="tw">
+    <table class="t-verify">
+      <thead><tr><th>Item</th><th>Why it matters</th><th>Effort</th></tr></thead>
+      <tbody>
+        <tr><td>Simulator commercial content terms (X-Plane, MSFS) for a commercial training product</td><td>Determines the prototype engine</td><td>1–2 h each, plus vendor confirmation</td></tr>
+        <tr><td>Photorealistic 3D terrain licensing for offline commercial video</td><td>Sets the visual target (§4.4)</td><td>~2 h</td></tr>
+        <tr><td>Terrain streaming service pricing at production volume</td><td>Recurring operating cost</td><td>~1 h</td></tr>
+        <tr><td>Video-rendering framework commercial license</td><td>Recurring cost, not previously accounted for</td><td>~30 min</td></tr>
+        <tr><td>Hero aircraft model — availability and real quotes</td><td>The #1 cost risk (§4.2)</td><td>~half a day + quote turnaround</td></tr>
+        <tr><td>Attitude data sources available to Community Aviation</td><td>Determines which option in §4.1 is viable</td><td>3–4 h; requires input from Rich / Billy</td></tr>
+        <tr><td>Render time benchmark at target quality</td><td>Required before any delivery schedule can be promised</td><td>~1 day; needs a test scene</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ══ 6 ══ -->
+  <section id="s6">
+    <h2>What a prototype should be, technically</h2>
+
+    <p class="statement">The demo is not one beautiful clip. It is one maneuver rendered many ways from one file — because that is the business model, made visible.</p>
+
+    <p>A single polished clip proves you can make a video. One maneuver appearing in four synchronized angles, a night variant and a weather variant — all traceably generated from the same source file — proves you have built a <em>machine</em>. The first is a commercial. The second is a company. <strong>Investors buy the second.</strong></p>
+
+    <h3>Recommended prototype scope — one maneuver, frozen</h3>
+    <div class="tw">
+    <table class="t-def">
+      <thead><tr><th>Element</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Maneuver</td><td><strong>Power-off stall.</strong> Highest instructional demand, legible geometry, and the “what the pilot sees vs. what is actually happening” contrast is strongest at the break. Lower data risk than a spin</td></tr>
+        <tr><td>Camera angles</td><td>4 synchronized passes, switchable — the concept document’s highest-value shot</td></tr>
+        <tr><td>Overlays</td><td>Relative wind, angle of attack, lift/load vector, airspeed &amp; altitude ribbon, maneuver phase markers</td></tr>
+        <tr><td>Variants</td><td>2 additional renders from the <em>same</em> file (night; gusty/weather) — <strong>this is the economic proof, not decoration</strong></td></tr>
+        <tr><td>Hero shot</td><td>One 10–15 second segment pushed to maximum achievable quality, to establish the visual ceiling</td></tr>
+        <tr><td>Delivery</td><td>Web player: switchable synchronized angles, overlay toggle, timeline chaptered by maneuver phase (entry → break → recovery), synchronized data ribbon</td></tr>
+        <tr><td>Disclosure</td><td>On-screen tag treatment + intro line, designed as specification rather than disclaimer</td></tr>
+        <tr><td>Artifact</td><td>The scenario file itself, human-readable — shown as the actual product</td></tr>
+        <tr><td>Validation</td><td>Review pass by Rich and a CFI panel before anything is shown externally</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Explicitly excluded from a prototype</h3>
+    <p style="font-size:14.5px;color:var(--muted)">Stated so that nobody assumes otherwise.</p>
+    <ul class="excl">
+      <li>AI video finishing layer (§4.3)</li>
+      <li>Full photorealistic production pipeline</li>
+      <li>Commissioned hero aircraft model</li>
+      <li>More than one maneuver</li>
+      <li>Instructor authoring tool</li>
+      <li>Course site, LMS, scheduling, flight ops, mobile app</li>
+      <li>Curriculum content authoring</li>
+      <li>Any regulatory or FAA credit claim</li>
+      <li>Live-action footage (cockpit, walkaround, preflight)</li>
+    </ul>
+    <div class="callout">
+      <p>The last exclusion is deliberate and matches the concept document: synthetic imagery does not serve preflight, control feel, or the credibility beat where a student needs to see that a real aircraft and a real instructor exist. <strong>The honest hybrid — real once per topic, rendered for geometry and maneuvers — is a strength of the concept, and should be stated as such rather than hidden.</strong></p>
+    </div>
+  </section>
+
+  <!-- ══ 7 ══ -->
+  <section id="s7">
+    <h2>Technical requirements inventory</h2>
+    <p>Complete, with nothing omitted.</p>
+    <div class="tw">
+    <table class="t-def">
+      <thead><tr><th>Category</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td>Software &amp; services</td><td>3D engine (simulator for prototype, Unreal Engine for production); terrain streaming service; overlay rendering framework; encoding toolchain; version control capable of large binary assets — Unreal projects are not text and do not survive ordinary git</td></tr>
+        <tr><td>Hardware / compute</td><td>One GPU workstation, or cloud GPU rendering. Cinematic renders are minutes per shot, not real time; iteration loops must be budgeted</td></tr>
+        <tr><td>3D assets</td><td>Aircraft model with animatable control surfaces and propeller (§4.2); liveries in house style; terrain data</td></tr>
+        <tr><td>Flight data</td><td>Attitude-bearing source per maneuver (§4.1) — mechanism to be determined; requires input from Rich and Billy on what aircraft and avionics are actually accessible</td></tr>
+        <tr><td>Audio</td><td>Engine, wind, airflow, radio. Frequently omitted from budgets and responsible for a large share of perceived realism</td></tr>
+        <tr><td>House style system</td><td>Grade/LUT, typography, overlay specifications, motion language, camera behaviour library, disclosure lockup — defined once, enforced by the pipeline</td></tr>
+        <tr><td>Human inputs</td><td>Rich Stowell or delegated CFI authority for instructional sign-off; a CFI review panel; a technical artist for photorealistic look development in the production phase — a specialist role, not a generalist one</td></tr>
+        <tr><td>Legal</td><td>Review of engine, terrain and framework terms before design decisions depend on them</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ══ 8 ══ -->
+  <section id="s8">
+    <h2>Cost categories that exist and must be scoped</h2>
+    <p>No numbers here — these are the categories that will carry cost, named now so that none of them surfaces later as a discovery. Several cannot be quoted responsibly until §5 is resolved.</p>
+
+    <h3>One-time, amortized across the entire library</h3>
+    <ol>
+      <li>Hero aircraft model — <em>largest unquantified item; requires market quotes</em></li>
+      <li>House style system development</li>
+      <li>Scenario schema and pipeline engineering</li>
+      <li>Photorealistic look development (specialist technical artist)</li>
+      <li>GPU workstation, or initial cloud render budget</li>
+      <li>Audio library and sound design templates</li>
+    </ol>
+
+    <h3>Recurring / per-volume</h3>
+    <ol start="7">
+      <li>Terrain streaming subscription</li>
+      <li>Engine and framework commercial licenses</li>
+      <li>Render compute per scenario and per variant</li>
+      <li>Asset storage and version control infrastructure</li>
+    </ol>
+
+    <h3>Per-scenario</h3>
+    <ol start="11">
+      <li>Flight data acquisition — <em>cost depends entirely on which option in §4.1 is selected; instrumented capture is materially more expensive than authored</em></li>
+      <li>CFI validation time</li>
+      <li>Narration and script production</li>
+    </ol>
+
+    <h3>Frequently underestimated — stated explicitly</h3>
+    <ol start="14">
+      <li>Look-development iteration. Photorealism is inherently iterative; the industry rule of thumb is two to three times the naive estimate.</li>
+      <li>Legal review hours.</li>
+    </ol>
+
+    <div class="callout stark">
+      <p>We would rather say this now than discover it together later.</p>
+    </div>
+  </section>
+
+  <!-- ══ 9 ══ -->
+  <section id="s9">
+    <h2>Red flags</h2>
+    <p>Raised before anything else, as they should be.</p>
+    <ol class="flags">
+      <li><strong>Credibility is one clip deep.</strong> A single published video with implausible physics, in front of the most unforgiving technical audience that exists, is not recoverable by later quality. Every maneuver requires CFI sign-off before publication, without exception. This gate is not negotiable and should be treated as a release blocker, not a review step.</li>
+      <li><strong>The central marketing claim has an undeclared dependency</strong> (§4.1). Resolve before printing.</li>
+      <li><strong>One asset caps the quality of everything</strong> (§4.2), and it is currently unpriced.</li>
+      <li><strong>The AI layer is the most likely source of a broken promise</strong> (§4.3). Removing it from the critical path removes the risk at no cost to the business case.</li>
+      <li><strong>Terrain licensing may constrain the visual target</strong> (§4.4). Decide before look development.</li>
+      <li><strong>Nothing may be hand-finished outside the pipeline.</strong> A one-off manual retouch on a single clip breaks both the consistency promise and the re-render economics that the entire cost argument depends on. If it does not go through the pipeline, it does not ship.</li>
+      <li><strong>Prototype scope must be frozen in writing.</strong> A fundraising push generates continuous pressure toward “can we also add…”. Each addition compounds against a fixed demo date.</li>
+      <li><strong>No regulatory claims.</strong> Free ground school does not require FAA training credit, and claiming it without basis is unnecessary legal exposure.</li>
+      <li><strong>The concept document is strategy, not verified engineering.</strong> Its reasoning is sound and its economics hold, but none of its technical claims had been validated before this assessment. It should be treated as direction, not as specification.</li>
+    </ol>
+  </section>
+
+  <!-- ══ 10 ══ -->
+  <section id="s10">
+    <h2>Recommended path</h2>
+
+    <div class="phase">
+      <div class="phase-label">Phase 0 · approximately one week</div>
+      <h3>Technical spike</h3>
+      <p>The only honest way to deliver cost certainty is to buy the certainty cheaply first. A short, bounded spike resolving every item in §5 and producing:</p>
+      <ul>
+        <li>A written licensing verdict — engine, terrain, frameworks</li>
+        <li>Real quotes for the hero aircraft model</li>
+        <li>A resolution for the attitude-data question, with Rich and Billy’s input</li>
+        <li>A measured render benchmark at target quality</li>
+        <li>A 10-second test render — the look test that settles the visual question</li>
+        <li>Scenario schema v0</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 1</div>
+      <h3>Prototype</h3>
+      <p>Scoped per §6, with a frozen scope and a fixed date. Not scheduled or estimated until Phase 0 closes; <strong>any timeline offered before that would be a guess presented as a commitment.</strong></p>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Phase 2</div>
+      <h3>Scale decision</h3>
+      <p>Taken with real numbers, real render times, a tested look and CFI feedback in hand.</p>
+    </div>
+  </section>
+
+  <!-- ══ 11 ══ -->
+  <section id="s11">
+    <h2>What we would need from Community Aviation</h2>
+
+    <h3>To run Phase 0</h3>
+    <ul>
+      <li>Confirmation of the priority maneuver</li>
+      <li>Access to Rich, or a delegated CFI authority, for instructional questions</li>
+      <li>An answer on which aircraft and avionics are actually accessible for data capture (§4.1) — this is Billy’s and Rich’s domain, not ours</li>
+      <li>A decision on the disclosure wording, or authority to propose it</li>
+      <li>A single named decision-maker on your side</li>
+    </ul>
+
+    <h3>To run Phase 1</h3>
+    <ul>
+      <li>A CFI review panel (10–20 instructors) — the SAFE network makes this straightforward, and it doubles as early evangelism with exactly the audience the venture needs</li>
+      <li>Brand direction, or the mandate to establish it</li>
+      <li>Frozen prototype scope, agreed in writing</li>
+    </ul>
+  </section>
+
+  <!-- ══ 12 ══ -->
+  <section id="s12">
+    <h2>Summary</h2>
+    <p class="closing">The concept is sound and the architecture is correct. The economic argument — fixed cost replacing variable cost, marginal cost per angle and per variant approaching zero, one artifact serving video, simulator and assessment — <strong>holds under engineering scrutiny.</strong></p>
+    <p class="closing" style="margin-top:20px">What the concept document does not yet contain is the set of dependencies that determine whether it can be said out loud: where trustworthy attitude data comes from, what the aircraft asset costs, which terrain is licensable, and which claims survive contact with a pilot audience.</p>
+    <p class="closing" style="margin-top:20px"><strong>Those are answerable in about a week.</strong> We would rather answer them before anyone commits to a number than discover them together afterwards.</p>
+
+    <div class="endmark">
+      <span>Rendered Flight Instruction · v1.0 · July 30, 2026</span>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  var current = null;
+
+  function setActive(id){
+    if(id === current) return;
+    current = id;
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if(map[id]) map[id].classList.add('active');
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    var visible = entries.filter(function(e){ return e.isIntersecting; });
+    if(!visible.length) return;
+    visible.sort(function(a,b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+    setActive(visible[0].target.id);
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script>
+
+</body>
+</html>
