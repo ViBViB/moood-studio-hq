@@ -127,9 +127,11 @@
     margin: clamp(0.6rem, 1.5vw, 1.1rem) auto clamp(0.8rem, 1.6vw, 1.15rem);
     width: 100%;
   }
-  /* The logo plates read straight from the client's own 2000×1000 PNG exports. The canvas has
-     wide empty margins, so the frame shows a centred crop of it — nothing is regenerated, which
-     means a re-export always appears immediately and no rasterising artefacts are introduced. */
+  /* The logo plates read straight from the client's own SVG masters — vector, so the browser
+     rasterises them at the device's real resolution and they stay crisp on Retina at any size.
+     (The PNG exports are only 767–911px of actual ink, which the deck would have to upscale ~2×
+     on a 2× display: that is what looked blurred.) The canvas has wide empty margins, so the
+     frame shows a centred crop; nothing is regenerated, so a re-export appears immediately. */
   .logo-frame {
     width: 100%; margin: 0 auto;
     aspect-ratio: 2 / 1;
@@ -276,7 +278,7 @@
           <div class="slide-pad statement">
             <div class="split">
             <div class="logo-hero">
-              <div class="logo-frame" style="--src:url('r3-a-pos.png');--zoom:208.6%" role="img" aria-label="Preoptima wordmark, black on white"></div>
+              <div class="logo-frame" style="--src:url('r3-a-pos.svg');--zoom:208.6%" role="img" aria-label="Preoptima wordmark, black on white"></div>
             </div>
 
             <div class="body">
@@ -291,7 +293,7 @@
         <div class="slide">
           <div class="slide-pad shot">
             <figure>
-              <div class="logo-frame" style="--src:url('r3-a-neg.png');--zoom:208.6%" role="img" aria-label="Preoptima wordmark, white on black"></div>
+              <div class="logo-frame" style="--src:url('r3-a-neg.svg');--zoom:208.6%" role="img" aria-label="Preoptima wordmark, white on black"></div>
               <figcaption>
                 Reversed. The same weight holds on a dark ground — which is where a software brand spends most of its life.
               </figcaption>
@@ -386,7 +388,7 @@
           <div class="slide-pad statement">
             <div class="split">
             <div class="logo-hero">
-              <div class="logo-frame" style="--src:url('r3-b-pos.png');--zoom:175.6%" role="img" aria-label="Preoptima wordmark, black on white"></div>
+              <div class="logo-frame" style="--src:url('r3-b-pos.svg');--zoom:175.6%" role="img" aria-label="Preoptima wordmark, black on white"></div>
             </div>
 
             <div class="body">
@@ -401,7 +403,7 @@
         <div class="slide">
           <div class="slide-pad shot">
             <figure>
-              <div class="logo-frame" style="--src:url('r3-b-neg.png');--zoom:175.6%" role="img" aria-label="Preoptima wordmark, white on black"></div>
+              <div class="logo-frame" style="--src:url('r3-b-neg.svg');--zoom:175.6%" role="img" aria-label="Preoptima wordmark, white on black"></div>
               <figcaption>Reversed.</figcaption>
             </figure>
           </div>
