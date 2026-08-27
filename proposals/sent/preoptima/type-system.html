@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preoptima — Typography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --ink: #0A0A0A;
+    --paper: #FFFFFF;
+    --void: #000000;
+    --measure: 66ch;
+    --content-max: 1440px;
+    --pad: clamp(1.5rem, 5vw, 5rem);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --bg: var(--paper);
+    --text: #111111;
+    --muted: rgba(0, 0, 0, 0.54);
+    --dim: rgba(0, 0, 0, 0.34);
+    --hair: rgba(0, 0, 0, 0.11);
+    --dock-bg: rgba(255, 255, 255, 0.88);
+    --dot: rgba(0, 0, 0, 0.20);
+    --dot-on: #0A0A0A;
+  }
+
+  body.dark {
+    --bg: var(--void);
+    --text: #FFFFFF;
+    --muted: rgba(255, 255, 255, 0.56);
+    --dim: rgba(255, 255, 255, 0.36);
+    --hair: rgba(255, 255, 255, 0.14);
+    --dock-bg: rgba(20, 20, 20, 0.82);
+    --dot: rgba(255, 255, 255, 0.24);
+    --dot-on: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    transition: background-color 0.8s var(--ease), color 0.8s var(--ease);
+  }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; margin: 0; }
+
+  /* ── FIXED MASTHEAD ────────────────────────────────── */
+  .mast {
+    position: fixed; top: clamp(1.3rem, 3vw, 2.2rem); left: clamp(1.3rem, 3vw, 2.2rem);
+    z-index: 40; color: var(--text);
+    transition: color 0.55s var(--ease);
+  }
+  .mast .wordmark svg { height: 54px; width: auto; display: block; }
+  .mast .wordmark svg path { fill: currentColor; }
+
+  /* ── VIEWS ─────────────────────────────────────────── */
+  .view { display: none; min-height: 100vh; }
+  .view.active { display: block; }
+
+  .pad {
+    padding: clamp(6.5rem, 11vw, 9rem) var(--pad) clamp(8.5rem, 13vw, 10.5rem);
+    max-width: var(--content-max); margin: 0 auto; width: 100%;
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  }
+
+  /* Intro */
+  .intro-inner { text-align: center; }
+  .intro-inner .eyebrow { color: var(--muted); margin: 0 auto clamp(1.2rem, 2.4vw, 1.6rem); }
+  .intro-inner h1 {
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    line-height: 0.98; letter-spacing: -0.034em; font-weight: 500;
+    margin: 0 auto; text-wrap: balance; max-width: 16ch;
+  }
+  .intro-inner p:not(.eyebrow) {
+    margin: clamp(1.6rem, 3vw, 2.3rem) auto 0;
+    font-size: clamp(1.05rem, 1.8vw, 1.24rem);
+    line-height: 1.52; letter-spacing: -0.012em; color: var(--muted); font-weight: 400;
+    max-width: 60ch;
+  }
+  .intro-inner p + p { margin-top: 1.1rem; }
+
+  /* ── SLIDER ────────────────────────────────────────── */
+  .stage { width: 100%; }
+  /* slides are stacked in one grid cell and cross-faded */
+  .track { display: grid; width: 100%; }
+  .slide {
+    grid-area: 1 / 1;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.7s var(--ease), visibility 0s linear 0.7s;
+  }
+  .slide.on {
+    opacity: 1; visibility: visible;
+    transition: opacity 0.7s var(--ease), visibility 0s linear 0s;
+  }
+
+  .slide-pad {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(3.5rem, 6vw, 4.5rem) clamp(1rem, 2.5vw, 2.5rem) clamp(6.5rem, 9.5vw, 7rem);
+    max-width: 1760px; margin: 0 auto; width: 100%;
+  }
+
+  /* statement slide (first of each alternative) */
+  .statement { text-align: center; }
+  .statement.slide-pad { padding-top: clamp(2rem, 3.5vw, 2.75rem); padding-bottom: clamp(6rem, 8.5vw, 6.75rem); }
+  .statement .split { display: block; width: 100%; }
+  .statement .alt-no { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
+  .statement h2 {
+    font-size: clamp(1.9rem, 4vw, 2.85rem); line-height: 1.04; letter-spacing: -0.03em;
+    font-weight: 500; margin: 0.6rem 0 0; text-wrap: balance;
+  }
+  .statement .lede {
+    margin: 0.85rem auto 0; font-size: clamp(1.05rem, 1.9vw, 1.24rem); line-height: 1.45;
+    letter-spacing: -0.012em; color: var(--muted); font-weight: 400; max-width: 48ch;
+  }
+  .logo-hero {
+    margin: clamp(0.6rem, 1.5vw, 1.1rem) auto clamp(0.8rem, 1.6vw, 1.15rem);
+    width: 100%;
+  }
+  /* The logo plates read straight from the client's own SVG masters — vector, so the browser
+     rasterises them at the device's real resolution and they stay crisp on Retina at any size.
+     (The PNG exports are only 767–911px of actual ink, which the deck would have to upscale ~2×
+     on a 2× display: that is what looked blurred.) The canvas has wide empty margins, so the
+     frame shows a centred crop; nothing is regenerated, so a re-export appears immediately. */
+  .logo-frame {
+    width: 100%; margin: 0 auto;
+    aspect-ratio: 2 / 1;
+    background-image: var(--src);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: var(--zoom) auto;
+  }
+  .logo-hero img {
+    display: block; margin: 0 auto;
+    max-width: 100%; max-height: 34vh; width: auto; height: auto;
+  }
+  .statement .body {
+    margin: 0 auto; max-width: 58ch; color: var(--muted); font-size: 15px; line-height: 1.5; text-align: left;
+  }
+  .statement .body p { margin: 0 0 0.9rem; break-inside: avoid; }
+  .statement .body p:last-child { margin-bottom: 0; }
+
+  /* opening slide: the full 2:1 artwork as large as the viewport allows, argument beneath it
+     in two explicit columns (a grid, not multicolumn, so each block stays where it's written) */
+  @media (min-width: 900px) {
+    .statement .body {
+      max-width: 88ch;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 3.5rem); align-items: start;
+    }
+    /* the opening positive renders at exactly the same size as every other plate */
+    .logo-hero img { max-height: 64vh; }
+  }
+
+  /* specimen row: logo + symbol side by side, each labelled */
+  .spec { display: flex; align-items: flex-end; justify-content: center;
+          gap: clamp(1.5rem, 4vw, 3.5rem); width: 100%; }
+  .spec .piece { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; }
+  .spec .piece.logo { flex: 0 1 auto; max-width: 74%; }
+  .spec .piece.sym  { flex: 0 0 auto; }
+  .spec-label {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 600; color: var(--dim); white-space: nowrap;
+  }
+  .spec-label .use { font-weight: 400; letter-spacing: 0.08em; text-transform: none; }
+  .spec img { display: block; width: auto; height: auto; max-width: 100%; }
+  .spec .piece.logo img { max-height: 34vh; }
+  .spec .piece.sym img  { max-height: 20vh; }
+
+  /* a slot whose file isn't in place yet */
+  img.missing {
+    width: 260px; height: 130px;
+    border: 1px dashed var(--hair); border-radius: 8px;
+  }
+  .spec .piece.sym img.missing { width: 130px; }
+  .slotname { font-size: 11px; color: var(--dim); font-family: ui-monospace, Menlo, monospace; }
+
+  /* image slides */
+  .shot { text-align: center; }
+  .shot figure { margin: 0; }
+  .shot img {
+    display: block; margin: 0 auto;
+    max-width: 100%; max-height: 64vh; width: auto; height: auto;
+  }
+  .shot.note img { max-height: 58vh; }
+  .shot figcaption {
+    margin: clamp(1.1rem, 2.2vw, 1.6rem) auto 0;
+    max-width: 46ch; color: var(--muted); font-size: 15.5px; line-height: 1.5;
+  }
+  .shot .fine { display: block; margin-top: 0.7rem; color: var(--dim); font-size: 13.5px; line-height: 1.45; }
+
+  /* placeholder slot (alternative with no shots yet) */
+  .slot {
+    border: 1px dashed var(--hair); border-radius: 10px;
+    padding: clamp(3rem, 8vw, 6rem) 2rem; text-align: center; color: var(--dim);
+    max-width: 900px; margin: 0 auto;
+  }
+
+  /* ── DOTS ──────────────────────────────────────────── */
+  .dots {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: calc(clamp(1.2rem, 3vw, 2rem) + 62px);
+    z-index: 50; display: none; gap: 0.55rem; align-items: center;
+  }
+  .dots.on { display: flex; }
+  .dot {
+    width: 7px; height: 7px; padding: 0; border: none; border-radius: 999px;
+    background: var(--dot); cursor: pointer;
+    transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .dot.active { background: var(--dot-on); transform: scale(1.34); }
+  .dot:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+  /* ── FLOATING NAV DOCK ─────────────────────────────── */
+  .dock {
+    position: fixed; left: 50%; bottom: clamp(1.2rem, 3vw, 2rem); transform: translateX(-50%);
+    z-index: 50; display: flex; flex-wrap: nowrap; gap: 0.35rem;
+    background: var(--dock-bg); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid var(--hair); border-radius: 999px;
+    padding: 0.4rem; box-shadow: 0 14px 44px rgba(0, 0, 0, 0.24);
+    max-width: calc(100vw - 2rem);
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    transition: background-color 0.55s var(--ease), border-color 0.55s var(--ease);
+  }
+  .dock::-webkit-scrollbar { display: none; }
+  .dockbtn {
+    flex: 0 0 auto;
+    font-family: var(--font); font-size: 13px; letter-spacing: -0.005em; font-weight: 500;
+    color: var(--muted); background: transparent; border: none; border-radius: 999px;
+    padding: 0.58rem 1.05rem; cursor: pointer; white-space: nowrap;
+    transition: background 0.24s var(--ease), color 0.24s var(--ease);
+  }
+  .dockbtn .n { font-variant-numeric: tabular-nums; color: var(--dim); margin-right: 0.5em; }
+  .dockbtn:hover { color: var(--text); }
+  .dockbtn.active { background: var(--text); color: var(--bg); }
+  .dockbtn.active .n { color: var(--bg); opacity: 0.55; }
+  .dockbtn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    body, .track, .mast, .dock { transition: none !important; }
+  }
+
+  @media (max-width: 620px) {
+    .mast .wordmark svg { height: 40px; }
+    .shot img { max-height: 52vh; }
+    .slide-pad, .pad { padding-bottom: clamp(10rem, 26vw, 12rem); }
+    .dots { bottom: calc(clamp(1.2rem, 3vw, 2rem) + 58px); }
+  }
+
+  /* ── colour sheets ─────────────────────────────────────── */
+  .sheet{max-width:1180px;margin:0 auto;width:100%;
+         padding:clamp(4.5rem,8vw,6rem) var(--pad) clamp(7rem,10vw,8.5rem)}
+  .sheet .lede{max-width:62ch;color:var(--muted);font-size:clamp(1rem,1.5vw,1.1rem);margin:0 0 .85rem}
+  .sheet h2{font-size:4rem;line-height:1.1;letter-spacing:-.025em;
+            font-weight:500;margin:.5rem 0 .5rem}
+  .sheet .why{color:var(--muted);max-width:62ch;margin:0;font-size:.98rem}
+  .sheet .cap{color:var(--muted);font-size:.92rem;margin:1rem 0 0;max-width:60ch}
+  .sheet .lab{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+              font-weight:600;margin:4.8rem 0 .9rem}
+
+  @media(max-width:860px){
+    .sheet h2{font-size:clamp(2rem,7vw,4rem)}
+  }
+  /* ── the three faces ───────────────────────────────────── */
+  .cal{font-family:'Cal Sans',system-ui,sans-serif;font-weight:400;letter-spacing:.02em}
+  .man{font-family:'Manrope',system-ui,sans-serif}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+
+  .bed{background:#F4F4F3;padding:clamp(1.8rem,4vw,3rem);display:flex;flex-wrap:wrap;
+       align-items:center;gap:clamp(1.4rem,3vw,3rem);margin-top:0}
+  .bed .mark{flex:0 0 clamp(160px,20vw,250px)}
+  .bed .mark img{width:100%;height:auto;display:block}
+  .bed .rule{width:1px;align-self:stretch;background:var(--hair)}
+  .bed .disp{flex:1 1 300px;min-width:0}
+
+  .charset{font-size:1.05rem;line-height:2;letter-spacing:.06em;color:var(--muted);max-width:70ch}
+  .wts{display:grid;gap:.5rem;max-width:660px}
+  .wts div{display:flex;align-items:baseline;gap:1.2rem}
+  .wts .n{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--dim);width:3.2em;flex:none}
+
+  .scale{display:grid;gap:1.5rem}
+  .step{display:grid;grid-template-columns:155px 1fr;gap:clamp(1rem,2.5vw,2.2rem);align-items:baseline}
+  .step .meta{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;line-height:1.7;
+              color:var(--dim);border-top:1px solid var(--hair);padding-top:.5rem}
+  .step .meta b{display:block;font-family:var(--font);font-size:.82rem;font-weight:600;
+                color:var(--text);letter-spacing:0;margin-bottom:.25rem}
+  .step .sample{min-width:0;overflow:hidden}
+  .step .sample p{margin:0;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+
+  .data{border:1px solid var(--hair);max-width:560px}
+  .data .row{display:flex;justify-content:space-between;align-items:baseline;
+             padding:.72rem 1rem;border-bottom:1px solid var(--hair)}
+  .data .row:last-child{border-bottom:none}
+  .data .k{font-size:.85rem;color:var(--muted)}
+  .data .v{font-size:1.05rem}
+  .data .big{font-size:2rem;letter-spacing:-.02em}
+
+  .use{border:1px solid var(--hair);margin-top:0}
+  .use .bar{display:flex;align-items:center;gap:1.6rem;padding:.8rem 1.2rem;
+            border-bottom:1px solid var(--hair);font-size:.85rem;color:var(--muted)}
+  .use .bar .brand{margin-right:auto;width:140px}
+  .use .bar .brand img{width:100%;height:auto;display:block}
+  .use .panel{padding:clamp(1.4rem,3vw,2.4rem);display:grid;grid-template-columns:1.25fr 1fr;
+              gap:1.8rem;align-items:center}
+  .use h4{margin:0 0 .5rem;font-size:clamp(1.4rem,2.8vw,2rem);line-height:1.1}
+  .use p{margin:0;font-size:.92rem;max-width:40ch}
+
+  .rules{display:grid;gap:1.1rem;max-width:70ch;margin-top:0}
+  .rules div{border-left:2px solid var(--hair);padding-left:1.1rem}
+  .rules p{margin:.2rem 0 0;color:var(--muted);font-size:.95rem}
+  @media(max-width:820px){ .step{grid-template-columns:1fr} .use .panel{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<template id="logo">
+  <svg viewBox="0 0 645 731" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="moood.studio">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.294 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.853 465.294 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M603.756 728.254H588.557V712.254C580.157 724.654 568.356 730.654 553.156 730.654C538.556 730.654 526.956 725.854 518.356 715.854C509.556 706.054 505.156 693.054 505.156 676.654C505.156 660.254 509.557 647.054 518.356 637.254C526.756 627.654 538.356 622.654 553.156 622.654C567.956 622.654 579.356 628.454 587.756 639.854V585.854H603.756V728.254ZM555.156 637.054C545.156 637.054 536.956 640.854 530.956 648.054C524.956 655.254 521.956 665.054 521.956 677.453C521.956 689.853 524.956 699.254 530.956 706.054C536.956 712.854 544.956 716.254 555.156 716.254C565.156 716.254 573.356 712.854 579.356 705.654C585.356 698.854 588.356 689.054 588.356 676.654C588.356 664.454 585.356 654.854 579.356 647.654C573.356 640.654 565.156 637.054 555.156 637.054Z"/>
+    <path d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z"/>
+    <path d="M644.935 728.254H624.734V708.254H644.935V728.254Z"/>
+    <path d="M643.334 625.054L639.734 691.054H629.334L626.534 625.054V585.854H643.334V625.054Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z"/>
+  </svg>
+</template>
+
+<header class="mast">
+  <span class="wordmark" data-logo></span>
+</header>
+
+<main>
+
+  <section class="view active" id="view-intro" data-white>
+    <div class="pad intro-inner">
+      <p class="eyebrow">Preoptima — Typography</p>
+      <h1>Three faces, three jobs.</h1>
+      <p>These are not three preferences. They are three jobs — the headline, the reading text, and the number. <strong>Cal Sans</strong> sets the headlines — a deliberate sibling to the logotype, sharing its geometric construction and round bowls without imitating its letters. <strong>Manrope</strong> carries everything else: reading text, interface labels, captions. <strong>IBM Plex Mono</strong> is reserved for measured data. All three are open-licence and self-hostable — no licence cost, and nothing billed per seat when they enter the product.</p>
+    </div>
+  </section>
+
+  <section class="view" id="view-faces"><div class="sheet" id="sheet-faces"></div></section>
+  <section class="view" id="view-scale"><div class="sheet" id="sheet-scale"></div></section>
+  <section class="view" id="view-use"><div class="sheet" id="sheet-use"></div></section>
+
+</main>
+
+<nav class="dock" id="dock" aria-label="Section navigation"></nav>
+
+<script>
+// ── swap this one line when the client confirms the letter ──────────────────
+const LETTER = 'a';        // 'a'  or  'o'
+// ────────────────────────────────────────────────────────────────────────────
+const MARK = `r4-alt-${LETTER}-logo-pos.svg`;
+
+document.getElementById('sheet-faces').innerHTML = `
+  <p class="eyebrow" style="color:var(--dim)">01 — The faces</p>
+  <h2>Beside the logotype</h2>
+  <p class="why">The logotype is drawn; the headline is set. The test is whether they sit together without the headline pretending to be the mark.</p>
+
+  <p class="lab">Cal Sans — headings</p>
+  <div class="bed">
+    <div class="mark"><img src="${MARK}" alt="Preoptima logotype"></div>
+    <div class="rule"></div>
+    <div class="disp"><p class="cal" style="font-size:clamp(2rem,4.4vw,3.2rem);line-height:1.02;margin:0">Decide it early.</p></div>
+  </div>
+  <p class="cap">One weight only. Hierarchy inside the headings comes from size and case, not weight — a constraint worth keeping, because it forces a cleaner scale.</p>
+  <p class="cal charset" style="margin-top:1.6rem">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &nbsp; (@!?#£$%&*:;^~)</p>
+
+  <p class="lab">Manrope — text and interface</p>
+  <div class="wts man">
+    <div><span class="n">300</span><span style="font-weight:300">Extra light — fine print</span></div>
+    <div><span class="n">400</span><span style="font-weight:400">Regular — reading text</span></div>
+    <div><span class="n">500</span><span style="font-weight:500">Medium — interface labels and navigation</span></div>
+    <div><span class="n">600</span><span style="font-weight:600">Semibold — subheads</span></div>
+    <div><span class="n">700</span><span style="font-weight:700">Bold — emphasis and button labels</span></div>
+    <div><span class="n">800</span><span style="font-weight:800">Extra bold — stands in for Cal Sans if it cannot load</span></div>
+  </div>
+  <p class="man charset" style="margin-top:1.6rem">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &nbsp; (@!?#£$%&*:;^~)</p>
+
+  <p class="lab">IBM Plex Mono — data</p>
+  <div class="data mono">
+    <div class="row"><span class="k man">Whole life</span><span class="big">412<span style="font-size:.42em"> kgCO₂e/m²</span></span></div>
+    <div class="row"><span class="k man">Embodied A1–A5</span><span class="v">268.4</span></div>
+    <div class="row"><span class="k man">Operational B6</span><span class="v">143.6</span></div>
+  </div>
+  <p class="cap">Manrope already has tabular figures, so columns align without a mono. Plex Mono is not a technical necessity — it is a signal: this is measured data, not prose. Readouts, tables and code only; never reading text.</p>`;
+
+const STEPS = [
+  ['Display',    61,1.02,'cal','Decide it early.'],
+  ['Headline 1', 49,1.05,'cal','Decide it early.'],
+  ['Headline 2', 39,1.08,'cal','Prove it at planning.'],
+  ['Headline 3', 31,1.12,'cal','Evidence at every stage.'],
+  ['Headline 4', 25,1.20,'cal','Complex analysis, clear answers.'],
+  ['Subhead',    20,1.40,'man','Structured, evidence-led decisions.',600],
+  ['Body large', 20,1.60,'man','Structured, evidence-led decisions across a building’s life.',400],
+  ['Body',       16,1.62,'man','Structured, evidence-led decisions across a building’s life.',400],
+  ['Small',      13,1.50,'man','Structured, evidence-led decisions across a building’s life.',400],
+  ['Metric',     49,1.00,'mono','412 kgCO₂e/m²',500],
+  ['Data',       16,1.50,'mono','268.4 · 143.6 · 412.0',400],
+  ['Data small', 13,1.45,'mono','268.4 · 143.6 · 412.0',400],
+];
+const FACE={cal:'Cal Sans',man:'Manrope',mono:'IBM Plex Mono'};
+document.getElementById('sheet-scale').innerHTML = `
+  <p class="eyebrow" style="color:var(--dim)">02 — The scale</p>
+  <h2>Base 16, ratio 1.25</h2>
+  <p class="why">Every size in the system comes from this one sequence — nothing is set by eye. Twelve steps cover the headline, the paragraph and the readout, which is the whole surface area of the product.</p>
+
+  <p class="lab">The twelve steps</p>
+  <div class="scale">
+    ${STEPS.map(([n,sz,lh,f,t,w])=>`
+      <div class="step">
+        <div class="meta"><b>${n}</b>${sz} / ${lh}<br>${FACE[f]}${w?' '+w:''}${f==='cal'?'<br>+2% tracking':''}</div>
+        <div class="sample"><p class="${f}" style="font-size:${sz}px;line-height:${lh}${w?';font-weight:'+w:''}">${t}</p></div>
+      </div>`).join('')}
+  </div>
+  <p class="cap">Line height tightens as size grows and opens as it shrinks — a headline is seen, a paragraph is read. Cal Sans always carries +2% tracking, at every step.</p>`;
+
+document.getElementById('sheet-use').innerHTML = `
+  <p class="eyebrow" style="color:var(--dim)">03 — In use</p>
+  <h2>The system at work</h2>
+  <p class="why">All three faces on one screen, in the proportion they will actually appear: a little Cal Sans, a lot of Manrope, and the numbers holding their column.</p>
+
+  <p class="lab">One screen</p>
+  <div class="use">
+    <div class="bar man"><span class="brand"><img src="${MARK}" alt="Preoptima"></span><span>Projects</span><span>Evidence</span><span>Reports</span></div>
+    <div class="panel">
+      <div>
+        <h4 class="cal">Stage 2 assessment</h4>
+        <p class="man">Three massing options compared before the scheme is fixed — while changing it still costs nothing.</p>
+      </div>
+      <div class="data mono">
+        <div class="row"><span class="k man">Option A</span><span class="v">412</span></div>
+        <div class="row"><span class="k man">Option B</span><span class="v">389</span></div>
+        <div class="row"><span class="k man">Option C</span><span class="v">451</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lab">Rules</p>
+  <div class="rules">
+    <div><strong>Cal Sans is always tracked +2%.</strong><p>Set as a token, not adjusted per headline. The face is tight by nature; the extra air is what makes it read calm rather than compressed.</p></div>
+    <div><strong>Heading hierarchy comes from size and case, never weight.</strong><p>Cal Sans has one weight. Anyone reaching for a lighter subhead will otherwise import a fourth typeface.</p></div>
+    <div><strong>Manrope 800 is the fallback for Cal Sans.</strong><p>Declared in the font stack, so a failed load degrades to the system rather than to a default serif.</p></div>
+    <div><strong>Plex Mono never sets reading text.</strong><p>Readouts, tables, code and figures only.</p></div>
+    <div><strong>The accent does two jobs, and both are contrast-critical.</strong><p>It sets the call to action and the emphasised figure, so in both places it has to clear contrast on its own ground. At 19px or larger, text counts as large and 4.5:1 is enough; below that the AAA bar is 7:1. White on the warm accent clears either way at 7.3:1. White on the blue accent reaches 4.6:1 — fine at 19px and above, AA rather than AAA below it. Small figures that are not the highlighted one stay ink.</p></div>
+  </div>`;
+
+const VIEWS=[{id:'intro',nav:'Intro'},{id:'faces',nav:'The faces'},{id:'scale',nav:'The scale'},{id:'use',nav:'In use'}];
+const dock=document.getElementById('dock');
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+id));
+  document.querySelectorAll('.dockbtn').forEach(b=>b.classList.toggle('active', b.dataset.id===id));
+  window.scrollTo(0,0);
+  if((location.hash||'').replace('#','')!==id) history.replaceState(null,'','#'+id);
+}
+VIEWS.forEach((v,i)=>{
+  const b=document.createElement('button');
+  b.className='dockbtn'+(i===0?' active':''); b.type='button'; b.dataset.id=v.id;
+  b.innerHTML = i===0 ? 'Intro' : `<span class="n">0${i}</span>${v.nav}`;
+  b.addEventListener('click',()=>showView(v.id));
+  dock.appendChild(b);
+});
+
+const tpl=document.getElementById('logo');
+document.querySelectorAll('[data-logo]').forEach(s=>s.appendChild(tpl.content.cloneNode(true)));
+
+const start=(location.hash||'').replace('#','');
+showView(document.getElementById('view-'+start)?start:'intro');
+addEventListener('hashchange',()=>{
+  const h=(location.hash||'').replace('#','');
+  if(document.getElementById('view-'+h)) showView(h);
+});
+</script>
+</body>
+</html>
