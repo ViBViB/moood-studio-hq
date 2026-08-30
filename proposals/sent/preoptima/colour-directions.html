@@ -367,7 +367,10 @@
   @media (max-width: 720px) {
     .prop { height: clamp(230px, 60vw, 290px); }
     .prop .cell { font-size: 1rem; padding: .7rem; }
-    .prop .cell .cn { display: block; margin-left: 0; opacity: .66; }
+    /* .cell is a flex row, so a block child stays on the line and the literal
+       space between the flex items is dropped — wrap the row instead */
+    .prop .cell { flex-wrap: wrap; align-content: flex-start; row-gap: .15rem; }
+    .prop .cell .cn { flex: 0 0 100%; margin-left: 0; opacity: .66; }
 
     /* the hero stacks: nav, copy, photograph, then the two readouts in
        normal flow — floating them over a 375px-wide picture only buries them */
