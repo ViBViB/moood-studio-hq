@@ -322,6 +322,42 @@
   .rules div{border-left:2px solid var(--hair);padding-left:1.1rem}
   .rules p{margin:.2rem 0 0;color:var(--muted);font-size:.95rem}
   @media(max-width:820px){ .step{grid-template-columns:1fr} .use .panel{grid-template-columns:1fr} }
+
+  /* ── phones ─────────────────────────────────────────────────────────
+     One step down on type, and a dock that fits. Below 720px the layout
+     stops pretending it has two columns. */
+  @media (max-width: 720px) {
+    body { font-size: 15px; }
+    .sheet { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .sheet h2 { font-size: clamp(1.7rem, 8.4vw, 2.4rem); }
+    .sheet .why { font-size: .92rem; }
+    .sheet .cap { font-size: .84rem; }
+    .sheet .lab { margin-top: 3.2rem; }
+    .intro-inner h1 { font-size: clamp(2rem, 9.5vw, 3rem); }
+    .intro-inner p:not(.eyebrow) { font-size: 1rem; line-height: 1.5; }
+    .dockbtn { font-size: 12px; padding: .5rem .72rem; }
+    .dockbtn .n { display: none; }
+    /* the masthead stops being fixed on a phone — at this width it sits on top
+       of the content it is meant to sit beside */
+    .mast { position: absolute; }
+    .mast .wordmark svg { height: 38px; }
+  }
+
+  @media (max-width: 720px) {
+    /* this slide's whole content is the true size of each step, so the big
+       ones wrap rather than truncate — nothing gets hidden behind an ellipsis */
+    .step .sample { overflow: visible; }
+    .step .sample p { white-space: normal; text-overflow: clip; overflow: visible; }
+    .charset { font-size: .92rem; line-height: 1.85; letter-spacing: .04em; }
+    .wts div { flex-wrap: wrap; gap: .3rem 1rem; }
+    .bed { padding: 1.2rem; gap: 1.2rem; }
+    .bed .rule { display: none; }
+    .use .bar { flex-wrap: wrap; gap: .9rem; font-size: .78rem; }
+    .use .bar .brand { width: 108px; margin-right: 0; }
+    .use .panel { padding: 1.2rem; }
+    .data .big { font-size: 1.6rem; }
+    .rules div { padding-left: .9rem; }
+  }
 </style>
 </head>
 <body>

@@ -343,6 +343,46 @@
     .hero .hcard{position:static;width:auto}
     .inkrow{grid-template-columns:1fr}
   }
+
+  /* ── phones ─────────────────────────────────────────────────────────
+     One step down on type, and a dock that fits. Below 720px the layout
+     stops pretending it has two columns. */
+  @media (max-width: 720px) {
+    body { font-size: 15px; }
+    .sheet { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .sheet h2 { font-size: clamp(1.7rem, 8.4vw, 2.4rem); }
+    .sheet .why { font-size: .92rem; }
+    .sheet .cap { font-size: .84rem; }
+    .sheet .lab { margin-top: 3.2rem; }
+    .intro-inner h1 { font-size: clamp(2rem, 9.5vw, 3rem); }
+    .intro-inner p:not(.eyebrow) { font-size: 1rem; line-height: 1.5; }
+    .dockbtn { font-size: 12px; padding: .5rem .72rem; }
+    .dockbtn .n { display: none; }
+    /* the masthead stops being fixed on a phone — at this width it sits on top
+       of the content it is meant to sit beside */
+    .mast { position: absolute; }
+    .mast .wordmark svg { height: 38px; }
+  }
+
+  @media (max-width: 720px) {
+    .prop { height: clamp(230px, 60vw, 290px); }
+    .prop .cell { font-size: 1rem; padding: .7rem; }
+    .prop .cell .cn { display: block; margin-left: 0; opacity: .66; }
+
+    /* the hero stacks: nav, copy, photograph, then the two readouts in
+       normal flow — floating them over a 375px-wide picture only buries them */
+    .hero .hbar { padding: .8rem 1rem; }
+    .hero .hbar img { width: 96px; }
+    .hero .hbar span { display: none; }
+    .hero .hstage { flex-direction: column; min-height: 0; }
+    .hero .hcopy { width: 100%; padding: 1.5rem 1.2rem 1.7rem; }
+    .hero h3 { font-size: clamp(1.6rem, 7.6vw, 2.2rem); }
+    .hero .hsub { font-size: .92rem; max-width: none; }
+    .hero .hshot { width: 100%; flex-grow: 0; }
+    .hero .hshot .clip { position: relative; inset: auto; height: 240px; }
+    .hero .hcard { position: static; width: auto; margin: .7rem 1.2rem 0; }
+    .hero .hcard.two { margin-bottom: 1.5rem; }
+  }
 </style>
 </head>
 <body>
