@@ -412,13 +412,12 @@
   <section class="view active" id="view-intro" data-white>
     <div class="pad intro-inner">
       <p class="eyebrow">Preoptima — Colour</p>
-      <h1>Two routes, two audiences.</h1>
-      <p>These are not warm against cold. They are the two audiences the brand has always had to satisfy at once — the architect, and the planning officer. Both carry the same structure: a surface, a mid tone, an ink and a single accent, in a fixed proportion. Both clear WCAG AAA on every critical pair, so whichever you choose is accessible before it is anything else.<br><br><strong>The question is not which you prefer. <br>It is which audience the parent brand should lead with.</strong></p>
+      <h1>Three options, two audiences.</h1>
+      <p>These are not three preferences. Two of them are the architect’s register in different accents; the third is the planning officer’s. All three carry the same structure: a surface, a mid tone, an ink and a single accent, in a fixed proportion. All three clear WCAG AAA on every critical pair, so whichever you choose is accessible before it is anything else.<br><br><strong>So the question comes in two parts: which register should the parent brand lead with — <br>and if it is the architect’s, which accent?</strong></p>
     </div>
   </section>
 
-  <section class="view" id="view-architect"><div class="sheet" id="sheet-architect"></div></section>
-  <section class="view" id="view-officer"><div class="sheet" id="sheet-officer"></div></section>
+  <!-- one section per entry in ROUTES — built by the script, so adding a route is a data change -->
 
 </main>
 
@@ -429,7 +428,7 @@
 // The Specification block was removed from this deck on 2026-08-25 — the data stays
 // because it is the source for the brand book's colour specification section.
 const ROUTES = [
-  { id:'architect', nav:'The architect', family:'warm', label:'Warm',
+  { id:'architect', nav:'The architect · rust', family:'warm', label:'Warm · rust',
     audience:'The architect’s register',
     why:'Bone, warm ink and a deep rust — earth without softness. The territory Francesco pointed at with Epoch Biodesign, and the one Alex backed hardest. It takes Epoch’s temperature without taking its colour: the accent sits deliberately deeper and browner than Epoch’s orange.',
     surface:'#F5F1EA', mid:'#C9BFB1', ink:'#18120F', accent:'#9B3300', onAccent:'#FFFFFF',
@@ -439,6 +438,16 @@ const ROUTES = [
              ['Clay','#C9BFB1','Mid','201 191 177','0 5 12 21'],
              ['Ink','#18120F','Anchor · text','24 18 15','0 25 37 91'],
              ['Rust','#9B3300','Accent','155 51 0','0 67 100 39']]},
+  { id:'architect-green', nav:'The architect · green', family:'warm', label:'Warm · green',
+    audience:'The architect’s register, in green',
+    why:'The same register as the rust — bone, clay and warm ink — with a deep forest green where the accent sits. This is Epoch Biodesign’s own green, #416048: deep and desaturated. It is 49° away in hue from the green in today’s identity and less than half as saturated — the far end of green from the one the team asked to drop.',
+    surface:'#F5F1EA', mid:'#C9BFB1', ink:'#18120F', accent:'#416048', onAccent:'#FFFFFF',
+    inks:[['logo-warm-black.svg','ink'],['logo-warm-green.svg','green'],['logo-warm-beige.svg','clay']],
+    inkcap:'Ink and green both carry the logotype at full strength on a light ground — 16.5:1 and 6.2:1. Clay does not (1.6:1): it is a tonal weight for oversized, watermark-scale use, never the working logo.',
+    colours:[['Bone','#F5F1EA','Surface','245 241 234','0 2 4 4'],
+             ['Clay','#C9BFB1','Mid','201 191 177','0 5 12 21'],
+             ['Ink','#18120F','Anchor · text','24 18 15','0 25 37 91'],
+             ['Green','#416048','Accent','65 96 72','32 0 25 62']]},
   { id:'officer', nav:'The planning officer', family:'cold', label:'Blue',
     audience:'The planning officer’s register',
     why:'White, a cool grey and a true blue. A significant part of Preoptima’s work is with government bodies, and the public sector reads blue. Today’s identity is violet-indigo with green; this sits 24° away on the wheel and drops the green entirely — a measurable change, not a shade of the same thing.',
@@ -450,6 +459,14 @@ const ROUTES = [
              ['Ink','#1A1414','Anchor · text','26 20 20','0 23 23 90'],
              ['Blue','#1E6BFF','Accent','30 107 255','88 58 0 0']]}
 ];
+
+const main = document.querySelector('main');
+ROUTES.forEach(r=>{
+  const sec = document.createElement('section');
+  sec.className = 'view'; sec.id = 'view-' + r.id;
+  sec.innerHTML = `<div class="sheet" id="sheet-${r.id}"></div>`;
+  main.appendChild(sec);
+});
 
 ROUTES.forEach((r,i)=>{
   document.getElementById('sheet-'+r.id).innerHTML = `
