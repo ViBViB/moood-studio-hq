@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preoptima — Colour, gut check</title>
+<style>
+  :root {
+    --font: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --paper: #FFFFFF;
+    --text: #111111;
+    --muted: rgba(0,0,0,.58);
+    --dim: rgba(0,0,0,.38);
+    --hair: rgba(0,0,0,.12);
+    --pad: clamp(1.5rem, 5vw, 5rem);
+    --ease: cubic-bezier(.16,1,.3,1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--text);
+    font-family: var(--font); font-size: 17px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: clamp(3.5rem,8vw,6rem) var(--pad) clamp(5rem,9vw,7rem); }
+  .eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; color: var(--dim); margin: 0 0 1.1rem; }
+  h1 { font-size: clamp(2.1rem,5vw,3.1rem); line-height: 1.05; letter-spacing: -.03em; font-weight: 500; margin: 0 0 1.4rem; max-width: 22ch; }
+  .lede { font-size: clamp(1.02rem,1.6vw,1.15rem); line-height: 1.55; color: var(--muted); max-width: 66ch; margin: 0 0 1rem; }
+  .lede strong { color: var(--text); }
+  .process { border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); margin: 2.6rem 0 3.2rem; padding: 1.8rem 0; }
+  .process ol { margin: 0; padding-left: 1.3rem; max-width: 68ch; }
+  .process li { margin-bottom: .7rem; color: var(--text); font-size: .98rem; line-height: 1.55; }
+  .process li:last-child { margin-bottom: 0; }
+  .process li b { font-weight: 600; }
+
+  .card { margin: 0 0 clamp(3.5rem,6vw,5rem); }
+  .card .tag { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; color: var(--dim); margin: 0 0 .6rem; }
+  .card img { display: block; width: 100%; height: auto; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--hair); }
+  .card .verdict { margin-top: 1rem; font-size: .96rem; line-height: 1.55; max-width: 72ch; }
+  .card .verdict .strength { color: var(--text); }
+  .card .verdict .weak { color: var(--muted); }
+  .card .verdict b { font-weight: 600; }
+
+  .note { background: #F7F5F2; border-radius: 6px; padding: 1.4rem 1.6rem; margin: 0 0 3rem; font-size: .94rem; line-height: 1.55; color: var(--text); max-width: 74ch; }
+  .note b { font-weight: 600; }
+
+  .ask { margin-top: 3.5rem; padding-top: 2.6rem; border-top: 1px solid var(--hair); }
+  .ask h2 { font-size: clamp(1.5rem,3vw,1.9rem); font-weight: 500; letter-spacing: -.02em; margin: 0 0 1rem; max-width: 28ch; }
+  .ask p { max-width: 66ch; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+
+  @media (max-width: 620px) {
+    .wrap { padding-top: 3rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Preoptima — Colour, round 2</p>
+  <h1>Four real alternatives, in caliente.</h1>
+  <p class="lede">Rust didn't land — it read as old-fashioned, not bold. Rather than guess at a fix, here are <strong>four literal reference palettes</strong>, unmixed, exactly as found — no in-house tinting. The question is simple: <strong>does any of these feel sufficiently "pop"?</strong></p>
+
+  <div class="process">
+    <ol>
+      <li><b>Now</b> — you look at these four and tell us if the direction itself feels right. Pick your <b>two favourites</b>.</li>
+      <li><b>Then</b> — we apply those two winners to the real PACER pricing document, rebuilt properly, as the actual test. Isolated swatches can mislead; a real document can't.</li>
+      <li><b>Finally</b> — you pick the winner from that comparison. That decision closes the colour question and the brand style guide.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <p class="tag">01 — Pantone Orange</p>
+    <img src="colour-directions-round2/1-pantone-orange.png" alt="Pantone Orange palette: Mystic Orange, Black Powder, Bonsai Trunk, Pastel Tower, White">
+    <p class="verdict">
+      <span class="strength"><b>Strength:</b> the most literally "pop" of the four — a true vivid orange against warm, neutral greys. Closest in spirit to the rust we already tried, just turned up.</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <p class="tag">02 — Blue Night Ramp</p>
+    <img src="colour-directions-round2/2-blue-night-ramp.png" alt="Blue Night Ramp palette: Blue Night, Blue, Water, Sun, Sand">
+    <p class="verdict">
+      <span class="strength"><b>Strength:</b> the widest tonal range of the four — a near-black navy running up to a warm sand, with teal and orange both in play. Reads dramatic, not safe.</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <p class="tag">03 — Mirage</p>
+    <img src="colour-directions-round2/3-mirage-original.png" alt="Mirage palette: Mirage, Blaze Orange, Deep Sea Green, Wild Sand">
+    <p class="verdict">
+      <span class="strength"><b>Strength:</b> the most grounded of the four — a deep, cool ink with a genuine working mid tone, so the orange lands as a real accent rather than the whole story.</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <p class="tag">04 — Portland Midnight</p>
+    <img src="colour-directions-round2/4-portland-midnight.png" alt="Portland Midnight palette: Portland Orange, Midnight Blue, Cultured, Eerie Black">
+    <p class="verdict">
+      <span class="strength"><b>Strength:</b> the one that stood out hardest in the references — sharp, high-contrast, warm accent against true cold ink.</span>
+    </p>
+  </div>
+
+  <div class="note">
+    One thing holds across all four: a vivid orange accent at this strength can sit as a <b>colour block with dark text on it</b>, but it can't be the text or button colour itself — on white or on any light ground, it doesn't hold enough contrast. That's a structural fact about the colour, as I mentioned on our last call, not a style choice — and it holds true across all four options above.
+  </div>
+
+  <div class="ask">
+    <h2>So — do any of these feel sufficiently pop?</h2>
+    <p>Have a look and send back your two favourites. We'll build those two into the real pricing document next, and that comparison is what actually decides it.</p>
+  </div>
+
+</div>
+</body>
+</html>
