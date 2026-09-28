@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page by page — Current vs. Revised | Moood.Studio</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0f0f0f;
+    --white: #ffffff;
+    --gray-line: #e6e6e6;
+    --gray-mid: #888;
+    --gray-light: #bbb;
+    --gray-fill: #f2f2f2;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: var(--font);
+    background: #d8d8d8;
+    color: #1a1a1a;
+    padding: 48px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .toolbar { position: fixed; top: 16px; right: 20px; display: flex; gap: 10px; z-index: 10; }
+  .toolbar button {
+    height: 34px; padding: 0 18px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.04em; cursor: pointer; border: none; font-family: var(--font);
+    background: var(--black); color: var(--white);
+  }
+  .toolbar button:hover { background: #333; }
+
+  #doc {
+    background: var(--white);
+    width: 100%;
+    max-width: 1040px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.18);
+  }
+
+  .stripe { height: 5px; background: var(--black); }
+  .body-pad { padding: 52px 64px 64px; }
+
+  .head {
+    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px;
+  }
+  .logo { height: 44px; width: auto; display: block; }
+  .id-block { text-align: right; }
+  .id-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gray-light); margin-bottom: 6px;
+  }
+  .id-value { font-size: 15px; font-weight: 700; color: var(--black); }
+  .id-date { font-size: 13px; color: var(--gray-mid); margin-top: 4px; }
+
+  .rule { height: 1px; background: var(--gray-line); margin: 0 0 32px; }
+
+  h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .subtitle { font-size: 14.5px; color: var(--gray-mid); line-height: 1.65; margin-bottom: 24px; max-width: 720px; }
+
+  .page-section { margin-bottom: 56px; padding-top: 40px; border-top: 1px solid var(--gray-line); }
+  .page-section:first-of-type { border-top: none; padding-top: 0; }
+
+  .page-heading {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;
+  }
+  .page-heading h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+  .page-heading .delta { font-size: 12px; font-weight: 700; color: var(--gray-mid); }
+  .page-note { font-size: 13px; color: var(--gray-mid); line-height: 1.6; margin-bottom: 18px; max-width: 700px; }
+
+  .frames { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .frames.single { grid-template-columns: 1fr; max-width: 500px; }
+
+  .frame-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .frame-title { font-size: 12px; font-weight: 800; letter-spacing: -0.01em; }
+  .frame-meta { font-size: 10.5px; color: var(--gray-mid); font-weight: 600; }
+
+  .page-frame { border: 1.5px solid var(--black); padding: 9px; }
+  .page-frame.revised { border-width: 2px; }
+  .page-frame.new-page { border-width: 2px; border-style: dashed; }
+
+  .browser-chrome { display: flex; gap: 4px; margin-bottom: 7px; padding: 0 2px; }
+  .browser-chrome span { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-light); display: block; }
+
+  .wf-block {
+    background: var(--gray-fill); border: 1px solid var(--gray-line);
+    padding: 5px 7px; margin-bottom: 3px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .wf-block .num { font-size: 7.5px; font-weight: 800; color: var(--gray-light); font-variant-numeric: tabular-nums; display: block; }
+  .wf-block .name { font-size: 9.5px; font-weight: 700; color: var(--black); line-height: 1.3; }
+  .wf-block .tag {
+    display: inline-block; font-size: 6.5px; font-weight: 800; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--white); background: var(--black);
+    padding: 1px 4px; margin-left: 4px; vertical-align: middle;
+  }
+  .wf-block.h-xs { min-height: 24px; }
+  .wf-block.h-sm { min-height: 32px; }
+  .wf-block.h-md { min-height: 42px; }
+  .wf-block.h-lg { min-height: 58px; }
+  .wf-block.h-xl { min-height: 74px; }
+
+  .badge-new {
+    display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--white); background: var(--black);
+    padding: 3px 8px; margin-left: 10px;
+  }
+  .badge-shrink {
+    display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--black); background: var(--gray-fill);
+    border: 1px solid var(--gray-line); padding: 3px 8px; margin-left: 10px;
+  }
+
+  .about-note {
+    border: 1px dashed var(--gray-line); padding: 20px 24px; font-size: 13.5px;
+    color: #444; line-height: 1.7; max-width: 700px;
+  }
+  .about-note strong { color: var(--black); }
+
+  .toc { margin-bottom: 40px; }
+  .toc-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gray-light); margin-bottom: 10px;
+  }
+  .toc-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc-item {
+    font-size: 12px; font-weight: 700; color: var(--black); background: #f9f9f9;
+    padding: 6px 12px; border: 1px solid var(--gray-line);
+  }
+
+  .note {
+    font-size: 12.5px; color: var(--gray-mid); line-height: 1.7; font-style: italic;
+    border-top: 1px solid var(--gray-line); padding-top: 20px; margin-top: 8px;
+  }
+
+  @media print {
+    body { padding: 0; background: white; }
+    .toolbar { display: none !important; }
+    #doc { box-shadow: none; max-width: 100%; }
+    .page-section { break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 0; }
+    .body-pad { padding: 32px 24px; }
+    .frames { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar"><button onclick="window.print()">Save as PDF</button></div>
+
+<div id="doc">
+  <div class="stripe"></div>
+  <div class="body-pad">
+
+    <div class="head">
+      <svg class="logo" width="645" height="731" viewBox="0 0 645 731" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M212.969 622.654C227.369 622.654 239.369 627.654 248.969 637.453C258.169 647.253 262.969 660.254 262.969 676.654C262.969 693.054 258.169 706.254 248.969 715.854C239.369 725.854 227.369 730.654 212.969 730.654C198.369 730.654 186.369 725.854 176.969 715.854C167.569 706.254 162.969 693.054 162.969 676.654C162.969 660.254 167.569 647.253 176.969 637.453C186.369 627.654 198.369 622.654 212.969 622.654ZM212.969 637.054C202.769 637.054 194.769 640.654 188.769 647.453C182.769 654.453 179.769 664.254 179.769 676.654C179.769 689.053 182.769 698.854 188.769 705.654C194.769 712.854 202.769 716.254 212.969 716.254C222.969 716.254 231.169 712.854 237.169 705.654C243.169 698.854 246.169 689.053 246.169 676.654C246.169 664.254 243.169 654.453 237.169 647.453C231.169 640.654 222.969 637.054 212.969 637.054Z" fill="black"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M327.031 622.654C341.431 622.654 353.431 627.654 363.031 637.453C372.231 647.253 377.031 660.254 377.031 676.654C377.031 693.054 372.231 706.254 363.031 715.854C353.431 725.854 341.431 730.654 327.031 730.654C312.431 730.654 300.431 725.854 291.031 715.854C281.631 706.254 277.031 693.054 277.031 676.654C277.031 660.254 281.631 647.253 291.031 637.453C300.431 627.654 312.431 622.654 327.031 622.654ZM327.031 637.054C316.831 637.054 308.831 640.654 302.831 647.453C296.831 654.453 293.831 664.254 293.831 676.654C293.831 689.054 296.831 698.854 302.831 705.654C308.831 712.854 316.831 716.254 327.031 716.254C337.031 716.254 345.231 712.854 351.231 705.654C357.231 698.854 360.231 689.054 360.231 676.654C360.231 664.254 357.231 654.453 351.231 647.453C345.231 640.654 337.031 637.054 327.031 637.054Z" fill="black"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M441.094 622.654C455.494 622.654 467.494 627.654 477.094 637.453C486.294 647.253 491.094 660.254 491.094 676.654C491.094 693.054 486.294 706.254 477.094 715.854C467.494 725.854 455.494 730.654 441.094 730.654C426.494 730.654 414.494 725.854 405.094 715.854C395.694 706.254 391.094 693.054 391.094 676.654C391.094 660.254 395.694 647.253 405.094 637.453C414.494 627.654 426.494 622.654 441.094 622.654ZM441.094 637.054C430.894 637.054 422.894 640.654 416.894 647.453C410.894 654.453 407.894 664.254 407.894 676.654C407.894 689.054 410.894 698.854 416.894 705.654C422.894 712.854 430.894 716.254 441.094 716.254C451.094 716.254 459.294 712.854 465.294 705.654C471.294 698.854 474.294 689.054 474.294 676.654C474.294 664.254 471.294 654.854 465.294 647.453C459.294 640.654 451.094 637.054 441.094 637.054Z" fill="black"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M603.756 728.254H588.557V712.254C580.157 724.654 568.356 730.654 553.156 730.654C538.556 730.654 526.956 725.854 518.356 715.854C509.556 706.054 505.156 693.054 505.156 676.654C505.156 660.254 509.557 647.054 518.356 637.254C526.756 627.654 538.356 622.654 553.156 622.654C567.956 622.654 579.356 628.454 587.756 639.854V585.854H603.756V728.254ZM555.156 637.054C545.156 637.054 536.956 640.854 530.956 648.054C524.956 655.254 521.956 665.054 521.956 677.453C521.956 689.853 524.956 699.254 530.956 706.054C536.956 712.854 544.956 716.254 555.156 716.254C565.156 716.254 573.356 712.854 579.356 705.654C585.356 698.854 588.356 689.054 588.356 676.654C588.356 664.454 585.356 654.854 579.356 647.654C573.356 640.654 565.156 637.054 555.156 637.054Z" fill="black"/>
+        <path d="M108.6 622.654C119.799 622.654 128.4 626.054 134.6 632.453C140.8 638.853 144 647.454 144 658.254V728.254H128V659.854C128 644.654 120.8 637.054 106.4 637.054C98.8004 637.054 92.4004 640.254 87.4004 646.254C82.4004 652.254 80 660.854 80 671.854V728.254H64V659.854C64 644.654 56.8001 637.054 42.4004 637.054C34.8004 637.054 28.5996 640.254 23.5996 646.254C18.3999 652.254 16 660.854 16 671.854V728.254H0V625.054H15.2002V640.254C22.0002 628.654 31.8 622.654 45 622.654C60.4 622.654 70.9998 629.254 76.7998 642.054C83.9997 629.254 94.5998 622.654 108.6 622.654Z" fill="black"/>
+        <path d="M644.935 728.254H624.734V708.254H644.935V728.254Z" fill="black"/>
+        <path d="M643.334 625.054L639.734 691.054H629.334L626.534 625.054V585.854H643.334V625.054Z" fill="black"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M554.749 11.9447C581.383 -13.9048 626 4.96764 626 42.0833V389.317C626 458.246 543.141 493.296 493.677 445.289L436.814 390.102L394.679 479.823C366.88 539.014 282.961 539.777 254.09 481.102L208.949 389.361L151.323 445.289C101.859 493.296 19 458.246 19 389.317V42.0833C19.0003 4.96764 63.6166 -13.9048 90.251 11.9447L322.5 237.35L554.749 11.9447ZM231.578 367.399L281.008 467.857C298.774 503.965 350.418 503.496 367.524 467.071L414.047 368.006L322.5 279.157L231.578 367.399ZM49 389.317C49 431.735 99.9904 453.304 130.43 423.762L195.027 361.067L49 64.2864V389.317ZM450.301 361.386L514.57 423.762C545.01 453.304 596 431.735 596 389.317V51.1478L450.301 361.386ZM344.038 258.253L427.533 339.289L567.4 41.47L344.038 258.253ZM217.656 339.104L300.961 258.253L69.3574 33.472C68.3677 32.5115 67.2902 31.7688 66.166 31.2239L217.656 339.104Z" fill="black"/>
+      </svg>
+      <div class="id-block">
+        <div class="id-label">Page by page</div>
+        <div class="id-value">Current site vs. revised wireframes</div>
+        <div class="id-date">September 28, 2026</div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <h1>Where the number comes from, page by page</h1>
+    <p class="subtitle">
+      What's live on preoptima.com today, next to the confirmed wireframe structure for each page.
+      Not every page gets bigger — Home is dramatically simpler. Two pages don't exist on the site
+      at all today. The pattern isn't "more of everything," it's each page sized to what it
+      actually needs to do.
+    </p>
+
+    <div class="toc">
+      <div class="toc-label">Six pages</div>
+      <div class="toc-list">
+        <span class="toc-item">Home</span>
+        <span class="toc-item">PACER</span>
+        <span class="toc-item">Whole Life Carbon</span>
+        <span class="toc-item">Energy</span>
+        <span class="toc-item">CONCEPT</span>
+        <span class="toc-item">About</span>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <div class="page-section">
+      <div class="page-heading">
+        <h2>Home<span class="badge-shrink">Simplified</span></h2>
+        <span class="delta">9 sections → 3 sections</span>
+      </div>
+      <p class="page-note">The live homepage tries to do everything — product pitches, awards, four audience segments, partner logos. The revised Home does one job: route the visitor to PACER or CONCEPT.</p>
+      <div class="frames">
+        <div>
+          <div class="frame-label"><span class="frame-title">preoptima.com — LIVE TODAY</span><span class="frame-meta">9 sections</span></div>
+          <div class="page-frame">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — headline + dual CTA</span></div>
+            <div class="wf-block h-md"><span class="num">02</span><span class="name">Our Solutions<span class="tag">+ awards strip</span></span></div>
+            <div class="wf-block h-md"><span class="num">03</span><span class="name">CONCEPT deep-dive — 3 points</span></div>
+            <div class="wf-block h-md"><span class="num">04</span><span class="name">PACER deep-dive — 3 points</span></div>
+            <div class="wf-block h-sm"><span class="num">05</span><span class="name">Testimonials<span class="tag">2 quotes</span></span></div>
+            <div class="wf-block h-lg"><span class="num">06</span><span class="name">Preoptima for...<span class="tag">4 audiences</span></span></div>
+            <div class="wf-block h-sm"><span class="num">07</span><span class="name">Future Vision teaser</span></div>
+            <div class="wf-block h-sm"><span class="num">08</span><span class="name">Strategic Partners<span class="tag">11 logos</span></span></div>
+            <div class="wf-block h-xs"><span class="num">09</span><span class="name">Contact CTA</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="frame-label"><span class="frame-title">Revised wireframe</span><span class="frame-meta">3 sections</span></div>
+          <div class="page-frame revised">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-lg"><span class="num">01</span><span class="name">Intro — headline + 3 value props + logo bar</span></div>
+            <div class="wf-block h-lg"><span class="num">02</span><span class="name">Choose your product<span class="tag">PACER / CONCEPT</span></span></div>
+            <div class="wf-block h-md"><span class="num">03</span><span class="name">Company info — About + Contact links</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PACER -->
+    <div class="page-section">
+      <div class="page-heading">
+        <h2>PACER</h2>
+        <span class="delta">7 sections → 9 sections</span>
+      </div>
+      <p class="page-note">Similar length, different substance: the live page is copy and a tab switcher. The revised page adds a real workflow diagram, a trust/scrutiny section, a strategic-insight section, and routes into the module pages below.</p>
+      <div class="frames">
+        <div>
+          <div class="frame-label"><span class="frame-title">preoptima.com/pacer — LIVE TODAY</span><span class="frame-meta">7 sections</span></div>
+          <div class="page-frame">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — headline + partnership badges</span></div>
+            <div class="wf-block h-md"><span class="num">02</span><span class="name">The Need for PACER — 3 points</span></div>
+            <div class="wf-block h-lg"><span class="num">03</span><span class="name">How PACER Works<span class="tag">4-tab switcher</span></span></div>
+            <div class="wf-block h-xs"><span class="num">04</span><span class="name">Early adopter CTA</span></div>
+            <div class="wf-block h-sm"><span class="num">05</span><span class="name">Westminster testimonial<span class="tag">Carousel</span></span></div>
+            <div class="wf-block h-md"><span class="num">06</span><span class="name">The Future of Planning — 3 points</span></div>
+            <div class="wf-block h-sm"><span class="num">07</span><span class="name">Future Vision teaser</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="frame-label"><span class="frame-title">Revised wireframe</span><span class="frame-meta">9 sections</span></div>
+          <div class="page-frame revised">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — headline + product visual</span></div>
+            <div class="wf-block h-lg"><span class="num">02</span><span class="name">Workflow<span class="tag">6-step diagram</span></span></div>
+            <div class="wf-block h-md"><span class="num">03</span><span class="name">Core outcomes<span class="tag">3 cards</span></span></div>
+            <div class="wf-block h-md"><span class="num">04</span><span class="name">Human judgement stays in control<span class="tag">Diagram</span></span></div>
+            <div class="wf-block h-md"><span class="num">05</span><span class="name">Strategic insight<span class="tag">6 items + dashboard</span></span></div>
+            <div class="wf-block h-md"><span class="num">06</span><span class="name">Carbon / Energy / Circularity<span class="tag">3 module cards</span></span></div>
+            <div class="wf-block h-sm"><span class="num">07</span><span class="name">Onboarding<span class="tag">3-step</span></span></div>
+            <div class="wf-block h-xs"><span class="num">08</span><span class="name">Final CTA</span></div>
+            <div class="wf-block h-md"><span class="num">09</span><span class="name">FAQ<span class="tag">4 Q&amp;As</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHOLE LIFE CARBON -->
+    <div class="page-section">
+      <div class="page-heading">
+        <h2>Whole Life Carbon<span class="badge-new">New page</span></h2>
+        <span class="delta">10 sections</span>
+      </div>
+      <p class="page-note">No page like this exists on the live site — PACER's WLC content is folded into one tab on the platform page. This is a full module page in its own right: a workflow diagram, real CLEAR-report evidence, a Westminster video, and its own FAQ.</p>
+      <div class="frames single">
+        <div>
+          <div class="frame-label"><span class="frame-title">Revised wireframe — no live equivalent</span><span class="frame-meta">10 sections</span></div>
+          <div class="page-frame new-page">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — headline + product visual</span></div>
+            <div class="wf-block h-sm"><span class="num">02</span><span class="name">The challenge — 4-point framing</span></div>
+            <div class="wf-block h-lg"><span class="num">03</span><span class="name">Six module benefits<span class="tag">6 cards</span></span></div>
+            <div class="wf-block h-lg"><span class="num">04</span><span class="name">How it fits the workflow<span class="tag">6-step diagram</span></span></div>
+            <div class="wf-block h-md"><span class="num">05</span><span class="name">Westminster testimonial<span class="tag">Video</span></span></div>
+            <div class="wf-block h-md"><span class="num">06</span><span class="name">CLEAR impact evidence<span class="tag">Real stats</span></span></div>
+            <div class="wf-block h-md"><span class="num">07</span><span class="name">Grow as you go<span class="tag">3-step + spec sheet</span></span></div>
+            <div class="wf-block h-xs"><span class="num">08</span><span class="name">Final CTA</span></div>
+            <div class="wf-block h-md"><span class="num">09</span><span class="name">FAQ<span class="tag">4 Q&amp;As</span></span></div>
+            <div class="wf-block h-sm"><span class="num">10</span><span class="name">Routes into other modules<span class="tag">3 cards</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENERGY -->
+    <div class="page-section">
+      <div class="page-heading">
+        <h2>Energy<span class="badge-new">New page</span></h2>
+        <span class="delta">7 sections</span>
+      </div>
+      <p class="page-note">Also has no live equivalent — a beta module the current site doesn't mention. Its sign-up form (section 04) is a HubSpot embed, out of this quote's scope; everything around it is a real page we design and build.</p>
+      <div class="frames single">
+        <div>
+          <div class="frame-label"><span class="frame-title">Revised wireframe — no live equivalent</span><span class="frame-meta">7 sections</span></div>
+          <div class="page-frame new-page">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — beta positioning + product visual</span></div>
+            <div class="wf-block h-md"><span class="num">02</span><span class="name">What the module does<span class="tag">3 items</span></span></div>
+            <div class="wf-block h-md"><span class="num">03</span><span class="name">Why we're running a beta<span class="tag">3-step</span></span></div>
+            <div class="wf-block h-lg"><span class="num">04</span><span class="name">Beta sign-up<span class="tag">HubSpot form — out of scope</span></span></div>
+            <div class="wf-block h-xs"><span class="num">05</span><span class="name">Final CTA</span></div>
+            <div class="wf-block h-md"><span class="num">06</span><span class="name">FAQ<span class="tag">4 Q&amp;As</span></span></div>
+            <div class="wf-block h-sm"><span class="num">07</span><span class="name">Routes into other modules<span class="tag">2 cards</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEPT -->
+    <div class="page-section">
+      <div class="page-heading">
+        <h2>CONCEPT</h2>
+        <span class="delta">7 sections → 11 sections</span>
+      </div>
+      <p class="page-note">The live page is flat cards and a carousel — one interactive component. The revised page has six: a challenge diagram, two benefit diagrams, two differentiator diagrams, an input-flow visual, a four-step trial flow, an embedded video and an FAQ.</p>
+      <div class="frames">
+        <div>
+          <div class="frame-label"><span class="frame-title">preoptima.com/concept — LIVE TODAY</span><span class="frame-meta">7 sections</span></div>
+          <div class="page-frame">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — headline + CTA</span></div>
+            <div class="wf-block h-md"><span class="num">02</span><span class="name">Why Choose CONCEPT? — 3 flat columns</span></div>
+            <div class="wf-block h-lg"><span class="num">03</span><span class="name">Key Benefits<span class="tag">5-tab switcher</span></span></div>
+            <div class="wf-block h-sm"><span class="num">04</span><span class="name">Case study callout — one stat, download link</span></div>
+            <div class="wf-block h-sm"><span class="num">05</span><span class="name">Testimonials<span class="tag">Carousel</span></span></div>
+            <div class="wf-block h-sm"><span class="num">06</span><span class="name">Future Vision — CONCEPT→PACER teaser</span></div>
+            <div class="wf-block h-xs"><span class="num">07</span><span class="name">Contact / FAQ teaser</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="frame-label"><span class="frame-title">Revised wireframe</span><span class="frame-meta">11 sections</span></div>
+          <div class="page-frame revised">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Hero — headline + live product visual</span></div>
+            <div class="wf-block h-xs"><span class="num">02</span><span class="name">Social proof — logo bar</span></div>
+            <div class="wf-block h-md"><span class="num">03</span><span class="name">The challenge<span class="tag">Diagram</span></span></div>
+            <div class="wf-block h-xl"><span class="num">04</span><span class="name">Product benefits<span class="tag">4 cards + 2 diagrams</span></span></div>
+            <div class="wf-block h-lg"><span class="num">05</span><span class="name">Core differentiator<span class="tag">2 diagrams</span></span></div>
+            <div class="wf-block h-lg"><span class="num">06</span><span class="name">Ease of use<span class="tag">3 cards + flow</span></span></div>
+            <div class="wf-block h-md"><span class="num">07</span><span class="name">Onboarding / trial<span class="tag">4-step flow</span></span></div>
+            <div class="wf-block h-md"><span class="num">08</span><span class="name">Testimonial<span class="tag">Video</span></span></div>
+            <div class="wf-block h-xs"><span class="num">09</span><span class="name">Roadmap — beta teaser</span></div>
+            <div class="wf-block h-xs"><span class="num">10</span><span class="name">Final CTA</span></div>
+            <div class="wf-block h-md"><span class="num">11</span><span class="name">FAQ<span class="tag">4 Q&amp;As</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="page-section">
+      <div class="page-heading">
+        <h2>About</h2>
+        <span class="delta">3 pages → 1 page, 7 sections</span>
+      </div>
+      <p class="page-note">Not a wireframe comparison — a real consolidation. Today "About" is three separate pages under one nav menu.</p>
+      <div class="about-note">
+        <strong>Today:</strong> Mission Statement, Meet the Team and Careers live as three separate
+        URLs. <strong>Revised:</strong> one About page, 7 sections, full content rewrite — the
+        client's own team flagged the old pages as outdated and overdetailed, so this isn't a
+        straight merge, it's a rebuild.
+      </div>
+      <div class="frames single" style="margin-top: 20px;">
+        <div>
+          <div class="frame-label"><span class="frame-title">Revised wireframe</span><span class="frame-meta">7 sections</span></div>
+          <div class="page-frame revised">
+            <div class="browser-chrome"><span></span><span></span><span></span></div>
+            <div class="wf-block h-md"><span class="num">01</span><span class="name">Intro — headline + company photo</span></div>
+            <div class="wf-block h-md"><span class="num">02</span><span class="name">Our story</span></div>
+            <div class="wf-block h-xs"><span class="num">03</span><span class="name">Who we work with<span class="tag">Logo bar</span></span></div>
+            <div class="wf-block h-md"><span class="num">04</span><span class="name">What we do<span class="tag">PACER / CONCEPT cards</span></span></div>
+            <div class="wf-block h-md"><span class="num">05</span><span class="name">How we work<span class="tag">3 principles</span></span></div>
+            <div class="wf-block h-lg"><span class="num">06</span><span class="name">Team<span class="tag">4 photo placeholders</span></span></div>
+            <div class="wf-block h-xs"><span class="num">07</span><span class="name">CTA — talk to the team</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note">
+      Structure verified directly against the live site (preoptima.com) and the current Lovable
+      wireframe draft, September 28, 2026. Section counts match the revised quote.
+    </p>
+
+  </div>
+</div>
+
+</body>
+</html>
