@@ -375,6 +375,7 @@ document.getElementById('onboardingForm').addEventListener('submit', async (e) =
     try {
         const formData = new FormData(e.target);
         formData.append('selectedSlot', JSON.stringify(selectedSlot));
+        formData.append('timeZone', Intl.DateTimeFormat().resolvedOptions().timeZone || '');
 
         // Add all attached files tracked in our state
         formData.delete('prdUpload'); // Remove the one from input field

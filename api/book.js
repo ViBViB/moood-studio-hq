@@ -23,6 +23,31 @@ function formatPrivateKey(key) {
     return `-----BEGIN PRIVATE KEY-----\n${k}\n-----END PRIVATE KEY-----`;
 }
 
+
+const OWNER_TZ = 'America/Santiago';
+
+// Returns the UTC instant for a wall-clock time (y,m,d,h,min) in an IANA timezone
+function zonedToUtc(y, m, d, h, min, tz) {
+    const guess = Date.UTC(y, m - 1, d, h, min);
+    const offsetAt = (ts) => {
+        const parts = new Intl.DateTimeFormat('en-US', {
+            timeZone: tz, hourCycle: 'h23',
+            year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'
+        }).formatToParts(new Date(ts)).reduce((a, p) => (a[p.type] = parseInt(p.value, 10), a), {});
+        return Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute) - ts;
+    };
+    let ts = guess - offsetAt(guess);
+    ts = guess - offsetAt(ts);
+    return new Date(ts);
+}
+
+function fmtIn(date, tz) {
+    return {
+        date: date.toLocaleDateString('en-US', { timeZone: tz, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+        time: date.toLocaleTimeString('en-US', { timeZone: tz, hour: 'numeric', minute: '2-digit', timeZoneName: 'short' })
+    };
+}
+
 module.exports = async (req, res) => {
     // Only allow POST requests
     if (req.method !== 'POST') {
@@ -119,19 +144,24 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        // 1. Create Google Calendar Event
-        const eventDate = new Date(slot.date);
+        // 1. Resolve the real instant: slot time is wall-clock in the customer's timezone
+        let customerTz = String(fields.timeZone || '').trim();
+        try { new Intl.DateTimeFormat('en-US', { timeZone: customerTz }); } catch (e) { customerTz = ''; }
+        if (!customerTz) customerTz = 'UTC';
+
+        const localDay = new Intl.DateTimeFormat('en-CA', { timeZone: customerTz, year: 'numeric', month: '2-digit', day: '2-digit' })
+            .format(new Date(slot.date)).split('-').map(n => parseInt(n, 10));
         const [timePart, modifier] = slot.time.split(' ');
         let [hours, minutes] = timePart.split(':');
         hours = parseInt(hours, 10);
         if (hours === 12) hours = 0;
         if (modifier === 'PM') hours += 12;
 
-        const startDateTime = new Date(eventDate);
-        startDateTime.setHours(hours, parseInt(minutes, 10), 0, 0);
+        const startDateTime = zonedToUtc(localDay[0], localDay[1], localDay[2], hours, parseInt(minutes, 10), customerTz);
+        const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000); // 1-hour session
 
-        const endDateTime = new Date(startDateTime);
-        endDateTime.setHours(startDateTime.getHours() + 1); // 1-hour session
+        const customerFmt = fmtIn(startDateTime, customerTz);
+        const ownerFmt = fmtIn(startDateTime, OWNER_TZ);
 
         const event = {
             summary: `Moood Onboarding: ${companyName} (${fullName})`,
@@ -139,11 +169,10 @@ module.exports = async (req, res) => {
 Customer: ${fullName}
 Email: ${customerEmail}
 Company: ${companyName}
+Customer timezone: ${customerTz} (${customerFmt.date}, ${customerFmt.time})
 PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
             start: { dateTime: startDateTime.toISOString() },
             end: { dateTime: endDateTime.toISOString() },
-            // Note: Service accounts cannot invite attendees without Domain-Wide Delegation.
-            // We remove attendees to ensure the event is created.
         };
 
         try {
@@ -156,14 +185,9 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
             throw new Error(`Google Calendar rejection: ${calErr.message}`);
         }
 
-        // 2. Prepare formatted date/time for emails
-        const formattedDate = new Date(slot.date).toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-        const bookingTime = slot.time;
+        // 2. Formatted date/time for emails
+        const formattedDate = customerFmt.date;
+        const bookingTime = customerFmt.time;
 
         // 3. Send Email Notification to AGENCY (Alberto)
         const agencyEmailContent = `
@@ -175,7 +199,8 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
                     <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td>${customerEmail}</td></tr>
                     <tr><td style="padding: 8px 0; font-weight: bold;">Company:</td><td>${companyName}</td></tr>
                     <tr><td style="padding: 8px 0; font-weight: bold;">Date:</td><td>${formattedDate}</td></tr>
-                    <tr><td style="padding: 8px 0; font-weight: bold;">Time:</td><td>${bookingTime}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Time (customer, ${customerTz}):</td><td>${bookingTime}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold;">Time (you):</td><td>${ownerFmt.date}, ${ownerFmt.time}</td></tr>
                     <tr><td style="padding: 8px 0; font-weight: bold;">PRD:</td><td>${files.length > 0 ? files[0].name : 'No file attached'}</td></tr>
                 </table>
                 <p style="margin-top: 20px; font-size: 12px; color: #666;">This event has been added to your Google Calendar.</p>
@@ -214,7 +239,7 @@ PRD Attached: ${files.length > 0 ? files[0].name : 'No'}`,
                 <p>We've successfully received your request. Your <strong>Onboarding Session</strong> with Moood Studio is confirmed for:</p>
                 <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 20px 0;">
                     <p style="margin: 0 0 8px 0;"><strong>Date:</strong> ${formattedDate}</p>
-                    <p style="margin: 0 0 16px 0;"><strong>Time:</strong> ${bookingTime} (GMT)</p>
+                    <p style="margin: 0 0 16px 0;"><strong>Time:</strong> ${bookingTime}</p>
                     <a href="${googleCalLink}" target="_blank" style="background-color: #111; color: #fff; padding: 10px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">
                        Add to Google Calendar
                     </a>
