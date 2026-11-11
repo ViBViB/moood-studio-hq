@@ -51,7 +51,6 @@
         { "source": "/api/client-intake-approve", "destination": "/api/intake?mode=approve" },
         { "source": "/api/intake", "destination": "/api/intake?mode=strategic" },
 
-        { "source": "/api/book", "destination": "/api/leads?mode=book" },
         { "source": "/api/quote", "destination": "/api/leads?mode=quote" },
 
         { "source": "/api/validate-code", "destination": "/api/utils?mode=validate-code" },
