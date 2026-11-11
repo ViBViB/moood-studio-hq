@@ -24,7 +24,7 @@ function formatPrivateKey(key) {
 }
 
 
-const OWNER_TZ = 'America/Santiago';
+const OWNER_TZ = 'America/Sao_Paulo';
 
 // Returns the UTC instant for a wall-clock time (y,m,d,h,min) in an IANA timezone
 function zonedToUtc(y, m, d, h, min, tz) {
